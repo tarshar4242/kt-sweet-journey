@@ -943,6 +943,66 @@
     font-size: 0.82rem;
   }
   .sv-info-card b { color: #8a6a1a; display: block; margin-bottom: 0.2rem; font-size: 0.78rem; }
+
+  /* ===== ACCORDION ===== */
+  .acc-trigger {
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; padding: 0.75rem 1rem;
+    background: linear-gradient(135deg, #fff5f8, #fff8f0);
+    border: 1px solid rgba(247,184,196,0.5);
+    border-radius: 10px; margin-bottom: 0.4rem;
+    font-family: 'Noto Serif TC', serif; font-size: 0.95rem; font-weight: 600;
+    color: var(--charcoal); user-select: none; transition: background 0.2s;
+  }
+  .acc-trigger:hover { background: linear-gradient(135deg, #fde8ee, #fff0e4); }
+  .acc-trigger .acc-arrow {
+    font-size: 0.8rem; color: var(--deep-rose); transition: transform 0.3s;
+    flex-shrink: 0; margin-left: 0.5rem;
+  }
+  .acc-trigger.open .acc-arrow { transform: rotate(180deg); }
+  .acc-body {
+    display: none; overflow: hidden;
+    background: white; border-radius: 0 0 10px 10px;
+    border: 1px solid rgba(247,184,196,0.3); border-top: none;
+    margin-bottom: 0.8rem;
+  }
+  .acc-body.open { display: block; animation: slideDown 0.25s ease; }
+  @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ===== 餐廳推薦卡 ===== */
+  .food-section { padding: 0.8rem; }
+  .food-section-title {
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--warm-gray); margin-bottom: 0.7rem; font-weight: 600;
+  }
+  .food-cards { display: flex; flex-direction: column; gap: 0.6rem; }
+  .food-card {
+    display: grid; grid-template-columns: 44px 1fr auto;
+    align-items: start; gap: 0.7rem;
+    background: #fdfaf6; border-radius: 10px; padding: 0.75rem 0.9rem;
+    border: 1px solid rgba(200,180,160,0.25);
+  }
+  .food-emoji { font-size: 1.6rem; line-height: 1; text-align: center; padding-top: 2px; }
+  .food-name { font-weight: 600; font-size: 0.9rem; color: var(--charcoal); margin-bottom: 2px; }
+  .food-type { font-size: 0.72rem; color: var(--warm-gray); margin-bottom: 4px; letter-spacing: 0.05em; }
+  .food-desc { font-size: 0.78rem; color: var(--charcoal); line-height: 1.55; }
+  .food-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+  .food-tag {
+    font-size: 0.68rem; padding: 1px 7px; border-radius: 10px;
+    background: var(--mist); color: var(--deep-rose);
+  }
+  .food-price {
+    font-size: 0.75rem; color: var(--warm-gold); font-weight: 600;
+    white-space: nowrap; padding-top: 2px;
+  }
+  .walk-snack {
+    background: linear-gradient(135deg, #fff9f0, #fffdf6);
+    border-radius: 10px; padding: 0.7rem 0.9rem;
+    border-left: 3px solid var(--warm-gold); margin-bottom: 0.5rem;
+  }
+  .walk-snack-title { font-size: 0.8rem; font-weight: 600; color: #8a6a1a; margin-bottom: 0.3rem; }
+  .walk-snack p { font-size: 0.78rem; color: var(--charcoal); line-height: 1.6; }
+
 </style>
 </head>
 <body>
@@ -1315,6 +1375,52 @@
         <div class="spot-desc">建於奈良時代，蘆之湖畔的朱紅水中鳥居是最標誌性的景象。傍晚逆光時分最為夢幻，適合夫妻在此許願祈福。</div>
       </div>
     </div>
+
+    <!-- 箱根餐廳推薦 accordion -->
+    <div class="acc-trigger" onclick="toggleAcc(this)">
+      🍽️ 箱根周邊美食推薦（展開看） <span class="acc-arrow">▼</span>
+    </div>
+    <div class="acc-body">
+      <div class="food-section">
+        <div class="food-section-title">🌋 大涌谷・箱根神社周邊</div>
+        <div class="food-cards">
+          <div class="food-card">
+            <div class="food-emoji">🥚</div>
+            <div>
+              <div class="food-name">大涌谷くろたまご館</div>
+              <div class="food-type">溫泉黑玉子・黑色咖哩</div>
+              <div class="food-desc">硫磺溫泉染黑的雞蛋，傳說多活7年。現場購買5顆500円，黑色咖哩飯是必點午餐。</div>
+              <div class="food-tags"><span class="food-tag">纜車站旁</span><span class="food-tag">排隊購買</span></div>
+            </div>
+            <div class="food-price">¥500起</div>
+          </div>
+          <div class="food-card">
+            <div class="food-emoji">🍵</div>
+            <div>
+              <div class="food-name">甘酒茶屋</div>
+              <div class="food-type">300年歷史茶屋</div>
+              <div class="food-desc">元箱根到箱根湯本舊東海道途中，江戶時代就在的茅草屋頂茶屋。甘酒（米麴釀，無酒精）搭烤麻糬，秘境感十足。</div>
+              <div class="food-tags"><span class="food-tag">步行旅人聖地</span><span class="food-tag">現金支付</span></div>
+            </div>
+            <div class="food-price">¥400</div>
+          </div>
+          <div class="food-card">
+            <div class="food-emoji">☕</div>
+            <div>
+              <div class="food-name">箱根湯本 菜の花</div>
+              <div class="food-type">抹茶甜點・和菓子</div>
+              <div class="food-desc">箱根湯本駅附近名店，當季和菓子搭抹茶，悠閒下午茶首選，有雅緻日式座位。</div>
+              <div class="food-tags"><span class="food-tag">湯本駅5分</span><span class="food-tag">外帶盒裝當伴手禮</span></div>
+            </div>
+            <div class="food-price">¥800</div>
+          </div>
+        </div>
+        <div class="walk-snack" style="margin-top:0.8rem;">
+          <div class="walk-snack-title">🚞 強羅站周邊邊走邊吃</div>
+          <p><b>強羅プリン</b>（網紅布丁，強羅站旁小店）、<b>箱根BAKERY</b> 麵包現烤早晨採購。若有路過箱根湯本，<b>千条の滝前的水信玄餅</b>（夏季限定）晶透好拍。</p>
+        </div>
+      </div>
+    </div>
   </div><!-- end day2 -->
 
   <div class="day-divider"><span>🌊</span></div>
@@ -1444,6 +1550,65 @@
       </div>
       <div class="hotel-emoji">🌊</div>
     </div>
+
+    <!-- 鎌倉餐廳推薦 accordion -->
+    <div class="acc-trigger" onclick="toggleAcc(this)">
+      🍽️ 鎌倉美食地圖（展開看） <span class="acc-arrow">▼</span>
+    </div>
+    <div class="acc-body">
+      <div class="food-section">
+        <div class="food-section-title">🏯 鎌倉駅・段葛周邊</div>
+        <div class="food-cards">
+          <div class="food-card">
+            <div class="food-emoji">🍮</div>
+            <div>
+              <div class="food-name">段葛 こ寿々</div>
+              <div class="food-type">葛切り冷麵・甜點</div>
+              <div class="food-desc">鎌倉必吃！透明葛切配黑蜜，入口冰涼Q彈，段葛参道上最優雅的甜點午餐。假日排隊，建議早到。</div>
+              <div class="food-tags"><span class="food-tag">鎌倉駅北口5分</span><span class="food-tag">排隊名店</span></div>
+            </div>
+            <div class="food-price">¥1,100</div>
+          </div>
+          <div class="food-card">
+            <div class="food-emoji">🍛</div>
+            <div>
+              <div class="food-name">OXYMORON コマチ</div>
+              <div class="food-type">藥膳咖哩・網美食堂</div>
+              <div class="food-desc">鎌倉最上鏡的咖哩店，椰奶系咖哩清爽不膩，白色磁磚小清新空間，IG打卡必訪。小町通附近。</div>
+              <div class="food-tags"><span class="food-tag">小町通り旁</span><span class="food-tag">超上相</span></div>
+            </div>
+            <div class="food-price">¥1,500</div>
+          </div>
+        </div>
+        <div class="food-section-title" style="margin-top:1rem;">🌊 江之島・海邊邊走邊吃</div>
+        <div class="food-cards">
+          <div class="food-card">
+            <div class="food-emoji">🐟</div>
+            <div>
+              <div class="food-name">とびっちょ 本店</div>
+              <div class="food-type">しらす丼・白魚料理</div>
+              <div class="food-desc">江之島No.1必吃！生しらす（生白魚）産地直送，江之島名物しらす丼，配上海景吃最美味。</div>
+              <div class="food-tags"><span class="food-tag">江之島弁天橋旁</span><span class="food-tag">夏季生しらす限定</span></div>
+            </div>
+            <div class="food-price">¥1,800</div>
+          </div>
+          <div class="food-card">
+            <div class="food-emoji">🍡</div>
+            <div>
+              <div class="food-name">江之島 SHIRASU TOAST</div>
+              <div class="food-type">邊走邊吃・海景早午餐</div>
+              <div class="food-desc">白魚吐司配海景，江之島名物邊走邊享用，IG打卡熱點，份量輕巧。</div>
+              <div class="food-tags"><span class="food-tag">江之島青銅鳥居旁</span><span class="food-tag">外帶拍照</span></div>
+            </div>
+            <div class="food-price">¥600</div>
+          </div>
+        </div>
+        <div class="walk-snack" style="margin-top:0.8rem;">
+          <div class="walk-snack-title">🚃 江之電沿線邊走邊吃</div>
+          <p><b>長谷駅</b>周邊：Café Lumière 海景咖啡、鎌倉の地ビール、手作りロールケーキ。<b>由比ガ浜</b>：海灘旁的 Seaside Café 吹海風喝啤酒。<b>七里ガ浜</b>：Bills（澳洲鬆餅名店，有海景）——去之前先查等待時間。</p>
+        </div>
+      </div>
+    </div>
   </div><!-- end day3 -->
 
   <div class="day-divider"><span>🗼</span></div>
@@ -1568,6 +1733,85 @@
         </div>
       </div>
       <div class="hotel-emoji">🏙️</div>
+    </div>
+
+    <!-- 代官山中目黑餐廳推薦 accordion -->
+    <div class="acc-trigger" onclick="toggleAcc(this)">
+      ☕ 代官山・中目黑美食地圖（展開看） <span class="acc-arrow">▼</span>
+    </div>
+    <div class="acc-body">
+      <div class="food-section">
+        <div class="food-section-title">🌿 代官山 Daikanyama</div>
+        <div class="food-cards">
+          <div class="food-card">
+            <div class="food-emoji">🥞</div>
+            <div>
+              <div class="food-name">Ivy Place</div>
+              <div class="food-type">西式早午餐・花園餐廳</div>
+              <div class="food-desc">代官山最美的早午餐，大片落地窗配白樺樹庭院，法式吐司和酪梨吐司都是人氣必點，建議提前訂位。</div>
+              <div class="food-tags"><span class="food-tag">代官山T-SITE旁</span><span class="food-tag">建議訂位</span><span class="food-tag">IG熱點</span></div>
+            </div>
+            <div class="food-price">¥1,800</div>
+          </div>
+          <div class="food-card">
+            <div class="food-emoji">📚</div>
+            <div>
+              <div class="food-name">SATÉN coffee（蔦屋T-SITE內）</div>
+              <div class="food-type">精品咖啡</div>
+              <div class="food-desc">代官山蔦屋書店旁，精品咖啡配設計書，在這坐一個早上是代官山最標準的生活感體驗。</div>
+              <div class="food-tags"><span class="food-tag">T-SITE 2號館</span><span class="food-tag">拿書配咖啡</span></div>
+            </div>
+            <div class="food-price">¥700</div>
+          </div>
+          <div class="food-card">
+            <div class="food-emoji">🍩</div>
+            <div>
+              <div class="food-name">SPRING VALLEY BREWERY</div>
+              <div class="food-type">手工啤酒・漢堡</div>
+              <div class="food-desc">Log Road Daikanyama 裡的精釀啤酒廠，白天也開，漢堡搭啤酒是代官山最道地的午餐選擇。</div>
+              <div class="food-tags"><span class="food-tag">Log Road內</span><span class="food-tag">精釀啤酒</span></div>
+            </div>
+            <div class="food-price">¥2,000</div>
+          </div>
+        </div>
+        <div class="food-section-title" style="margin-top:1rem;">🌊 中目黑 Nakameguro 目黑川沿岸</div>
+        <div class="food-cards">
+          <div class="food-card">
+            <div class="food-emoji">☕</div>
+            <div>
+              <div class="food-name">Onibus Coffee</div>
+              <div class="food-type">精品單品咖啡</div>
+              <div class="food-desc">中目黑最具代表性的精品咖啡店，豆子自家烘焙，吧台座位俯瞰目黑川，早晨或下午來都完美。</div>
+              <div class="food-tags"><span class="food-tag">目黑川旁</span><span class="food-tag">業界指標</span></div>
+            </div>
+            <div class="food-price">¥600</div>
+          </div>
+          <div class="food-card">
+            <div class="food-emoji">🍺</div>
+            <div>
+              <div class="food-name">中目黑 葱や平吉</div>
+              <div class="food-type">居酒屋・晚餐</div>
+              <div class="food-desc">中目黑居酒屋老店，蔥料理為主打，人氣炸雞和烤串搭日本酒，晚餐絕配。目黑川旁走路可到。</div>
+              <div class="food-tags"><span class="food-tag">中目黑駅5分</span><span class="food-tag">晚餐居酒屋</span></div>
+            </div>
+            <div class="food-price">¥2,500</div>
+          </div>
+          <div class="food-card">
+            <div class="food-emoji">🍦</div>
+            <div>
+              <div class="food-name">SLOW JET COFFEE</div>
+              <div class="food-type">河畔咖啡・甜點</div>
+              <div class="food-desc">目黑川邊的小房子，外賣窗口點咖啡和蛋糕，站在河邊看水景享用，特別有感覺。</div>
+              <div class="food-tags"><span class="food-tag">目黑川正對岸</span><span class="food-tag">邊走邊喝</span></div>
+            </div>
+            <div class="food-price">¥500</div>
+          </div>
+        </div>
+        <div class="walk-snack" style="margin-top:0.8rem;">
+          <div class="walk-snack-title">🚶 代官山→中目黑步行沿途</div>
+          <p>舊山手通往中目黑下坡路約20分，沿途：<b>Blue Bottle Coffee 代官山店</b>（白色工業風，網紅必打）、<b>Ata（アタ）</b> 高端日式料理（若預算允許晚餐首選）、<b>目黑川沿岸咖啡攤車</b>：週末多有快閃甜點與咖啡車。</p>
+        </div>
+      </div>
     </div>
   </div><!-- end day4 -->
 
@@ -1752,6 +1996,59 @@
         </div>
       </div>
     </div>
+
+    <!-- 淺草美食推薦 accordion -->
+    <div class="acc-trigger" onclick="toggleAcc(this)">
+      🏮 淺草・仲見世美食地圖（展開看） <span class="acc-arrow">▼</span>
+    </div>
+    <div class="acc-body">
+      <div class="food-section">
+        <div class="food-section-title">🏮 淺草 Asakusa・仲見世通</div>
+        <div class="food-cards">
+          <div class="food-card">
+            <div class="food-emoji">🐡</div>
+            <div>
+              <div class="food-name">駒形どぜう</div>
+              <div class="food-type">泥鰍鍋・江戶老料理</div>
+              <div class="food-desc">創業200年，東京最古老泥鰍料理名店，口感獨特、江戶風味正宗，觀光客少、在地老饕多。淺草橋旁。</div>
+              <div class="food-tags"><span class="food-tag">淺草駅5分</span><span class="food-tag">江戶傳統料理</span></div>
+            </div>
+            <div class="food-price">¥2,500</div>
+          </div>
+          <div class="food-card">
+            <div class="food-emoji">🥩</div>
+            <div>
+              <div class="food-name">ちんや（浅草今半）</div>
+              <div class="food-type">壽喜燒・牛肉料理</div>
+              <div class="food-desc">明治時代老店，淺草壽喜燒代表，黑毛和牛細膩香甜，若有預算想吃一頓高級晚餐就選這。</div>
+              <div class="food-tags"><span class="food-tag">淺草雷門旁</span><span class="food-tag">明治創業</span><span class="food-tag">建議訂位</span></div>
+            </div>
+            <div class="food-price">¥5,000+</div>
+          </div>
+          <div class="food-card">
+            <div class="food-emoji">🍺</div>
+            <div>
+              <div class="food-name">神谷バー（Kamiya Bar）</div>
+              <div class="food-type">日本最古老洋酒酒吧</div>
+              <div class="food-desc">1880年創業，日本最古老的洋酒吧。招牌「電氣白蘭地」（Denki Bran）是東京必喝特飲，¥270一杯，三得利參觀後午後小酌剛剛好。</div>
+              <div class="food-tags"><span class="food-tag">淺草駅正對面</span><span class="food-tag">電氣白蘭地必喝</span></div>
+            </div>
+            <div class="food-price">¥270～</div>
+          </div>
+        </div>
+        <div class="food-section-title" style="margin-top:1rem;">🥡 仲見世通・邊走邊吃</div>
+        <div class="walk-snack">
+          <div class="walk-snack-title">🍡 仲見世通五大必吃邊走邊吃</div>
+          <p>
+            <b>①人形焼き</b>（仲見世中段，雷神造型燒菓子，現烤熱呼呼 ¥600/8個）<br>
+            <b>②浅草亀十のどら焼き</b>（鬆軟如雲的銅鑼燒，排隊店，週末售完要趁早 ¥250/個）<br>
+            <b>③常盤堂の雷おこし</b>（雷門造型米果，最標誌性淺草伴手禮 ¥500起）<br>
+            <b>④ペリカンカフェ</b>（距淺草5分，超厚片吐司三明治，昭和老咖啡館氛圍）<br>
+            <b>⑤メロンパン専門店</b>（現烤哈密瓜麵包，仲見世入口旁，¥200邊走邊啃）
+          </p>
+        </div>
+      </div>
+    </div>
   </div><!-- end day5 -->
 
   <div class="day-divider"><span>✈️</span></div>
@@ -1802,29 +2099,140 @@
       </div>
     </div>
 
+    <div class="note-box" style="background:linear-gradient(135deg,#eafaea,#f0fff0);border-left-color:#4caf50;">
+      <strong>🕐 JX803 16:20 起飛逆推時間表</strong>
+      最關鍵：Skyliner 需在<b>京成上野站（與 JR 不同出口）</b>搭乘，走路需 8 分鐘，請勿跑錯站。
+    </div>
     <div class="timeline">
       <div class="tl-item">
-        <div class="tl-time">依航班</div>
+        <div class="tl-time">11:00</div>
         <div class="tl-content">
-          <div class="tl-spot">⏰ 提前 3.5 小時出發</div>
-          <div class="tl-note">大塚出發 → 上野（20分）→ 成田（40分）= 約 1 小時整，含預備時間</div>
+          <div class="tl-spot">🏨 大塚退房・行李送櫃台</div>
+          <div class="tl-note">辦理退房，行李可先存前台，輕鬆出門逛</div>
         </div>
       </div>
       <div class="tl-item">
-        <div class="tl-time">機場</div>
+        <div class="tl-time">11:10</div>
         <div class="tl-content">
-          <div class="tl-spot">🛍️ 成田免稅店</div>
-          <div class="tl-note">為家人朋友採購伴手禮的最後機會</div>
+          <div class="tl-spot">🛒 上野阿美橫丁（最後採購）</div>
+          <div class="tl-note">大塚→上野 山手線約 20 分（約 11:30 到）。阿美橫丁伴手禮、乾貨、藥妝，最後逛一圈</div>
         </div>
       </div>
       <div class="tl-item">
-        <div class="tl-time">回程</div>
+        <div class="tl-time">12:15</div>
         <div class="tl-content">
-          <div class="tl-spot">✈️ 啟程返台</div>
+          <div class="tl-spot">🍱 上野午餐（最後一餐）</div>
+          <div class="tl-note">回大塚拿行李前在上野吃完，或直接去成田機場吃（免稅區有拉麵街）</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">12:30</div>
+        <div class="tl-content">
+          <div class="tl-spot">🎒 大塚取行李・出發</div>
+          <div class="tl-note">回大塚站旁飯店取行李，拖著走到大塚站搭山手線</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">12:50</div>
+        <div class="tl-content">
+          <div class="tl-spot">🚃 大塚 → 上野（山手線 20分）</div>
+          <div class="tl-note">抵達 JR 上野站後，跟著「京成電鐵」指標步行 <b>8分鐘</b> 至京成上野站</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">13:21</div>
+        <div class="tl-content">
+          <div class="tl-spot">🚄 Skyliner 搭乘（京成上野出發）</div>
+          <div class="tl-note">建議搭 <b>13:21 班次</b>（下一班 14:01 抵達機場太晚）。需指定席券，在閘口售票機購買，¥2,570/人</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">13:57</div>
+        <div class="tl-content">
+          <div class="tl-spot">🛬 成田機場第二航廈（T2）抵達</div>
+          <div class="tl-note">星宇 JX803 在 T2 辦理，Skyliner 先停 T2・T3，直接在這裡下車</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">14:00</div>
+        <div class="tl-content">
+          <div class="tl-spot">🎫 報到・託運行李</div>
+          <div class="tl-note">星宇櫃台在 T2，帶護照辦理報到，行李掛牌送出</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">14:30</div>
+        <div class="tl-content">
+          <div class="tl-spot">🧾 退稅（安檢前辦！）</div>
+          <div class="tl-note">有購物退稅務必在「安檢前」辦理，成田 T2 退稅台在辦理登機手續同層</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">14:45</div>
+        <div class="tl-content">
+          <div class="tl-spot">🔐 出境安檢</div>
+          <div class="tl-note">過安檢後進免稅區，預留 1.5 小時採購</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">15:00</div>
+        <div class="tl-content">
+          <div class="tl-spot">🛍️ 免稅區最後採購</div>
+          <div class="tl-note">資生堂、GODIVA、日本酒、零食伴手禮一次買齊</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">15:50</div>
+        <div class="tl-content">
+          <div class="tl-spot">🚪 前往登機門</div>
+          <div class="tl-note">T2 成田出境區，跟著班次指示牌走</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">16:20</div>
+        <div class="tl-content">
+          <div class="tl-spot">✈️ JX803 起飛！</div>
           <div class="tl-note">帶著箱根湯香、鎌倉海風、東京霓虹，滿載回家 💕</div>
         </div>
       </div>
     </div>
+
+    <!-- 上野最後一餐推薦 -->
+    <div class="acc-trigger" onclick="toggleAcc(this)">
+      🍜 上野最後一餐推薦 <span class="acc-arrow">▼</span>
+    </div>
+    <div class="acc-body">
+      <div class="food-section">
+        <div class="food-section-title">📍 上野駅周邊・拉行李也能吃</div>
+        <div class="food-cards">
+          <div class="food-card">
+            <div class="food-emoji">🍜</div>
+            <div>
+              <div class="food-name">大勝軒 上野店</div>
+              <div class="food-type">沾麵・拉麵</div>
+              <div class="food-desc">東京老字號沾麵名店分店，湯頭醇厚，行李放腳邊吃也完全沒問題。</div>
+              <div class="food-tags"><span class="food-tag">步行5分</span><span class="food-tag">不用排太久</span></div>
+            </div>
+            <div class="food-price">¥1,000</div>
+          </div>
+          <div class="food-card">
+            <div class="food-emoji">🐟</div>
+            <div>
+              <div class="food-name">魚力海鮮食堂</div>
+              <div class="food-type">海鮮丼・定食</div>
+              <div class="food-desc">新鮮海鮮丼，份量實在，吃完去機場不怕餓。</div>
+              <div class="food-tags"><span class="food-tag">上野マルイ旁</span><span class="food-tag">迴轉壽司選擇多</span></div>
+            </div>
+            <div class="food-price">¥1,200</div>
+          </div>
+        </div>
+        <div class="walk-snack" style="margin-top:0.8rem;">
+          <div class="walk-snack-title">🛒 阿美橫丁邊走邊吃</div>
+          <p>上野駅公園口往阿美橫丁走：<b>たい焼き鯛魚燒</b>（現烤，¥200）、<b>肉の大山 牛肉串</b>（招牌邊走邊吃，¥300）、<b>藥妝店</b>一路延伸到御徒町</p>
+        </div>
+      </div>
+    </div>
+
   </div><!-- end day6 -->
 
   <!-- ===== BUDGET ===== -->
@@ -1972,5 +2380,14 @@
   });
 </script>
 
+
+<script>
+function toggleAcc(trigger) {
+  const body = trigger.nextElementSibling;
+  const isOpen = body.classList.contains('open');
+  trigger.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+}
+</script>
 </body>
 </html>
