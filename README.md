@@ -116,6 +116,9 @@
 
 **線上網址**：`https://tarshar4242.github.io/kt-sweet-journey/kt-sweet-journey.html`
 
+**同行工具・隨身口譯機**：`https://tarshar4242.github.io/kt-sweet-journey/interpreter.html`
+中⇄日／中⇄英雙向即時翻譯——自動聽出誰講哪種語言：上區顯示對方的話＋中文翻譯，下區顯示你的話＋外語翻譯，可存逐字稿。首次使用需在 ⚙️ 貼上 OpenAI API 金鑰（金鑰只存在自己手機的瀏覽器裡）。
+
 ---
 
 ## 七、技術說明
