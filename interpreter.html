@@ -180,10 +180,12 @@
     <label>OpenAI API 金鑰（只存在這支手機上，不會上傳到別的地方）</label>
     <input type="password" id="keyInput" placeholder="sk- 開頭的那串金鑰" autocomplete="off">
     <div class="hint">
-      還沒有金鑰？到 platform.openai.com 註冊 → 右上角 Settings → API keys → Create new secret key，把整串複製貼進上面欄位。
+      還沒有金鑰？到 platform.openai.com 註冊 → 右上角 Settings → API keys → Create new secret key，把整串複製貼進上面欄位。注意：帳戶要先在 Billing 儲值才能使用。
     </div>
+    <div class="hint" id="keyTestResult" style="min-height:1.2em; color:#f0c674;"></div>
     <div class="row">
       <button class="btn-ghost" id="settingsCancel">關閉</button>
+      <button class="btn-ghost" id="keyTestBtn">測試金鑰</button>
       <button class="btn-primary" id="settingsSave">儲存</button>
     </div>
   </div>
@@ -299,6 +301,20 @@ function renderEntry(e) {
   scroll.scrollTop = scroll.scrollHeight;
 }
 
+/* ---------------- 金鑰健檢 ---------------- */
+const REALTIME_MODELS = ['gpt-realtime', 'gpt-4o-realtime-preview'];
+async function checkKey(key) {
+  try {
+    const r = await fetch('https://api.openai.com/v1/models', {
+      headers: { 'Authorization': 'Bearer ' + key }
+    });
+    if (r.status === 401) return 'badkey';
+    if (r.status === 429) return 'noquota';
+    if (r.ok) return 'ok';
+    return 'http' + r.status;
+  } catch (_) { return 'skip'; }
+}
+
 /* ---------------- WebSocket 連線 ---------------- */
 function sessionConfig() {
   const inst = MODES[state.mode].instructions;
@@ -323,9 +339,10 @@ function sessionConfig() {
   } };
 }
 
-function connect() {
+function connect(model) {
+  state.legacyProtocol = false;
   return new Promise((resolve, reject) => {
-    const url = 'wss://api.openai.com/v1/realtime?model=gpt-realtime';
+    const url = 'wss://api.openai.com/v1/realtime?model=' + encodeURIComponent(model || state.rtModel || REALTIME_MODELS[0]);
     let ws;
     try {
       ws = new WebSocket(url, [
@@ -342,7 +359,9 @@ function connect() {
       let msg; try { msg = JSON.parse(ev.data); } catch(_) { return; }
       if (!state.wsReady && (msg.type === 'session.updated' || msg.type === 'session.created')) {
         if (msg.type === 'session.updated') {
-          clearTimeout(failTimer); state.wsReady = true; state.reconnectTries = 0; resolve();
+          clearTimeout(failTimer); state.wsReady = true; state.reconnectTries = 0;
+          state.rtModel = model || state.rtModel || REALTIME_MODELS[0];
+          resolve();
         }
         return;
       }
@@ -382,6 +401,7 @@ function handleEvent(msg) {
       return;
     }
     if (/api key|auth|401/i.test(em)) { stopAll('金鑰好像不對——請按 ⚙️ 檢查一下有沒有貼完整。', 'err'); return; }
+    if (/quota|billing|insufficient|exceeded/i.test(em)) { stopAll('帳戶額度不足——請到 platform.openai.com 的 Billing 儲值後再試。', 'err'); return; }
     console.warn('realtime error:', em);
     return;
   }
@@ -490,8 +510,18 @@ async function startAll() {
   state.running = true; state.reconnectTries = 0;
   $('micBtn').classList.add('live');
   try {
+    setStatus('檢查金鑰…', 'busy');
+    const k = await checkKey(state.key);
+    if (k === 'badkey') { stopAll('金鑰不對——請按 ⚙️ 把整串金鑰重新複製貼上（前後都不能少字）。', 'err'); return; }
+    if (k === 'noquota') { stopAll('金鑰是對的，但帳戶額度不足——請到 platform.openai.com 的 Billing 儲值後再試。', 'err'); return; }
+    state.keyOk = (k === 'ok');
     setStatus('連線中…', 'busy');
-    await connect();
+    let connected = false, lastErr = null;
+    for (const m of REALTIME_MODELS) {
+      try { await connect(m); connected = true; break; }
+      catch (e) { lastErr = e; }
+    }
+    if (!connected) throw lastErr;
     setStatus('麥克風啟動中…', 'busy');
     await startAudio();
     setStatus('開始吧！聽到誰講話就自動翻', 'on');
@@ -501,8 +531,11 @@ async function startAll() {
   } catch (err) {
     const s = String(err && err.message || err);
     if (/Permission|NotAllowed/i.test(s)) stopAll('沒拿到麥克風權限——請在瀏覽器設定允許使用麥克風。', 'err');
-    else if (/closed:1008|closed:4/.test(s)) stopAll('金鑰好像不對——請按 ⚙️ 檢查一下。', 'err');
-    else stopAll('連不上翻譯服務——請確認網路，然後再按一次麥克風。', 'err');
+    else if (/closed:1008|closed:4/.test(s)) {
+      if (state.keyOk) stopAll('金鑰正確，但連線被拒（' + s + '）——最可能是帳戶還沒儲值，請到 Billing 加值。若已儲值，把這個畫面截圖給 Clover。', 'err');
+      else stopAll('金鑰好像不對（' + s + '）——請按 ⚙️ 檢查，或把這個畫面截圖給 Clover。', 'err');
+    }
+    else stopAll('連不上翻譯服務（' + s + '）——請確認網路再試一次；一直失敗就把這個畫面截圖給 Clover。', 'err');
   }
 }
 function stopAll(msg, dot) {
@@ -540,6 +573,19 @@ function openSettings(hint) {
   if (hint) setStatus(hint, 'busy');
 }
 $('settingsBtn').onclick = () => openSettings();
+$('keyTestBtn').onclick = async () => {
+  const key = $('keyInput').value.trim();
+  const out = $('keyTestResult');
+  if (!key) { out.textContent = '欄位是空的，先貼上金鑰再測。'; return; }
+  out.textContent = '測試中…';
+  const k = await checkKey(key);
+  out.textContent =
+    k === 'ok'      ? '✅ 金鑰有效！按「儲存」後就可以開始。' :
+    k === 'badkey'  ? '❌ 金鑰不對——請回 OpenAI 網站重新複製整串（sk- 開頭到最後一個字）。' :
+    k === 'noquota' ? '⚠️ 金鑰是對的，但帳戶額度不足——請到 Billing 儲值。' :
+    k === 'skip'    ? '⚠️ 手機連不到 OpenAI——請確認網路（有些公司或學校 Wi-Fi 會擋，改用行動網路試試）。' :
+    '⚠️ OpenAI 回應異常（' + k + '）——把這個畫面截圖給 Clover。';
+};
 $('settingsCancel').onclick = () => $('settingsOverlay').classList.add('hidden');
 $('settingsSave').onclick = () => {
   state.key = $('keyInput').value.trim();
