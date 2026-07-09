@@ -347,8 +347,7 @@ function connect(model) {
     try {
       ws = new WebSocket(url, [
         'realtime',
-        'openai-insecure-api-key.' + state.key,
-        'openai-beta.realtime-v1'
+        'openai-insecure-api-key.' + state.key
       ]);
     } catch (err) { reject(err); return; }
     state.ws = ws; state.wsReady = false;
