@@ -302,7 +302,7 @@ function renderEntry(e) {
 }
 
 /* ---------------- 金鑰健檢 ---------------- */
-const REALTIME_MODELS = ['gpt-realtime', 'gpt-4o-realtime-preview'];
+const REALTIME_MODELS = ['gpt-realtime', 'gpt-realtime-2', 'gpt-4o-realtime-preview'];
 async function checkKey(key) {
   try {
     const r = await fetch('https://api.openai.com/v1/models', {
@@ -370,7 +370,10 @@ function connect(model) {
     ws.onerror = () => {};
     ws.onclose = ev => {
       clearTimeout(failTimer);
-      if (!state.wsReady) { reject(new Error('closed:' + (ev.code||''))); return; }
+      if (!state.wsReady) {
+        reject(new Error('closed:' + (ev.code||'') + (ev.reason ? '｜' + ev.reason : '')));
+        return;
+      }
       if (state.running) scheduleReconnect();
     };
   });
@@ -394,6 +397,7 @@ function handleEvent(msg) {
 
   if (t === 'error') {
     const em = (msg.error && (msg.error.message || msg.error.code)) || '';
+    if (!state.wsReady) state.connErr = em;   // 連上前的錯誤留起來，失敗時顯示給使用者
     // 新版 session 格式不被接受 → 換舊版重設一次
     if (!state.legacyProtocol && /unknown|invalid|param|type/i.test(em) && !state.wsReady) {
       state.legacyProtocol = true;
@@ -510,6 +514,7 @@ async function startAll() {
   state.running = true; state.reconnectTries = 0;
   $('micBtn').classList.add('live');
   try {
+    state.connErr = null;
     setStatus('檢查金鑰…', 'busy');
     const k = await checkKey(state.key);
     if (k === 'badkey') { stopAll('金鑰不對——請按 ⚙️ 把整串金鑰重新複製貼上（前後都不能少字）。', 'err'); return; }
@@ -529,10 +534,11 @@ async function startAll() {
       try { state.wakeLock = await navigator.wakeLock.request('screen'); } catch(_){}
     }
   } catch (err) {
-    const s = String(err && err.message || err);
+    const s = String(err && err.message || err) + (state.connErr ? '｜' + state.connErr : '');
     if (/Permission|NotAllowed/i.test(s)) stopAll('沒拿到麥克風權限——請在瀏覽器設定允許使用麥克風。', 'err');
+    else if (/quota|billing|insufficient/i.test(s)) stopAll('帳戶額度還沒生效或不足——儲值後等幾分鐘再按一次麥克風。', 'err');
     else if (/closed:1008|closed:4/.test(s)) {
-      if (state.keyOk) stopAll('金鑰正確，但連線被拒（' + s + '）——最可能是帳戶還沒儲值，請到 Billing 加值。若已儲值，把這個畫面截圖給 Clover。', 'err');
+      if (state.keyOk) stopAll('金鑰正確，但連線被拒。原因：' + s + '——把這個畫面截圖給 Clover。', 'err');
       else stopAll('金鑰好像不對（' + s + '）——請按 ⚙️ 檢查，或把這個畫面截圖給 Clover。', 'err');
     }
     else stopAll('連不上翻譯服務（' + s + '）——請確認網路再試一次；一直失敗就把這個畫面截圖給 Clover。', 'err');
