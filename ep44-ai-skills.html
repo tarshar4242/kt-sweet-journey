@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 上半年一定會的 AI 技能｜互動式學習地圖</title>
+<meta name="description" content="EP44 晨學講堂：2026 上半年一定會的 AI 技能 — 文字篇、生圖篇、AI Agent 篇、自動化篇，互動式多層次學習地圖">
+<style>
+:root{
+  --bg:#0a0e1a; --bg2:#0f1526; --panel:#141b30; --panel2:#1a2340;
+  --line:rgba(120,160,255,.16); --line2:rgba(120,160,255,.30);
+  --txt:#e8eeff; --txt2:#9fb0d8; --txt3:#6b7ba3;
+  --cyan:#38e1ff; --blue:#4f7cff; --purple:#a06bff; --pink:#ff5fa8;
+  --green:#3ddc97; --orange:#ffb648; --red:#ff6b6b;
+  --glow-cyan:rgba(56,225,255,.35); --glow-purple:rgba(160,107,255,.35);
+  --radius:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  background:var(--bg); color:var(--txt); min-height:100vh; overflow-x:hidden;
+  background-image:
+    radial-gradient(1200px 600px at 80% -10%, rgba(79,124,255,.14), transparent 60%),
+    radial-gradient(900px 500px at 10% 10%, rgba(160,107,255,.12), transparent 60%),
+    radial-gradient(700px 400px at 50% 110%, rgba(56,225,255,.08), transparent 60%);
+  background-attachment:fixed;
+}
+/* ── 星點背景 ── */
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0}
+.stars i{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:.25;animation:tw 3s infinite alternate}
+@keyframes tw{from{opacity:.08}to{opacity:.5}}
+/* ── 頂欄 ── */
+header.top{
+  position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;
+  padding:12px 22px;background:rgba(10,14,26,.82);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px;white-space:nowrap}
+.logo .dot{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:18px;
+  background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 0 18px var(--glow-purple)}
+.logo small{display:block;font-weight:500;color:var(--txt3);font-size:11px;letter-spacing:2px}
+.searchbox{flex:1;max-width:520px;margin-left:auto;position:relative}
+.searchbox input{
+  width:100%;padding:10px 14px 10px 40px;border-radius:12px;border:1px solid var(--line2);
+  background:rgba(20,27,48,.9);color:var(--txt);font-size:14px;outline:none;transition:.25s;
+}
+.searchbox input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(56,225,255,.15)}
+.searchbox .icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--txt3);font-size:15px}
+.top .navlink{color:var(--txt2);text-decoration:none;font-size:13px;padding:8px 14px;border:1px solid var(--line);border-radius:10px;white-space:nowrap;transition:.2s}
+.top .navlink:hover{color:var(--cyan);border-color:var(--cyan)}
+/* ── Hero ── */
+.hero{position:relative;z-index:1;text-align:center;padding:72px 20px 44px}
+.hero .ep{display:inline-block;padding:6px 18px;border-radius:999px;font-size:13px;letter-spacing:3px;
+  color:var(--cyan);border:1px solid rgba(56,225,255,.4);background:rgba(56,225,255,.07);margin-bottom:22px}
+.hero h1{font-size:clamp(30px,5.4vw,56px);font-weight:900;line-height:1.25;
+  background:linear-gradient(92deg,#fff 10%,var(--cyan) 45%,var(--purple) 80%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.sub{margin:18px auto 0;max-width:640px;color:var(--txt2);font-size:16px;line-height:1.9}
+.hero .meta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+.hero .meta span{font-size:12.5px;color:var(--txt2);border:1px solid var(--line);border-radius:999px;padding:7px 15px;background:rgba(20,27,48,.6)}
+/* ── 統計列 ── */
+.stats{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;padding:8px 20px 34px;position:relative;z-index:1}
+.stat{min-width:150px;text-align:center;padding:16px 22px;border-radius:var(--radius);
+  background:linear-gradient(160deg,var(--panel),var(--bg2));border:1px solid var(--line)}
+.stat b{display:block;font-size:30px;font-weight:900;background:linear-gradient(90deg,var(--cyan),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{font-size:12.5px;color:var(--txt3);letter-spacing:1px}
+/* ── 進度 ── */
+.progressbar{max-width:1080px;margin:0 auto 8px;padding:0 20px;position:relative;z-index:1}
+.progressbar .track{height:10px;border-radius:999px;background:rgba(120,160,255,.12);overflow:hidden;border:1px solid var(--line)}
+.progressbar .fill{height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,var(--cyan),var(--purple));box-shadow:0 0 12px var(--glow-cyan);transition:width .5s}
+.progressbar .label{display:flex;justify-content:space-between;font-size:12px;color:var(--txt3);margin-top:6px}
+.progressbar .label button{background:none;border:none;color:var(--txt3);font-size:12px;cursor:pointer;text-decoration:underline dotted}
+.progressbar .label button:hover{color:var(--red)}
+/* ── 主容器 ── */
+main{max-width:1080px;margin:0 auto;padding:20px;position:relative;z-index:1}
+/* ── 麵包屑 ── */
+.crumbs{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--txt3);margin:6px 0 18px;flex-wrap:wrap}
+.crumbs a{color:var(--cyan);text-decoration:none;cursor:pointer}
+.crumbs a:hover{text-decoration:underline}
+.crumbs .sep{opacity:.5}
+/* ── Level 1：章節卡片 ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.card{
+  position:relative;padding:26px 22px;border-radius:var(--radius);cursor:pointer;overflow:hidden;
+  background:linear-gradient(165deg,var(--panel) 0%,var(--bg2) 100%);
+  border:1px solid var(--line);transition:transform .25s,border-color .25s,box-shadow .25s;
+}
+.card:hover{transform:translateY(-6px);border-color:var(--c,var(--cyan));box-shadow:0 14px 40px -14px var(--c,var(--glow-cyan))}
+.card .glowline{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--c,var(--cyan)),transparent)}
+.card .emoji{font-size:38px;display:block;margin-bottom:12px;filter:drop-shadow(0 0 12px var(--c,var(--glow-cyan)))}
+.card h3{font-size:20px;font-weight:800;margin-bottom:6px}
+.card h3 em{font-style:normal;color:var(--c,var(--cyan));font-size:12px;display:block;letter-spacing:2px;margin-bottom:4px}
+.card p{font-size:13.5px;color:var(--txt2);line-height:1.75;min-height:70px}
+.card .foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:12px;color:var(--txt3)}
+.card .foot .go{color:var(--c,var(--cyan));font-weight:700}
+.card .mini{height:5px;border-radius:99px;background:rgba(120,160,255,.14);overflow:hidden;flex:1;margin-right:12px}
+.card .mini i{display:block;height:100%;width:0%;background:var(--c,var(--cyan));border-radius:99px;transition:width .4s}
+/* ── Level 2：章節頁 ── */
+.view{display:none;animation:fadeIn .35s}
+.view.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.chapter-head{display:flex;align-items:center;gap:16px;padding:22px;border-radius:var(--radius);margin-bottom:20px;
+  background:linear-gradient(120deg,var(--panel2),var(--bg2));border:1px solid var(--line2);position:relative;overflow:hidden}
+.chapter-head::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,var(--c,var(--glow-cyan)),transparent 70%);opacity:.5}
+.chapter-head .emoji{font-size:44px}
+.chapter-head h2{font-size:24px;font-weight:900}
+.chapter-head h2 em{font-style:normal;display:block;font-size:12px;letter-spacing:3px;color:var(--c,var(--cyan));margin-bottom:4px}
+.chapter-head p{color:var(--txt2);font-size:13.5px;margin-top:4px;line-height:1.7}
+/* topic 手風琴 */
+.topic{border:1px solid var(--line);border-radius:var(--radius);margin-bottom:14px;background:linear-gradient(165deg,var(--panel),var(--bg2));overflow:hidden;transition:border-color .25s}
+.topic.open{border-color:var(--c,var(--line2))}
+.topic-head{display:flex;align-items:center;gap:14px;padding:18px 20px;cursor:pointer;user-select:none}
+.topic-head:hover{background:rgba(120,160,255,.05)}
+.topic-head .num{width:38px;height:38px;flex:none;border-radius:11px;display:grid;place-items:center;font-weight:900;font-size:15px;
+  color:#0a0e1a;background:linear-gradient(135deg,var(--c,var(--cyan)),#fff3)}
+.topic-head h4{font-size:16.5px;font-weight:800;flex:1}
+.topic-head h4 small{display:block;font-weight:400;color:var(--txt3);font-size:12px;margin-top:3px}
+.topic-head .chev{color:var(--txt3);transition:transform .3s;font-size:13px}
+.topic.open .chev{transform:rotate(90deg)}
+.topic-head input[type=checkbox]{width:19px;height:19px;accent-color:var(--green);cursor:pointer;flex:none}
+.topic-body{max-height:0;overflow:hidden;transition:max-height .45s ease}
+.topic.open .topic-body{max-height:4200px}
+.topic-inner{padding:4px 20px 22px;border-top:1px dashed var(--line)}
+/* Level 3 內容元件 */
+.block{margin-top:18px}
+.block>h5{font-size:13px;letter-spacing:2px;color:var(--c,var(--cyan));margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.block>h5::before{content:"";width:14px;height:2px;background:var(--c,var(--cyan))}
+.block p{font-size:14px;color:var(--txt2);line-height:1.95}
+.block b{color:var(--txt)}
+ul.points{list-style:none}
+ul.points li{position:relative;padding:7px 0 7px 26px;font-size:14px;color:var(--txt2);line-height:1.8}
+ul.points li::before{content:"▸";position:absolute;left:6px;color:var(--c,var(--cyan))}
+ul.points li b{color:var(--txt)}
+.steps{counter-reset:st;display:flex;flex-direction:column;gap:10px}
+.steps li{list-style:none;counter-increment:st;display:flex;gap:12px;align-items:flex-start;
+  background:rgba(120,160,255,.05);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:13.5px;color:var(--txt2);line-height:1.8}
+.steps li::before{content:counter(st);flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
+  font-weight:800;font-size:13px;color:#0a0e1a;background:var(--c,var(--cyan));margin-top:2px}
+.steps li b{color:var(--txt)}
+.promptbox{background:#0b1020;border:1px solid var(--line2);border-left:3px solid var(--c,var(--cyan));border-radius:10px;
+  padding:14px 16px;font-family:"Cascadia Code",Consolas,monospace;font-size:12.8px;color:#bfe3ff;line-height:1.85;white-space:pre-wrap;overflow-x:auto}
+table.cmp{width:100%;border-collapse:collapse;font-size:13px;color:var(--txt2)}
+table.cmp th{background:rgba(120,160,255,.10);color:var(--txt);padding:10px 12px;text-align:left;font-size:12.5px;letter-spacing:1px;border:1px solid var(--line)}
+table.cmp td{padding:10px 12px;border:1px solid var(--line);line-height:1.7}
+table.cmp tr:hover td{background:rgba(120,160,255,.04)}
+.tablewrap{overflow-x:auto;border-radius:10px}
+.tags{display:flex;gap:8px;flex-wrap:wrap}
+.tags span{font-size:12px;padding:5px 12px;border-radius:999px;border:1px solid var(--line2);color:var(--txt2);background:rgba(120,160,255,.06)}
+.callout{display:flex;gap:12px;border-radius:12px;padding:14px 16px;font-size:13.5px;line-height:1.85;margin-top:14px}
+.callout.tip{background:rgba(61,220,151,.07);border:1px solid rgba(61,220,151,.3);color:#c9f5e3}
+.callout.warn{background:rgba(255,182,72,.07);border:1px solid rgba(255,182,72,.3);color:#ffe7c2}
+.callout .ic{font-size:18px}
+/* 章節底部導航 */
+.chapnav{display:flex;justify-content:space-between;gap:12px;margin-top:26px;flex-wrap:wrap}
+.chapnav a{flex:1;min-width:200px;text-decoration:none;color:var(--txt2);border:1px solid var(--line);border-radius:12px;padding:14px 18px;font-size:13.5px;cursor:pointer;transition:.2s;background:var(--panel)}
+.chapnav a:hover{border-color:var(--cyan);color:var(--cyan)}
+.chapnav a b{display:block;color:var(--txt);font-size:15px;margin-top:3px}
+.chapnav a:hover b{color:var(--cyan)}
+/* 搜尋結果 */
+#searchResults{display:none;margin-bottom:22px}
+#searchResults.show{display:block}
+.sr-item{padding:14px 18px;border:1px solid var(--line);border-radius:12px;margin-bottom:10px;cursor:pointer;background:var(--panel);transition:.2s}
+.sr-item:hover{border-color:var(--cyan)}
+.sr-item .path{font-size:11.5px;color:var(--txt3);letter-spacing:1px;margin-bottom:4px}
+.sr-item h6{font-size:15px;color:var(--txt)}
+.sr-item p{font-size:12.5px;color:var(--txt2);margin-top:4px}
+.sr-empty{color:var(--txt3);font-size:14px;text-align:center;padding:30px}
+mark{background:rgba(56,225,255,.3);color:#fff;border-radius:3px;padding:0 2px}
+/* 資源區 ── */
+.resources{margin-top:44px;padding:24px;border-radius:var(--radius);background:linear-gradient(150deg,var(--panel),var(--bg2));border:1px solid var(--line)}
+.resources h3{font-size:18px;font-weight:800;margin-bottom:14px}
+.resources h3 span{background:linear-gradient(90deg,var(--cyan),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.res-grid a{display:flex;gap:12px;align-items:center;text-decoration:none;color:var(--txt2);border:1px solid var(--line);border-radius:12px;padding:14px;transition:.2s;font-size:13.5px;background:rgba(10,14,26,.4)}
+.res-grid a:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px)}
+.res-grid a .ic{font-size:22px}
+.res-grid a b{display:block;color:var(--txt);font-size:14px}
+.res-grid a:hover b{color:var(--cyan)}
+footer{margin-top:56px;padding:34px 20px 46px;text-align:center;color:var(--txt3);font-size:12.5px;border-top:1px solid var(--line);position:relative;z-index:1;line-height:2}
+footer .heart{color:var(--pink)}
+@media (max-width:640px){
+  header.top{flex-wrap:wrap}
+  .searchbox{order:3;max-width:100%;flex-basis:100%}
+  .hero{padding-top:44px}
+  .card p{min-height:0}
+}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+
+<header class="top">
+  <div class="logo">
+    <div class="dot">🧠</div>
+    <div>AI 技能地圖<small>MORNING LEARNING · EP44</small></div>
+  </div>
+  <div class="searchbox">
+    <span class="icon">🔍</span>
+    <input id="searchInput" type="search" placeholder="搜尋技能關鍵字：YAML、MCP、n8n、生圖…" autocomplete="off">
+  </div>
+  <a class="navlink" href="ep44-notes.html">📝 詳細課堂筆記</a>
+</header>
+
+<section class="hero">
+  <span class="ep">EP44 · 晨學講堂 · 2026/07/03</span>
+  <h1>2026 上半年<br>一定會的 AI 技能</h1>
+  <p class="sub">半年一次的總體檢：把上半年最重要的 AI 能力，收斂成「文字、生圖、Agent、自動化」四大主線。<br>點進每一章，逐層展開技能清單、操作步驟與範例，學會一項就打一個勾。</p>
+  <div class="meta">
+    <span>🎙️ 生成式AI應用電台・晨學講堂</span>
+    <span>🗂️ 四大篇章 · 20 項核心技能</span>
+    <span>✅ 進度自動記憶（存在本機瀏覽器）</span>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat"><b>4</b><span>大篇章</span></div>
+  <div class="stat"><b>20</b><span>核心技能</span></div>
+  <div class="stat"><b id="statDone">0</b><span>已完成</span></div>
+  <div class="stat"><b id="statPct">0%</b><span>完成度</span></div>
+</div>
+
+<div class="progressbar">
+  <div class="track"><div class="fill" id="progFill"></div></div>
+  <div class="label"><span id="progText">0 / 20 項技能已掌握</span><button onclick="resetProgress()">重置進度</button></div>
+</div>
+
+<main>
+  <div id="searchResults"></div>
+  <nav class="crumbs" id="crumbs" style="display:none">
+    <a onclick="showHome()">🏠 首頁</a><span class="sep">›</span><span id="crumbHere"></span>
+  </nav>
+
+  <!-- ═══ Level 1：四大篇章 ═══ -->
+  <section id="view-home" class="view active">
+    <div class="grid">
+      <div class="card" style="--c:var(--cyan)" onclick="showChapter('text')">
+        <div class="glowline"></div>
+        <span class="emoji">✍️</span>
+        <h3><em>CHAPTER 01</em>文字篇</h3>
+        <p>從 Prompt 到 Context 再到 Harness——讓 AI 穩定產出你要的文字：結構化指令、YAML 控制、NotebookLM 知識庫、巨量摘要。</p>
+        <div class="foot"><div class="mini"><i data-mini="text"></i></div><span class="go">進入 ›</span></div>
+      </div>
+      <div class="card" style="--c:var(--pink)" onclick="showChapter('image')">
+        <div class="glowline"></div>
+        <span class="emoji">🎨</span>
+        <h3><em>CHAPTER 02</em>生圖篇</h3>
+        <p>不只給漁獲、也不只給釣竿——直接打造「智慧漁網」：風格圖卡系統、一致性人物、簡報視覺化、API 批次生圖。</p>
+        <div class="foot"><div class="mini"><i data-mini="image"></i></div><span class="go">進入 ›</span></div>
+      </div>
+      <div class="card" style="--c:var(--purple)" onclick="showChapter('agent')">
+        <div class="glowline"></div>
+        <span class="emoji">🤖</span>
+        <h3><em>CHAPTER 03</em>AI Agent 篇</h3>
+        <p>從聊天到代理：Claude Code、OpenCode 免費入門、MCP 工具生態、Skills 技能包，以及用 Vibe Coding 做出自己的網頁。</p>
+        <div class="foot"><div class="mini"><i data-mini="agent"></i></div><span class="go">進入 ›</span></div>
+      </div>
+      <div class="card" style="--c:var(--green)" onclick="showChapter('auto')">
+        <div class="glowline"></div>
+        <span class="emoji">⚙️</span>
+        <h3><em>CHAPTER 04</em>自動化篇</h3>
+        <p>把重複的事交給流程：n8n 工作流、Apps Script、會議紀錄字幕流水線、信件漏斗、排程代理，下班時間自己長出來。</p>
+        <div class="foot"><div class="mini"><i data-mini="auto"></i></div><span class="go">進入 ›</span></div>
+      </div>
+    </div>
+
+    <div class="resources">
+      <h3>📦 <span>課程原始資料</span></h3>
+      <div class="res-grid">
+        <a href="https://drive.google.com/drive/folders/1nOGbITVV41m0mNoHz14Vdn4Q9_RUe1cb" target="_blank" rel="noopener"><span class="ic">🗂️</span><span><b>講義及錄影回放資料夾</b>Google Drive（EP44 原始分享）</span></a>
+        <a href="https://drive.google.com/file/d/10MbFHlGMs_1ISJXDcX9vFdMFlI6JgyWj/view" target="_blank" rel="noopener"><span class="ic">📊</span><span><b>課程簡報</b>簡報_EP44（PPTX）</span></a>
+        <a href="https://drive.google.com/file/d/1qpIe2YcVoOew7REmSrv8qHhrekWD-ZVz/view" target="_blank" rel="noopener"><span class="ic">🎬</span><span><b>錄影回放</b>完整課程影片（約 100 分鐘）</span></a>
+        <a href="ep44-notes.html"><span class="ic">📝</span><span><b>詳細課堂筆記</b>圖解 + 簡報預覽 + 逐章整理</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Level 2：各章節（由 JS 從資料生成） ═══ -->
+  <section id="view-text" class="view" style="--c:var(--cyan)"></section>
+  <section id="view-image" class="view" style="--c:var(--pink)"></section>
+  <section id="view-agent" class="view" style="--c:var(--purple)"></section>
+  <section id="view-auto" class="view" style="--c:var(--green)"></section>
+</main>
+
+<footer>
+  本頁為 EP44「2026 年上半年一定會的 AI 技能」課後整理・介面靈感來自 akira.ipas-ai.com 互動式學習地圖<br>
+  🍀 Learn AI with Tarshar <span class="heart">♥</span> 2026｜進度僅存於本機瀏覽器 localStorage
+</footer>
+
+<script>
+/* ═══════════ 課程資料（多層結構：章 → 技能 → 內容區塊） ═══════════ */
+const DATA = {
+  text: {
+    key:'text', color:'var(--cyan)', emoji:'✍️', code:'CHAPTER 01', title:'文字篇',
+    intro:'2026 上半年文字力的關鍵字只有一個：「結構」。從一句話的 Prompt，進化到有脈絡的 Context，再進化到可重複執行的 Harness（工作框架），你給 AI 的結構越清楚，它回你的品質越穩定。',
+    topics:[
+      {t:'提示工程三段進化：Prompt → Context → Harness', s:'為什麼同一句話，別人問得到你問不到',
+       blocks:[
+        {h:'核心觀念',ul:[
+          '<b>Prompt Engineering</b>：把一句話問好——角色、任務、格式、限制講清楚。',
+          '<b>Context Engineering</b>：把背景餵好——附上範例、資料、規則，讓 AI「進入狀況」再回答。',
+          '<b>Harness Engineering</b>：把流程建好——固定的模板 + 檢核 + 迭代迴圈，讓產出品質不靠運氣（EP35 主題的延伸）。',
+          '判斷你在哪一層：只會下指令 → L1；會餵資料 → L2；有可複用模板與流程 → L3。']},
+        {h:'四要素指令模板',prompt:'【角色】你是一位資深行銷文案編輯\n【任務】把下面的產品說明改寫成 3 種語氣的社群貼文\n【格式】每則 80 字內，附 2 個 hashtag，用表格輸出\n【限制】不得出現誇大療效字眼；保留品牌名原文\n---\n（貼上你的原始素材）'},
+        {h:'實戰重點',steps:[
+          '先寫<b>格式</b>再寫任務——先決定產出長相，AI 就不會自由發揮。',
+          '好的一次輸出 = 之後的<b>範例（few-shot）</b>，把滿意的回答存起來當下次的附件。',
+          '同類任務問超過 3 次，就把指令<b>模板化</b>（存成筆記、Gem 或 Project 自訂指令）。']},
+        {h:'一句話記憶',p:'「Prompt 是問一句好話，Context 是給一疊好料，Harness 是建一條好生產線。」'}]},
+      {t:'YAML 結構化輸出控制', s:'讓 NotebookLM、資訊圖表、報告排版乖乖聽話',
+       blocks:[
+        {h:'為什麼是 YAML',ul:[
+          '比 JSON 好讀好寫、比自然語言精準——是「人看得懂、AI 不會誤會」的中間格式。',
+          '用途五大場域：<b>文字規格、圖像風格、資訊圖表、報告編排、工作流定義</b>。',
+          '把「我想要的樣子」變成欄位，AI 缺什麼就問什麼，不再腦補。']},
+        {h:'範例：資訊圖表規格卡',prompt:'infographic:\n  title: 2026 上半年 AI 技能總覽\n  style: 深色科技風, 霓虹漸層\n  layout: 四象限\n  sections:\n    - name: 文字篇\n      icon: ✍️\n      points: [結構化指令, YAML 控制, 知識庫]\n  font: Noto Sans TC\n  output: 16:9 簡報頁'},
+        {h:'實戰重點',steps:[
+          '先請 AI「把我的需求整理成 YAML 規格」，確認欄位沒錯再生成。',
+          '改版時<b>只改欄位值</b>不重寫整段話，版本差異一目了然。',
+          '同一份 YAML 丟不同工具（NotebookLM／Gamma／Canva）比較產出，挑最穩的。']},
+        {h:'一句話記憶',p:'「規格寫成 YAML，改圖像改文案都只是改參數。」'}]},
+      {t:'NotebookLM 個人知識庫', s:'來源在手，摘要、簡報、播客、資訊圖表一次到位',
+       blocks:[
+        {h:'核心能力',ul:[
+          '上傳 PDF／網頁／影片連結／錄音當<b>來源（Sources）</b>，回答一律附引用，不亂編。',
+          '一鍵轉換：學習指南、簡報大綱、時間軸、<b>語音摘要（播客）</b>、資訊圖表。',
+          '搭配 YAML 規格卡，就能控制生成的簡報與圖表版型。']},
+        {h:'標準工作流',steps:[
+          '把課程講義、錄影連結、參考文章全部丟進同一個 Notebook。',
+          '先做「學習指南」抓大綱 → 再針對弱點章節提問。',
+          '要分享給別人時，輸出播客或簡報，一份來源多種形態。']},
+        {h:'小提醒',warn:'來源品質決定答案品質——丟進去之前先刪掉過時、重複的檔案。'}]},
+      {t:'巨量資料摘要精煉術', s:'上百頁報告、幾十集逐字稿的自動化提取',
+       blocks:[
+        {h:'核心觀念',ul:[
+          '長文不是一次餵完，而是<b>切塊 → 分段摘要 → 再彙整</b>（Map-Reduce 思維）。',
+          '摘要要帶「任務目的」：給主管看的重點、給自己讀的筆記、給客戶的亮點，是三種不同摘要。',
+          '產出固定欄位（結論／依據／數字／待辦），才能跨文件比較。']},
+        {h:'範例：分段摘要指令',prompt:'請閱讀以下第 {n} 段內容，輸出：\nsummary: 3 句話重點\nnumbers: 出現的關鍵數字（含單位）\nquotes: 1 句最值得引用的原文\ntodo: 對我方的行動建議（若無寫 none）'},
+        {h:'一句話記憶',p:'「先分段消化、再統一格式，最後才做總結論。」'}]},
+      {t:'雙向翻譯與逐字稿應用', s:'會議、訪談、跨語溝通的文字後製',
+       blocks:[
+        {h:'核心能力',ul:[
+          '錄音／影片 → 逐字稿 → <b>說話人分段</b> → 摘要與決議萃取，一條龍完成。',
+          '即時口譯應用：雙語自動辨識、雙區顯示、逐字稿留存（本系列實作過隨身口譯機網頁）。',
+          '翻譯品質關鍵：先給<b>術語表</b>與語氣要求，再開始翻。']},
+        {h:'實戰重點',steps:[
+          '會前建立專有名詞對照表，翻譯與逐字稿共用。',
+          '會後把逐字稿丟知識庫，變成可被搜尋、可被追問的資產。']}]}
+    ]
+  },
+  image: {
+    key:'image', color:'var(--pink)', emoji:'🎨', code:'CHAPTER 02', title:'生圖篇',
+    intro:'上半年生圖的典範轉移：從「一張一張抽卡」變成「建立可複用的風格系統」。口訣是——不只給漁獲（幫你生一張圖）、不只給釣竿（教你一個咒語），而是直接給你一張智慧漁網（風格模板 + 參數 + 批次能力）。',
+    topics:[
+      {t:'風格圖卡系統（YAML 風格卡）', s:'把「好看」變成可複製、可傳承的參數',
+       blocks:[
+        {h:'核心觀念',ul:[
+          '把構圖、色調、字體、質感寫成<b>風格 YAML</b>，內容換掉、風格不跑掉。',
+          '一次定義 10 款風格（手寫筆記風、雜誌風、黑板報風…），貼文章即生成對應圖卡。',
+          '風格卡可以打包成 <b>Gemini Gem／GPT／Claude Skill</b>，變成團隊共用工具。']},
+        {h:'範例：筆記風格圖卡',prompt:'style_card:\n  name: 奶油紙張手寫筆記\n  canvas: 4:5 直式\n  palette: [奶油白, 焦糖棕, 墨綠]\n  texture: 紙張纖維、鉛筆手寫感\n  layout: 大標 + 3 重點區塊 + 手繪箭頭\n  rule: 文字保持繁體中文, 重點詞加底線\ninput: （貼上要做成圖卡的文章）'},
+        {h:'實戰重點',steps:[
+          '先讓 AI 分析你喜歡的參考圖，<b>反推出風格 YAML</b>。',
+          '固定風格卡 + 換內容 → 系列感；固定內容 + 換風格卡 → 快速 A/B。',
+          '把常用風格卡存成 Gem，同事貼文字就能出圖，不用學咒語。']},
+        {h:'一句話記憶',p:'「抽卡靠運氣，風格卡靠系統。」'}]},
+      {t:'一致性人物與置換應用', s:'員工大頭貼、活動紀念照、品牌角色不走鐘',
+       blocks:[
+        {h:'核心能力',ul:[
+          '以參考照片鎖定人物特徵，批次生成<b>同風格</b>的大頭貼、紀念照、宣導插畫。',
+          '「同質風格置換」：一套視覺規格套用到整個部門的照片，輸出整齊劃一。',
+          '重點在<b>約束</b>：鎖臉部特徵、鎖服裝色系、鎖背景元素，其餘才交給模型發揮。']},
+        {h:'實戰重點',steps:[
+          '先做 1 張標準樣張讓大家確認，再批次跑全部人。',
+          '人物圖務必取得本人同意、標示 AI 生成，內部使用也一樣。']},
+        {h:'小提醒',warn:'涉及真人肖像，公開使用前務必確認授權與公司規範。'}]},
+      {t:'簡報與資訊圖表視覺化', s:'NotebookLM 資訊圖表 × Canva Magic × 動畫',
+       blocks:[
+        {h:'工具選擇',table:{head:['需求','首選','備註'],rows:[
+          ['從資料長出圖表','NotebookLM + YAML','來源可追溯、圖表可控版型'],
+          ['簡報美化與動畫','Canva（Magic layers）','拆層動畫、品牌套版'],
+          ['一句話生整份簡報','Gamma / Prezi AI','速度快，細修空間較小'],
+          ['自由度最高','AI 生圖 + 手動排版','風格卡先行，量產最穩']]}},
+        {h:'實戰重點',steps:[
+          '簡報視覺三層：<b>版型（layout）→ 圖像（image）→ 動態（motion）</b>，一層一層加。',
+          '資訊圖表先用 YAML 定欄位，避免 AI 自己發明數據。']}]},
+      {t:'影片生成入門：從圖到動', s:'Google Video／Flow 級工具的正確期待',
+       blocks:[
+        {h:'核心觀念',ul:[
+          '2026 上半年影片生成已可用於<b>短素材</b>：開場動畫、產品展示、社群短片。',
+          '穩定做法：先用風格卡生「首幀圖」，再讓影片模型從圖出發（image-to-video）。',
+          '一次生 4–8 秒片段再剪接，比一次生長片成功率高。']},
+        {h:'實戰重點',steps:[
+          '寫分鏡表（幾秒、鏡頭、動作、字幕）再生成，素材才接得起來。',
+          '重要品牌元素（logo、字）後製加，不要指望模型畫對。']}]},
+      {t:'API 批次生圖', s:'免費資源與程式化量產（Pollinations 等）',
+       blocks:[
+        {h:'核心能力',ul:[
+          '用 API 一次生成整批素材：貼文圖 × 30 天、商品圖 × 全目錄。',
+          '免費入門選項（如 Pollinations API）適合練手與小專案。',
+          '搭配試算表：一列一個主題，跑迴圈自動出圖存檔。']},
+        {h:'一句話記憶',p:'「介面生一張，API 生一批。」'}]}
+    ]
+  },
+  agent: {
+    key:'agent', color:'var(--purple)', emoji:'🤖', code:'CHAPTER 03', title:'AI Agent 篇',
+    intro:'上半年最大的分水嶺：AI 從「回答你」變成「幫你做完」。Agent = 會自己規劃、呼叫工具、檢查結果、修正重來的 AI。這一章從觀念到落地：Claude Code、OpenCode、MCP、Skills，以及本集現場示範的 Vibe Coding 網頁。',
+    topics:[
+      {t:'Agent 是什麼：從聊天到代理', s:'Chatbot → Copilot → Agent 的能力分界',
+       blocks:[
+        {h:'核心觀念',ul:[
+          '<b>Chatbot</b>：你問它答。<b>Copilot</b>：你做它幫。<b>Agent</b>：你交辦，它規劃 → 執行 → 驗證 → 回報。',
+          'Agent 迴圈四拍：<b>感知（讀任務與環境）→ 規劃（拆步驟）→ 行動（呼叫工具）→ 回饋（檢查、修正）</b>。',
+          '判斷任務適不適合 Agent：步驟多、可驗證、容錯高的雜事最適合。']},
+        {h:'一句話記憶',p:'「Chatbot 給答案，Agent 給結果。」'}]},
+      {t:'Claude Code：終端機裡的工程代理', s:'讓 AI 直接動手改檔案、跑指令、開網頁',
+       blocks:[
+        {h:'核心能力',ul:[
+          '在終端機（或網頁版）直接<b>讀寫專案檔案、執行指令、跑測試、發 PR</b>。',
+          '<b>CLAUDE.md</b>：專案說明書，寫下規範讓每次對話都遵守。',
+          '<b>Skills／斜線指令</b>：把常用流程做成可重複呼叫的技能包。',
+          '最佳實踐：小步提交、先計畫再動手、讓它自己驗證成果。']},
+        {h:'上手三步',steps:[
+          '從「幫我看懂這個專案」開始，讓它先摘要架構。',
+          '交辦一個小任務（改文案、加一頁），看它的計畫再放行。',
+          '滿意的流程沉澱成 CLAUDE.md 規範或 Skill。']},
+        {h:'小提醒',tip:'本網頁與課堂筆記頁，就是用這種「交辦式」流程請 AI Agent 產出的實例。'}]},
+      {t:'OpenCode：不花大錢的 Agent 體驗', s:'開源方案 + 免費/低價模型的入門組合',
+       blocks:[
+        {h:'核心觀念',ul:[
+          '開源終端 Agent（OpenCode 等）介面與商用工具相近，<b>模型可自選</b>：接免費或低價 API 就能練習。',
+          '練的是「交辦、拆解、驗收」的肌肉，工具之間可遷移。',
+          '適合：想先體驗 Agent 工作流、預算有限、或公司限制商用工具的人。']},
+        {h:'工具對照',table:{head:['面向','Claude Code','OpenCode'],rows:[
+          ['取得成本','訂閱/按量','開源免費（模型另計）'],
+          ['模型','Claude 系列','自選（多家皆可接）'],
+          ['上手難度','低','中（要自己接金鑰）'],
+          ['適合','正式生產力','練功、實驗、教學']]}}]},
+      {t:'MCP 與工具生態', s:'讓 Agent 接上你的雲端硬碟、行事曆、資料庫',
+       blocks:[
+        {h:'核心觀念',ul:[
+          '<b>MCP（Model Context Protocol）</b>：AI 連外部工具的通用插座——接上 Drive、Gmail、Notion、資料庫，Agent 才有手有腳。',
+          '挑選原則：先接<b>讀取類</b>（查資料）再接<b>寫入類</b>（改東西），權限由小到大。',
+          '公司場景：一個 MCP Server 就能把內部系統安全地開放給 AI 用。']},
+        {h:'小提醒',warn:'寫入權限（寄信、刪檔、付款）務必保留人工確認那一步。'}]},
+      {t:'Vibe Coding：把想法直接說成網站', s:'本集示範：多層次 index.html 學習地圖',
+       blocks:[
+        {h:'核心觀念',ul:[
+          '不寫程式碼，用<b>描述 + 迭代</b>做出可用網頁：說清楚「給誰用、長怎樣、有哪些層」。',
+          '單檔 HTML（免安裝、免後端）是最容易分享的形態：GitHub Pages / Drive 就能上線。',
+          '參考範例：akira.ipas-ai.com 的互動式學習地圖——首頁卡片 → 章節 → 主題 → 細節的多層結構。']},
+        {h:'交辦模板',prompt:'請幫我做一個單檔 HTML 學習地圖：\n1. 深色科技風、霓虹漸層、卡片式首頁\n2. 四大章節，點卡片進入章節頁（麵包屑導航）\n3. 章節內用手風琴展開每個技能：重點/步驟/範例\n4. 全站關鍵字搜尋 + 學習進度打勾（localStorage）\n5. 手機優先、繁體中文'},
+        {h:'一句話記憶',p:'「會描述，就會做網站。」'}]}
+    ]
+  },
+  auto: {
+    key:'auto', color:'var(--green)', emoji:'⚙️', code:'CHAPTER 04', title:'自動化篇',
+    intro:'技能學完，最後一哩是「讓它自己跑」。自動化的心法是三段式：觸發（什麼時候動）→ 處理（AI 做什麼）→ 輸出（結果送去哪）。這一章盤點上半年最實用的自動化積木。',
+    topics:[
+      {t:'自動化思維：觸發 → 處理 → 輸出', s:'先畫流程，再挑工具',
+       blocks:[
+        {h:'核心觀念',ul:[
+          '所有自動化都是同一句話：「<b>當…發生，就用 AI 做…，然後把結果放到…</b>」。',
+          '先手動跑通一次流程，才值得自動化——自動化只是把成功的流程接上排程。',
+          '衡量標準：每週重複 ≥ 2 次、規則講得清楚的事，優先自動化。']},
+        {h:'一句話記憶',p:'「先流程、後工具；先手動、後自動。」'}]},
+      {t:'n8n 工作流入門', s:'視覺化節點，把 AI 接進日常系統',
+       blocks:[
+        {h:'核心能力',ul:[
+          '拉節點連線就能組流程：<b>表單進來 → AI 分類 → 寫入試算表 → 發通知</b>。',
+          'AI 節點可接多家模型；HTTP 節點萬用，什麼服務都能接。',
+          '可自架（免費）也有雲端版，是目前中文社群資源最多的選擇之一。']},
+        {h:'第一條流程建議',steps:[
+          '選一個「每天都在做的搬運」：如把客戶來信整理進表格。',
+          '節點三顆就好：<b>Trigger（Gmail）→ AI（摘要+分類）→ Sheets（寫入）</b>。',
+          '跑順一週後，再加通知與例外處理。']}]},
+      {t:'Google Apps Script 與擴充功能', s:'不架伺服器，讓試算表、Gmail 自己動起來',
+       blocks:[
+        {h:'核心能力',ul:[
+          'Workspace 內建的免費自動化：試算表函式、定時觸發、寄信、做選單。',
+          '搭配 AI 寫 code：描述需求 → 貼上 Apps Script → 授權執行，全程不用會 JS。',
+          '進階：打包成 Google 擴充功能分享給團隊（本系列 EP17 從零到上線）。']},
+        {h:'範例交辦',prompt:'幫我寫 Google Apps Script：\n每天 08:00 讀取「客服回報」試算表新增列，\n用 AI 產生 50 字摘要與急迫度(高中低)，\n回寫到同列 E、F 欄，急迫度=高就寄信通知我。'}]},
+      {t:'會議紀錄字幕工作流', s:'錄音進、決議出：一條龍會議後製',
+       blocks:[
+        {h:'標準流程',steps:[
+          '錄影/錄音 → 自動轉逐字稿（含時間戳）。',
+          'AI 整理：<b>決議、待辦（負責人+期限）、爭點</b>三段式輸出。',
+          '自動存檔知識庫 + 寄給與會者，開完會 10 分鐘內送達。']},
+        {h:'小提醒',tip:'逐字稿存起來就是公司的長期記憶——之後任何「上次怎麼說的？」都能用 AI 查。'}]},
+      {t:'排程代理與自動信件漏斗', s:'讓 Agent 定時醒來幫你巡邏',
+       blocks:[
+        {h:'核心觀念',ul:[
+          '<b>排程 + Agent</b>：每天固定時間讓 AI 巡一輪（收件匣、報表、網站狀態），有異常才叫你。',
+          '<b>信件漏斗</b>：名單 → 分眾 → AI 個人化信件 → 自動寄送與追蹤，銷售流程半自動化。',
+          '心法不變：人負責決策與例外，AI 負責重複與整理。']},
+        {h:'一句話記憶',p:'「你睡覺的時候，流程還在上班。」'}]}
+    ]
+  }
+};
+
+/* ═══════════ 渲染 ═══════════ */
+const ORDER = ['text','image','agent','auto'];
+const $ = s=>document.querySelector(s);
+
+function renderChapter(ch){
+  const d = DATA[ch];
+  const next = ORDER[(ORDER.indexOf(ch)+1)%ORDER.length];
+  const prev = ORDER[(ORDER.indexOf(ch)+3)%ORDER.length];
+  let html = `
+  <div class="chapter-head">
+    <span class="emoji">${d.emoji}</span>
+    <div><h2><em>${d.code}</em>${d.title}</h2><p>${d.intro}</p></div>
+  </div>`;
+  d.topics.forEach((tp,i)=>{
+    const id = `${ch}-${i}`;
+    html += `
+    <div class="topic" id="topic-${id}">
+      <div class="topic-head" onclick="toggleTopic('${id}')">
+        <span class="num">${i+1}</span>
+        <h4>${tp.t}<small>${tp.s}</small></h4>
+        <input type="checkbox" data-skill="${id}" title="學會了就打勾" onclick="event.stopPropagation()" onchange="setDone('${id}',this.checked)">
+        <span class="chev">▶</span>
+      </div>
+      <div class="topic-body"><div class="topic-inner">`;
+    tp.blocks.forEach(b=>{
+      html += `<div class="block"><h5>${b.h}</h5>`;
+      if(b.p) html += `<p>${b.p}</p>`;
+      if(b.ul) html += `<ul class="points">${b.ul.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+      if(b.steps) html += `<ol class="steps">${b.steps.map(x=>`<li><span>${x}</span></li>`).join('')}</ol>`;
+      if(b.prompt) html += `<div class="promptbox">${b.prompt}</div>`;
+      if(b.table) html += `<div class="tablewrap"><table class="cmp"><thead><tr>${b.table.head.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${b.table.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+      if(b.tip) html += `<div class="callout tip"><span class="ic">💡</span><span>${b.tip}</span></div>`;
+      if(b.warn) html += `<div class="callout warn"><span class="ic">⚠️</span><span>${b.warn}</span></div>`;
+      html += `</div>`;
+    });
+    html += `</div></div></div>`;
+  });
+  html += `
+  <div class="chapnav">
+    <a onclick="showChapter('${prev}')">‹ 上一章<b>${DATA[prev].emoji} ${DATA[prev].title}</b></a>
+    <a onclick="showHome()" style="text-align:center">回總覽<b>🏠 四大篇章</b></a>
+    <a onclick="showChapter('${next}')" style="text-align:right">下一章 ›<b>${DATA[next].emoji} ${DATA[next].title}</b></a>
+  </div>`;
+  $('#view-'+ch).innerHTML = html;
+}
+ORDER.forEach(renderChapter);
+
+/* ═══════════ 導航 ═══════════ */
+function switchView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  $('#view-'+id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showHome(){
+  switchView('home');
+  $('#crumbs').style.display='none';
+  clearSearch();
+}
+function showChapter(ch){
+  switchView(ch);
+  $('#crumbs').style.display='flex';
+  $('#crumbHere').textContent = `${DATA[ch].emoji} ${DATA[ch].title}`;
+  clearSearch();
+  syncChecks();
+}
+function toggleTopic(id){ $('#topic-'+id).classList.toggle('open'); }
+function openTopic(ch,i){
+  showChapter(ch);
+  const el = $('#topic-'+ch+'-'+i);
+  el.classList.add('open');
+  setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);
+}
+
+/* ═══════════ 進度（localStorage） ═══════════ */
+const KEY='ep44-skills-v1';
+const store = ()=>JSON.parse(localStorage.getItem(KEY)||'{}');
+function setDone(id,val){
+  const s = store(); if(val) s[id]=1; else delete s[id];
+  localStorage.setItem(KEY,JSON.stringify(s));
+  updateProgress();
+}
+const TOTAL = ORDER.reduce((n,ch)=>n+DATA[ch].topics.length,0);
+function updateProgress(){
+  const done = Object.keys(store()).length;
+  const pct = Math.round(done/TOTAL*100);
+  $('#progFill').style.width = pct+'%';
+  $('#progText').textContent = `${done} / ${TOTAL} 項技能已掌握`;
+  $('#statDone').textContent = done;
+  $('#statPct').textContent = pct+'%';
+  ORDER.forEach(ch=>{
+    const sub = DATA[ch].topics.filter((_,i)=>store()[ch+'-'+i]).length;
+    const el = document.querySelector(`[data-mini="${ch}"]`);
+    if(el) el.style.width = Math.round(sub/DATA[ch].topics.length*100)+'%';
+  });
+}
+function syncChecks(){
+  const s = store();
+  document.querySelectorAll('input[data-skill]').forEach(cb=>{ cb.checked = !!s[cb.dataset.skill]; });
+}
+function resetProgress(){
+  if(confirm('確定要清空所有打勾進度嗎？')){ localStorage.removeItem(KEY); syncChecks(); updateProgress(); }
+}
+
+/* ═══════════ 搜尋 ═══════════ */
+function stripTags(s){ return s.replace(/<[^>]+>/g,''); }
+const INDEX = [];
+ORDER.forEach(ch=>DATA[ch].topics.forEach((tp,i)=>{
+  let body = tp.s+' ';
+  tp.blocks.forEach(b=>{
+    if(b.p) body+=stripTags(b.p)+' ';
+    if(b.ul) body+=b.ul.map(stripTags).join(' ')+' ';
+    if(b.steps) body+=b.steps.map(stripTags).join(' ')+' ';
+    if(b.prompt) body+=b.prompt+' ';
+    if(b.tip) body+=stripTags(b.tip)+' ';
+    if(b.warn) body+=stripTags(b.warn)+' ';
+    if(b.table) body+=b.table.rows.flat().map(stripTags).join(' ')+' ';
+  });
+  INDEX.push({ch,i,title:tp.t,body});
+}));
+$('#searchInput').addEventListener('input',e=>{
+  const q = e.target.value.trim();
+  const box = $('#searchResults');
+  if(!q){ box.classList.remove('show'); box.innerHTML=''; return; }
+  const hits = INDEX.filter(x=>(x.title+x.body).toLowerCase().includes(q.toLowerCase()));
+  box.classList.add('show');
+  if(!hits.length){ box.innerHTML = `<div class="sr-empty">找不到「${q}」，換個關鍵字試試（例：YAML、Agent、n8n）</div>`; return; }
+  const hl = s=>s.replace(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),m=>`<mark>${m}</mark>`);
+  box.innerHTML = hits.map(x=>{
+    const pos = x.body.toLowerCase().indexOf(q.toLowerCase());
+    const snip = x.body.substr(Math.max(0,pos-20),90);
+    return `<div class="sr-item" onclick="openTopic('${x.ch}',${x.i})">
+      <div class="path">${DATA[x.ch].emoji} ${DATA[x.ch].title} › 技能 ${x.i+1}</div>
+      <h6>${hl(x.title)}</h6><p>…${hl(snip)}…</p></div>`;
+  }).join('');
+});
+function clearSearch(){ $('#searchInput').value=''; $('#searchResults').classList.remove('show'); $('#searchResults').innerHTML=''; }
+
+/* ═══════════ 星點 ═══════════ */
+(function(){
+  const box = $('#stars');
+  for(let i=0;i<70;i++){
+    const s = document.createElement('i');
+    s.style.left = Math.random()*100+'%';
+    s.style.top = Math.random()*100+'%';
+    s.style.animationDelay = (Math.random()*3)+'s';
+    s.style.transform = `scale(${.5+Math.random()*1.5})`;
+    box.appendChild(s);
+  }
+})();
+
+syncChecks(); updateProgress();
+</script>
+</body>
+</html>

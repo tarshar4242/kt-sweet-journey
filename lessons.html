@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>課程筆記總覽｜Learn AI with Tarshar</title>
+<meta name="description" content="晨學講堂課後筆記館：每一堂課一份詳細課堂筆記＋一張互動學習地圖">
+<style>
+:root{
+  --bg:#0a0e1a; --bg2:#0f1526; --panel:#141b30;
+  --line:rgba(120,160,255,.16); --line2:rgba(120,160,255,.32);
+  --txt:#e8eeff; --txt2:#9fb0d8; --txt3:#6b7ba3;
+  --cyan:#38e1ff; --purple:#a06bff; --pink:#ff5fa8; --green:#3ddc97;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  background:var(--bg);color:var(--txt);min-height:100vh;
+  background-image:radial-gradient(1000px 500px at 85% -5%,rgba(79,124,255,.15),transparent 60%),
+  radial-gradient(800px 450px at 5% 15%,rgba(160,107,255,.12),transparent 60%);background-attachment:fixed}
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0}
+.stars i{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:.22;animation:tw 3s infinite alternate}
+@keyframes tw{from{opacity:.06}to{opacity:.45}}
+header{position:relative;z-index:1;text-align:center;padding:64px 20px 30px}
+header .brand{display:inline-block;font-size:12.5px;letter-spacing:3px;color:var(--cyan);
+  border:1px solid rgba(56,225,255,.4);background:rgba(56,225,255,.07);border-radius:999px;padding:6px 18px;margin-bottom:20px}
+header h1{font-size:clamp(28px,5vw,46px);font-weight:900;line-height:1.3;
+  background:linear-gradient(92deg,#fff 15%,var(--cyan) 50%,var(--purple) 85%);-webkit-background-clip:text;background-clip:text;color:transparent}
+header p{margin:14px auto 0;max-width:560px;color:var(--txt2);font-size:15px;line-height:1.9}
+main{position:relative;z-index:1;max-width:1000px;margin:20px auto 0;padding:0 20px 40px}
+.count{font-size:13px;color:var(--txt3);letter-spacing:1px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.course{position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  background:linear-gradient(165deg,var(--panel),var(--bg2));transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column}
+.course:hover{transform:translateY(-5px);border-color:var(--c,var(--cyan));box-shadow:0 16px 44px -16px var(--c,rgba(56,225,255,.4))}
+.course .top{height:4px;background:linear-gradient(90deg,transparent,var(--c,var(--cyan)),transparent)}
+.course .body{padding:22px 22px 18px;flex:1}
+.course .ep{font-size:11.5px;letter-spacing:2px;color:var(--c,var(--cyan));font-weight:700}
+.course h2{font-size:19px;font-weight:800;margin:8px 0 8px;line-height:1.5}
+.course p.desc{font-size:13.5px;color:var(--txt2);line-height:1.8}
+.course .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.course .tags span{font-size:11.5px;color:var(--txt3);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.course .date{font-size:12px;color:var(--txt3);margin-top:10px}
+.course .links{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border-top:1px solid var(--line)}
+.course .links a{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;
+  padding:14px 8px;font-size:13.5px;font-weight:700;color:var(--txt2);background:var(--bg2);transition:.2s}
+.course .links a:hover{color:var(--c,var(--cyan));background:var(--panel)}
+.course.soon{opacity:.55;border-style:dashed}
+.course.soon .body{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:190px;text-align:center}
+.course.soon .plus{font-size:34px;color:var(--txt3)}
+.course.soon p{color:var(--txt3);font-size:13px;margin-top:8px;line-height:1.8}
+footer{position:relative;z-index:1;text-align:center;color:var(--txt3);font-size:12.5px;padding:34px 20px 48px;border-top:1px solid var(--line);margin-top:30px;line-height:2}
+footer a{color:var(--txt2)}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+
+<header>
+  <span class="brand">🍀 LEARN AI WITH TARSHAR · 晨學講堂筆記館</span>
+  <h1>課程筆記總覽</h1>
+  <p>每一堂課，兩個交付物：一份可對照錄影的<b>詳細課堂筆記</b>，一張可打勾追蹤的<b>互動學習地圖</b>。一課一卡，慢慢集滿。</p>
+</header>
+
+<main>
+  <div class="count" id="count"></div>
+  <div class="grid" id="courseGrid">
+
+    <!-- ══ 課程卡片區：新課程往上加（最新在最前） ══ -->
+
+    <div class="course" style="--c:var(--purple)">
+      <div class="top"></div>
+      <div class="body">
+        <span class="ep">EP44 · 晨學講堂</span>
+        <h2>2026 上半年一定會的 AI 技能</h2>
+        <p class="desc">半年總體檢：文字、生圖、AI Agent、自動化四大主線，20 項核心技能一次收斂。</p>
+        <div class="tags"><span>✍️ 文字</span><span>🎨 生圖</span><span>🤖 Agent</span><span>⚙️ 自動化</span></div>
+        <div class="date">📅 2026/07/03 直播</div>
+      </div>
+      <div class="links">
+        <a href="ep44-notes.html">📝 課堂筆記</a>
+        <a href="ep44-ai-skills.html">🗺️ 互動地圖</a>
+      </div>
+    </div>
+
+    <div class="course soon">
+      <div class="top"></div>
+      <div class="body">
+        <span class="plus">＋</span>
+        <p>下一堂課籌備中<br>把新課程的講義資料夾丟給 AI<br>就會自動出現在這裡</p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  🍀 Learn AI with Tarshar ♥ 2026<br>
+  <a href="kt-sweet-journey.html">K&T 甜蜜日之旅（旅程手冊）</a>｜<a href="interpreter.html">隨身口譯機</a>
+</footer>
+
+<script>
+(function(){
+  const box = document.getElementById('stars');
+  for(let i=0;i<60;i++){
+    const s=document.createElement('i');
+    s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=(Math.random()*3)+'s';box.appendChild(s);
+  }
+  const n = document.querySelectorAll('.course:not(.soon)').length;
+  document.getElementById('count').textContent = `目前收錄 ${n} 堂課`;
+})();
+</script>
+</body>
+</html>
