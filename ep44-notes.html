@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EP44 課堂筆記｜2026 上半年一定會的 AI 技能</title>
+<meta name="description" content="晨學講堂 EP44 詳細課堂筆記：文字篇、生圖篇、AI Agent 篇、自動化篇——含簡報預覽、錄影回放與圖解">
+<style>
+:root{
+  --paper:#faf7f2; --card:#ffffff; --ink:#2b2a33; --ink2:#5a5866; --ink3:#8a879a;
+  --line:#e7e2d8; --accent:#5b4fd6; --accent2:#8b7ff0;
+  --cyan:#0aa6c9; --pink:#d4508e; --purple:#7a4fd6; --green:#1d9e6f; --amber:#c98a0a;
+  --code:#f4f1fb;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.9}
+a{color:var(--accent)}
+/* ── 頂欄 ── */
+.topbar{position:sticky;top:0;z-index:40;background:rgba(250,247,242,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:10px 20px;display:flex;align-items:center;gap:14px}
+.topbar b{font-size:15px}
+.topbar .right{margin-left:auto;display:flex;gap:8px}
+.topbar a.btn{font-size:12.5px;text-decoration:none;border:1px solid var(--line);border-radius:9px;padding:7px 13px;color:var(--ink2);background:#fff;white-space:nowrap}
+.topbar a.btn:hover{border-color:var(--accent);color:var(--accent)}
+/* ── Hero ── */
+.hero{max-width:900px;margin:0 auto;padding:52px 22px 10px;text-align:center}
+.hero .ep{display:inline-block;font-size:12.5px;letter-spacing:3px;color:var(--accent);border:1px solid var(--accent2);border-radius:999px;padding:5px 16px;background:#f1eefc;margin-bottom:18px}
+.hero h1{font-size:clamp(26px,4.6vw,42px);font-weight:900;line-height:1.35}
+.hero h1 span{background:linear-gradient(90deg,var(--purple),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .meta{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px;font-size:12.5px;color:var(--ink2)}
+.hero .meta span{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px}
+/* ── 版面：TOC + 內文 ── */
+.layout{max-width:1120px;margin:30px auto 0;padding:0 22px;display:grid;grid-template-columns:230px 1fr;gap:34px;align-items:start}
+nav.toc{position:sticky;top:66px;border:1px solid var(--line);border-radius:14px;background:var(--card);padding:16px 14px;font-size:13.5px}
+nav.toc .t{font-size:12px;letter-spacing:2px;color:var(--ink3);margin-bottom:10px}
+nav.toc a{display:block;color:var(--ink2);text-decoration:none;padding:6px 10px;border-radius:8px;border-left:3px solid transparent}
+nav.toc a:hover{background:#f4f1fb;color:var(--accent)}
+nav.toc a.sub{padding-left:24px;font-size:12.8px}
+article{min-width:0}
+/* ── 章節 ── */
+section.chapter{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 32px;margin-bottom:26px;scroll-margin-top:70px}
+.chip{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:2px;font-weight:700;color:#fff;border-radius:999px;padding:5px 14px;margin-bottom:12px}
+h2.ct{font-size:24px;font-weight:900;margin-bottom:4px}
+p.cd{color:var(--ink2);font-size:14px;margin-bottom:8px}
+h3{font-size:18px;font-weight:800;margin:30px 0 10px;padding-left:12px;border-left:4px solid var(--accent)}
+h4{font-size:15.5px;font-weight:700;margin:20px 0 8px;color:var(--ink)}
+p{font-size:14.5px;color:var(--ink2)}
+p b,li b{color:var(--ink)}
+ul.pt{list-style:none;margin:8px 0}
+ul.pt li{position:relative;padding:5px 0 5px 24px;font-size:14.5px;color:var(--ink2)}
+ul.pt li::before{content:"◆";position:absolute;left:4px;font-size:9px;top:12px;color:var(--accent2)}
+ol.st{margin:8px 0 8px 4px;counter-reset:n;list-style:none}
+ol.st li{counter-increment:n;position:relative;padding:6px 0 6px 34px;font-size:14.5px;color:var(--ink2)}
+ol.st li::before{content:counter(n);position:absolute;left:0;top:8px;width:23px;height:23px;border-radius:7px;background:var(--accent);color:#fff;font-size:12.5px;font-weight:800;display:grid;place-items:center}
+.prompt{background:var(--code);border:1px solid #ddd6f5;border-left:4px solid var(--accent);border-radius:10px;padding:13px 16px;font-family:"Cascadia Code",Consolas,monospace;font-size:12.6px;color:#3d3564;white-space:pre-wrap;line-height:1.8;margin:10px 0;overflow-x:auto}
+.note{display:flex;gap:10px;border-radius:12px;padding:12px 15px;font-size:13.5px;margin:12px 0;line-height:1.85}
+.note.gold{background:#fdf6e7;border:1px solid #eeddb4;color:#7a5b12}
+.note.blue{background:#eef6fd;border:1px solid #c9e3f7;color:#1d5e8f}
+.note.green{background:#eafaf2;border:1px solid #bfe8d4;color:#166a4c}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin:10px 0}
+th{background:#f4f1fb;padding:9px 12px;text-align:left;font-size:12.8px;border:1px solid var(--line);color:var(--ink)}
+td{padding:9px 12px;border:1px solid var(--line);color:var(--ink2)}
+.twrap{overflow-x:auto;border-radius:10px}
+/* 圖解 */
+figure.diagram{margin:18px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+figure.diagram svg{display:block;width:100%;height:auto}
+figure.diagram figcaption{font-size:12.5px;color:var(--ink3);padding:10px 16px;border-top:1px dashed var(--line);background:#fcfaf6}
+/* 內嵌 Drive */
+.embed{margin:14px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#111}
+.embed iframe{display:block;width:100%;aspect-ratio:16/9;border:0}
+.embed .cap{font-size:12.5px;color:var(--ink3);padding:10px 16px;background:#fcfaf6;border-top:1px solid var(--line)}
+.golden{background:linear-gradient(120deg,#f6f2ff,#fdf0f7);border:1px solid #e3d9fb;border-radius:14px;padding:16px 20px;margin:16px 0}
+.golden .q{font-size:16px;font-weight:800;color:var(--purple)}
+.golden .a{font-size:13px;color:var(--ink2);margin-top:4px}
+footer{max-width:1120px;margin:20px auto 0;padding:30px 22px 50px;text-align:center;color:var(--ink3);font-size:12.5px;line-height:2}
+@media (max-width:900px){ .layout{grid-template-columns:1fr} nav.toc{position:static} section.chapter{padding:22px 18px} }
+@media print{ .topbar,nav.toc{display:none} .layout{grid-template-columns:1fr} body{background:#fff} }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <b>📝 EP44 課堂筆記</b>
+  <div class="right">
+    <a class="btn" href="ep44-ai-skills.html">🗺️ 互動技能地圖</a>
+    <a class="btn" href="https://drive.google.com/drive/folders/1nOGbITVV41m0mNoHz14Vdn4Q9_RUe1cb" target="_blank" rel="noopener">🗂️ 原始資料夾</a>
+  </div>
+</div>
+
+<header class="hero">
+  <span class="ep">生成式AI應用電台 · 晨學講堂 · EP44</span>
+  <h1>「2026 年上半年<span>一定會的 AI 技能</span>」<br>詳細課堂筆記</h1>
+  <div class="meta">
+    <span>📅 2026/07/03（五）20:19 開播</span>
+    <span>⏱️ 錄影全長約 100 分鐘</span>
+    <span>🗂️ 文字 · 生圖 · Agent · 自動化</span>
+  </div>
+</header>
+
+<div class="layout">
+<nav class="toc">
+  <div class="t">目 錄</div>
+  <a href="#sec-info">0. 課程資訊與教材</a>
+  <a href="#sec-map">1. 一頁看懂全課程</a>
+  <a href="#sec-text">2. 第一章 文字篇</a>
+  <a class="sub" href="#t-evo">2.1 提示三段進化</a>
+  <a class="sub" href="#t-yaml">2.2 YAML 控制輸出</a>
+  <a class="sub" href="#t-nlm">2.3 NotebookLM 知識庫</a>
+  <a class="sub" href="#t-sum">2.4 巨量摘要精煉</a>
+  <a href="#sec-image">3. 第二章 生圖篇</a>
+  <a class="sub" href="#i-card">3.1 風格圖卡系統</a>
+  <a class="sub" href="#i-face">3.2 一致性人物</a>
+  <a class="sub" href="#i-slide">3.3 簡報視覺化</a>
+  <a class="sub" href="#i-video">3.4 影片生成入門</a>
+  <a href="#sec-agent">4. 第三章 AI Agent 篇</a>
+  <a class="sub" href="#a-what">4.1 Agent 是什麼</a>
+  <a class="sub" href="#a-cc">4.2 Claude Code</a>
+  <a class="sub" href="#a-oc">4.3 OpenCode 平替</a>
+  <a class="sub" href="#a-mcp">4.4 MCP 工具生態</a>
+  <a class="sub" href="#a-vibe">4.5 Vibe Coding 實作</a>
+  <a href="#sec-auto">5. 第四章 自動化篇</a>
+  <a class="sub" href="#u-mind">5.1 自動化思維</a>
+  <a class="sub" href="#u-n8n">5.2 n8n 工作流</a>
+  <a class="sub" href="#u-gas">5.3 Apps Script</a>
+  <a class="sub" href="#u-meet">5.4 會議紀錄流水線</a>
+  <a href="#sec-check">6. 課後自我檢核</a>
+  <a href="#sec-src">7. 資料來源與說明</a>
+</nav>
+
+<article>
+
+<!-- ═══ 0 課程資訊 ═══ -->
+<section class="chapter" id="sec-info">
+  <span class="chip" style="background:linear-gradient(90deg,var(--purple),var(--pink))">COURSE INFO</span>
+  <h2 class="ct">0. 課程資訊與教材</h2>
+  <div class="twrap"><table>
+    <tr><th style="width:110px">課程名稱</th><td>EP44_「2026 年上半年一定會的 AI 技能」</td></tr>
+    <tr><th>頻道</th><td>生成式 AI 應用電台・晨學講堂（morninglearningseries）</td></tr>
+    <tr><th>直播時間</th><td>2026/07/03（五）20:19 CST 起，全長約 100 分鐘</td></tr>
+    <tr><th>課程定位</th><td>半年度總複習：把 2026 上半年各集主題收斂成四大必修技能主線</td></tr>
+    <tr><th>四大篇章</th><td>✍️ 文字篇　🎨 生圖篇　🤖 AI Agent 篇　⚙️ 自動化篇（簡報原始章節）</td></tr>
+  </table></div>
+
+  <h3>📊 課程簡報（可直接翻頁預覽）</h3>
+  <div class="embed">
+    <iframe src="https://drive.google.com/file/d/10MbFHlGMs_1ISJXDcX9vFdMFlI6JgyWj/preview" allow="autoplay" loading="lazy" title="EP44 課程簡報預覽"></iframe>
+    <div class="cap">簡報_EP44_2026年上半年一定會的AI技能.pptx（25MB，滿版圖解型簡報）— 需以你的 Google 帳號登入才會顯示。<a href="https://drive.google.com/file/d/10MbFHlGMs_1ISJXDcX9vFdMFlI6JgyWj/view" target="_blank" rel="noopener">在 Drive 開啟 ↗</a></div>
+  </div>
+
+  <h3>🎬 錄影回放（可直接播放）</h3>
+  <div class="embed">
+    <iframe src="https://drive.google.com/file/d/1qpIe2YcVoOew7REmSrv8qHhrekWD-ZVz/preview" allow="autoplay" loading="lazy" title="EP44 錄影回放"></iframe>
+    <div class="cap">錄影回放_EP44（608MB）— 需登入 Google 帳號。備用來源：<a href="https://drive.google.com/file/d/1JN_7ioqD19TkDEeb26vauFZVm47a2FXu/view" target="_blank" rel="noopener">原始分享錄影 ↗</a>｜<a href="https://drive.google.com/drive/folders/1nOGbITVV41m0mNoHz14Vdn4Q9_RUe1cb" target="_blank" rel="noopener">EP44 原始資料夾 ↗</a></div>
+  </div>
+  <div class="note blue">💡 建議搭配方式：左手開錄影回放、右手開<a href="ep44-ai-skills.html">互動技能地圖</a>，聽到一項技能就在地圖上打一個勾，看完課進度條也跑完。</div>
+</section>
+
+<!-- ═══ 1 全景圖 ═══ -->
+<section class="chapter" id="sec-map">
+  <span class="chip" style="background:linear-gradient(90deg,var(--cyan),var(--purple))">OVERVIEW</span>
+  <h2 class="ct">1. 一頁看懂全課程</h2>
+  <p class="cd">這堂課的骨架非常清楚：一個核心問題（2026 上半年，哪些 AI 能力已經是「標配」？）＋四條技能主線。四章不是並列的工具清單，而是一條由淺入深的路徑：先把「說話」練好（文字），再把「視覺」建成系統（生圖），然後把工作「交辦」出去（Agent），最後讓一切「自己跑」（自動化）。</p>
+  <figure class="diagram">
+    <svg viewBox="0 0 920 430" xmlns="http://www.w3.org/2000/svg" font-family="'Noto Sans TC',sans-serif">
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0aa6c9"/><stop offset="1" stop-color="#5b4fd6"/></linearGradient>
+        <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d4508e"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient>
+        <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7a4fd6"/><stop offset="1" stop-color="#4f7cff"/></linearGradient>
+        <linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1d9e6f"/><stop offset="1" stop-color="#0aa6c9"/></linearGradient>
+        <marker id="arw" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#b9b3d9"/></marker>
+      </defs>
+      <rect width="920" height="430" fill="#fbfaff"/>
+      <text x="460" y="44" text-anchor="middle" font-size="21" font-weight="900" fill="#2b2a33">EP44 · 2026 上半年一定會的 AI 技能 — 全景地圖</text>
+      <ellipse cx="460" cy="105" rx="200" ry="34" fill="#f1eefc" stroke="#c9bff2"/>
+      <text x="460" y="112" text-anchor="middle" font-size="14.5" font-weight="700" fill="#5b4fd6">核心問題：哪些 AI 能力已成為 2026 的「標配」？</text>
+      <line x1="250" y1="145" x2="140" y2="190" stroke="#b9b3d9" stroke-width="2" marker-end="url(#arw)"/>
+      <line x1="390" y1="150" x2="360" y2="190" stroke="#b9b3d9" stroke-width="2" marker-end="url(#arw)"/>
+      <line x1="530" y1="150" x2="560" y2="190" stroke="#b9b3d9" stroke-width="2" marker-end="url(#arw)"/>
+      <line x1="670" y1="145" x2="780" y2="190" stroke="#b9b3d9" stroke-width="2" marker-end="url(#arw)"/>
+      <g>
+        <rect x="30" y="196" width="205" height="170" rx="16" fill="url(#g1)"/>
+        <text x="132" y="232" text-anchor="middle" font-size="17" font-weight="900" fill="#fff">✍️ 文字篇</text>
+        <text x="132" y="262" text-anchor="middle" font-size="12" fill="#e8faff">Prompt→Context→Harness</text>
+        <text x="132" y="286" text-anchor="middle" font-size="12" fill="#e8faff">YAML 結構化輸出</text>
+        <text x="132" y="310" text-anchor="middle" font-size="12" fill="#e8faff">NotebookLM 知識庫</text>
+        <text x="132" y="334" text-anchor="middle" font-size="12" fill="#e8faff">巨量摘要精煉</text>
+      </g>
+      <g>
+        <rect x="252" y="196" width="205" height="170" rx="16" fill="url(#g2)"/>
+        <text x="354" y="232" text-anchor="middle" font-size="17" font-weight="900" fill="#fff">🎨 生圖篇</text>
+        <text x="354" y="262" text-anchor="middle" font-size="12" fill="#ffeef6">風格圖卡（智慧漁網）</text>
+        <text x="354" y="286" text-anchor="middle" font-size="12" fill="#ffeef6">一致性人物置換</text>
+        <text x="354" y="310" text-anchor="middle" font-size="12" fill="#ffeef6">簡報/資訊圖表視覺化</text>
+        <text x="354" y="334" text-anchor="middle" font-size="12" fill="#ffeef6">影片生成・API 批量</text>
+      </g>
+      <g>
+        <rect x="474" y="196" width="205" height="170" rx="16" fill="url(#g3)"/>
+        <text x="576" y="232" text-anchor="middle" font-size="17" font-weight="900" fill="#fff">🤖 AI Agent 篇</text>
+        <text x="576" y="262" text-anchor="middle" font-size="12" fill="#efe9ff">Chatbot→Copilot→Agent</text>
+        <text x="576" y="286" text-anchor="middle" font-size="12" fill="#efe9ff">Claude Code / OpenCode</text>
+        <text x="576" y="310" text-anchor="middle" font-size="12" fill="#efe9ff">MCP・Skills 生態</text>
+        <text x="576" y="334" text-anchor="middle" font-size="12" fill="#efe9ff">Vibe Coding 做網站</text>
+      </g>
+      <g>
+        <rect x="696" y="196" width="195" height="170" rx="16" fill="url(#g4)"/>
+        <text x="793" y="232" text-anchor="middle" font-size="17" font-weight="900" fill="#fff">⚙️ 自動化篇</text>
+        <text x="793" y="262" text-anchor="middle" font-size="12" fill="#e8fff5">觸發→處理→輸出</text>
+        <text x="793" y="286" text-anchor="middle" font-size="12" fill="#e8fff5">n8n / Apps Script</text>
+        <text x="793" y="310" text-anchor="middle" font-size="12" fill="#e8fff5">會議紀錄流水線</text>
+        <text x="793" y="334" text-anchor="middle" font-size="12" fill="#e8fff5">排程代理・信件漏斗</text>
+      </g>
+      <line x1="235" y1="281" x2="252" y2="281" stroke="#b9b3d9" stroke-width="2.5" marker-end="url(#arw)"/>
+      <line x1="457" y1="281" x2="474" y2="281" stroke="#b9b3d9" stroke-width="2.5" marker-end="url(#arw)"/>
+      <line x1="679" y1="281" x2="696" y2="281" stroke="#b9b3d9" stroke-width="2.5" marker-end="url(#arw)"/>
+      <text x="460" y="404" text-anchor="middle" font-size="13.5" fill="#8a879a">學習路徑：先會「說」→ 再建「視覺系統」→ 然後「交辦」→ 最後「自動跑」</text>
+    </svg>
+    <figcaption>圖 1｜EP44 課程全景：一個核心問題、四條技能主線（依據課程簡報章節結構重繪）</figcaption>
+  </figure>
+  <div class="golden"><div class="q">「工具每季都在換，能力的分層不會換：會說、會看、會交辦、會自動。」</div><div class="a">—— 本課四章背後的共同邏輯</div></div>
+</section>
+
+<!-- ═══ 2 文字篇 ═══ -->
+<section class="chapter" id="sec-text">
+  <span class="chip" style="background:linear-gradient(90deg,#0aa6c9,#4f7cff)">CHAPTER 01</span>
+  <h2 class="ct">2. 第一章　✍️ 文字篇</h2>
+  <p class="cd">文字是所有 AI 應用的地基。這一章的主軸：把「碰運氣的問法」升級成「有結構的系統」。</p>
+
+  <h3 id="t-evo">2.1 提示工程三段進化：Prompt → Context → Harness</h3>
+  <figure class="diagram">
+    <svg viewBox="0 0 920 250" xmlns="http://www.w3.org/2000/svg" font-family="'Noto Sans TC',sans-serif">
+      <rect width="920" height="250" fill="#fbfaff"/>
+      <defs><marker id="arw2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#8a87c9"/></marker></defs>
+      <g>
+        <rect x="40" y="120" width="240" height="90" rx="14" fill="#e6f7fc" stroke="#0aa6c9" stroke-width="2"/>
+        <text x="160" y="152" text-anchor="middle" font-size="16" font-weight="900" fill="#087a94">L1 · Prompt</text>
+        <text x="160" y="177" text-anchor="middle" font-size="12.5" fill="#3b6b78">把一句話問好</text>
+        <text x="160" y="197" text-anchor="middle" font-size="12" fill="#3b6b78">角色・任務・格式・限制</text>
+      </g>
+      <g>
+        <rect x="340" y="75" width="240" height="90" rx="14" fill="#efeafd" stroke="#7a4fd6" stroke-width="2"/>
+        <text x="460" y="107" text-anchor="middle" font-size="16" font-weight="900" fill="#5b3bb0">L2 · Context</text>
+        <text x="460" y="132" text-anchor="middle" font-size="12.5" fill="#5a4d85">把背景餵好</text>
+        <text x="460" y="152" text-anchor="middle" font-size="12" fill="#5a4d85">範例・資料・規則・術語表</text>
+      </g>
+      <g>
+        <rect x="640" y="30" width="240" height="90" rx="14" fill="#fdeef5" stroke="#d4508e" stroke-width="2"/>
+        <text x="760" y="62" text-anchor="middle" font-size="16" font-weight="900" fill="#ab2f6b">L3 · Harness</text>
+        <text x="760" y="87" text-anchor="middle" font-size="12.5" fill="#8a4a68">把流程建好</text>
+        <text x="760" y="107" text-anchor="middle" font-size="12" fill="#8a4a68">模板＋檢核＋迭代迴圈</text>
+      </g>
+      <line x1="280" y1="150" x2="340" y2="125" stroke="#8a87c9" stroke-width="2.5" marker-end="url(#arw2)"/>
+      <line x1="580" y1="105" x2="640" y2="80" stroke="#8a87c9" stroke-width="2.5" marker-end="url(#arw2)"/>
+      <text x="160" y="235" text-anchor="middle" font-size="12" fill="#8a879a">品質靠運氣</text>
+      <text x="460" y="235" text-anchor="middle" font-size="12" fill="#8a879a">品質靠準備</text>
+      <text x="760" y="235" text-anchor="middle" font-size="12" fill="#8a879a">品質靠系統（可複用）</text>
+    </svg>
+    <figcaption>圖 2｜提示工程的三段進化階梯：越往右，產出品質越不依賴運氣（延伸自本系列 EP35「從 Prompt 到 Harness」）</figcaption>
+  </figure>
+  <ul class="pt">
+    <li><b>L1 Prompt：</b>四要素缺一不可——「你是誰（角色）、做什麼（任務）、長怎樣（格式）、不能怎樣（限制）」。先寫格式再寫任務，AI 就不會自由發揮。</li>
+    <li><b>L2 Context：</b>把滿意的舊回答存下來當範例（few-shot）、附上原始資料與術語表，讓 AI「進入狀況」再動筆。</li>
+    <li><b>L3 Harness：</b>同類任務問超過三次就模板化——存成 Gem／GPTs／專案自訂指令，加上「產出後自我檢查」的固定收尾。</li>
+  </ul>
+  <h4>課堂示範指令模板</h4>
+  <div class="prompt">【角色】你是一位資深行銷文案編輯
+【任務】把下面的產品說明改寫成 3 種語氣的社群貼文
+【格式】每則 80 字內，附 2 個 hashtag，用表格輸出
+【限制】不得出現誇大療效字眼；保留品牌名原文
+---（貼上原始素材）</div>
+
+  <h3 id="t-yaml">2.2 YAML 結構化輸出控制</h3>
+  <p>要讓 NotebookLM 資訊圖表、報告排版「乖乖聽話」，關鍵是把需求從形容詞變成<b>欄位</b>。YAML 是「人看得懂、AI 不會誤會」的中間格式，本系列 EP23、EP-YAML 專場都圍繞這招。</p>
+  <ul class="pt">
+    <li>五大應用場域：<b>文字規格、圖像風格、資訊圖表、報告編排、工作流定義</b>。</li>
+    <li>先請 AI「把我的需求整理成 YAML」→ 人工確認欄位 → 再生成，錯誤率大幅下降。</li>
+    <li>改版只改欄位值、不重寫整段話——版本差異一目了然，團隊也能接手。</li>
+  </ul>
+  <div class="prompt">infographic:
+  title: 2026 上半年 AI 技能總覽
+  style: 深色科技風, 霓虹漸層
+  layout: 四象限
+  sections:
+    - {name: 文字篇, icon: ✍️, points: [結構化指令, YAML, 知識庫]}
+  font: Noto Sans TC
+  output: 16:9 簡報頁</div>
+
+  <h3 id="t-nlm">2.3 NotebookLM 個人知識庫</h3>
+  <ul class="pt">
+    <li>把講義 PDF、網頁、影片連結、錄音統統丟進同一個 Notebook 當<b>來源</b>；回答一律附引用，不亂編。</li>
+    <li>一鍵轉換多種形態：學習指南、簡報大綱、時間軸、<b>語音摘要（播客）</b>、資訊圖表。</li>
+    <li>與 2.2 連動：用 YAML 規格卡控制它生出來的簡報與圖表版型。</li>
+  </ul>
+  <div class="note gold">⚠️ 來源品質決定答案品質——上傳前先清掉過時與重複的檔案，是最容易被忽略的一步。</div>
+
+  <h3 id="t-sum">2.4 巨量資料摘要精煉</h3>
+  <ol class="st">
+    <li>長文<b>切塊</b>：依章節或每 3–5 千字切一段。</li>
+    <li>逐段用<b>固定欄位</b>摘要（summary／numbers／quotes／todo）。</li>
+    <li>把所有段落摘要合併，做<b>最終總結論</b>——Map-Reduce 思維。</li>
+  </ol>
+  <p>摘要一定要帶「任務目的」：給主管的重點、給自己的筆記、給客戶的亮點，是三種不同的摘要。</p>
+  <div class="golden"><div class="q">「先分段消化、再統一格式，最後才做總結論。」</div><div class="a">文字篇金句</div></div>
+</section>
+
+<!-- ═══ 3 生圖篇 ═══ -->
+<section class="chapter" id="sec-image">
+  <span class="chip" style="background:linear-gradient(90deg,#d4508e,#8b5cf6)">CHAPTER 02</span>
+  <h2 class="ct">3. 第二章　🎨 生圖篇</h2>
+  <p class="cd">上半年生圖最大的觀念升級：從「一張一張抽卡」到「建立可複用的風格系統」。本系列 EP41 的口號說得最傳神——不只給漁獲、不只給釣竿，直接給你一張<b>智慧漁網</b>。</p>
+
+  <h3 id="i-card">3.1 風格圖卡系統（YAML 風格卡）</h3>
+  <figure class="diagram">
+    <svg viewBox="0 0 920 240" xmlns="http://www.w3.org/2000/svg" font-family="'Noto Sans TC',sans-serif">
+      <rect width="920" height="240" fill="#fffafc"/>
+      <defs><marker id="arw3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#d48ab0"/></marker></defs>
+      <rect x="35" y="70" width="180" height="100" rx="14" fill="#fdeef5" stroke="#d4508e" stroke-width="2"/>
+      <text x="125" y="105" text-anchor="middle" font-size="14.5" font-weight="800" fill="#ab2f6b">參考圖 / 喜歡的風格</text>
+      <text x="125" y="130" text-anchor="middle" font-size="12" fill="#8a4a68">請 AI 反推風格參數</text>
+      <line x1="215" y1="120" x2="270" y2="120" stroke="#d48ab0" stroke-width="2.5" marker-end="url(#arw3)"/>
+      <rect x="272" y="50" width="200" height="140" rx="14" fill="#f4ecff" stroke="#8b5cf6" stroke-width="2"/>
+      <text x="372" y="82" text-anchor="middle" font-size="14.5" font-weight="800" fill="#6d3fd1">風格 YAML 卡</text>
+      <text x="372" y="107" text-anchor="middle" font-size="11.5" fill="#5a4d85">palette / texture / layout</text>
+      <text x="372" y="127" text-anchor="middle" font-size="11.5" fill="#5a4d85">canvas / font / rule</text>
+      <text x="372" y="152" text-anchor="middle" font-size="11.5" fill="#5a4d85">＝可傳承的「好看」參數</text>
+      <line x1="472" y1="120" x2="527" y2="120" stroke="#d48ab0" stroke-width="2.5" marker-end="url(#arw3)"/>
+      <rect x="530" y="70" width="170" height="100" rx="14" fill="#eef6fd" stroke="#4f7cff" stroke-width="2"/>
+      <text x="615" y="105" text-anchor="middle" font-size="14.5" font-weight="800" fill="#2f57ab">打包成 Gem/GPT/Skill</text>
+      <text x="615" y="130" text-anchor="middle" font-size="12" fill="#4a5f8a">貼文章 → 出圖卡</text>
+      <line x1="700" y1="120" x2="755" y2="120" stroke="#d48ab0" stroke-width="2.5" marker-end="url(#arw3)"/>
+      <rect x="758" y="45" width="130" height="46" rx="10" fill="#fff" stroke="#e7c9d8"/>
+      <rect x="758" y="99" width="130" height="46" rx="10" fill="#fff" stroke="#e7c9d8"/>
+      <rect x="758" y="153" width="130" height="46" rx="10" fill="#fff" stroke="#e7c9d8"/>
+      <text x="823" y="73" text-anchor="middle" font-size="12" fill="#8a4a68">貼文圖 ×30 天</text>
+      <text x="823" y="127" text-anchor="middle" font-size="12" fill="#8a4a68">課程精華圖卡</text>
+      <text x="823" y="181" text-anchor="middle" font-size="12" fill="#8a4a68">團隊素材量產</text>
+      <text x="460" y="222" text-anchor="middle" font-size="12.5" fill="#8a879a">「智慧漁網」：風格固定、內容替換 → 系列感；內容固定、風格替換 → 快速 A/B</text>
+    </svg>
+    <figcaption>圖 3｜風格圖卡系統：把「好看」變成參數，從抽卡升級成量產（EP41「智慧漁網」概念）</figcaption>
+  </figure>
+  <div class="prompt">style_card:
+  name: 奶油紙張手寫筆記
+  canvas: 4:5 直式
+  palette: [奶油白, 焦糖棕, 墨綠]
+  texture: 紙張纖維、鉛筆手寫感
+  layout: 大標 + 3 重點區塊 + 手繪箭頭
+  rule: 繁體中文, 重點詞加底線
+input: （貼上要做成圖卡的文章）</div>
+  <ul class="pt">
+    <li>課堂系列實例：<b>10 款筆記風格圖卡 Gem</b>（貼入文章即生成指定風格圖卡）、<b>寫真風格圖卡</b>（員工大頭貼、活動紀念照置換）。</li>
+    <li>先讓 AI 分析參考圖反推 YAML，比自己從零描述快得多。</li>
+  </ul>
+
+  <h3 id="i-face">3.2 一致性人物與置換應用</h3>
+  <ul class="pt">
+    <li>鎖定人物特徵 + 統一視覺規格 → 批次生成整個部門的大頭貼／紀念照，風格整齊劃一。</li>
+    <li>訣竅在「約束」：鎖臉部特徵、鎖服裝色系、鎖背景元素，其餘才交給模型。</li>
+    <li>先做 1 張標準樣張給大家確認，再批次跑全部人。</li>
+  </ul>
+  <div class="note gold">⚠️ 涉及真人肖像：取得本人同意、標示 AI 生成、確認公司規範——內部使用也一樣。</div>
+
+  <h3 id="i-slide">3.3 簡報與資訊圖表視覺化</h3>
+  <div class="twrap"><table>
+    <tr><th>需求</th><th>首選工具</th><th>備註</th></tr>
+    <tr><td>從資料長出圖表</td><td>NotebookLM + YAML</td><td>來源可追溯、版型可控</td></tr>
+    <tr><td>簡報美化與動畫</td><td>Canva（Magic layers）</td><td>拆層動畫、品牌套版（EP34）</td></tr>
+    <tr><td>一句話生整份簡報</td><td>Gamma / Prezi AI</td><td>速度快、細修空間較小（EP27）</td></tr>
+    <tr><td>自由度最高</td><td>AI 生圖 + 手動排版</td><td>風格卡先行，量產最穩</td></tr>
+  </table></div>
+  <p>簡報視覺三層工法：<b>版型（layout）→ 圖像（image）→ 動態（motion）</b>，一層一層加，不要一次全包給 AI。</p>
+
+  <h3 id="i-video">3.4 影片生成入門與 API 批量</h3>
+  <ul class="pt">
+    <li>影片生成（Google Video／Flow 級工具，EP43 專題）目前最穩的用法是<b>短素材</b>：開場動畫、產品展示、社群短片。</li>
+    <li>穩定工法：風格卡先生「首幀圖」→ image-to-video 生 4–8 秒片段 → 剪接成片；重要文字與 logo 後製加。</li>
+    <li>量產靠 API（如免費的 Pollinations）：「介面生一張，API 生一批」，搭配試算表跑迴圈自動出圖。</li>
+  </ul>
+  <div class="golden"><div class="q">「抽卡靠運氣，風格卡靠系統。」</div><div class="a">生圖篇金句</div></div>
+</section>
+
+<!-- ═══ 4 Agent 篇 ═══ -->
+<section class="chapter" id="sec-agent">
+  <span class="chip" style="background:linear-gradient(90deg,#7a4fd6,#4f7cff)">CHAPTER 03</span>
+  <h2 class="ct">4. 第三章　🤖 AI Agent 篇</h2>
+  <p class="cd">上半年最大的分水嶺：AI 從「回答你」變成「幫你做完」。這一章從觀念分層講到實際上手路徑。</p>
+
+  <h3 id="a-what">4.1 Agent 是什麼：從聊天到代理</h3>
+  <figure class="diagram">
+    <svg viewBox="0 0 920 260" xmlns="http://www.w3.org/2000/svg" font-family="'Noto Sans TC',sans-serif">
+      <rect width="920" height="260" fill="#fbfaff"/>
+      <defs><marker id="arw4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#9a8fd9"/></marker></defs>
+      <text x="230" y="40" text-anchor="middle" font-size="15" font-weight="900" fill="#2b2a33">能力分層</text>
+      <rect x="60" y="60" width="340" height="44" rx="10" fill="#eef2fb" stroke="#b9c6e8"/>
+      <text x="230" y="88" text-anchor="middle" font-size="13" fill="#3b5588"><tspan font-weight="800">Chatbot</tspan>　你問它答（給答案）</text>
+      <rect x="60" y="116" width="340" height="44" rx="10" fill="#e7ecfa" stroke="#93a9e0"/>
+      <text x="230" y="144" text-anchor="middle" font-size="13" fill="#2f4a8a"><tspan font-weight="800">Copilot</tspan>　你做它幫（給建議）</text>
+      <rect x="60" y="172" width="340" height="44" rx="10" fill="#e3e0fb" stroke="#7a6fe0"/>
+      <text x="230" y="200" text-anchor="middle" font-size="13" fill="#4335a8"><tspan font-weight="800">Agent</tspan>　你交辦它做完（給結果）</text>
+      <text x="690" y="40" text-anchor="middle" font-size="15" font-weight="900" fill="#2b2a33">Agent 迴圈四拍</text>
+      <g>
+        <rect x="560" y="60" width="115" height="52" rx="12" fill="#efeafd" stroke="#7a4fd6" stroke-width="1.6"/>
+        <text x="617" y="83" text-anchor="middle" font-size="13" font-weight="800" fill="#5b3bb0">① 感知</text>
+        <text x="617" y="101" text-anchor="middle" font-size="10.5" fill="#5a4d85">讀任務與環境</text>
+        <rect x="705" y="60" width="115" height="52" rx="12" fill="#efeafd" stroke="#7a4fd6" stroke-width="1.6"/>
+        <text x="762" y="83" text-anchor="middle" font-size="13" font-weight="800" fill="#5b3bb0">② 規劃</text>
+        <text x="762" y="101" text-anchor="middle" font-size="10.5" fill="#5a4d85">拆解步驟</text>
+        <rect x="705" y="160" width="115" height="52" rx="12" fill="#efeafd" stroke="#7a4fd6" stroke-width="1.6"/>
+        <text x="762" y="183" text-anchor="middle" font-size="13" font-weight="800" fill="#5b3bb0">③ 行動</text>
+        <text x="762" y="201" text-anchor="middle" font-size="10.5" fill="#5a4d85">呼叫工具執行</text>
+        <rect x="560" y="160" width="115" height="52" rx="12" fill="#efeafd" stroke="#7a4fd6" stroke-width="1.6"/>
+        <text x="617" y="183" text-anchor="middle" font-size="13" font-weight="800" fill="#5b3bb0">④ 回饋</text>
+        <text x="617" y="201" text-anchor="middle" font-size="10.5" fill="#5a4d85">檢查・修正</text>
+        <line x1="675" y1="86" x2="705" y2="86" stroke="#9a8fd9" stroke-width="2.2" marker-end="url(#arw4)"/>
+        <line x1="762" y1="112" x2="762" y2="160" stroke="#9a8fd9" stroke-width="2.2" marker-end="url(#arw4)"/>
+        <line x1="705" y1="186" x2="675" y2="186" stroke="#9a8fd9" stroke-width="2.2" marker-end="url(#arw4)"/>
+        <line x1="617" y1="160" x2="617" y2="112" stroke="#9a8fd9" stroke-width="2.2" marker-end="url(#arw4)"/>
+      </g>
+      <text x="460" y="245" text-anchor="middle" font-size="12.5" fill="#8a879a">適合交給 Agent 的任務：步驟多、結果可驗證、容錯高的重複雜事</text>
+    </svg>
+    <figcaption>圖 4｜左：Chatbot → Copilot → Agent 能力分層；右：Agent 的「感知—規劃—行動—回饋」循環</figcaption>
+  </figure>
+
+  <h3 id="a-cc">4.2 Claude Code：終端機裡的工程代理</h3>
+  <ul class="pt">
+    <li>直接<b>讀寫專案檔案、執行指令、跑測試、發 PR</b>——本系列 EP32 專題實測過的主力工具。</li>
+    <li><b>CLAUDE.md</b> 是專案說明書：把規範寫進去，每次對話自動遵守。</li>
+    <li><b>Skills／斜線指令</b>：把常用流程做成技能包，重複任務一鍵呼叫。</li>
+    <li>最佳實踐：先計畫再動手、小步提交、要求它自己驗證成果。</li>
+  </ul>
+  <ol class="st">
+    <li>第一步交辦「幫我看懂這個專案」，讓它先摘要架構。</li>
+    <li>給一個小任務（改文案、加一頁），看它的計畫再放行。</li>
+    <li>滿意的流程沉澱成 CLAUDE.md 規範或 Skill。</li>
+  </ol>
+  <div class="note green">✅ 實例：本份筆記與搭配的互動技能地圖網頁，正是用「交辦式」流程請 AI Agent 從雲端講義自動產出的成品。</div>
+
+  <h3 id="a-oc">4.3 OpenCode：不花大錢的 Agent 體驗</h3>
+  <p>本系列 6/26 加開場專題。開源終端 Agent 介面與商用工具相近，<b>模型可自選</b>——接免費或低價 API 就能練「交辦、拆解、驗收」的肌肉，能力可遷移到任何 Agent 工具。</p>
+  <div class="twrap"><table>
+    <tr><th>面向</th><th>Claude Code</th><th>OpenCode</th></tr>
+    <tr><td>取得成本</td><td>訂閱／按量</td><td>開源免費（模型費另計）</td></tr>
+    <tr><td>模型</td><td>Claude 系列</td><td>自選，多家皆可接</td></tr>
+    <tr><td>上手難度</td><td>低</td><td>中（需自行設定金鑰）</td></tr>
+    <tr><td>適合對象</td><td>正式生產力</td><td>練功、實驗、教學</td></tr>
+  </table></div>
+
+  <h3 id="a-mcp">4.4 MCP 與工具生態</h3>
+  <ul class="pt">
+    <li><b>MCP（Model Context Protocol）</b>＝AI 連外部工具的通用插座：接上 Drive、Gmail、Notion、資料庫，Agent 才有手有腳。</li>
+    <li>權限由小到大：先接<b>讀取類</b>（查資料），再接<b>寫入類</b>（改東西）。</li>
+    <li>寫入權限（寄信、刪檔、付款）務必保留人工確認那一步。</li>
+  </ul>
+
+  <h3 id="a-vibe">4.5 Vibe Coding：把想法直接說成網站</h3>
+  <p>本集的壓軸示範——課程簡報首頁就叫 <b>index.html</b>：不寫程式，用「描述＋迭代」做出<b>多層次互動學習網頁</b>（參考典範：akira.ipas-ai.com 的互動式 AI 學習地圖）。單檔 HTML 免安裝、免後端，丟上 GitHub Pages 就能分享。</p>
+  <div class="prompt">請幫我做一個單檔 HTML 學習地圖：
+1. 深色科技風、霓虹漸層、卡片式首頁
+2. 四大章節，點卡片進入章節頁（麵包屑導航）
+3. 章節內手風琴展開每個技能：重點/步驟/範例
+4. 全站關鍵字搜尋 + 學習進度打勾（localStorage）
+5. 手機優先、繁體中文</div>
+  <div class="note blue">💡 成品就在隔壁：<a href="ep44-ai-skills.html">ep44-ai-skills.html — EP44 互動技能地圖</a>，正是照這個模板交辦產出的多層次網頁。</div>
+  <div class="golden"><div class="q">「Chatbot 給答案，Agent 給結果；會描述，就會做網站。」</div><div class="a">Agent 篇金句</div></div>
+</section>
+
+<!-- ═══ 5 自動化篇 ═══ -->
+<section class="chapter" id="sec-auto">
+  <span class="chip" style="background:linear-gradient(90deg,#1d9e6f,#0aa6c9)">CHAPTER 04</span>
+  <h2 class="ct">5. 第四章　⚙️ 自動化篇</h2>
+  <p class="cd">技能學完，最後一哩是「讓它自己跑」。所有自動化都是同一句話：「當…發生，就用 AI 做…，然後把結果放到…」。</p>
+
+  <h3 id="u-mind">5.1 自動化思維：觸發 → 處理 → 輸出</h3>
+  <figure class="diagram">
+    <svg viewBox="0 0 920 210" xmlns="http://www.w3.org/2000/svg" font-family="'Noto Sans TC',sans-serif">
+      <rect width="920" height="210" fill="#f9fffc"/>
+      <defs><marker id="arw5" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#6fbf9f"/></marker></defs>
+      <rect x="55" y="55" width="220" height="95" rx="14" fill="#eafaf2" stroke="#1d9e6f" stroke-width="2"/>
+      <text x="165" y="88" text-anchor="middle" font-size="15.5" font-weight="900" fill="#14724f">⏰ 觸發 Trigger</text>
+      <text x="165" y="113" text-anchor="middle" font-size="11.5" fill="#3f7a63">新郵件・表單送出</text>
+      <text x="165" y="132" text-anchor="middle" font-size="11.5" fill="#3f7a63">每天 08:00・檔案上傳</text>
+      <line x1="275" y1="102" x2="335" y2="102" stroke="#6fbf9f" stroke-width="3" marker-end="url(#arw5)"/>
+      <rect x="340" y="55" width="220" height="95" rx="14" fill="#e6f7fc" stroke="#0aa6c9" stroke-width="2"/>
+      <text x="450" y="88" text-anchor="middle" font-size="15.5" font-weight="900" fill="#087a94">🧠 處理 Process</text>
+      <text x="450" y="113" text-anchor="middle" font-size="11.5" fill="#3b6b78">AI 摘要・分類・翻譯</text>
+      <text x="450" y="132" text-anchor="middle" font-size="11.5" fill="#3b6b78">生成回覆・萃取欄位</text>
+      <line x1="560" y1="102" x2="620" y2="102" stroke="#6fbf9f" stroke-width="3" marker-end="url(#arw5)"/>
+      <rect x="625" y="55" width="220" height="95" rx="14" fill="#f1eefc" stroke="#5b4fd6" stroke-width="2"/>
+      <text x="735" y="88" text-anchor="middle" font-size="15.5" font-weight="900" fill="#4335a8">📤 輸出 Output</text>
+      <text x="735" y="113" text-anchor="middle" font-size="11.5" fill="#5a4d85">寫入試算表・寄通知</text>
+      <text x="735" y="132" text-anchor="middle" font-size="11.5" fill="#5a4d85">存知識庫・發訊息</text>
+      <text x="460" y="188" text-anchor="middle" font-size="12.5" fill="#8a879a">口訣：先流程、後工具；先手動跑通一次、再接上排程自動化</text>
+    </svg>
+    <figcaption>圖 5｜自動化三段式：觸發 → 處理 → 輸出。每週重複 ≥ 2 次、規則講得清楚的事，優先自動化</figcaption>
+  </figure>
+
+  <h3 id="u-n8n">5.2 n8n 工作流入門</h3>
+  <ul class="pt">
+    <li>視覺化拉節點連線：<b>表單進來 → AI 分類 → 寫入試算表 → 發通知</b>；AI 節點可接多家模型，HTTP 節點萬用。</li>
+    <li>可自架（免費）也有雲端版，中文社群資源豐富——也是學員許願最多的主題之一。</li>
+  </ul>
+  <ol class="st">
+    <li>選一個「每天都在做的搬運」：如把客戶來信整理進表格。</li>
+    <li>節點三顆就好：<b>Trigger（Gmail）→ AI（摘要＋分類）→ Sheets（寫入）</b>。</li>
+    <li>跑順一週後，再加通知與例外處理。</li>
+  </ol>
+
+  <h3 id="u-gas">5.3 Google Apps Script 與擴充功能</h3>
+  <p>Workspace 內建的免費自動化。搭配 AI 寫 code：描述需求 → 貼上 Apps Script → 授權執行，全程不用會 JavaScript。進階可打包成擴充功能分享團隊（EP17「從零到上線」路線）。</p>
+  <div class="prompt">幫我寫 Google Apps Script：
+每天 08:00 讀取「客服回報」試算表新增列，
+用 AI 產生 50 字摘要與急迫度(高/中/低)，
+回寫到同列 E、F 欄；急迫度=高就寄信通知我。</div>
+
+  <h3 id="u-meet">5.4 會議紀錄流水線與排程代理</h3>
+  <ol class="st">
+    <li>錄影／錄音 → 自動轉<b>逐字稿</b>（含時間戳，EP29 工作流）。</li>
+    <li>AI 三段式整理：<b>決議、待辦（負責人＋期限）、爭點</b>。</li>
+    <li>自動存檔知識庫＋寄給與會者——散會 10 分鐘內送達。</li>
+  </ol>
+  <ul class="pt">
+    <li><b>排程代理</b>：讓 Agent 每天固定時間醒來巡邏（收件匣、報表、網站狀態），有異常才叫你。</li>
+    <li><b>信件漏斗</b>：名單 → 分眾 → AI 個人化信件 → 自動寄送追蹤；人負責決策與例外，AI 負責重複與整理。</li>
+  </ul>
+  <div class="golden"><div class="q">「你睡覺的時候，流程還在上班。」</div><div class="a">自動化篇金句</div></div>
+</section>
+
+<!-- ═══ 6 檢核 ═══ -->
+<section class="chapter" id="sec-check">
+  <span class="chip" style="background:linear-gradient(90deg,#c98a0a,#d4508e)">SELF CHECK</span>
+  <h2 class="ct">6. 課後自我檢核（20 題快問）</h2>
+  <p class="cd">每章 5 個「會不會」——答得出來（或做得出來）才算真的帶走。可到<a href="ep44-ai-skills.html">互動技能地圖</a>逐項打勾追蹤。</p>
+  <div class="twrap"><table>
+    <tr><th style="width:90px">章節</th><th>你應該做得到…</th></tr>
+    <tr><td>✍️ 文字</td><td>① 用四要素寫出穩定指令　② 說出 Prompt/Context/Harness 差異　③ 用 YAML 規格控制一張資訊圖表　④ 建一個 NotebookLM 並輸出播客　⑤ 對 100 頁 PDF 做分段固定欄位摘要</td></tr>
+    <tr><td>🎨 生圖</td><td>① 從參考圖反推一張風格 YAML 卡　② 用同一張卡連出 3 張系列圖　③ 批次做出風格一致的人物照　④ 選對簡報視覺工具（NotebookLM/Canva/Gamma）　⑤ 用 API 批量生 10 張素材</td></tr>
+    <tr><td>🤖 Agent</td><td>① 分辨 Chatbot/Copilot/Agent　② 說出 Agent 迴圈四拍　③ 用 Claude Code 或 OpenCode 完成一個小任務　④ 解釋 MCP 是什麼、先接什麼權限　⑤ 用交辦模板做出一頁網站</td></tr>
+    <tr><td>⚙️ 自動化</td><td>① 用「觸發→處理→輸出」描述一條流程　② 在 n8n 接通三顆節點　③ 請 AI 寫一段 Apps Script 並跑起來　④ 建立會議紀錄流水線　⑤ 設定一個每天巡邏的排程任務</td></tr>
+  </table></div>
+</section>
+
+<!-- ═══ 7 來源 ═══ -->
+<section class="chapter" id="sec-src">
+  <span class="chip" style="background:linear-gradient(90deg,#8a879a,#5a5866)">SOURCES</span>
+  <h2 class="ct">7. 資料來源與整理說明</h2>
+  <ul class="pt">
+    <li><b>原始教材：</b><a href="https://drive.google.com/drive/folders/1nOGbITVV41m0mNoHz14Vdn4Q9_RUe1cb" target="_blank" rel="noopener">EP44 講義及錄影回放資料夾</a>（課程簡報 PPTX ＋ 608MB 錄影）。簡報為滿版圖解型，機器可抽取的文字為四大章節標題（文字篇／生圖篇／AI Agent 篇／自動化篇）與首頁 index.html。</li>
+    <li><b>整理方式：</b>本筆記以簡報章節架構為骨幹，內容依「晨學講堂」2026 上半年系列課程脈絡展開（EP23/EP-YAML、EP26 Manus、EP29 會議紀錄工作流、EP32 Claude Code、EP34 Canva、EP35 Harness、EP36 NotebookLM、EP37 RAG、EP41 生圖智慧漁網、EP43 影片生成、6/26 OpenCode 加開場），屬課後複習性質的重構筆記。</li>
+    <li><b>誠實聲明：</b>整理環境的網路政策無法直接下載 608MB 錄影做逐字稿比對，講師口述的現場舉例、時間軸與問答細節未逐句收錄；若需逐字級筆記，可把錄影丟入 NotebookLM 產生逐字稿後，再回頭增補本頁。</li>
+    <li><b>介面參考：</b>互動技能地圖頁的 UI 風格參考 <a href="https://akira.ipas-ai.com/" target="_blank" rel="noopener">akira.ipas-ai.com</a>（iPAS AI 應用規劃師互動式學習地圖）之卡片式多層導覽、深色科技風與遊戲化進度設計。</li>
+  </ul>
+</section>
+
+</article>
+</div>
+
+<footer>
+  EP44「2026 年上半年一定會的 AI 技能」課堂筆記・2026/07 整理<br>
+  🍀 Learn AI with Tarshar｜搭配 <a href="ep44-ai-skills.html">互動技能地圖</a> 使用效果最佳
+</footer>
+
+</body>
+</html>
