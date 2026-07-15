@@ -22,6 +22,24 @@
   大檔不可用此工具下載。`read_file_content` 支援文件/簡報/PDF/圖片，不支援影片。
 - 本機有 Chromium 與 ffmpeg（/opt/pw-browsers/），可做網頁截圖與影音抽格。
 
+## 【進行中】EP44 逐針課堂筆記——新工作階段接手指南
+
+使用者要求把 EP44 錄影「每一針」記錄成課堂筆記（不可跳過）。已完成：
+`ep44-notes.html`（筆記骨架，含 Drive 內嵌與 SVG 圖解）、`ep44-ai-skills.html`（akira 風格多層次互動地圖）。
+待辦（需網路開通後執行）：
+
+1. 檔案 ID：錄影（原始連結共享，可匿名下載）`1JN_7ioqD19TkDEeb26vauFZVm47a2FXu`；
+   使用者硬碟副本影片 `1qpIe2YcVoOew7REmSrv8qHhrekWD-ZVz`、簡報 pptx `10MbFHlGMs_1ISJXDcX9vFdMFlI6JgyWj`。
+2. 下載（drive.usercontent.google.com 開通後）：
+   `curl -L --cacert /root/.ccr/ca-bundle.crt -o ep44.mp4 "https://drive.usercontent.google.com/download?id=<ID>&export=download&confirm=t"`
+   （大檔會回確認頁，抽 `name="uuid"` 再帶上 `&uuid=` 重打；流水線腳本樣板見 scratchpad/fetch_ep44.sh 的寫法）。
+3. 抽格：ffmpeg 每 15 秒抽 1 格 →「親眼」逐格閱讀（Read 工具看圖），記錄每頁簡報與示範畫面；
+   簡報 pptx 下載後 unzip 取 `ppt/media/` 原圖，嵌入筆記。
+4. 逐字稿：pip 裝 faster-whisper（模型自 huggingface.co 下載），16kHz 單聲道 wav 轉寫。
+5. 將逐針內容增補進 `ep44-notes.html`（保留現有結構，逐節替換為實錄內容＋真實截圖），
+   並同步更新 `ep44-ai-skills.html` 的技能細節，commit + push 到分支
+   `claude/lecture-notes-html-page-r3m77v`。
+
 ## 網頁慣例
 
 - 單檔 HTML（內含 CSS/JS）、繁體中文、手機優先、進度存 localStorage，
