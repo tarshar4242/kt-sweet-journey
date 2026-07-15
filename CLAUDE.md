@@ -40,6 +40,13 @@
    並同步更新 `ep44-ai-skills.html` 的技能細節，commit + push 到分支
    `claude/lecture-notes-html-page-r3m77v`。
 
+## 常設授權與觸發語（使用者已明確同意）
+
+- 使用者丟出「課程 Drive 資料夾連結」（或說「做 EP<NN> 筆記」「做成筆記並上架」）時，
+  直接執行 `/lecture-notes-site` 全流程：逐針筆記＋互動地圖 → 上架 `lessons.html` 總覽頁
+  → **合併回 main 並 push，讓 GitHub Pages 立即上線**（此動作已獲常設授權，無須再問）。
+- `lessons.html` 是課程筆記館入口：一課一卡、最新在前、卡片連到該課的筆記頁與地圖頁。
+
 ## 網頁慣例
 
 - 單檔 HTML（內含 CSS/JS）、繁體中文、手機優先、進度存 localStorage，
