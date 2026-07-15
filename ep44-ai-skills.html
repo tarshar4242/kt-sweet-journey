@@ -200,7 +200,7 @@ footer .heart{color:var(--pink)}
     <span class="icon">🔍</span>
     <input id="searchInput" type="search" placeholder="搜尋技能關鍵字：YAML、MCP、n8n、生圖…" autocomplete="off">
   </div>
-  <a class="navlink" href="ep44-notes.html">📝 逐針課堂筆記</a>
+  <a class="navlink" href="ep44-notes.html">📝 逐幀課堂筆記</a>
 </header>
 
 <section class="hero">
@@ -272,7 +272,7 @@ footer .heart{color:var(--pink)}
         <a href="https://drive.google.com/drive/folders/1nOGbITVV41m0mNoHz14Vdn4Q9_RUe1cb" target="_blank" rel="noopener"><span class="ic">🗂️</span><span><b>講義及錄影回放資料夾</b>Google Drive（EP44 原始分享）</span></a>
         <a href="https://drive.google.com/file/d/10MbFHlGMs_1ISJXDcX9vFdMFlI6JgyWj/view" target="_blank" rel="noopener"><span class="ic">📊</span><span><b>課程簡報</b>簡報_EP44（PPTX）</span></a>
         <a href="https://drive.google.com/file/d/1qpIe2YcVoOew7REmSrv8qHhrekWD-ZVz/view" target="_blank" rel="noopener"><span class="ic">🎬</span><span><b>錄影回放</b>完整課程影片（59 分鐘）</span></a>
-        <a href="ep44-notes.html"><span class="ic">📝</span><span><b>逐針課堂筆記</b>真實截圖 + 時間戳 + 逐字稿佐證</span></a>
+        <a href="ep44-notes.html"><span class="ic">📝</span><span><b>逐幀課堂筆記</b>真實截圖 + 時間戳 + 逐字稿佐證</span></a>
       </div>
     </div>
   </section>
@@ -310,7 +310,7 @@ const DATA = {
           '角色卡含四種定位：<b>氣象分析師／防災顧問／台灣在地解讀者／不確定性說明者</b>。',
           '生成後一鍵下載成 <b>PDF／Word .docx／.md</b>——呼應上一節「轉成檔案、進知識庫」。']},
         {h:'現場指令（原字）',prompt:'寫出"專家角色指令"\n颱風預測專家\n"台灣脈絡"'},
-        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#t-expert" style="color:var(--cyan)">逐針筆記 3.2：颱風預測專家角色指令（含 ChatGPT 生成畫面）</a>'},
+        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#t-expert" style="color:var(--cyan)">逐幀筆記 3.2：颱風預測專家角色指令（含 ChatGPT 生成畫面）</a>'},
         {h:'一句話記憶',p:'「角色 = 主題 + 脈絡 + 一句『寫出專家角色指令』，AI 自己展開成卡片。」'}]},
       {t:'專案 + 資料來源 + 圖文佐證', s:'把角色升級成長期可用的專案｜錄影 10:15',
        blocks:[
@@ -331,7 +331,7 @@ const DATA = {
           '<b>給來源</b>：把官方資料（中央氣象署、停班停課辦法）當來源，而不是讓它憑空講。',
           '<b>要它查證</b>：下「複查上述資訊，給我一個 check list 表」，逐項標「符合／需修正／不可沿用」。',
           '<b>保留不確定性</b>：好角色會說「現在不能判斷停班停課」，而不是硬給假確定。']},
-        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#t-verify" style="color:var(--cyan)">逐針筆記 3.3：巴威颱風預測＝AI 查證課</a>'},
+        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#t-verify" style="color:var(--cyan)">逐幀筆記 3.3：巴威颱風預測＝AI 查證課</a>'},
         {h:'一句話記憶',p:'「AI 一定會有幻覺——所以一定要有來源、要它複查、要它保留不確定。」'}]},
       {t:'NotebookLM 個人知識庫', s:'Gemini 的「筆記本」就是 NotebookLM｜錄影 21:00',
        blocks:[
@@ -353,7 +353,7 @@ const DATA = {
         {h:'兩強定位',table:{head:['模型','主打','底層'],rows:[
           ['Nano Banana','高保真細節、多模態理解','Google Gemini 3.1 Flash Image / Pro'],
           ['ChatGPT Image 2.0','文字渲染精準、構圖靈活','OpenAI gpt-image-2（GPT-5.4 backbone）']]}},
-        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#i-duel" style="color:var(--pink)">逐針筆記 4.1：生圖雙雄與修圖兩派（含簡報原圖）</a>'}]},
+        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#i-duel" style="color:var(--pink)">逐幀筆記 4.1：生圖雙雄與修圖兩派（含簡報原圖）</a>'}]},
       {t:'生圖修正分成 2 派', s:'簡報 slide 8/9｜請 AI 修 vs 轉圖層自己修',
        blocks:[
         {h:'兩種修圖路線',table:{head:['派別','做法','適合'],rows:[
@@ -367,7 +367,7 @@ const DATA = {
           '關鍵動作：再叫 AI <b>「轉成 YAML 格式」</b>，把形容詞固定成可反覆套用、逐欄修改的規格卡。',
           '生成的 YAML 定義：視覺美學＝玩具總動員風格、質感＝塑料光澤／4K、角色＝<b>颱風寶寶（Typhoon Kids）</b>。']},
         {h:'現場指令（原字）',prompt:'把可怕的颱風變成 Q 版的動畫(擬人化)模樣在台灣的四周圍。\n轉成 YAML 格式（整體風格要像玩具總動員的風格）\n繁體中文，請不要有多餘的筆劃、模糊的邊緣，至少 4K'},
-        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#i-yaml" style="color:var(--pink)">逐針筆記 4.2：YAML 颱風擬人化（含 YAML 與生成成果）</a>'},
+        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#i-yaml" style="color:var(--pink)">逐幀筆記 4.2：YAML 颱風擬人化（含 YAML 與生成成果）</a>'},
         {h:'一句話記憶',p:'「先出 YAML 規格卡，再用同一張卡生圖，就有系列感。」'}]},
       {t:'圖上畫紅線讓 AI 改', s:'比文字更精準的修圖法｜錄影 36:15',
        blocks:[
@@ -379,14 +379,14 @@ const DATA = {
           '請 AI「依序生成十張不同風格圖」（第一張＝童趣積木世界…）。',
           '再下「把整張圖拆解、每個颱風跟台灣區隔、共八張、每張 16:9、幫我去背」。',
           '一次量產一整套可各自使用的素材。']},
-        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#i-annotate" style="color:var(--pink)">逐針筆記 4.3：圖上畫紅線讓 AI 改</a>'}]},
+        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#i-annotate" style="color:var(--pink)">逐幀筆記 4.3：圖上畫紅線讓 AI 改</a>'}]},
       {t:'Canva 魔法圖層', s:'把一張圖拆成可編輯圖層｜錄影 43:15',
        blocks:[
         {h:'核心能力',ul:[
           'Canva「編輯圖片 → 魔法圖層／魔法編輯工具／背景移除／風格萃取」面板。',
           '一鍵把整張圖<b>拆解成可編輯的圖層</b>，個別調整、局部重繪，再匯出成 pptx。',
           '這就是「修圖第 2 派」的實作：AI 負責發想，圖層負責精修。']},
-        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#i-canva" style="color:var(--pink)">逐針筆記 4.4：Canva 魔法圖層（含編輯面板）</a>'},
+        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#i-canva" style="color:var(--pink)">逐幀筆記 4.4：Canva 魔法圖層（含編輯面板）</a>'},
         {h:'一句話記憶',p:'「抽卡靠運氣，YAML 風格卡靠系統；文字說不清的，就在圖上畫給它看。」'}]}
     ]
   },
@@ -412,7 +412,7 @@ const DATA = {
           'Codex 開啟 Google 登入授權流程（Sign in - Google Accounts）。',
           '第一次授權沒完成，Codex <b>誠實回報</b>「登入流程被關閉或未在時限內完成」，重試後顯示綠色勾選「MCP 已載入」。']},
         {h:'講師原話',p:'「直接讓 Agent 去串你的 Nano Banana／NotebookLM」「幫我把它用 MCP 的方式接起來」「這個叫做 MCP」。'},
-        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#a-mcp" style="color:var(--purple)">逐針筆記 5.2：Codex 連 NotebookLM MCP</a>'}]},
+        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#a-mcp" style="color:var(--purple)">逐幀筆記 5.2：Codex 連 NotebookLM MCP</a>'}]},
       {t:'MCP 是什麼', s:'AI 連外部工具的通用插座',
        blocks:[
         {h:'核心觀念',ul:[
@@ -428,7 +428,7 @@ const DATA = {
         {h:'行動版連線',ul:[
           '用手機掃「Codex 行動版」QR code 就能連上、管理現有連線。',
           '搭配 Windows「允許連線／遠端控制此電腦」；聊天室熱議「學校的 IP 會不會擋」。']},
-        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#a-skill" style="color:var(--purple)">逐針筆記 5.3：Skill 與手機連線</a>'}]}
+        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#a-skill" style="color:var(--purple)">逐幀筆記 5.3：Skill 與手機連線</a>'}]}
     ]
   },
   auto: {
@@ -451,14 +451,14 @@ const DATA = {
           '整理成 SWOT、生成輔助圖，存成可直接打開的檔案。']},
         {h:'能力總集合',ul:[
           '這一段把整堂課收在一起：<b>角色與查證（文字篇）＋圖表佐證（生圖篇）＋工具串接（Agent 篇）</b>，全部濃縮成一句交辦。']},
-        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#u-swot" style="color:var(--green)">逐針筆記 6.1：颱風假 SWOT 報告（含 Codex 自動查證畫面）</a>'}]},
+        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#u-swot" style="color:var(--green)">逐幀筆記 6.1：颱風假 SWOT 報告（含 Codex 自動查證畫面）</a>'}]},
       {t:'文字轉影片：把設計案變成成片', s:'felo.ai Text to Video｜錄影 56:23',
        blocks:[
         {h:'現場做法',ul:[
           '用 <b>felo.ai 的 Text to Video</b>（口號「文件負責沉澱，影片負責傳播」）把「颱風擬人化設計案」直接生成影片。',
           '成片規格：塑料光澤掃光、多角色漂浮，<b>全片繁體中文旁白（zh-TW 女聲）＋皮克斯風配樂＋字幕</b>。',
           '不必逐格剪片——把文件／設計案丟進去，旁白、字幕、配樂、動效一次生成。']},
-        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#u-video" style="color:var(--green)">逐針筆記 6.2：文字轉影片成片（含播放畫面）</a>'},
+        {h:'看實錄截圖',p:'👉 <a href="ep44-notes.html#u-video" style="color:var(--green)">逐幀筆記 6.2：文字轉影片成片（含播放畫面）</a>'},
         {h:'一句話記憶',p:'「你出一句需求，機器自己查、自己做、自己存檔——這就是把技能自動跑起來。」'}]}
     ]
   }
