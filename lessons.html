@@ -108,11 +108,66 @@ footer a{color:var(--txt2)}
         <div class="foot"><span class="badge" id="radioBadge">收錄 2 集</span><span class="go">進入系列 ›</span></div>
       </div>
 
+      <div class="series" style="--c:var(--pink)" onclick="showSeries('life')">
+        <div class="top"></div>
+        <span class="emoji">🧰</span>
+        <h2><em>SERIES 02</em>生活應用</h2>
+        <p class="desc">課堂之外的實作成品——旅程手冊、隨身工具、參訪學習日誌。每一個都是「把 AI 技能用在生活裡」的完整作品。</p>
+        <div class="foot"><span class="badge" id="lifeBadge" style="color:var(--pink)">收錄 3 件</span><span class="go">進入系列 ›</span></div>
+      </div>
+
       <div class="series soon">
         <div class="top"></div>
         <div class="body-center">
           <span class="plus">＋</span>
           <p>新系列籌備中<br>之後的其他課程系列（工作坊、專題班…）<br>會以獨立系列出現在這裡</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ 第二層：生活應用系列 ══ -->
+  <section id="view-life" class="view">
+    <div class="count" id="lifeCount"></div>
+    <div class="grid">
+
+      <div class="course" style="--c:var(--pink)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">生活應用 · 旅程手冊</span>
+          <h2>K&T 甜蜜日之旅 🌸</h2>
+          <p class="desc">箱根・鎌倉・東京 2026 的互動旅程手冊：行程、地圖、交通、清單一頁搞定，旅途中手機直接翻。</p>
+          <div class="tags"><span>🗾 箱根・鎌倉・東京</span><span>🗓️ 行程</span><span>📱 手機優先</span></div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="kt-sweet-journey.html">📖 開啟旅程手冊</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--cyan)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">生活應用 · 隨身工具</span>
+          <h2>隨身口譯機 🎙</h2>
+          <p class="desc">即時雙語口譯網頁：自動辨識中日語音、雙區顯示、逐字稿留存——旅行與會話場景直接開來用。</p>
+          <div class="tags"><span>🎤 語音辨識</span><span>🌐 中↔日</span><span>⚡ 即時</span></div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="interpreter.html">🎧 開啟口譯機</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--orange)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">生活應用 · 學習日誌</span>
+          <h2>三得利參訪學習日誌 🍺</h2>
+          <p class="desc">「泡沫上的科技，水裡的匠心」——三得利武藏野啤酒工場參訪的完整學習紀錄與圖文日誌。</p>
+          <div class="tags"><span>🏭 工場參訪</span><span>📷 圖文紀錄</span><span>🇯🇵 武藏野</span></div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="suntory-visit-report.html">📔 開啟學習日誌</a>
         </div>
       </div>
 
@@ -170,7 +225,7 @@ footer a{color:var(--txt2)}
 
 <footer>
   🍀 Learn AI with Tarshar ♥ 2026<br>
-  <a href="kt-sweet-journey.html">K&T 甜蜜日之旅（旅程手冊）</a>｜<a href="interpreter.html">隨身口譯機</a>｜<a href="suntory-visit-report.html">三得利參訪學習日誌</a>
+  兩個系列：📻 直播電台（課程筆記）・🧰 生活應用（實作成品）——都從上方入口進入
 </footer>
 
 <script>
@@ -187,12 +242,17 @@ function showHome(){
   $('#pageSub').innerHTML = '所有課程的<b>共同入口</b>：先選一個系列，再進入該系列的每一集——每集都有可對照錄影的<b>逐幀課堂筆記</b>與可打勾追蹤的<b>互動學習地圖</b>。';
   if(location.hash) history.replaceState(null,'',location.pathname);
 }
+const SERIES_META = {
+  radio: {title:'📻 直播電台系列', sub:'生成式 AI 應用電台・晨學講堂——選一集進入<b>逐幀筆記</b>或<b>互動地圖</b>，新集數會排在最前面。'},
+  life:  {title:'🧰 生活應用系列', sub:'課堂之外的實作成品——旅程手冊、隨身工具、參訪學習日誌，點一件直接開啟。'}
+};
 function showSeries(key){
   switchView(key);
+  const m = SERIES_META[key];
   $('#crumbs').style.display='flex';
-  $('#crumbHere').textContent = '📻 直播電台系列';
-  $('#pageTitle').textContent = '📻 直播電台系列';
-  $('#pageSub').innerHTML = '生成式 AI 應用電台・晨學講堂——選一集進入<b>逐幀筆記</b>或<b>互動地圖</b>，新集數會排在最前面。';
+  $('#crumbHere').textContent = m.title;
+  $('#pageTitle').textContent = m.title;
+  $('#pageSub').innerHTML = m.sub;
   history.replaceState(null,'','#'+key);
 }
 (function(){
@@ -202,13 +262,17 @@ function showSeries(key){
     s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
     s.style.animationDelay=(Math.random()*3)+'s';box.appendChild(s);
   }
-  const nCourses = document.querySelectorAll('#view-radio .course:not(.soon)').length;
+  const nRadio = document.querySelectorAll('#view-radio .course:not(.soon)').length;
+  const nLife = document.querySelectorAll('#view-life .course:not(.soon)').length;
   const nSeries = document.querySelectorAll('#view-home .series:not(.soon)').length;
   document.getElementById('seriesCount').textContent = `目前 ${nSeries} 個系列`;
-  document.getElementById('radioCount').textContent = `直播電台系列 · 目前收錄 ${nCourses} 集`;
-  document.getElementById('radioBadge').textContent = `收錄 ${nCourses} 集`;
-  // 支援直接以 #radio 進入系列頁（各集筆記頁「回筆記館」可直達）
-  if(location.hash === '#radio') showSeries('radio');
+  document.getElementById('radioCount').textContent = `直播電台系列 · 目前收錄 ${nRadio} 集`;
+  document.getElementById('radioBadge').textContent = `收錄 ${nRadio} 集`;
+  document.getElementById('lifeCount').textContent = `生活應用系列 · 目前收錄 ${nLife} 件作品`;
+  document.getElementById('lifeBadge').textContent = `收錄 ${nLife} 件`;
+  // 支援直接以 #radio / #life 進入系列頁（各頁「回入口」可直達）
+  const h = location.hash.replace('#','');
+  if(SERIES_META[h]) showSeries(h);
 })();
 </script>
 </body>
