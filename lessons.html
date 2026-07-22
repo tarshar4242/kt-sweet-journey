@@ -10,7 +10,7 @@
   --bg:#0a0e1a; --bg2:#0f1526; --panel:#141b30;
   --line:rgba(120,160,255,.16); --line2:rgba(120,160,255,.32);
   --txt:#e8eeff; --txt2:#9fb0d8; --txt3:#6b7ba3;
-  --cyan:#38e1ff; --blue:#4f7cff; --purple:#a06bff; --pink:#ff5fa8; --green:#3ddc97; --orange:#ffb648;
+  --cyan:#38e1ff; --blue:#4f7cff; --purple:#a06bff; --pink:#ff5fa8; --green:#3ddc97; --orange:#ffb648; --amber:#ffcf6b;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -108,10 +108,18 @@ footer a{color:var(--txt2)}
         <div class="foot"><span class="badge" id="radioBadge">收錄 2 集</span><span class="go">進入系列 ›</span></div>
       </div>
 
+      <div class="series" style="--c:var(--amber)" onclick="showSeries('plans')">
+        <div class="top"></div>
+        <span class="emoji">📚</span>
+        <h2><em>SERIES 02</em>Tarshar 教案集</h2>
+        <p class="desc">對外授課的完整教案——公部門、機關單位的 AI 體驗工作坊。每一份都是可直接照著上的教學設計（流程、金句、學員產出、帶回家）。</p>
+        <div class="foot"><span class="badge" id="plansBadge" style="color:var(--amber)">收錄 1 份</span><span class="go">進入系列 ›</span></div>
+      </div>
+
       <div class="series" style="--c:var(--pink)" onclick="showSeries('life')">
         <div class="top"></div>
         <span class="emoji">🧰</span>
-        <h2><em>SERIES 02</em>生活應用</h2>
+        <h2><em>SERIES 03</em>生活應用</h2>
         <p class="desc">課堂之外的實作成品——旅程手冊、隨身工具、參訪學習日誌。每一個都是「把 AI 技能用在生活裡」的完整作品。</p>
         <div class="foot"><span class="badge" id="lifeBadge" style="color:var(--pink)">收錄 3 件</span><span class="go">進入系列 ›</span></div>
       </div>
@@ -119,7 +127,7 @@ footer a{color:var(--txt2)}
       <div class="series" style="--c:var(--orange)" onclick="location.href='ipas-intermediate.html'">
         <div class="top"></div>
         <span class="emoji">🎓</span>
-        <h2><em>SERIES 03</em>iPAS 證照學習</h2>
+        <h2><em>SERIES 04</em>iPAS 證照學習</h2>
         <p class="desc">AI 應用規劃師中級三科學習地圖：把官方指引拆成 34 個能力單元，搭配 30 天路線、生活比喻、考點與可打勾進度。</p>
         <div class="foot"><span class="badge" style="color:var(--orange)">三科 · 34 課</span><span class="go">開始學習 ›</span></div>
       </div>
@@ -129,6 +137,36 @@ footer a{color:var(--txt2)}
         <div class="body-center">
           <span class="plus">＋</span>
           <p>新系列籌備中<br>之後的其他課程系列（工作坊、專題班…）<br>會以獨立系列出現在這裡</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ 第二層：Tarshar 教案集 ══ -->
+  <section id="view-plans" class="view">
+    <div class="count" id="plansCount"></div>
+    <div class="grid">
+
+      <div class="course" style="--c:var(--amber)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 公部門工作坊</span>
+          <h2>AI 開機日．蘆洲監理所 🏛️</h2>
+          <p class="desc">「兩小時跟上 AI 那班車」——為監理所行政同仁設計的 AI 體驗工作坊。起承轉合四段、兩個小魔法破冰、四招心法、現場動手做，外加帶回家 11 招工具書。含完整教案與簡報講義。</p>
+          <div class="tags"><span>🏛️ 公部門</span><span>🧊 破冰</span><span>✍️ 四招</span><span>🛠️ 帶回家11招</span></div>
+          <div class="date">📅 2026/05 · 兩小時體驗工作坊 · 41 頁講義</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="luzhou-ai-startup.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+      <div class="course soon">
+        <div class="top"></div>
+        <div class="body">
+          <span class="plus">＋</span>
+          <p>下一份教案籌備中<br>其他機關單位的 AI 工作坊教案<br>會陸續加進這裡</p>
         </div>
       </div>
 
@@ -246,7 +284,7 @@ footer a{color:var(--txt2)}
 
 <footer>
   🍀 Learn AI with Tarshar ♥ 2026<br>
-  三個系列：📻 直播電台・🧰 生活應用・🎓 iPAS 證照學習——都從上方入口進入
+  四個系列：📻 直播電台・📚 Tarshar 教案集・🎓 iPAS 證照學習・🧰 生活應用——都從上方入口進入
 </footer>
 
 <script>
@@ -265,6 +303,7 @@ function showHome(){
 }
 const SERIES_META = {
   radio: {title:'📻 直播電台系列', sub:'生成式 AI 應用電台・晨學講堂——選一集進入<b>逐幀筆記</b>或<b>互動地圖</b>，新集數會排在最前面。'},
+  plans: {title:'📚 Tarshar 教案集', sub:'對外授課的完整教案——公部門、機關單位的 AI 體驗工作坊，點一份看完整教學設計。'},
   life:  {title:'🧰 生活應用系列', sub:'課堂之外的實作成品——旅程手冊、隨身工具、參訪學習日誌，點一件直接開啟。'}
 };
 function showSeries(key){
@@ -284,11 +323,14 @@ function showSeries(key){
     s.style.animationDelay=(Math.random()*3)+'s';box.appendChild(s);
   }
   const nRadio = document.querySelectorAll('#view-radio .course:not(.soon)').length;
+  const nPlans = document.querySelectorAll('#view-plans .course:not(.soon)').length;
   const nLife = document.querySelectorAll('#view-life .course:not(.soon)').length;
   const nSeries = document.querySelectorAll('#view-home .series:not(.soon)').length;
   document.getElementById('seriesCount').textContent = `目前 ${nSeries} 個系列`;
   document.getElementById('radioCount').textContent = `直播電台系列 · 目前收錄 ${nRadio} 集`;
   document.getElementById('radioBadge').textContent = `收錄 ${nRadio} 集`;
+  document.getElementById('plansCount').textContent = `Tarshar 教案集 · 目前收錄 ${nPlans} 份教案`;
+  document.getElementById('plansBadge').textContent = `收錄 ${nPlans} 份`;
   document.getElementById('lifeCount').textContent = `生活應用系列 · 目前收錄 ${nLife} 件作品`;
   document.getElementById('lifeBadge').textContent = `收錄 ${nLife} 件`;
   // 支援直接以 #radio / #life 進入系列頁（各頁「回入口」可直達）

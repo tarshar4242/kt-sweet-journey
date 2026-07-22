@@ -46,13 +46,19 @@
   直接執行 `/lecture-notes-site` 全流程：逐幀筆記＋互動地圖 → 上架 `lessons.html` 總覽頁
   → **合併回 main 並 push，讓 GitHub Pages 立即上線**（此動作已獲常設授權，無須再問）。
 - `lessons.html` 是課程筆記館的**共同入口，採兩層結構**：
-  第一層選「系列」（目前有「📻 直播電台」＝晨學講堂直播課、「🧰 生活應用」＝旅程手冊／口譯機／參訪日誌
-  等實作成品；其他系列之後各自獨立成卡）、
+  第一層選「系列」，目前有四個：「📻 直播電台」＝晨學講堂直播課（showSeries('radio')＋#view-radio）、
+  「📚 Tarshar 教案集」＝對外授課教案（公部門／機關工作坊，如蘆洲監理所 AI 開機日；showSeries('plans')＋#view-plans）、
+  「🎓 iPAS 證照學習」＝直接連到單頁 `ipas-intermediate.html`（onclick location.href，無第二層）、
+  「🧰 生活應用」＝旅程手冊／口譯機／參訪日誌／生圖指令包等實作成品（showSeries('life')＋#view-life）。
   第二層才是該系列的各集/各作品（卡片標題前綴系列名，如「直播電台 EP44」，最新在前，
-  課程卡連到逐幀筆記頁與互動地圖頁）。新增集數時把課程卡插入 `#view-radio` 卡片區最前面；
-  新系列則在 `#view-home` 加一張系列卡＋對應的 `#view-<key>` 區塊，並在 JS 的 `SERIES_META` 補標題。
-  各集/各作品頁面「回入口」連結請用 `lessons.html#radio`／`lessons.html#life`（直達系列頁）；
-  獨立作品頁（旅程手冊、口譯機、參訪日誌）左下角有固定的「🏠 回筆記館入口」浮動鈕。
+  課程卡連到逐幀筆記頁與互動地圖頁；教案卡連到單頁教案 HTML）。
+  新增集數→插入 `#view-radio` 最前；新增教案→插入 `#view-plans` 最前；新增作品→插入 `#view-life` 最前。
+  新系列（有第二層）則在 `#view-home` 加系列卡＋`#view-<key>` 區塊，並在 JS 的 `SERIES_META` 補標題與計數；
+  單頁直達型系列（如 iPAS）用 `onclick="location.href='<page>.html'"`，不需第二層。
+  各頁「回入口」連結用 `lessons.html#radio`／`#plans`／`#life`（直達系列頁）；
+  獨立作品頁左下角有固定「🏠 回筆記館入口」浮動鈕。
+  ⚠️ 多人可能同時改 `lessons.html`／CLAUDE.md：push main 前先 `git fetch origin main`，
+  若 origin 已前進就 rebase 並保留他人新增的系列/卡片（別覆蓋），衝突時兩邊內容都留。
 
 ## 網頁慣例
 
