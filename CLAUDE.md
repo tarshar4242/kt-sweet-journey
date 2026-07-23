@@ -57,6 +57,11 @@
   單頁直達型系列（如 iPAS）用 `onclick="location.href='<page>.html'"`，不需第二層。
   各頁「回入口」連結用 `lessons.html#radio`／`#plans`／`#life`（直達系列頁）；
   獨立作品頁左下角有固定「🏠 回筆記館入口」浮動鈕。
+  （2026-07-23 新增）「📮 主題式電子報」系列（showSeries('edm')＋#view-edm）：
+  每期一頁 `edm-NNN.html`，卡片前綴「電子報 NNN」，編號「電子報 NNN｜YYYY.MM.DD」，最新在最前；
+  回入口用 `lessons.html#edm`。首頁另有「呈現方式」切換鈕（▦ 卡片／☰ 目錄）：
+  目錄模式左側是自動從各 `#view-*` 卡片生成的系列目錄，選擇存 localStorage `lessons_mode`；
+  新增系列/卡片時目錄會自動更新，但單頁直達型系列要在 JS 的 `TOC_SERIES` 補一列。
   ⚠️ 多人可能同時改 `lessons.html`／CLAUDE.md：push main 前先 `git fetch origin main`，
   若 origin 已前進就 rebase 並保留他人新增的系列/卡片（別覆蓋），衝突時兩邊內容都留。
 
