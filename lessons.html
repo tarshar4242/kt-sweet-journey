@@ -93,7 +93,7 @@ footer a{color:var(--txt2)}
 <div class="stars" id="stars"></div>
 
 <header>
-  <div class="hero-photo">
+  <div class="hero-photo" id="heroPhoto">
     <img src="home-hero.jpg" alt="Learn AI with Tarshar — 一起輕輕鬆鬆學 AI" width="1254" height="1254" fetchpriority="high">
   </div>
   <h1 id="pageTitle">課程<span class="accent">筆記館</span></h1>
@@ -423,7 +423,10 @@ const $ = s=>document.querySelector(s);
 function switchView(id){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   $('#view-'+id).classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
+  // 大圖主視覺只在首頁入口顯示；進入某個系列時收起，避免每次點功能都彈回大圖
+  const hero=document.getElementById('heroPhoto');
+  if(hero) hero.style.display = (id==='home') ? '' : 'none';
+  window.scrollTo({top:0,behavior:'auto'});
 }
 function showHome(){
   switchView('home');
