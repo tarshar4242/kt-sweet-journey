@@ -25,20 +25,24 @@ body{font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,san
 .stars{position:fixed;inset:0;pointer-events:none;z-index:0}
 .stars i{position:absolute;width:6px;height:6px;border-radius:50%;background:#e0a2a2;opacity:.16;animation:tw 4s infinite alternate}
 @keyframes tw{from{opacity:.05;transform:translateY(0)}to{opacity:.28;transform:translateY(-4px)}}
-header{position:relative;z-index:1;text-align:center;padding:56px 20px 30px;overflow:hidden}
-header .leaf{position:absolute;pointer-events:none;font-size:64px;opacity:.16;filter:saturate(.7)}
-header .leaf.l1{top:8px;left:14px;transform:rotate(-18deg)}
-header .leaf.l2{top:30px;right:22px;font-size:44px;transform:rotate(16deg)}
-header .leaf.l3{bottom:6px;left:40px;font-size:38px;opacity:.12;transform:rotate(8deg)}
+header{position:relative;z-index:1;text-align:center;padding:60px 22px 40px;overflow:hidden;
+  background:radial-gradient(560px 380px at 10% -6%,rgba(168,198,134,.34),transparent 62%),
+  radial-gradient(460px 340px at 92% 118%,rgba(200,225,175,.26),transparent 60%)}
+header .hero-illus{position:absolute;top:-6px;left:-6px;width:min(300px,44vw);height:auto;pointer-events:none;z-index:-1}
+header .hero-illus.br{left:auto;right:-16px;top:auto;bottom:-22px;width:min(160px,26vw);transform:scaleX(-1)}
+header .heart{position:absolute;pointer-events:none;font-size:16px;opacity:.6;z-index:-1}
 header .brand{position:relative;display:inline-block;font-size:13px;letter-spacing:1px;font-weight:700;color:#7a5c5c;
   padding:5px 16px;margin-bottom:18px;border-radius:6px 12px 8px 12px;
-  background:linear-gradient(105deg,rgba(224,162,162,.42),rgba(224,162,162,.28));box-shadow:0 1px 0 rgba(205,125,125,.25)}
+  background:linear-gradient(105deg,rgba(224,162,162,.46),rgba(224,162,162,.30));box-shadow:0 1px 0 rgba(205,125,125,.28)}
 header h1{position:relative;font-size:clamp(30px,5.4vw,48px);font-weight:900;line-height:1.28;letter-spacing:1px;color:#4a5a38}
 header h1 .accent{color:#c07a7a}
-header .divider{display:flex;align-items:center;justify-content:center;gap:12px;margin:14px auto 0;color:#8aa06e;font-size:14px;font-weight:700;letter-spacing:1px}
+header .divider{display:flex;align-items:center;justify-content:center;gap:12px;margin:14px auto 2px;color:#8aa06e;font-size:14px;font-weight:700;letter-spacing:1px}
 header .divider::before,header .divider::after{content:"";width:44px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#a9c48f)}
 header .divider::after{background:linear-gradient(90deg,#a9c48f,transparent)}
-header p{position:relative;margin:16px auto 0;max-width:600px;color:var(--txt2);font-size:15px;line-height:1.95}
+header .quote{position:relative;display:inline-block;margin:10px auto 0;color:#9a7d6a;font-size:14.5px;letter-spacing:2px}
+header .quote::before{content:"\201C";margin-right:6px;color:#c8a05f;font-weight:900}
+header .quote::after{content:"\201D";margin-left:4px;color:#c8a05f;font-weight:900}
+header p{position:relative;margin:14px auto 0;max-width:600px;color:var(--txt2);font-size:15px;line-height:1.95}
 main{position:relative;z-index:1;max-width:1000px;margin:14px auto 0;padding:0 20px 40px}
 /* 麵包屑 */
 .crumbs{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--txt3);margin:6px 0 18px;flex-wrap:wrap}
@@ -97,10 +101,36 @@ footer a{color:var(--txt2)}
 <div class="stars" id="stars"></div>
 
 <header>
-  <span class="leaf l1">🌿</span><span class="leaf l2">🍃</span><span class="leaf l3">🍀</span>
+  <svg class="hero-illus" viewBox="0 0 300 250" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M6 2 C64 34 116 78 150 158" fill="none" stroke="#88ab63" stroke-width="4" stroke-linecap="round" opacity=".55"/>
+    <g stroke="#7c9f5b" stroke-width="1.2" opacity=".9">
+      <g fill="#b7d29c"><g transform="translate(20,20) rotate(28) scale(1.15)"><path d="M0 9 C7 0 24 -1 37 9 C24 19 7 18 0 9 Z"/><line x1="4" y1="9" x2="33" y2="9" opacity=".5"/></g></g>
+      <g fill="#9dc07f"><g transform="translate(48,44) rotate(-8) scale(1.2)"><path d="M0 9 C7 0 24 -1 37 9 C24 19 7 18 0 9 Z"/><line x1="4" y1="9" x2="33" y2="9" opacity=".5"/></g></g>
+      <g fill="#b7d29c"><g transform="translate(74,74) rotate(40) scale(1.1)"><path d="M0 9 C7 0 24 -1 37 9 C24 19 7 18 0 9 Z"/><line x1="4" y1="9" x2="33" y2="9" opacity=".5"/></g></g>
+      <g fill="#8bb26c"><g transform="translate(96,104) rotate(6) scale(1.25)"><path d="M0 9 C7 0 24 -1 37 9 C24 19 7 18 0 9 Z"/><line x1="4" y1="9" x2="33" y2="9" opacity=".5"/></g></g>
+      <g fill="#a9cb8c"><g transform="translate(118,138) rotate(48) scale(1.05)"><path d="M0 9 C7 0 24 -1 37 9 C24 19 7 18 0 9 Z"/><line x1="4" y1="9" x2="33" y2="9" opacity=".5"/></g></g>
+      <g fill="#c3dcaa"><g transform="translate(8,58) rotate(-30) scale(.95)"><path d="M0 9 C7 0 24 -1 37 9 C24 19 7 18 0 9 Z"/><line x1="4" y1="9" x2="33" y2="9" opacity=".5"/></g></g>
+      <g fill="#9dc07f"><g transform="translate(140,168) rotate(18) scale(1.1)"><path d="M0 9 C7 0 24 -1 37 9 C24 19 7 18 0 9 Z"/><line x1="4" y1="9" x2="33" y2="9" opacity=".5"/></g></g>
+    </g>
+    <g fill="#4f7d3e" opacity=".85">
+      <path d="M182 30 l2.4 4.9 5.4 .8 -3.9 3.8 .9 5.4 -4.8 -2.6 -4.8 2.6 .9 -5.4 -3.9 -3.8 5.4 -.8 Z"/>
+    </g>
+    <path d="M60 176 c-8 -6 -20 2 -12 12 c4 6 12 10 12 10 c0 0 8 -4 12 -10 c8 -10 -4 -18 -12 -12 Z" fill="#e6a6a6" opacity=".55"/>
+  </svg>
+  <svg class="hero-illus br" viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M110 8 C74 30 44 56 26 100" fill="none" stroke="#8bb26c" stroke-width="3.4" stroke-linecap="round" opacity=".5"/>
+    <g stroke="#7c9f5b" stroke-width="1.1" opacity=".85">
+      <g fill="#b7d29c"><g transform="translate(88,20) rotate(150) scale(.95)"><path d="M0 8 C6 0 21 -1 33 8 C21 17 6 16 0 8 Z"/></g></g>
+      <g fill="#9dc07f"><g transform="translate(62,48) rotate(120) scale(1)"><path d="M0 8 C6 0 21 -1 33 8 C21 17 6 16 0 8 Z"/></g></g>
+      <g fill="#a9cb8c"><g transform="translate(40,78) rotate(160) scale(.9)"><path d="M0 8 C6 0 21 -1 33 8 C21 17 6 16 0 8 Z"/></g></g>
+    </g>
+  </svg>
+  <span class="heart" style="top:20%;right:15%">🩷</span>
+  <span class="heart" style="top:40%;right:9%;font-size:13px">🩷</span>
   <span class="brand">🍀 Learn AI with Tarshar</span>
   <h1 id="pageTitle">課程<span class="accent">筆記館</span></h1>
   <div class="divider">一起輕輕鬆鬆學 AI</div>
+  <p class="quote">更好上手・更好懂・更完整　🍀</p>
   <p id="pageSub">所有課程的<b>共同入口</b>：先選一個系列，再進入該系列的每一集——每集都有可對照錄影的<b>逐幀課堂筆記</b>與可打勾追蹤的<b>互動學習地圖</b>。</p>
 </header>
 
