@@ -60,11 +60,13 @@
   .about{font-size:.96rem; color:var(--soft)}
   footer{text-align:center; color:var(--soft); font-size:.82rem; margin-top:26px}
 
-  /* 固定回入口浮動鈕 */
-  .home-fab{position:fixed; left:16px; bottom:16px; z-index:50;
-    background:var(--clover); color:#fff; text-decoration:none; font-weight:700; font-size:.9rem;
-    padding:10px 16px; border-radius:999px; box-shadow:0 8px 22px -8px rgba(91,140,90,.7)}
+  /* 固定回入口浮動鈕（左上角） */
+  .home-fab{position:fixed; left:14px; top:14px; z-index:50;
+    background:rgba(255,255,255,.94); color:var(--clover); text-decoration:none; font-weight:800; font-size:.9rem;
+    padding:9px 15px; border-radius:999px; box-shadow:0 8px 22px -8px rgba(60,50,30,.5); border:1px solid rgba(255,255,255,.7)}
   .home-fab:active{transform:translateY(1px)}
+  /* 手機上把報頭往下推，避免和左上角返回鈕重疊 */
+  @media (max-width:760px){ .band{padding-top:60px} }
 </style>
 </head>
 <body>
