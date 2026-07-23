@@ -7,30 +7,33 @@
 <meta name="description" content="晨學講堂課後筆記館：先選系列（直播電台…），再進入各集的逐幀課堂筆記與互動學習地圖">
 <style>
 :root{
-  --bg:#0a0e1a; --bg2:#0f1526; --panel:#141b30;
-  --line:rgba(120,160,255,.16); --line2:rgba(120,160,255,.32);
-  --txt:#e8eeff; --txt2:#9fb0d8; --txt3:#6b7ba3;
-  --cyan:#38e1ff; --blue:#4f7cff; --purple:#a06bff; --pink:#ff5fa8; --green:#3ddc97; --orange:#ffb648; --amber:#ffcf6b;
+  /* 文青柔柔奶油紙感 */
+  --bg:#f7f0e4; --bg2:#fbf5ea; --panel:#fffdf8;
+  --line:rgba(150,128,96,.20); --line2:rgba(150,128,96,.32);
+  --txt:#5c5347; --txt2:#8b8070; --txt3:#a99b86;
+  /* 柔和莫蘭迪粉彩（沿用原變數名，色值全部改淡） */
+  --cyan:#8fb6c6; --blue:#8aa9c9; --purple:#b6a3d4; --pink:#e0a2a2; --green:#9bbf86; --orange:#e3ac7a; --amber:#e4c079;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
   background:var(--bg);color:var(--txt);min-height:100vh;
-  background-image:radial-gradient(1000px 500px at 85% -5%,rgba(79,124,255,.15),transparent 60%),
-  radial-gradient(800px 450px at 5% 15%,rgba(160,107,255,.12),transparent 60%);background-attachment:fixed}
+  background-image:radial-gradient(900px 520px at 85% -8%,rgba(155,191,134,.20),transparent 62%),
+  radial-gradient(820px 480px at 8% 12%,rgba(224,162,162,.16),transparent 62%),
+  radial-gradient(700px 520px at 55% 108%,rgba(228,192,121,.14),transparent 60%);background-attachment:fixed}
 .stars{position:fixed;inset:0;pointer-events:none;z-index:0}
-.stars i{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:.22;animation:tw 3s infinite alternate}
-@keyframes tw{from{opacity:.06}to{opacity:.45}}
+.stars i{position:absolute;width:6px;height:6px;border-radius:50%;background:#e0a2a2;opacity:.16;animation:tw 4s infinite alternate}
+@keyframes tw{from{opacity:.05;transform:translateY(0)}to{opacity:.28;transform:translateY(-4px)}}
 header{position:relative;z-index:1;text-align:center;padding:64px 20px 26px}
-header .brand{display:inline-block;font-size:12.5px;letter-spacing:3px;color:var(--cyan);
-  border:1px solid rgba(56,225,255,.4);background:rgba(56,225,255,.07);border-radius:999px;padding:6px 18px;margin-bottom:20px}
+header .brand{display:inline-block;font-size:12.5px;letter-spacing:3px;color:#8a9e6f;
+  border:1px solid rgba(155,191,134,.5);background:rgba(155,191,134,.14);border-radius:999px;padding:6px 18px;margin-bottom:20px}
 header h1{font-size:clamp(28px,5vw,46px);font-weight:900;line-height:1.3;
-  background:linear-gradient(92deg,#fff 15%,var(--cyan) 50%,var(--purple) 85%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  background:linear-gradient(92deg,#8aa06e 12%,#c98f8f 55%,#c6a56b 92%);-webkit-background-clip:text;background-clip:text;color:transparent}
 header p{margin:14px auto 0;max-width:600px;color:var(--txt2);font-size:15px;line-height:1.9}
 main{position:relative;z-index:1;max-width:1000px;margin:14px auto 0;padding:0 20px 40px}
 /* 麵包屑 */
 .crumbs{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--txt3);margin:6px 0 18px;flex-wrap:wrap}
-.crumbs a{color:var(--cyan);text-decoration:none;cursor:pointer}
+.crumbs a{color:#8a9e6f;text-decoration:none;cursor:pointer}
 .crumbs a:hover{text-decoration:underline}
 .crumbs .sep{opacity:.5}
 .count{font-size:13px;color:var(--txt3);letter-spacing:1px;margin-bottom:14px}
@@ -40,30 +43,30 @@ main{position:relative;z-index:1;max-width:1000px;margin:14px auto 0;padding:0 2
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 /* ── 第一層：系列卡 ── */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
-.series{position:relative;border:1px solid var(--line);border-radius:20px;overflow:hidden;cursor:pointer;
-  background:linear-gradient(165deg,var(--panel),var(--bg2));transition:transform .25s,border-color .25s,box-shadow .25s;
+.series{position:relative;border:1px solid var(--line);border-radius:22px;overflow:hidden;cursor:pointer;
+  background:var(--panel);box-shadow:0 8px 26px -18px rgba(150,120,90,.5);transition:transform .25s,border-color .25s,box-shadow .25s;
   padding:30px 26px 24px}
-.series:hover{transform:translateY(-6px);border-color:var(--c,var(--cyan));box-shadow:0 16px 44px -16px var(--c,rgba(56,225,255,.4))}
-.series .top{position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,var(--c,var(--cyan)),transparent)}
-.series .emoji{font-size:42px;display:block;margin-bottom:12px;filter:drop-shadow(0 0 14px var(--c,rgba(56,225,255,.4)))}
+.series:hover{transform:translateY(-6px);border-color:var(--c,var(--green));box-shadow:0 18px 40px -20px var(--c,rgba(155,191,134,.7))}
+.series .top{position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,var(--c,var(--green)),transparent)}
+.series .emoji{font-size:42px;display:block;margin-bottom:12px;filter:drop-shadow(0 4px 8px rgba(150,120,90,.18))}
 .series h2{font-size:22px;font-weight:900;margin-bottom:6px}
-.series h2 em{font-style:normal;display:block;font-size:11.5px;letter-spacing:3px;color:var(--c,var(--cyan));margin-bottom:6px}
+.series h2 em{font-style:normal;display:block;font-size:11.5px;letter-spacing:3px;color:var(--c,var(--green));margin-bottom:6px}
 .series p.desc{font-size:13.5px;color:var(--txt2);line-height:1.8;min-height:66px}
 .series .foot{display:flex;justify-content:space-between;align-items:center;margin-top:16px;font-size:12.5px;color:var(--txt3)}
-.series .foot .go{color:var(--c,var(--cyan));font-weight:700}
-.series .badge{display:inline-block;font-size:12px;color:var(--c,var(--cyan));border:1px solid var(--line2);border-radius:999px;padding:4px 12px;background:rgba(56,225,255,.05)}
-.series.soon{opacity:.55;border-style:dashed;cursor:default}
+.series .foot .go{color:var(--c,var(--green));font-weight:700}
+.series .badge{display:inline-block;font-size:12px;color:var(--c,var(--green));border:1px solid var(--line2);border-radius:999px;padding:4px 12px;background:rgba(155,191,134,.08)}
+.series.soon{opacity:.7;border-style:dashed;cursor:default;background:transparent;box-shadow:none}
 .series.soon:hover{transform:none;box-shadow:none;border-color:var(--line)}
 .series.soon .body-center{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:180px;text-align:center}
 .series.soon .plus{font-size:34px;color:var(--txt3)}
 .series.soon p{color:var(--txt3);font-size:13px;margin-top:8px;line-height:1.8}
 /* ── 第二層：課程卡 ── */
-.course{position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;
-  background:linear-gradient(165deg,var(--panel),var(--bg2));transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column}
-.course:hover{transform:translateY(-5px);border-color:var(--c,var(--cyan));box-shadow:0 16px 44px -16px var(--c,rgba(56,225,255,.4))}
-.course .top{height:4px;background:linear-gradient(90deg,transparent,var(--c,var(--cyan)),transparent)}
+.course{position:relative;border:1px solid var(--line);border-radius:20px;overflow:hidden;
+  background:var(--panel);box-shadow:0 8px 26px -18px rgba(150,120,90,.5);transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column}
+.course:hover{transform:translateY(-5px);border-color:var(--c,var(--green));box-shadow:0 18px 40px -20px var(--c,rgba(155,191,134,.7))}
+.course .top{height:4px;background:linear-gradient(90deg,transparent,var(--c,var(--green)),transparent)}
 .course .body{padding:22px 22px 18px;flex:1}
-.course .ep{font-size:11.5px;letter-spacing:2px;color:var(--c,var(--cyan));font-weight:700}
+.course .ep{font-size:11.5px;letter-spacing:2px;color:var(--c,var(--green));font-weight:700}
 .course h2{font-size:19px;font-weight:800;margin:8px 0 8px;line-height:1.5}
 .course p.desc{font-size:13.5px;color:var(--txt2);line-height:1.8}
 .course .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
@@ -72,8 +75,8 @@ main{position:relative;z-index:1;max-width:1000px;margin:14px auto 0;padding:0 2
 .course .links{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border-top:1px solid var(--line)}
 .course .links a{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;
   padding:14px 8px;font-size:13.5px;font-weight:700;color:var(--txt2);background:var(--bg2);transition:.2s}
-.course .links a:hover{color:var(--c,var(--cyan));background:var(--panel)}
-.course.soon{opacity:.55;border-style:dashed}
+.course .links a:hover{color:var(--c,var(--green));background:#fff}
+.course.soon{opacity:.7;border-style:dashed;background:transparent;box-shadow:none}
 .course.soon .body{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:190px;text-align:center}
 .course.soon .plus{font-size:34px;color:var(--txt3)}
 .course.soon p{color:var(--txt3);font-size:13px;margin-top:8px;line-height:1.8}
@@ -437,10 +440,14 @@ function showSeries(key){
 }
 (function(){
   const box = document.getElementById('stars');
-  for(let i=0;i<60;i++){
+  const tints=['#e0a2a2','#9bbf86','#e4c079','#b6a3d4'];
+  for(let i=0;i<26;i++){
     const s=document.createElement('i');
     s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
-    s.style.animationDelay=(Math.random()*3)+'s';box.appendChild(s);
+    s.style.animationDelay=(Math.random()*3)+'s';
+    s.style.background=tints[i%tints.length];
+    const sc=.6+Math.random()*1.1;s.style.transform=`scale(${sc})`;
+    box.appendChild(s);
   }
   const nRadio = document.querySelectorAll('#view-radio .course:not(.soon)').length;
   const nPlans = document.querySelectorAll('#view-plans .course:not(.soon)').length;
