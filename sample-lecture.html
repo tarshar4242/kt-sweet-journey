@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金融科技課程：股票與期貨交易實務</title><style>
+:root{
+  --bg:#f6f8f1;--card:#fff;--ink:#242a1f;--muted:#6c7364;--line:#e2e7d6;
+  --accent:#8fb15e;--accent-deep:#5f8038;--accent-soft:#eef3e2;
+  --good:#6f9350;--warn:#c9a24b;--bad:#c76b6b;--info:#6a97c2;
+  --shadow:0 1px 2px rgba(40,50,30,.05),0 6px 20px rgba(40,50,30,.06);--radius:14px;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#151812;--card:#1e221a;--ink:#e9ede0;--muted:#9aa38c;--line:#2f3527;
+  --accent:#a8c686;--accent-deep:#bcd79b;--accent-soft:#26301c;
+  --good:#8fb570;--warn:#d8bd6e;--bad:#e08d8d;--info:#8fb6dd;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28);
+}}
+:root[data-theme="dark"]{
+  --bg:#151812;--card:#1e221a;--ink:#e9ede0;--muted:#9aa38c;--line:#2f3527;
+  --accent:#a8c686;--accent-deep:#bcd79b;--accent-soft:#26301c;
+  --good:#8fb570;--warn:#d8bd6e;--bad:#e08d8d;--info:#8fb6dd;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28);
+}
+:root[data-theme="light"]{
+  --bg:#f6f8f1;--card:#fff;--ink:#242a1f;--muted:#6c7364;--line:#e2e7d6;
+  --accent:#8fb15e;--accent-deep:#5f8038;--accent-soft:#eef3e2;
+  --good:#6f9350;--warn:#c9a24b;--bad:#c76b6b;--info:#6a97c2;
+  --shadow:0 1px 2px rgba(40,50,30,.05),0 6px 20px rgba(40,50,30,.06);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto;padding:clamp(22px,5vw,52px) clamp(16px,4vw,30px)}
+.kicker{font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-deep);font-weight:700}
+h1.doc{font-size:clamp(1.7rem,4vw,2.5rem);margin:.28em 0 .12em;line-height:1.16;text-wrap:balance;font-weight:800}
+.docsub{color:var(--muted);font-size:1.02rem;margin:0 0 8px}
+section.blk{margin-top:34px}
+h2.blk{font-size:1.28rem;font-weight:800;margin:0 0 12px;display:flex;align-items:center;gap:.5em}
+h2.blk .ic{font-size:1.1em}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+/* info table */
+table.info{width:100%;border-collapse:collapse;overflow:hidden;border-radius:var(--radius)}
+table.info td{border:1px solid var(--line);padding:9px 12px;font-size:.95rem}
+table.info td.k{background:var(--accent-soft);font-weight:700;width:22%;white-space:nowrap;color:var(--accent-deep)}
+/* dashboard */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center;box-shadow:var(--shadow)}
+.tile b{display:block;font-size:1.7rem;font-weight:800;color:var(--accent-deep);font-variant-numeric:tabular-nums;line-height:1.1}
+.tile span{font-size:.78rem;color:var(--muted)}
+.tile.warn b{color:var(--warn)}.tile.bad b{color:var(--bad)}.tile.good b{color:var(--good)}
+/* gantt */
+.gantt{display:flex;flex-direction:column;gap:9px}
+.grow{display:grid;grid-template-columns:130px 1fr;align-items:center;gap:10px;font-size:.86rem}
+.gtrack{position:relative;height:16px;background:var(--accent-soft);border-radius:8px}
+.gbar{position:absolute;height:16px;border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--accent-deep));display:flex;align-items:center;padding:0 7px;font-size:.68rem;color:#fff;white-space:nowrap;overflow:hidden}
+/* timeline */
+.tl{position:relative;padding-left:22px;margin:0}
+.tl::before{content:"";position:absolute;left:6px;top:4px;bottom:4px;width:2px;background:var(--accent)}
+.tl li{position:relative;list-style:none;margin:0 0 12px;padding:0}
+.tl li::before{content:"";position:absolute;left:-22px;top:7px;width:10px;height:10px;border-radius:50%;background:var(--accent-deep);border:2px solid var(--card)}
+.tl .t{font-weight:700;color:var(--accent-deep);font-size:.82rem;margin-right:8px}
+/* mindmap (nested) */
+.mind{padding:16px}
+.mnode{font-weight:800;font-size:1.05rem;color:var(--accent-deep);margin-bottom:10px}
+.mbranch{border-left:2px solid var(--line);margin-left:8px;padding-left:14px}
+.mbranch>.mb{margin:8px 0}
+.mb-h{font-weight:700}
+.mb-h::before{content:"◆ ";color:var(--accent)}
+.mb ul{margin:4px 0 0;padding-left:18px}
+.mb li{font-size:.9rem;margin:2px 0}
+/* quotes */
+.quote{border-left:4px solid var(--accent-deep);background:var(--accent-soft);border-radius:0 10px 10px 0;padding:11px 15px;margin:0 0 10px;font-size:.98rem;font-style:italic}
+.quote .who{display:block;font-style:normal;font-size:.8rem;color:var(--muted);margin-top:4px}
+/* checklist */
+ul.check{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+ul.check li{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 13px}
+.cbox{width:17px;height:17px;border-radius:5px;border:2px solid var(--accent-deep);flex:none;margin-top:2px;position:relative}
+.cbox.on{background:var(--accent-deep)}
+.cbox.on::after{content:"✓";color:var(--card);font-size:12px;position:absolute;top:-2px;left:2px}
+/* glossary */
+table.gl{width:100%;border-collapse:collapse}
+table.gl td{border-bottom:1px solid var(--line);padding:8px 10px;font-size:.92rem;vertical-align:top}
+table.gl td.term{font-weight:700;color:var(--accent-deep);width:30%;white-space:nowrap}
+/* actions / generic table */
+table.grid{width:100%;border-collapse:collapse;font-size:.9rem}
+table.grid th{background:var(--accent-soft);color:var(--accent-deep);font-weight:700;text-align:left;padding:9px 11px;border:1px solid var(--line)}
+table.grid td{padding:8px 11px;border:1px solid var(--line)}
+.prio{font-size:.72rem;padding:2px 8px;border-radius:12px;font-weight:700}
+.prio.高{background:var(--bad);color:#fff}.prio.中{background:var(--warn);color:#fff}.prio.低{background:var(--good);color:#fff}
+/* risk matrix */
+.risk{display:grid;grid-template-columns:auto 1fr 1fr 1fr;gap:5px;font-size:.8rem}
+.risk .hd{font-weight:700;color:var(--muted);display:flex;align-items:center;justify-content:center;text-align:center;padding:4px}
+.risk .cell{border-radius:8px;padding:8px;min-height:52px;color:#fff;font-size:.76rem}
+.risk .lo{background:var(--good)}.risk .mid{background:var(--warn)}.risk .hi{background:var(--bad)}
+/* bullets / tldr */
+ul.bul{margin:0;padding-left:20px}ul.bul li{margin:5px 0}
+.tldr{background:var(--accent-soft);border-radius:12px;padding:15px 18px;font-size:1.05rem;font-weight:600;line-height:1.6}
+.disc{border:1px dashed var(--bad);border-radius:12px;padding:12px 15px;color:var(--bad);font-size:.88rem;background:transparent}
+.overflow{overflow-x:auto}
+footer.doc{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem;text-align:center}
+</style></head><body>
+<div class="wrap">
+<div class="kicker">🍀 地端 AI · 課堂筆記</div>
+<h1 class="doc">金融科技課程：股票與期貨交易實務</h1>
+<p class="docsub">鄭老師　·　2026/03/05　·　晨學講堂</p>
+<section class="blk"><table class="info"><tr><td class="k">講者</td><td>鄭老師</td></tr><tr><td class="k">日期</td><td>2026/03/05</td></tr><tr><td class="k">主題</td><td>股票與期貨交易實務、財務報表入門</td></tr></table></section><section class="blk"><h2 class="blk"><span class="ic">⚡</span>一句話總覽</h2><div class="tldr">從股票夜盤、期貨保證金談到財報三大表，帶小白建立交易基本觀念與風險紀律。</div></section><section class="blk"><h2 class="blk"><span class="ic">🧠</span>知識地圖</h2><div class="mind card"><div class="mnode">🧠 金融交易基礎</div><div class="mbranch"><div class="mb"><div class="mb-h">股票交易</div><ul><li>以「一張」為核心單位</li><li>成交後 T+2 扣款</li><li>忘記放錢＝違約交割，可大可小</li></ul></div><div class="mb"><div class="mb-h">期貨</div><ul><li>以「一口」計價，須先付保證金</li><li>原始／維持保證金兩種</li><li>跌破水位觸發 Margin Call 補錢</li></ul></div><div class="mb"><div class="mb-h">交易方式</div><ul><li>現價 vs 市價</li><li>市價有滑價風險</li><li>當沖：當日買賣結清</li></ul></div><div class="mb"><div class="mb-h">財務報表</div><ul><li>資產負債表：某時間點快照</li><li>損益表、現金流量表</li><li>資產＝負債＋權益</li></ul></div></div></div></section><section class="blk"><h2 class="blk"><span class="ic">⏱️</span>章節脈絡</h2><ul class="tl"><li><span class="t">開場</span>夜盤時段與期貨如何跟台股共振</li><li><span class="t">第一段</span>股票 T+2 扣款、違約交割的嚴重性</li><li><span class="t">第二段</span>期貨保證金、維持保證金與 Margin Call</li><li><span class="t">第三段</span>下單條件 ROD／IOC／FOK 的差別</li><li><span class="t">第四段</span>財報三大表與資產負債表細部</li></ul></section><section class="blk"><h2 class="blk"><span class="ic">•</span>核心觀念</h2><ul class="bul"><li>保證金：買期貨前要先押的本錢，分「原始保證金」與「維持保證金」，跌破維持水位就要補錢。</li><li>違約交割：成交後忘記放錢，輕則信用污點、重則涉及刑事責任，務必留足款項。</li><li>滑價：用市價下單時，實際成交價可能跟你看到的價格差一截，是市價單最大的風險。</li><li>資產＝負債＋權益：資產負債表最高原則，左邊資產總額恆等於右邊負債加權益。</li></ul></section><section class="blk"><h2 class="blk"><span class="ic">💬</span>老師金句</h2><div class="quote">「玩期貨，心臟要夠大。」<span class="who">— 鄭老師</span></div><div class="quote">「我們做交易就是要有紀律。」<span class="who">— 鄭老師</span></div></section><section class="blk"><h2 class="blk"><span class="ic">📖</span>名詞白話對照</h2><div class="overflow"><table class="gl"><tr><td class="term">保證金</td><td>買期貨先押在戶頭裡的本錢。</td></tr><tr><td class="term">維持保證金</td><td>帳戶價值必須維持的最低水位，跌破就被通知補錢。</td></tr><tr><td class="term">Margin Call</td><td>保證金不足時，券商要求當日補足的通知。</td></tr><tr><td class="term">滑價</td><td>市價下單時實際成交價與預期價格的落差。</td></tr><tr><td class="term">當沖</td><td>同一天內完成買進與賣出，不必負擔本金。</td></tr><tr><td class="term">tick</td><td>價格的最小跳動單位，隨股價區間不同而不同。</td></tr></table></div></section><section class="blk"><h2 class="blk"><span class="ic">☑️</span>課後延伸與待複習</h2><ul class="check"><li><span class="cbox "></span><span>複習 ROD／IOC／FOK 三種下單條件的差別</span></li><li><span class="cbox "></span><span>看懂台積電資產負債表的資產、負債、權益三塊</span></li><li><span class="cbox "></span><span>到期交所網站查各期貨商品的保證金一覽表</span></li></ul></section>
+<footer class="doc">🍀 由地端 AI 語音轉紀錄平台自動產生　·　全程離線</footer>
+</div></body></html>
