@@ -111,49 +111,52 @@ footer.doc{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);col
 .seg button{border:none;background:transparent;color:var(--muted);font-weight:700;font-size:.86rem;
   padding:6px 14px;border-radius:7px;cursor:pointer;font-family:inherit}
 .seg button.on{background:var(--card);color:var(--accent-deep);box-shadow:var(--shadow)}
-.tbtn{margin-left:auto;border:1px solid var(--accent-deep);background:var(--accent-deep);color:#fff;
-  font-weight:700;font-size:.86rem;padding:8px 15px;border-radius:9px;cursor:pointer;font-family:inherit}
+.tbtn{border:1px solid var(--accent-deep);background:var(--accent-deep);color:#fff;
+  font-weight:700;font-size:.86rem;padding:8px 14px;border-radius:9px;cursor:pointer;font-family:inherit}
+.tbtn.first{margin-left:auto}
+.tbtn.ghost{background:transparent;color:var(--accent-deep)}
 .tbtn:hover{filter:brightness(1.06)}
 .hint{width:100%;font-size:.76rem;color:var(--muted);margin:2px 2px 0}
 /* 簡易模式：隱藏 detail 區塊 */
 body.simple section.detail{display:none}
-/* 簽核區（列印時才出現） */
+/* 簽核區（列印公文版時才出現） */
 .sign{display:none}
-/* ── 列印／存 PDF：正式文件版面 ── */
+/* ── 列印／存 PDF ── 兩種模式：pc=彩色網頁版（跟畫面一樣）、pf=正式公文版（黑字白底＋核章） */
 @media print{
-  @page{margin:16mm 15mm}
-  body{background:#fff;color:#000;font-size:11.5pt}
-  .wrap{max-width:none;padding:0}
+  @page{margin:14mm 13mm}
   .toolbar,.home{display:none!important}
-  .kicker{color:#000}
-  h1.doc{font-size:20pt}
-  h2.blk{font-size:13pt;border-bottom:1.5px solid #000;padding-bottom:3px}
-  .card,.tile,ul.check li{box-shadow:none!important;border:1px solid #666!important;background:#fff!important}
-  .tldr,.quote,.disc,table.info td.k,.tag,.prio{background:#fff!important;color:#000!important;border:1px solid #999}
-  .tile b,.tile.warn b,.tile.bad b,.tile.good b,.mnode,.mb-h::before,.tl .t,table.gl td.term,table.grid th{color:#000!important}
-  table.grid th{background:#eee!important}
-  .gbar{background:#555!important;color:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .gtrack{background:#eee!important}
-  .risk .cell{color:#000!important;border:1px solid #999}
-  .risk .lo,.risk .mid,.risk .hi{background:#fff!important}
-  .cbox{border-color:#000!important}.cbox.on{background:#000!important}
+  .wrap{max-width:none;padding:0}
   section.blk{break-inside:avoid}
   section.blk:has(.record){break-inside:auto}
-  .rec{box-shadow:none!important;border:1px solid #666!important;background:#fff!important;break-inside:auto}
-  .rec-h{color:#000!important;break-after:avoid}
-  .rec-n{background:#eee!important;color:#000!important}
-  tr,li,.quote{break-inside:avoid}
-  footer.doc{color:#000}
-  .sign{display:block!important;margin-top:26px;border-top:1px solid #000;padding-top:12px;font-size:11pt}
-  .sign .r{display:flex;gap:40px;margin-top:22px}
+  .rec{break-inside:auto}
+  tr,li,.quote,.rec-h{break-inside:avoid}
+  /* ── 彩色網頁版（預設）：強制保留螢幕的顏色與底色，PDF 就跟畫面一模一樣 ── */
+  body.pc,body.pc *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  body.pc .sign{display:none}
+  /* ── 正式公文版：黑字白底、實線框、加核章欄 ── */
+  body.pf{background:#fff!important;color:#000!important;font-size:11.5pt}
+  body.pf .kicker,body.pf footer.doc{color:#000}
+  body.pf h1.doc{font-size:20pt}
+  body.pf h2.blk{font-size:13pt;border-bottom:1.5px solid #000;padding-bottom:3px}
+  body.pf .card,body.pf .tile,body.pf ul.check li,body.pf .rec{box-shadow:none!important;border:1px solid #666!important;background:#fff!important}
+  body.pf .tldr,body.pf .quote,body.pf .disc,body.pf table.info td.k,body.pf .tag,body.pf .prio,body.pf .rec-n{background:#fff!important;color:#000!important;border:1px solid #999}
+  body.pf .tile b,body.pf .mnode,body.pf .tl .t,body.pf table.gl td.term,body.pf .rec-h{color:#000!important}
+  body.pf table.grid th{background:#eee!important;color:#000!important}
+  body.pf .gbar{background:#555!important;color:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body.pf .gtrack{background:#eee!important}
+  body.pf .risk .cell{color:#000!important;border:1px solid #999;background:#fff!important}
+  body.pf .cbox{border-color:#000!important}
+  body.pf .cbox.on{background:#000!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body.pf .sign{display:block!important;margin-top:26px;border-top:1px solid #000;padding-top:12px;font-size:11pt}
+  body.pf .sign .r{display:flex;gap:40px;margin-top:22px}
 }
-</style></head><body>
+</style></head><body class="pc">
 <div class="wrap">
-<div class="toolbar"><div class="seg"><button id="btnFull" class="on" onclick="setView(0)">詳細版</button><button id="btnLite" onclick="setView(1)">簡易重點版</button></div><button class="tbtn" onclick="window.print()">🖨️ 列印／存成 PDF</button><div class="hint">切「簡易重點版」只留精華；切「詳細版」展開全部。要印哪一版就先切好再按列印。</div></div>
+<div class="toolbar"><div class="seg"><button id="btnFull" class="on" onclick="setView(0)">詳細版</button><button id="btnLite" onclick="setView(1)">簡易重點版</button></div><button class="tbtn first" onclick="pdfWeb()">🖨️ 存成網頁版 PDF</button><button class="tbtn ghost" onclick="pdfDoc()">🏛️ 存成公文版 PDF</button><div class="hint">切「簡易重點版」只留精華、「詳細版」展開全部。「網頁版 PDF」＝跟畫面一樣的彩色版；「公文版 PDF」＝黑字白底、有核章的正式公文。按下去後在列印視窗選「儲存為 PDF」即可。</div></div>
 <div class="kicker">🍀 地端 AI · 論文 Meeting 記錄</div>
 <h1 class="doc">論文第三章　研究方法討論</h1>
 <p class="docsub">2026/07/20　·　指導教授：王教授</p>
 <section class="blk"><table class="info"><tr><td class="k">日期</td><td>2026/07/20</td></tr><tr><td class="k">指導教授</td><td>王教授</td></tr><tr><td class="k">討論主題</td><td>第三章研究方法與個案選擇</td></tr></table></section><section class="blk"><h2 class="blk"><span class="ic">•</span>教授回饋與指正</h2><ul class="bul"><li>研究問題還是太大，要再收斂到一個可回答的核心問題</li><li>個案選擇的理由要寫清楚，不能只說「因為方便取得」</li><li>研究方法章節要先交代研究典範，再談資料蒐集</li></ul></section><section class="blk"><h2 class="blk"><span class="ic">☑️</span>待修改清單</h2><ul class="check"><li><span class="cbox "></span><span>把研究問題從三個收斂成一個核心問題</span></li><li><span class="cbox "></span><span>補寫個案選擇的理論依據</span></li><li><span class="cbox "></span><span>第三章開頭加一段研究典範說明</span></li></ul></section><section class="blk"><h2 class="blk"><span class="ic">•</span>下次進度目標</h2><ul class="bul"><li>兩週內交出收斂後的研究問題與修訂版第三章架構</li></ul></section><section class="blk detail"><h2 class="blk"><span class="ic">📚</span>完整討論實錄（整理版）</h2><div class="record"><div class="rec"><h3 class="rec-h"><span class="rec-n">1</span>開場：進度報告</h3><p>學生先報告兩週進度：完成第三章研究方法初稿架構，包含研究設計、個案選擇、資料蒐集三節；並整理了十二篇個案研究法相關文獻的閱讀筆記。</p><p>教授肯定進度節奏，但提醒：「架構有了，靈魂還沒有——你要先說服我為什麼是這個問題、這個個案。」本次討論就聚焦在這兩點。</p></div><div class="rec"><h3 class="rec-h"><span class="rec-n">2</span>研究問題太大：收斂的過程</h3><p>學生原本列了三個研究問題：個人知識庫如何建立、使用歷程如何演變、對知識工作效率的影響。教授指出這是三篇論文的量，一篇碩論只能回答一個核心問題。</p><p>教授帶著學生逐一檢視：第一個問題偏向操作手冊，學術貢獻弱；第三個問題「效率影響」需要量化測量，單一個案很難成立；第二個「使用歷程的演變」最適合質性個案研究——有時間軸、有轉折、有可以深描的素材。</p><p>教授給的收斂原則：「好的研究問題要小到你能挖深，深到別人覺得有東西。」學生當場把問題初步改寫為「個人知識庫在長期使用中，人與系統的協作型態如何演變」，教授認為方向對了，要求回去再精煉措辭。</p></div><div class="rec"><h3 class="rec-h"><span class="rec-n">3</span>個案選擇的正當性</h3><p>教授指出初稿最弱的一段：個案選擇理由只寫了「資料取得便利」。這在審查時一定被挑戰——方便抽樣要有學理包裝，不能裸寫。</p><p>教授建議引用 Yin 的個案研究法，論證這是「獨特個案（unique case）」或「啟示性個案（revelatory case）」：研究者本人長期、高頻使用個人知識庫，能取得外人拿不到的縱深資料，這是這個個案的不可替代性。</p><p>同時要誠實面對自我研究的限制：加一節說明研究者角色與偏誤控制（例如以系統日誌、文件軌跡做三角驗證，不只靠回憶）。</p></div><div class="rec"><h3 class="rec-h"><span class="rec-n">4</span>研究方法章節的結構調整</h3><p>教授看初稿目錄後指出順序問題：現在是直接跳到資料蒐集，缺了「研究典範」的交代。質性研究要先講清楚立場——是詮釋主義取向，關注意義的建構，再往下談為什麼選個案研究策略、為什麼是單一個案。</p><p>指示的新結構：3.1 研究典範與取向 → 3.2 研究策略（個案研究法）→ 3.3 個案選擇 → 3.4 資料蒐集 → 3.5 資料分析 → 3.6 研究品質與倫理。學生依此重排。</p></div><div class="rec"><h3 class="rec-h"><span class="rec-n">5</span>資料蒐集方式的討論</h3><p>確認三種資料來源做三角驗證：一、系統內的文件與紀錄（知識庫條目、版本歷史、對話紀錄）；二、研究者的使用日誌（回溯＋前瞻並行，即日起每週固定寫）；三、半結構式的自我訪談與同儕檢核（請一位同學定期擔任批判性朋友，檢視詮釋是否過度）。</p><p>教授特別提醒：資料蒐集要「現在就開始」，不要等第三章寫完——歷程研究最怕事後重建記憶。</p></div><div class="rec"><h3 class="rec-h"><span class="rec-n">6</span>下次進度與確認</h3><p>議定兩週後交：收斂後的研究問題（一句話版＋一段說明）、依新結構重排的第三章、開始記錄的第一批使用日誌。</p><p>學生提出待拍板問題：核心問題聚焦「使用歷程」還是「知識沉澱效果」？教授初步傾向歷程，但要求學生把兩個版本各寫一段研究問題陳述，下次一起比較後定案。</p></div></div></section><section class="blk detail"><h2 class="blk"><span class="ic">•</span>本次討論重點</h2><ul class="bul"><li>報告第三章研究方法的初稿架構</li><li>討論以個人知識庫作為研究個案的適切性</li><li>確認質性資料的蒐集方式</li></ul></section><section class="blk detail"><h2 class="blk"><span class="ic">•</span>文獻與方法建議</h2><ul class="bul"><li>參考 Yin 的個案研究法，補強單一個案的正當性</li><li>資料蒐集可用半結構訪談＋文件分析三角驗證</li></ul></section><section class="blk detail"><h2 class="blk"><span class="ic">•</span>要向教授拍板的問題</h2><ul class="bul"><li>核心研究問題聚焦在「使用歷程」還是「知識沉澱效果」，請教授定調</li></ul></section>
 
 <footer class="doc">🍀 由地端 AI 語音轉紀錄平台自動產生　·　全程離線</footer>
-</div><script>function setView(lite){document.body.classList.toggle('simple',!!lite);document.getElementById('btnLite').classList.toggle('on',!!lite);document.getElementById('btnFull').classList.toggle('on',!lite);}</script></body></html>
+</div><script>function setView(lite){document.body.classList.toggle('simple',!!lite);document.getElementById('btnLite').classList.toggle('on',!!lite);document.getElementById('btnFull').classList.toggle('on',!lite);}function pdfWeb(){document.body.classList.remove('pf');document.body.classList.add('pc');window.print();}function pdfDoc(){document.body.classList.remove('pc');document.body.classList.add('pf');window.print();}</script></body></html>

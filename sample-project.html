@@ -111,49 +111,52 @@ footer.doc{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);col
 .seg button{border:none;background:transparent;color:var(--muted);font-weight:700;font-size:.86rem;
   padding:6px 14px;border-radius:7px;cursor:pointer;font-family:inherit}
 .seg button.on{background:var(--card);color:var(--accent-deep);box-shadow:var(--shadow)}
-.tbtn{margin-left:auto;border:1px solid var(--accent-deep);background:var(--accent-deep);color:#fff;
-  font-weight:700;font-size:.86rem;padding:8px 15px;border-radius:9px;cursor:pointer;font-family:inherit}
+.tbtn{border:1px solid var(--accent-deep);background:var(--accent-deep);color:#fff;
+  font-weight:700;font-size:.86rem;padding:8px 14px;border-radius:9px;cursor:pointer;font-family:inherit}
+.tbtn.first{margin-left:auto}
+.tbtn.ghost{background:transparent;color:var(--accent-deep)}
 .tbtn:hover{filter:brightness(1.06)}
 .hint{width:100%;font-size:.76rem;color:var(--muted);margin:2px 2px 0}
 /* 簡易模式：隱藏 detail 區塊 */
 body.simple section.detail{display:none}
-/* 簽核區（列印時才出現） */
+/* 簽核區（列印公文版時才出現） */
 .sign{display:none}
-/* ── 列印／存 PDF：正式文件版面 ── */
+/* ── 列印／存 PDF ── 兩種模式：pc=彩色網頁版（跟畫面一樣）、pf=正式公文版（黑字白底＋核章） */
 @media print{
-  @page{margin:16mm 15mm}
-  body{background:#fff;color:#000;font-size:11.5pt}
-  .wrap{max-width:none;padding:0}
+  @page{margin:14mm 13mm}
   .toolbar,.home{display:none!important}
-  .kicker{color:#000}
-  h1.doc{font-size:20pt}
-  h2.blk{font-size:13pt;border-bottom:1.5px solid #000;padding-bottom:3px}
-  .card,.tile,ul.check li{box-shadow:none!important;border:1px solid #666!important;background:#fff!important}
-  .tldr,.quote,.disc,table.info td.k,.tag,.prio{background:#fff!important;color:#000!important;border:1px solid #999}
-  .tile b,.tile.warn b,.tile.bad b,.tile.good b,.mnode,.mb-h::before,.tl .t,table.gl td.term,table.grid th{color:#000!important}
-  table.grid th{background:#eee!important}
-  .gbar{background:#555!important;color:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .gtrack{background:#eee!important}
-  .risk .cell{color:#000!important;border:1px solid #999}
-  .risk .lo,.risk .mid,.risk .hi{background:#fff!important}
-  .cbox{border-color:#000!important}.cbox.on{background:#000!important}
+  .wrap{max-width:none;padding:0}
   section.blk{break-inside:avoid}
   section.blk:has(.record){break-inside:auto}
-  .rec{box-shadow:none!important;border:1px solid #666!important;background:#fff!important;break-inside:auto}
-  .rec-h{color:#000!important;break-after:avoid}
-  .rec-n{background:#eee!important;color:#000!important}
-  tr,li,.quote{break-inside:avoid}
-  footer.doc{color:#000}
-  .sign{display:block!important;margin-top:26px;border-top:1px solid #000;padding-top:12px;font-size:11pt}
-  .sign .r{display:flex;gap:40px;margin-top:22px}
+  .rec{break-inside:auto}
+  tr,li,.quote,.rec-h{break-inside:avoid}
+  /* ── 彩色網頁版（預設）：強制保留螢幕的顏色與底色，PDF 就跟畫面一模一樣 ── */
+  body.pc,body.pc *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  body.pc .sign{display:none}
+  /* ── 正式公文版：黑字白底、實線框、加核章欄 ── */
+  body.pf{background:#fff!important;color:#000!important;font-size:11.5pt}
+  body.pf .kicker,body.pf footer.doc{color:#000}
+  body.pf h1.doc{font-size:20pt}
+  body.pf h2.blk{font-size:13pt;border-bottom:1.5px solid #000;padding-bottom:3px}
+  body.pf .card,body.pf .tile,body.pf ul.check li,body.pf .rec{box-shadow:none!important;border:1px solid #666!important;background:#fff!important}
+  body.pf .tldr,body.pf .quote,body.pf .disc,body.pf table.info td.k,body.pf .tag,body.pf .prio,body.pf .rec-n{background:#fff!important;color:#000!important;border:1px solid #999}
+  body.pf .tile b,body.pf .mnode,body.pf .tl .t,body.pf table.gl td.term,body.pf .rec-h{color:#000!important}
+  body.pf table.grid th{background:#eee!important;color:#000!important}
+  body.pf .gbar{background:#555!important;color:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body.pf .gtrack{background:#eee!important}
+  body.pf .risk .cell{color:#000!important;border:1px solid #999;background:#fff!important}
+  body.pf .cbox{border-color:#000!important}
+  body.pf .cbox.on{background:#000!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body.pf .sign{display:block!important;margin-top:26px;border-top:1px solid #000;padding-top:12px;font-size:11pt}
+  body.pf .sign .r{display:flex;gap:40px;margin-top:22px}
 }
-</style></head><body>
+</style></head><body class="pc">
 <div class="wrap">
-<div class="toolbar"><div class="seg"><button id="btnFull" class="on" onclick="setView(0)">詳細版</button><button id="btnLite" onclick="setView(1)">簡易重點版</button></div><button class="tbtn" onclick="window.print()">🖨️ 列印／存成 PDF</button><div class="hint">切「簡易重點版」只留精華；切「詳細版」展開全部。要印哪一版就先切好再按列印。</div></div>
+<div class="toolbar"><div class="seg"><button id="btnFull" class="on" onclick="setView(0)">詳細版</button><button id="btnLite" onclick="setView(1)">簡易重點版</button></div><button class="tbtn first" onclick="pdfWeb()">🖨️ 存成網頁版 PDF</button><button class="tbtn ghost" onclick="pdfDoc()">🏛️ 存成公文版 PDF</button><div class="hint">切「簡易重點版」只留精華、「詳細版」展開全部。「網頁版 PDF」＝跟畫面一樣的彩色版；「公文版 PDF」＝黑字白底、有核章的正式公文。按下去後在列印視窗選「儲存為 PDF」即可。</div></div>
 <div class="kicker">🍀 地端 AI · 專案會議記錄</div>
 <h1 class="doc">官網改版專案　週會</h1>
 <p class="docsub">2026/07/22　·　主持：專案經理 林經理</p>
 <section class="blk"><table class="info"><tr><td class="k">專案</td><td>官方網站改版</td></tr><tr><td class="k">階段</td><td>開發中（第 3 衝刺）</td></tr><tr><td class="k">會議日期</td><td>2026/07/22</td></tr><tr><td class="k">主持</td><td>林經理</td></tr></table></section><section class="blk"><h2 class="blk"><span class="ic">📊</span>專案儀表板</h2><div class="tiles"><div class="tile "><b>62%</b><span>整體進度</span></div><div class="tile warn"><b>2</b><span>風險項</span></div><div class="tile bad"><b>1</b><span>延遲項</span></div><div class="tile good"><b>5</b><span>本週完成</span></div></div></section><section class="blk"><h2 class="blk"><span class="ic">✅</span>行動項 Action Items</h2><div class="overflow"><table class="grid"><tr><th>#</th><th>事項</th><th>負責人</th><th>期限</th><th>優先</th></tr><tr><td>1</td><td>催金流廠商提供正式串接文件</td><td>林經理</td><td>7/25</td><td><span class="prio 高">高</span></td></tr><tr><td>2</td><td>凍結設計稿，改版走變更流程</td><td>設計組</td><td>7/24</td><td><span class="prio 中">中</span></td></tr><tr><td>3</td><td>完成購物車前端串接</td><td>阿哲</td><td>7/29</td><td><span class="prio 高">高</span></td></tr><tr><td>4</td><td>撰寫上線前測試案例</td><td>小美</td><td>8/1</td><td><span class="prio 低">低</span></td></tr></table></div></section><section class="blk detail"><h2 class="blk"><span class="ic">📚</span>完整會議實錄（整理版）</h2><div class="record"><div class="rec"><h3 class="rec-h"><span class="rec-n">1</span>開場與上次行動項檢視</h3><p>林經理開場確認本週議程：前端進度、API 串接、設計稿問題、金流文件、上線日評估。先檢視上次行動項：三項完成、一項延遲（金流文件，本次列為重點議題）。</p><p>上次決議的「每日站會改為線上非同步回報」已實施一週，成員普遍反映省時間，維持現制。</p></div><div class="rec"><h3 class="rec-h"><span class="rec-n">2</span>議題一：前端切版進度（阿哲報告）</h3><p>阿哲報告：首頁與產品頁切版完成，已部署到測試環境。桌機版與設計稿比對通過；手機版在 iPhone SE 這類小螢幕上，產品卡片的間距會擠壓，已用彈性布局修正。</p><p>討論到瀏覽器相容性：客戶端仍有少量使用者用舊版瀏覽器，會議確認以近兩年主流版本為支援基準，舊版只保證「可讀可用」不保證版面一致——林經理裁示照此標準寫進驗收文件。</p></div><div class="rec"><h3 class="rec-h"><span class="rec-n">3</span>議題二：會員登入 API 串接</h3><p>後端報告：會員登入 API 已完成串接並通過基本測試，包含註冊、登入、忘記密碼三條流程。第三方社群登入（Google）下週開工。</p><p>測試中發現一個時區問題：登入紀錄的時間戳記在資料庫是 UTC，前端顯示未轉換，造成顯示差八小時。已修正並補了自動化測試。會議提醒所有時間欄位統一走同一個轉換函式，避免同類問題再發生。</p></div><div class="rec"><h3 class="rec-h"><span class="rec-n">4</span>議題三：設計稿頻繁變更的處理</h3><p>阿哲反映：設計稿兩週內改了三版，前端跟著返工，本衝刺已因此耗掉約兩人日。設計組說明變更多來自客戶窗口的臨時意見。</p><p>討論後決議：即日起設計稿「凍結」，此後任何修改一律走變更申請流程——由林經理評估影響（工時、時程）後才排入，不再口頭改。設計組 7/24 前把現行第二版標記為凍結基準版。</p><p>林經理補充：這不是限制設計，而是保護時程；客戶臨時意見統一收斂到每週五的客戶會議一次談。</p></div><div class="rec"><h3 class="rec-h"><span class="rec-n">5</span>議題四：金流串接文件延遲（本週最大風險）</h3><p>後端報告：金流廠商的正式串接文件原訂上週提供，至今只給了舊版草稿，結帳功能無法開工。依時程推算，文件若 7/28 前仍未到位，結帳功能將壓縮到測試期，威脅 8/20 上線日。</p><p>討論了三個方案：一、繼續等文件；二、先依舊版草稿開發、文件到位後修正；三、上線日順延。會議評估後決議採「催件＋備案」並行：林經理 7/25 前直接聯繫廠商窗口主管催正式文件；後端同步依舊版草稿先搭串接骨架，把可確定的部分（訂單建立、狀態查詢）先做，把風險集中在最小範圍。</p><p>同時列為高風險項持續追蹤，若 7/28 文件仍未到，下次會議啟動上線日重新評估。</p></div><div class="rec"><h3 class="rec-h"><span class="rec-n">6</span>議題五：里程碑與上線日評估</h3><p>檢視整體時程：需求與設計已完成；前端開發進度 62%，符合預期；後端串接因金流文件延遲落後約一週；測試與上線維持 8/20 目標。</p><p>會議共識：目前 8/20 還守得住，但沒有再吃延遲的空間。測試案例撰寫提前開工（小美 8/1 前完成），讓測試期可以無縫接上。</p></div><div class="rec"><h3 class="rec-h"><span class="rec-n">7</span>行動項確認與散會</h3><p>會議最後逐項確認行動項：林經理 7/25 前催金流正式文件（高）；設計組 7/24 前凍結設計稿基準版（中）；阿哲 7/29 前完成購物車前端串接（高）；小美 8/1 前完成上線前測試案例（低）。</p><p>下次週會 7/29 同一時間，金流文件狀態列首項議題。散會。</p></div></div></section><section class="blk detail"><h2 class="blk"><span class="ic">•</span>本次進度更新</h2><ul class="bul"><li>完成首頁與產品頁的前端切版</li><li>串接會員登入 API，通過基本測試</li><li>設計團隊交付第二版視覺稿</li></ul></section><section class="blk detail"><h2 class="blk"><span class="ic">📈</span>里程碑時程</h2><div class="gantt card" style="padding:14px"><div class="grow"><div>需求與設計</div><div class="gtrack"><div class="gbar" style="left:0%;width:25.0%">已完成</div></div></div><div class="grow"><div>前端開發</div><div class="gtrack"><div class="gbar" style="left:22.0%;width:33.0%">進行中</div></div></div><div class="grow"><div>後端串接</div><div class="gtrack"><div class="gbar" style="left:40.0%;width:30.0%">進行中</div></div></div><div class="grow"><div>測試與上線</div><div class="gtrack"><div class="gbar" style="left:70.0%;width:30.0%">8/20 上線</div></div></div></div></section><section class="blk detail"><h2 class="blk"><span class="ic">🎯</span>風險與議題</h2><div class="risk"><div class="hd"></div><div class="hd">可能性低</div><div class="hd">可能性中</div><div class="hd">可能性高</div><div class="hd">影響高</div><div class="cell mid"></div><div class="cell hi">金流串接文件延遲，恐影響結帳功能</div><div class="cell hi"></div><div class="hd">影響中</div><div class="cell mid"></div><div class="cell mid"></div><div class="cell hi">設計稿頻繁變更，拖慢前端</div><div class="hd">影響低</div><div class="cell lo"></div><div class="cell mid"></div><div class="cell mid"></div></div></section>
 <div class="sign">記錄：＿＿＿＿＿＿　　主管核章：<div class="r"><span>＿＿＿＿＿＿＿＿</span><span>＿＿＿＿＿＿＿＿</span></div></div>
 <footer class="doc">🍀 由地端 AI 語音轉紀錄平台自動產生　·　全程離線</footer>
-</div><script>function setView(lite){document.body.classList.toggle('simple',!!lite);document.getElementById('btnLite').classList.toggle('on',!!lite);document.getElementById('btnFull').classList.toggle('on',!lite);}</script></body></html>
+</div><script>function setView(lite){document.body.classList.toggle('simple',!!lite);document.getElementById('btnLite').classList.toggle('on',!!lite);document.getElementById('btnFull').classList.toggle('on',!lite);}function pdfWeb(){document.body.classList.remove('pf');document.body.classList.add('pc');window.print();}function pdfDoc(){document.body.classList.remove('pc');document.body.classList.add('pf');window.print();}</script></body></html>
