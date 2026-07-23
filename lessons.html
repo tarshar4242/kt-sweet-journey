@@ -87,6 +87,37 @@ main{position:relative;z-index:1;max-width:1000px;margin:14px auto 0;padding:0 2
 .course.soon p{color:var(--txt3);font-size:13px;margin-top:8px;line-height:1.8}
 footer{position:relative;z-index:1;text-align:center;color:var(--txt3);font-size:12.5px;padding:34px 20px 48px;border-top:1px solid var(--line);margin-top:30px;line-height:2}
 footer a{color:var(--txt2)}
+/* ── 呈現方式切換（卡片 / 左側目錄） ── */
+.mode-switch{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin:2px 0 12px}
+.mode-switch .ms-label{font-size:12px;color:var(--txt3);letter-spacing:1px;margin-right:2px}
+.mode-switch .ms-btn{font:inherit;font-size:13px;font-weight:700;color:var(--txt2);cursor:pointer;
+  border:1px solid var(--line2);background:var(--panel);border-radius:999px;padding:6px 14px;transition:.2s}
+.mode-switch .ms-btn:hover{color:var(--green);border-color:var(--green)}
+.mode-switch .ms-btn.on{color:#fff;background:var(--green);border-color:var(--green)}
+/* 目錄側欄（預設隱藏，只在目錄模式顯示） */
+#toc{display:none}
+#toc .toc-inner{border:1px solid var(--line);border-radius:18px;background:var(--panel);
+  box-shadow:0 8px 26px -18px rgba(150,120,90,.5);padding:14px 12px;max-height:calc(100vh - 32px);overflow:auto}
+#toc .toc-home{display:block;text-decoration:none;font-weight:800;color:#4a5a38;font-size:14px;
+  padding:8px 10px;border-radius:12px;margin-bottom:6px;cursor:pointer}
+#toc .toc-home:hover{background:var(--bg2)}
+#toc .toc-group{margin-top:4px}
+#toc .toc-head{display:flex;align-items:center;gap:6px;font-weight:800;font-size:13.5px;color:var(--txt);
+  padding:8px 10px;border-radius:12px;cursor:pointer;transition:.15s}
+#toc .toc-head:hover{background:var(--bg2)}
+#toc .toc-head.active{color:var(--c,var(--green));background:rgba(155,191,134,.12)}
+#toc ul{list-style:none;margin:2px 0 6px;padding:0 0 0 6px;border-left:2px solid var(--line)}
+#toc ul li a{display:block;text-decoration:none;font-size:12.5px;color:var(--txt2);line-height:1.5;
+  padding:6px 10px;border-radius:10px;cursor:pointer}
+#toc ul li a:hover{color:var(--c,var(--green));background:var(--bg2)}
+/* 目錄模式版面：左目錄＋右內容 */
+body.mode-toc .layout{display:grid;grid-template-columns:236px 1fr;gap:26px;align-items:start}
+body.mode-toc #toc{display:block;position:sticky;top:16px}
+@media (max-width:760px){
+  body.mode-toc .layout{grid-template-columns:1fr;gap:14px}
+  body.mode-toc #toc{position:static}
+  #toc .toc-inner{max-height:46vh}
+}
 </style>
 </head>
 <body>
@@ -102,6 +133,16 @@ footer a{color:var(--txt2)}
 </header>
 
 <main>
+  <div class="mode-switch">
+    <span class="ms-label">呈現方式</span>
+    <button type="button" id="btnCards" class="ms-btn" onclick="setMode('card')">▦ 卡片</button>
+    <button type="button" id="btnToc" class="ms-btn" onclick="setMode('toc')">☰ 目錄</button>
+  </div>
+
+  <div class="layout">
+    <aside id="toc" aria-label="系列目錄"></aside>
+    <div id="content">
+
   <nav class="crumbs" id="crumbs" style="display:none">
     <a onclick="showHome()">🏠 筆記館入口</a><span class="sep">›</span><span id="crumbHere"></span>
   </nav>
@@ -157,6 +198,14 @@ footer a{color:var(--txt2)}
         <h2><em>SERIES 06</em>SKILL 技能包</h2>
         <p class="desc">1 個 Claude 的完整能力目錄——7 大主線 45 個技能，每個都附「怎麼開口」的呼叫關鍵字，點關鍵字即複製、貼進對話就能用。</p>
         <div class="foot"><span class="badge" style="color:var(--purple)">7 線 · 45 技能</span><span class="go">進入目錄 ›</span></div>
+      </div>
+
+      <div class="series" style="--c:var(--rose)" onclick="showSeries('edm')">
+        <div class="top"></div>
+        <span class="emoji">📮</span>
+        <h2><em>SERIES 07</em>主題式電子報</h2>
+        <p class="desc">把每次做完的一件事，寫成一封主題信——用我自己的口吻，記錄一個非工程師怎麼把 AI 變成日常隊友。一期一期加，最新在最前面。</p>
+        <div class="foot"><span class="badge" id="edmBadge" style="color:var(--rose)">收錄 1 期</span><span class="go">進入系列 ›</span></div>
       </div>
 
       <div class="series soon">
@@ -469,11 +518,46 @@ footer a{color:var(--txt2)}
 
     </div>
   </section>
+
+  <!-- ══ 第二層：主題式電子報 ══ -->
+  <section id="view-edm" class="view">
+    <div class="count" id="edmCount"></div>
+    <div class="grid">
+
+      <!-- 電子報卡片：新一期往上加（最新在最前） -->
+
+      <div class="course" style="--c:var(--rose)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">電子報 001 · 2026.07.23</span>
+          <h2>會議記錄我不聽打了，丟給電腦排好版 🎙️</h2>
+          <p class="desc">散會後那一小時，我外包給自己家的電腦。把音檔丟進資料夾，Whisper 轉錄、本地 AI 抓重點、程式鎖版面，離線免費、資料不外流，一份音檔自動變成排好版的紀錄。藏了一個「AI 懂內容、程式鎖版面」的分工原理。</p>
+          <div class="tags"><span>🔒 地端離線</span><span>🤖 自動化</span><span>🗝️ 分工原理</span><span>✍️ 本人口吻</span></div>
+          <div class="date">📅 2026.07.23 · 效率工具與自動化</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="edm-001.html">📮 開啟這一期</a>
+        </div>
+      </div>
+
+      <div class="course soon">
+        <div class="top"></div>
+        <div class="body">
+          <span class="plus">＋</span>
+          <p>下一期籌備中<br>做完一件事，就寫成一封主題信<br>會陸續加進這裡</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+    </div><!-- /#content -->
+  </div><!-- /.layout -->
 </main>
 
 <footer>
   🍀 Learn AI with Tarshar ♥ 2026<br>
-  六個系列：📻 直播電台・📚 Tarshar 教案集・🧰 生活應用・🎓 iPAS 證照學習・📖 論文研讀庫・🛠️ SKILL 技能包——都從上方入口進入
+  七個系列：📻 直播電台・📚 Tarshar 教案集・🧰 生活應用・🎓 iPAS 證照學習・📖 論文研讀庫・🛠️ SKILL 技能包・📮 主題式電子報——都從上方入口進入
 </footer>
 
 <script>
@@ -492,11 +576,13 @@ function showHome(){
   $('#pageTitle').innerHTML = '課程<span class="accent">筆記館</span>';
   $('#pageSub').innerHTML = '所有課程的<b>共同入口</b>：先選一個系列，再進入該系列的每一集——每集都有可對照錄影的<b>逐幀課堂筆記</b>與可打勾追蹤的<b>互動學習地圖</b>。';
   if(location.hash) history.replaceState(null,'',location.pathname);
+  syncTocActive(null);
 }
 const SERIES_META = {
   radio: {title:'📻 直播電台系列', sub:'生成式 AI 應用電台・晨學講堂——選一集進入<b>逐幀筆記</b>或<b>互動地圖</b>，新集數會排在最前面。'},
   plans: {title:'📚 Tarshar 教案集', sub:'對外授課的完整教案——公部門、機關單位的 AI 體驗工作坊，點一份看完整教學設計。'},
-  life:  {title:'🧰 生活應用系列', sub:'課堂之外的實作成品——旅程手冊、隨身工具、參訪學習日誌，點一件直接開啟。'}
+  life:  {title:'🧰 生活應用系列', sub:'課堂之外的實作成品——旅程手冊、隨身工具、參訪學習日誌，點一件直接開啟。'},
+  edm:   {title:'📮 主題式電子報', sub:'把每次做完的一件事寫成一封主題信——用我自己的口吻寫，一期一期加，最新在最前面。'}
 };
 function showSeries(key){
   switchView(key);
@@ -506,6 +592,58 @@ function showSeries(key){
   $('#pageTitle').textContent = m.title;
   $('#pageSub').innerHTML = m.sub;
   history.replaceState(null,'','#'+key);
+  syncTocActive(key);
+}
+
+/* ── 呈現方式：卡片 / 左側目錄 ── */
+const TOC_SERIES = [
+  {key:'radio', icon:'📻', label:'直播電台', color:'--cyan'},
+  {key:'plans', icon:'📚', label:'Tarshar 教案集', color:'--amber'},
+  {key:'life',  icon:'🧰', label:'生活應用', color:'--pink'},
+  {key:'ipas',  icon:'🎓', label:'iPAS 證照學習', color:'--orange', href:'ipas-intermediate.html'},
+  {key:'thesis',icon:'📖', label:'論文研讀庫', color:'--green', href:'https://tarshar4242.github.io/thesis-library/index.html#library'},
+  {key:'skill', icon:'🛠️', label:'SKILL 技能包', color:'--purple', href:'https://tarshar4242.github.io/thesis-library/skills.html'},
+  {key:'edm',   icon:'📮', label:'主題式電子報', color:'--rose'}
+];
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function buildTOC(){
+  const toc = document.getElementById('toc');
+  if(!toc) return;
+  let h = '<div class="toc-inner"><a class="toc-home" onclick="showHome()">🏠 筆記館入口</a>';
+  TOC_SERIES.forEach(s=>{
+    const cvar = `--c:var(${s.color})`;
+    if(s.href){
+      h += `<div class="toc-group"><div class="toc-head" data-key="${s.key}" style="${cvar}" onclick="location.href='${s.href}'">${s.icon} ${s.label}</div></div>`;
+    }else{
+      h += `<div class="toc-group"><div class="toc-head" data-key="${s.key}" style="${cvar}" onclick="showSeries('${s.key}')">${s.icon} ${s.label}</div>`;
+      const cards = document.querySelectorAll('#view-'+s.key+' .course:not(.soon)');
+      if(cards.length){
+        h += '<ul>';
+        cards.forEach(c=>{
+          const t = c.querySelector('h2'); const a = c.querySelector('.links a');
+          if(t && a){ h += `<li><a href="${esc(a.getAttribute('href'))}">${esc(t.textContent.trim())}</a></li>`; }
+        });
+        h += '</ul>';
+      }
+      h += '</div>';
+    }
+  });
+  h += '</div>';
+  toc.innerHTML = h;
+}
+function syncTocActive(key){
+  document.querySelectorAll('#toc .toc-head').forEach(el=>{
+    el.classList.toggle('active', el.dataset.key===key);
+  });
+}
+function setMode(m){
+  const toc = m==='toc';
+  document.body.classList.toggle('mode-toc', toc);
+  const bt=document.getElementById('btnToc'), bc=document.getElementById('btnCards');
+  if(bt) bt.classList.toggle('on', toc);
+  if(bc) bc.classList.toggle('on', !toc);
+  try{ localStorage.setItem('lessons_mode', m); }catch(e){}
+  window.scrollTo({top:0,behavior:'auto'});
 }
 (function(){
   const box = document.getElementById('stars');
@@ -521,6 +659,7 @@ function showSeries(key){
   const nRadio = document.querySelectorAll('#view-radio .course:not(.soon)').length;
   const nPlans = document.querySelectorAll('#view-plans .course:not(.soon)').length;
   const nLife = document.querySelectorAll('#view-life .course:not(.soon)').length;
+  const nEdm = document.querySelectorAll('#view-edm .course:not(.soon)').length;
   const nSeries = document.querySelectorAll('#view-home .series:not(.soon)').length;
   document.getElementById('seriesCount').textContent = `目前 ${nSeries} 個系列`;
   document.getElementById('radioCount').textContent = `直播電台系列 · 目前收錄 ${nRadio} 集`;
@@ -529,6 +668,13 @@ function showSeries(key){
   document.getElementById('plansBadge').textContent = `收錄 ${nPlans} 份`;
   document.getElementById('lifeCount').textContent = `生活應用系列 · 目前收錄 ${nLife} 件作品`;
   document.getElementById('lifeBadge').textContent = `收錄 ${nLife} 件`;
+  document.getElementById('edmCount').textContent = `主題式電子報 · 目前收錄 ${nEdm} 期`;
+  document.getElementById('edmBadge').textContent = `收錄 ${nEdm} 期`;
+  // 建左側目錄，並讀回上次選的呈現方式（卡片／目錄）
+  buildTOC();
+  let savedMode='card';
+  try{ if(localStorage.getItem('lessons_mode')==='toc') savedMode='toc'; }catch(e){}
+  setMode(savedMode);
   // 支援直接以 #radio / #life 進入系列頁（各頁「回入口」可直達）
   const h = location.hash.replace('#','');
   if(SERIES_META[h]) showSeries(h);
