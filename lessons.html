@@ -7,12 +7,13 @@
 <meta name="description" content="晨學講堂課後筆記館：先選系列（直播電台…），再進入各集的逐幀課堂筆記與互動學習地圖">
 <style>
 :root{
-  /* 文青柔柔奶油紙感 */
-  --bg:#f7f0e4; --bg2:#fbf5ea; --panel:#fffdf8;
-  --line:rgba(150,128,96,.20); --line2:rgba(150,128,96,.32);
-  --txt:#5c5347; --txt2:#8b8070; --txt3:#a99b86;
-  /* 柔和莫蘭迪粉彩（沿用原變數名，色值全部改淡） */
-  --cyan:#8fb6c6; --blue:#8aa9c9; --purple:#b6a3d4; --pink:#e0a2a2; --green:#9bbf86; --orange:#e3ac7a; --amber:#e4c079;
+  /* 文青柔柔奶油紙感（柔底＋加深好讀的字色） */
+  --bg:#f6efe1; --bg2:#fbf6ec; --panel:#fffdf8;
+  --line:rgba(140,115,80,.24); --line2:rgba(140,115,80,.38);
+  --txt:#443c30; --txt2:#6a6052; --txt3:#8a7d67;
+  /* 莫蘭迪粉彩，但加深到「當文字也讀得清楚」的中等飽和 */
+  --cyan:#5f93aa; --blue:#6183b4; --purple:#8b74bb; --pink:#cd7d7d; --green:#6f9c52; --orange:#cf9250; --amber:#bf9438;
+  --rose:#c98f8f;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -24,12 +25,20 @@ body{font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,san
 .stars{position:fixed;inset:0;pointer-events:none;z-index:0}
 .stars i{position:absolute;width:6px;height:6px;border-radius:50%;background:#e0a2a2;opacity:.16;animation:tw 4s infinite alternate}
 @keyframes tw{from{opacity:.05;transform:translateY(0)}to{opacity:.28;transform:translateY(-4px)}}
-header{position:relative;z-index:1;text-align:center;padding:64px 20px 26px}
-header .brand{display:inline-block;font-size:12.5px;letter-spacing:3px;color:#8a9e6f;
-  border:1px solid rgba(155,191,134,.5);background:rgba(155,191,134,.14);border-radius:999px;padding:6px 18px;margin-bottom:20px}
-header h1{font-size:clamp(28px,5vw,46px);font-weight:900;line-height:1.3;
-  background:linear-gradient(92deg,#8aa06e 12%,#c98f8f 55%,#c6a56b 92%);-webkit-background-clip:text;background-clip:text;color:transparent}
-header p{margin:14px auto 0;max-width:600px;color:var(--txt2);font-size:15px;line-height:1.9}
+header{position:relative;z-index:1;text-align:center;padding:56px 20px 30px;overflow:hidden}
+header .leaf{position:absolute;pointer-events:none;font-size:64px;opacity:.16;filter:saturate(.7)}
+header .leaf.l1{top:8px;left:14px;transform:rotate(-18deg)}
+header .leaf.l2{top:30px;right:22px;font-size:44px;transform:rotate(16deg)}
+header .leaf.l3{bottom:6px;left:40px;font-size:38px;opacity:.12;transform:rotate(8deg)}
+header .brand{position:relative;display:inline-block;font-size:13px;letter-spacing:1px;font-weight:700;color:#7a5c5c;
+  padding:5px 16px;margin-bottom:18px;border-radius:6px 12px 8px 12px;
+  background:linear-gradient(105deg,rgba(224,162,162,.42),rgba(224,162,162,.28));box-shadow:0 1px 0 rgba(205,125,125,.25)}
+header h1{position:relative;font-size:clamp(30px,5.4vw,48px);font-weight:900;line-height:1.28;letter-spacing:1px;color:#4a5a38}
+header h1 .accent{color:#c07a7a}
+header .divider{display:flex;align-items:center;justify-content:center;gap:12px;margin:14px auto 0;color:#8aa06e;font-size:14px;font-weight:700;letter-spacing:1px}
+header .divider::before,header .divider::after{content:"";width:44px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#a9c48f)}
+header .divider::after{background:linear-gradient(90deg,#a9c48f,transparent)}
+header p{position:relative;margin:16px auto 0;max-width:600px;color:var(--txt2);font-size:15px;line-height:1.95}
 main{position:relative;z-index:1;max-width:1000px;margin:14px auto 0;padding:0 20px 40px}
 /* 麵包屑 */
 .crumbs{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--txt3);margin:6px 0 18px;flex-wrap:wrap}
@@ -88,8 +97,10 @@ footer a{color:var(--txt2)}
 <div class="stars" id="stars"></div>
 
 <header>
-  <span class="brand">🍀 LEARN AI WITH TARSHAR · 課程筆記館</span>
-  <h1 id="pageTitle">課程筆記館</h1>
+  <span class="leaf l1">🌿</span><span class="leaf l2">🍃</span><span class="leaf l3">🍀</span>
+  <span class="brand">🍀 Learn AI with Tarshar</span>
+  <h1 id="pageTitle">課程<span class="accent">筆記館</span></h1>
+  <div class="divider">一起輕輕鬆鬆學 AI</div>
   <p id="pageSub">所有課程的<b>共同入口</b>：先選一個系列，再進入該系列的每一集——每集都有可對照錄影的<b>逐幀課堂筆記</b>與可打勾追蹤的<b>互動學習地圖</b>。</p>
 </header>
 
@@ -420,7 +431,7 @@ function switchView(id){
 function showHome(){
   switchView('home');
   $('#crumbs').style.display='none';
-  $('#pageTitle').textContent = '課程筆記館';
+  $('#pageTitle').innerHTML = '課程<span class="accent">筆記館</span>';
   $('#pageSub').innerHTML = '所有課程的<b>共同入口</b>：先選一個系列，再進入該系列的每一集——每集都有可對照錄影的<b>逐幀課堂筆記</b>與可打勾追蹤的<b>互動學習地圖</b>。';
   if(location.hash) history.replaceState(null,'',location.pathname);
 }
