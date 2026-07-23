@@ -97,11 +97,52 @@ ul.bul{margin:0;padding-left:20px}ul.bul li{margin:5px 0}
 .disc{border:1px dashed var(--bad);border-radius:12px;padding:12px 15px;color:var(--bad);font-size:.88rem;background:transparent}
 .overflow{overflow-x:auto}
 footer.doc{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem;text-align:center}
+/* 工具列：版本切換 + 列印 */
+.toolbar{position:sticky;top:0;z-index:30;display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+  background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 12px;margin-bottom:8px;box-shadow:var(--shadow)}
+.seg{display:inline-flex;background:var(--accent-soft);border-radius:9px;padding:3px}
+.seg button{border:none;background:transparent;color:var(--muted);font-weight:700;font-size:.86rem;
+  padding:6px 14px;border-radius:7px;cursor:pointer;font-family:inherit}
+.seg button.on{background:var(--card);color:var(--accent-deep);box-shadow:var(--shadow)}
+.tbtn{margin-left:auto;border:1px solid var(--accent-deep);background:var(--accent-deep);color:#fff;
+  font-weight:700;font-size:.86rem;padding:8px 15px;border-radius:9px;cursor:pointer;font-family:inherit}
+.tbtn:hover{filter:brightness(1.06)}
+.hint{width:100%;font-size:.76rem;color:var(--muted);margin:2px 2px 0}
+/* 簡易模式：隱藏 detail 區塊 */
+body.simple section.detail{display:none}
+/* 簽核區（列印時才出現） */
+.sign{display:none}
+/* ── 列印／存 PDF：正式文件版面 ── */
+@media print{
+  @page{margin:16mm 15mm}
+  body{background:#fff;color:#000;font-size:11.5pt}
+  .wrap{max-width:none;padding:0}
+  .toolbar,.home{display:none!important}
+  .kicker{color:#000}
+  h1.doc{font-size:20pt}
+  h2.blk{font-size:13pt;border-bottom:1.5px solid #000;padding-bottom:3px}
+  .card,.tile,ul.check li{box-shadow:none!important;border:1px solid #666!important;background:#fff!important}
+  .tldr,.quote,.disc,table.info td.k,.tag,.prio{background:#fff!important;color:#000!important;border:1px solid #999}
+  .tile b,.tile.warn b,.tile.bad b,.tile.good b,.mnode,.mb-h::before,.tl .t,table.gl td.term,table.grid th{color:#000!important}
+  table.grid th{background:#eee!important}
+  .gbar{background:#555!important;color:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .gtrack{background:#eee!important}
+  .risk .cell{color:#000!important;border:1px solid #999}
+  .risk .lo,.risk .mid,.risk .hi{background:#fff!important}
+  .cbox{border-color:#000!important}.cbox.on{background:#000!important}
+  section.blk{break-inside:avoid}
+  tr,li,.quote{break-inside:avoid}
+  footer.doc{color:#000}
+  .sign{display:block!important;margin-top:26px;border-top:1px solid #000;padding-top:12px;font-size:11pt}
+  .sign .r{display:flex;gap:40px;margin-top:22px}
+}
 </style></head><body>
 <div class="wrap">
+<div class="toolbar"><div class="seg"><button id="btnFull" class="on" onclick="setView(0)">詳細版</button><button id="btnLite" onclick="setView(1)">簡易重點版</button></div><button class="tbtn" onclick="window.print()">🖨️ 列印／存成 PDF</button><div class="hint">切「簡易重點版」只留精華；切「詳細版」展開全部。要印哪一版就先切好再按列印。</div></div>
 <div class="kicker">🍀 地端 AI · 課堂筆記</div>
 <h1 class="doc">金融科技課程：股票與期貨交易實務</h1>
 <p class="docsub">鄭老師　·　2026/03/05　·　晨學講堂</p>
-<section class="blk"><table class="info"><tr><td class="k">講者</td><td>鄭老師</td></tr><tr><td class="k">日期</td><td>2026/03/05</td></tr><tr><td class="k">主題</td><td>股票與期貨交易實務、財務報表入門</td></tr></table></section><section class="blk"><h2 class="blk"><span class="ic">⚡</span>一句話總覽</h2><div class="tldr">從股票夜盤、期貨保證金談到財報三大表，帶小白建立交易基本觀念與風險紀律。</div></section><section class="blk"><h2 class="blk"><span class="ic">🧠</span>知識地圖</h2><div class="mind card"><div class="mnode">🧠 金融交易基礎</div><div class="mbranch"><div class="mb"><div class="mb-h">股票交易</div><ul><li>以「一張」為核心單位</li><li>成交後 T+2 扣款</li><li>忘記放錢＝違約交割，可大可小</li></ul></div><div class="mb"><div class="mb-h">期貨</div><ul><li>以「一口」計價，須先付保證金</li><li>原始／維持保證金兩種</li><li>跌破水位觸發 Margin Call 補錢</li></ul></div><div class="mb"><div class="mb-h">交易方式</div><ul><li>現價 vs 市價</li><li>市價有滑價風險</li><li>當沖：當日買賣結清</li></ul></div><div class="mb"><div class="mb-h">財務報表</div><ul><li>資產負債表：某時間點快照</li><li>損益表、現金流量表</li><li>資產＝負債＋權益</li></ul></div></div></div></section><section class="blk"><h2 class="blk"><span class="ic">⏱️</span>章節脈絡</h2><ul class="tl"><li><span class="t">開場</span>夜盤時段與期貨如何跟台股共振</li><li><span class="t">第一段</span>股票 T+2 扣款、違約交割的嚴重性</li><li><span class="t">第二段</span>期貨保證金、維持保證金與 Margin Call</li><li><span class="t">第三段</span>下單條件 ROD／IOC／FOK 的差別</li><li><span class="t">第四段</span>財報三大表與資產負債表細部</li></ul></section><section class="blk"><h2 class="blk"><span class="ic">•</span>核心觀念</h2><ul class="bul"><li>保證金：買期貨前要先押的本錢，分「原始保證金」與「維持保證金」，跌破維持水位就要補錢。</li><li>違約交割：成交後忘記放錢，輕則信用污點、重則涉及刑事責任，務必留足款項。</li><li>滑價：用市價下單時，實際成交價可能跟你看到的價格差一截，是市價單最大的風險。</li><li>資產＝負債＋權益：資產負債表最高原則，左邊資產總額恆等於右邊負債加權益。</li></ul></section><section class="blk"><h2 class="blk"><span class="ic">💬</span>老師金句</h2><div class="quote">「玩期貨，心臟要夠大。」<span class="who">— 鄭老師</span></div><div class="quote">「我們做交易就是要有紀律。」<span class="who">— 鄭老師</span></div></section><section class="blk"><h2 class="blk"><span class="ic">📖</span>名詞白話對照</h2><div class="overflow"><table class="gl"><tr><td class="term">保證金</td><td>買期貨先押在戶頭裡的本錢。</td></tr><tr><td class="term">維持保證金</td><td>帳戶價值必須維持的最低水位，跌破就被通知補錢。</td></tr><tr><td class="term">Margin Call</td><td>保證金不足時，券商要求當日補足的通知。</td></tr><tr><td class="term">滑價</td><td>市價下單時實際成交價與預期價格的落差。</td></tr><tr><td class="term">當沖</td><td>同一天內完成買進與賣出，不必負擔本金。</td></tr><tr><td class="term">tick</td><td>價格的最小跳動單位，隨股價區間不同而不同。</td></tr></table></div></section><section class="blk"><h2 class="blk"><span class="ic">☑️</span>課後延伸與待複習</h2><ul class="check"><li><span class="cbox "></span><span>複習 ROD／IOC／FOK 三種下單條件的差別</span></li><li><span class="cbox "></span><span>看懂台積電資產負債表的資產、負債、權益三塊</span></li><li><span class="cbox "></span><span>到期交所網站查各期貨商品的保證金一覽表</span></li></ul></section>
+<section class="blk"><table class="info"><tr><td class="k">講者</td><td>鄭老師</td></tr><tr><td class="k">日期</td><td>2026/03/05</td></tr><tr><td class="k">主題</td><td>股票與期貨交易實務、財務報表入門</td></tr></table></section><section class="blk"><h2 class="blk"><span class="ic">⚡</span>一句話總覽</h2><div class="tldr">從股票夜盤、期貨保證金談到財報三大表，帶小白建立交易基本觀念與風險紀律。</div></section><section class="blk"><h2 class="blk"><span class="ic">🧠</span>知識地圖</h2><div class="mind card"><div class="mnode">🧠 金融交易基礎</div><div class="mbranch"><div class="mb"><div class="mb-h">股票交易</div><ul><li>以「一張」為核心單位</li><li>成交後 T+2 扣款</li><li>忘記放錢＝違約交割，可大可小</li></ul></div><div class="mb"><div class="mb-h">期貨</div><ul><li>以「一口」計價，須先付保證金</li><li>原始／維持保證金兩種</li><li>跌破水位觸發 Margin Call 補錢</li></ul></div><div class="mb"><div class="mb-h">交易方式</div><ul><li>現價 vs 市價</li><li>市價有滑價風險</li><li>當沖：當日買賣結清</li></ul></div><div class="mb"><div class="mb-h">財務報表</div><ul><li>資產負債表：某時間點快照</li><li>損益表、現金流量表</li><li>資產＝負債＋權益</li></ul></div></div></div></section><section class="blk"><h2 class="blk"><span class="ic">•</span>核心觀念</h2><ul class="bul"><li>保證金：買期貨前要先押的本錢，分「原始保證金」與「維持保證金」，跌破維持水位就要補錢。</li><li>違約交割：成交後忘記放錢，輕則信用污點、重則涉及刑事責任，務必留足款項。</li><li>維持保證金與斷頭：帳戶價值跌破維持水位會被通知補錢，不補會被券商強制平倉。</li><li>滑價：用市價下單時，實際成交價可能跟你看到的價格差一截，是市價單最大的風險。</li><li>當沖：同一天買進又賣出、不必負擔本金，但若當天賣不掉會被迫轉融資，風險放大。</li><li>下單條件 ROD／IOC／FOK：分別是當日有效、立即成交否則取消、全部成交否則取消。</li><li>tick 跳動單位：股價落在不同區間，每次最小跳動的金額不同，價位越高一跳越多錢。</li><li>資產＝負債＋權益：資產負債表最高原則，左邊資產總額恆等於右邊負債加權益。</li></ul></section><section class="blk detail"><h2 class="blk"><span class="ic">⏱️</span>章節脈絡</h2><ul class="tl"><li><span class="t">開場</span>夜盤時段（晚上到隔天凌晨）與期貨如何跟台股共振</li><li><span class="t">股票交易</span>以一張（1000 股）為核心單位；高單價股改以零股交易</li><li><span class="t">T+2 扣款</span>股票成交後第二個交易日才扣款，務必留足款項</li><li><span class="t">違約交割</span>忘記放錢的後果：信用污點與刑事責任，舉大學生違約 6000 萬為例</li><li><span class="t">期貨保證金</span>以一口計價、先付原始保證金；盤中損益即時影響帳戶</li><li><span class="t">維持保證金與 Margin Call</span>跌破維持水位被通知補錢，不補則被強制平倉（斷頭）</li><li><span class="t">下單條件</span>ROD 當日有效、IOC 立即成交否則取消、FOK 全部成交否則取消</li><li><span class="t">現價 vs 市價</span>市價下單有滑價風險，成交價可能與預期差一截</li><li><span class="t">當沖</span>當日買賣結清、不必負擔本金，但賣不掉會轉融資、風險高</li><li><span class="t">財報三大表</span>資產負債表、損益表、現金流量表的角色</li><li><span class="t">資產負債表</span>資產＝負債＋權益；流動與非流動的區分</li></ul></section><section class="blk detail"><h2 class="blk"><span class="ic">💬</span>老師金句</h2><div class="quote">「玩期貨，心臟要夠大。」<span class="who">— 鄭老師</span></div><div class="quote">「我們做交易就是要有紀律。」<span class="who">— 鄭老師</span></div></section><section class="blk detail"><h2 class="blk"><span class="ic">📖</span>名詞白話對照</h2><div class="overflow"><table class="gl"><tr><td class="term">保證金</td><td>買期貨先押在戶頭裡的本錢。</td></tr><tr><td class="term">維持保證金</td><td>帳戶價值必須維持的最低水位，跌破就被通知補錢。</td></tr><tr><td class="term">Margin Call</td><td>保證金不足時，券商要求當日補足的通知。</td></tr><tr><td class="term">滑價</td><td>市價下單時實際成交價與預期價格的落差。</td></tr><tr><td class="term">當沖</td><td>同一天內完成買進與賣出，不必負擔本金。</td></tr><tr><td class="term">tick</td><td>價格的最小跳動單位，隨股價區間不同而不同。</td></tr></table></div></section><section class="blk"><h2 class="blk"><span class="ic">☑️</span>課後延伸與待複習</h2><ul class="check"><li><span class="cbox "></span><span>複習 ROD／IOC／FOK 三種下單條件的差別</span></li><li><span class="cbox "></span><span>看懂台積電資產負債表的資產、負債、權益三塊</span></li><li><span class="cbox "></span><span>到期交所網站查各期貨商品的保證金一覽表</span></li></ul></section>
+
 <footer class="doc">🍀 由地端 AI 語音轉紀錄平台自動產生　·　全程離線</footer>
-</div></body></html>
+</div><script>function setView(lite){document.body.classList.toggle('simple',!!lite);document.getElementById('btnLite').classList.toggle('on',!!lite);document.getElementById('btnFull').classList.toggle('on',!lite);}</script></body></html>

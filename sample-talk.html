@@ -97,11 +97,52 @@ ul.bul{margin:0;padding-left:20px}ul.bul li{margin:5px 0}
 .disc{border:1px dashed var(--bad);border-radius:12px;padding:12px 15px;color:var(--bad);font-size:.88rem;background:transparent}
 .overflow{overflow-x:auto}
 footer.doc{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem;text-align:center}
+/* 工具列：版本切換 + 列印 */
+.toolbar{position:sticky;top:0;z-index:30;display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+  background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 12px;margin-bottom:8px;box-shadow:var(--shadow)}
+.seg{display:inline-flex;background:var(--accent-soft);border-radius:9px;padding:3px}
+.seg button{border:none;background:transparent;color:var(--muted);font-weight:700;font-size:.86rem;
+  padding:6px 14px;border-radius:7px;cursor:pointer;font-family:inherit}
+.seg button.on{background:var(--card);color:var(--accent-deep);box-shadow:var(--shadow)}
+.tbtn{margin-left:auto;border:1px solid var(--accent-deep);background:var(--accent-deep);color:#fff;
+  font-weight:700;font-size:.86rem;padding:8px 15px;border-radius:9px;cursor:pointer;font-family:inherit}
+.tbtn:hover{filter:brightness(1.06)}
+.hint{width:100%;font-size:.76rem;color:var(--muted);margin:2px 2px 0}
+/* 簡易模式：隱藏 detail 區塊 */
+body.simple section.detail{display:none}
+/* 簽核區（列印時才出現） */
+.sign{display:none}
+/* ── 列印／存 PDF：正式文件版面 ── */
+@media print{
+  @page{margin:16mm 15mm}
+  body{background:#fff;color:#000;font-size:11.5pt}
+  .wrap{max-width:none;padding:0}
+  .toolbar,.home{display:none!important}
+  .kicker{color:#000}
+  h1.doc{font-size:20pt}
+  h2.blk{font-size:13pt;border-bottom:1.5px solid #000;padding-bottom:3px}
+  .card,.tile,ul.check li{box-shadow:none!important;border:1px solid #666!important;background:#fff!important}
+  .tldr,.quote,.disc,table.info td.k,.tag,.prio{background:#fff!important;color:#000!important;border:1px solid #999}
+  .tile b,.tile.warn b,.tile.bad b,.tile.good b,.mnode,.mb-h::before,.tl .t,table.gl td.term,table.grid th{color:#000!important}
+  table.grid th{background:#eee!important}
+  .gbar{background:#555!important;color:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .gtrack{background:#eee!important}
+  .risk .cell{color:#000!important;border:1px solid #999}
+  .risk .lo,.risk .mid,.risk .hi{background:#fff!important}
+  .cbox{border-color:#000!important}.cbox.on{background:#000!important}
+  section.blk{break-inside:avoid}
+  tr,li,.quote{break-inside:avoid}
+  footer.doc{color:#000}
+  .sign{display:block!important;margin-top:26px;border-top:1px solid #000;padding-top:12px;font-size:11pt}
+  .sign .r{display:flex;gap:40px;margin-top:22px}
+}
 </style></head><body>
 <div class="wrap">
+<div class="toolbar"><div class="seg"><button id="btnFull" class="on" onclick="setView(0)">詳細版</button><button id="btnLite" onclick="setView(1)">簡易重點版</button></div><button class="tbtn" onclick="window.print()">🖨️ 列印／存成 PDF</button><div class="hint">切「簡易重點版」只留精華；切「詳細版」展開全部。要印哪一版就先切好再按列印。</div></div>
 <div class="kicker">🍀 地端 AI · 演講／影片摘要</div>
 <h1 class="doc">AI 時代的個人品牌經營</h1>
 <p class="docsub">講者：某講師　·　線上講座　·　約 45 分鐘</p>
-<section class="blk"><table class="info"><tr><td class="k">講者</td><td>某講師</td></tr><tr><td class="k">場合</td><td>線上講座</td></tr><tr><td class="k">長度</td><td>約 45 分鐘</td></tr></table></section><section class="blk"><h2 class="blk"><span class="ic">⚡</span>三句話重點</h2><div class="tldr">個人品牌不是包裝自己，而是持續產出讓別人記得你的價值；AI 是放大器，先有內容才談效率。</div></section><section class="blk"><h2 class="blk"><span class="ic">•</span>核心論點</h2><ul class="bul"><li>個人品牌＝別人不在場時，如何描述你</li><li>先鎖定一個明確受眾，再談內容</li><li>AI 是放大器不是代筆，內容核心仍要自己長出來</li><li>持續比完美重要，累積才有複利</li></ul></section><section class="blk"><h2 class="blk"><span class="ic">💬</span>金句摘錄</h2><div class="quote">「你不用很厲害才開始，但要開始才會很厲害。」<span class="who">— 講者</span></div><div class="quote">「AI 幫你把一小時的活壓成十分鐘，但那一小時的判斷還是你的。」<span class="who">— 講者</span></div></section><section class="blk"><h2 class="blk"><span class="ic">⏱️</span>章節時間軸</h2><ul class="tl"><li><span class="t">開場</span>為什麼這個時代人人都需要個人品牌</li><li><span class="t">中段</span>鎖定受眾與內容定位的方法</li><li><span class="t">後段</span>用 AI 工具加速產出的實際流程</li><li><span class="t">結尾</span>持續產出的心態與複利效應</li></ul></section><section class="blk"><h2 class="blk"><span class="ic">•</span>我可以怎麼用（行動建議）</h2><ul class="bul"><li>這週寫下自己想被記得的「一句話定位」</li><li>挑一個平台，固定每週產出一則內容</li><li>用 AI 做初稿，但保留自己的觀點與口吻</li></ul></section>
+<section class="blk"><table class="info"><tr><td class="k">講者</td><td>某講師</td></tr><tr><td class="k">場合</td><td>線上講座</td></tr><tr><td class="k">長度</td><td>約 45 分鐘</td></tr></table></section><section class="blk"><h2 class="blk"><span class="ic">⚡</span>三句話重點</h2><div class="tldr">個人品牌不是包裝自己，而是持續產出讓別人記得你的價值；AI 是放大器，先有內容才談效率。</div></section><section class="blk"><h2 class="blk"><span class="ic">•</span>核心論點</h2><ul class="bul"><li>個人品牌＝別人不在場時，如何描述你</li><li>先鎖定一個明確受眾，再談內容</li><li>AI 是放大器不是代筆，內容核心仍要自己長出來</li><li>持續比完美重要，累積才有複利</li></ul></section><section class="blk"><h2 class="blk"><span class="ic">•</span>我可以怎麼用（行動建議）</h2><ul class="bul"><li>這週寫下自己想被記得的「一句話定位」</li><li>挑一個平台，固定每週產出一則內容</li><li>用 AI 做初稿，但保留自己的觀點與口吻</li></ul></section><section class="blk detail"><h2 class="blk"><span class="ic">💬</span>金句摘錄</h2><div class="quote">「你不用很厲害才開始，但要開始才會很厲害。」<span class="who">— 講者</span></div><div class="quote">「AI 幫你把一小時的活壓成十分鐘，但那一小時的判斷還是你的。」<span class="who">— 講者</span></div></section><section class="blk detail"><h2 class="blk"><span class="ic">⏱️</span>章節時間軸</h2><ul class="tl"><li><span class="t">開場</span>為什麼這個時代人人都需要個人品牌</li><li><span class="t">中段</span>鎖定受眾與內容定位的方法</li><li><span class="t">後段</span>用 AI 工具加速產出的實際流程</li><li><span class="t">結尾</span>持續產出的心態與複利效應</li></ul></section>
+
 <footer class="doc">🍀 由地端 AI 語音轉紀錄平台自動產生　·　全程離線</footer>
-</div></body></html>
+</div><script>function setView(lite){document.body.classList.toggle('simple',!!lite);document.getElementById('btnLite').classList.toggle('on',!!lite);document.getElementById('btnFull').classList.toggle('on',!lite);}</script></body></html>
