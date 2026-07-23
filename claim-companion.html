@@ -615,6 +615,12 @@ function go(id, opt){
 buildStations();
 buildMap();
 buildFaq();
+// 瀏覽器上一頁/下一頁、或直接更改網址列的 #錨點 時，同步切換畫面
+window.addEventListener('hashchange', function(){
+  const h=location.hash.replace('#','');
+  const cur=(document.querySelector('.screen.active')||{}).id;
+  if(h && document.getElementById(h) && h!==cur){ go(h); }
+});
 (function(){
   const h=location.hash.replace('#','');
   if(h && document.getElementById(h)){ go(h); } else { go('home'); }
