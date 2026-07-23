@@ -41,7 +41,13 @@
   }
   #topbar .wrap{max-width:720px;margin:0 auto;}
   #topbar.home{padding:14px 16px;}
+  .toprow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
   .brandline{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--sage-deep);font-size:16px;}
+  .backlink{display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+    background:var(--card);color:var(--sage-deep);border:1.5px solid var(--sage);
+    border-radius:999px;padding:8px 14px;font-size:15px;font-weight:800;white-space:nowrap;cursor:pointer;
+    font-family:inherit;}
+  .backlink:active{transform:translateY(1px);}
   .progress-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
   .progress-label{font-weight:800;font-size:15px;color:var(--ink);white-space:nowrap;}
   .bar{flex:1;min-width:120px;height:10px;background:#efe7d7;border-radius:999px;overflow:hidden;}
@@ -236,7 +242,10 @@
 
 <div id="topbar" class="home">
   <div class="wrap" id="topbarInner">
-    <div class="brandline">🍀 理賠陪跑主題館</div>
+    <div class="toprow">
+      <a class="backlink" href="lessons.html#plans">🏠 回教案集</a>
+      <span class="brandline">🍀 理賠陪跑主題館</span>
+    </div>
   </div>
 </div>
 
@@ -584,13 +593,14 @@ function setTopbar(id){
       <div class="navbtns">
         <button onclick="go('${n>1?('s'+(n-1)):'home'}')">← ${n>1?'回上一站':'回首頁'}</button>
         <button onclick="go('home')">🗺️ 回旅程地圖</button>
+        <a class="backlink" href="lessons.html#plans" style="flex:none">🏠 回教案集</a>
       </div>`;
   }else if(id==='faq'){
     bar.className='home';
-    inner.innerHTML=`<div class="brandline" onclick="go('home')" style="cursor:pointer">← 常見問題 · 回首頁</div>`;
+    inner.innerHTML=`<div class="toprow"><a class="backlink" href="lessons.html#plans">🏠 回教案集</a><button class="backlink" style="cursor:pointer" onclick="go('home')">← 回首頁</button></div>`;
   }else{
     bar.className='home';
-    inner.innerHTML=`<div class="brandline">🍀 理賠陪跑主題館</div>`;
+    inner.innerHTML=`<div class="toprow"><a class="backlink" href="lessons.html#plans">🏠 回教案集</a><span class="brandline">🍀 理賠陪跑主題館</span></div>`;
   }
 }
 function go(id, opt){
