@@ -64,6 +64,8 @@
   新增系列/卡片時目錄會自動更新，但單頁直達型系列要在 JS 的 `TOC_SERIES` 補一列。
   ⚠️ 多人可能同時改 `lessons.html`／CLAUDE.md：push main 前先 `git fetch origin main`，
   若 origin 已前進就 rebase 並保留他人新增的系列/卡片（別覆蓋），衝突時兩邊內容都留。
+  ⚠️ **`index.html` 必須與 `lessons.html` 內容完全一致**（根網址 `…/kt-sweet-journey/` 直接就是課程館，
+  不再用轉址頁，避免「先閃舊頁再跳轉」）。**每次改完 `lessons.html` 後，一律 `cp lessons.html index.html` 再一起 commit。**
 
 ## 網頁慣例
 

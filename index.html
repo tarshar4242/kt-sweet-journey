@@ -2,10 +2,1234 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0; url=lessons.html">
-<title>Learn AI with Tarshar｜課程筆記館</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>課程筆記館｜Learn AI with Tarshar</title>
+<meta name="description" content="晨學講堂課後筆記館：先選系列（直播電台…），再進入各集的逐幀課堂筆記與互動學習地圖">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* 透明感：暖奶油底＋柔綠光暈＋磨砂玻璃卡片 */
+  --bg:#FBFAF6; --bg2:#F3F6EE; --dark:#26302A;
+  --txt:#26302A; --txt2:#5C685F; --txt3:#93998F;
+  --line:rgba(78,158,119,.16); --line2:rgba(78,158,119,.26);
+  --accent:#3B7D5D;
+  --sage:#4E9E77; --sage-deep:#3B7D5D; --sage-soft:#8FCBA9;
+  --glass:rgba(255,255,255,.55); --glass2:rgba(255,255,255,.38); --gline:rgba(255,255,255,.75);
+  /* 系列分類色（保留辨識，僅當小面積點綴） */
+  --cyan:#2f7d92; --blue:#3b6bb0; --purple:#6a5acf; --pink:#b25269; --green:#3f8560; --orange:#bf6a1e; --amber:#9c7b23; --rose:#b5476a;
+  --radius:16px; --maxw:1080px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter','Noto Sans TC',-apple-system,BlinkMacSystemFont,"PingFang TC","Microsoft JhengHei",sans-serif;
+  color:var(--txt);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;min-height:100vh;
+  background:
+    radial-gradient(900px 620px at 84% -8%, rgba(160,214,180,.5), transparent 60%),
+    radial-gradient(720px 540px at 6% 6%, rgba(214,236,200,.46), transparent 62%),
+    radial-gradient(1100px 820px at 50% 118%, rgba(150,206,175,.36), transparent 60%),
+    linear-gradient(180deg,#FCFBF7,#F3F7EC);
+  background-attachment:fixed}
+a{color:inherit;text-decoration:none}
+.stars{display:none}
+::selection{background:var(--sage-soft);color:#fff}
+/* ── 頂欄（磨砂玻璃） ── */
+.nav{position:sticky;top:12px;z-index:50;margin:12px auto 0;max-width:var(--maxw);padding:0 16px}
+.nav-inner{padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  border-radius:16px;background:linear-gradient(150deg,var(--glass),var(--glass2));backdrop-filter:blur(16px) saturate(1.15);-webkit-backdrop-filter:blur(16px) saturate(1.15);
+  border:1px solid var(--gline);box-shadow:0 10px 30px -16px rgba(60,110,80,.28),inset 0 1px 0 rgba(255,255,255,.8)}
+.nav .brand{display:flex;align-items:baseline;gap:8px;cursor:pointer;font-weight:800;font-size:15px;letter-spacing:-.015em;white-space:nowrap}
+.nav .brand small{color:var(--txt3);font-weight:500;font-size:12px}
+.nav .n-link{font-size:13px;color:var(--txt2);padding:8px 14px;border-radius:999px;transition:.15s;font-weight:600;white-space:nowrap;flex:none;
+  background:rgba(255,255,255,.5);border:1px solid var(--gline)}
+.nav .n-link:hover{color:var(--sage-deep)}
+/* ── 主視覺 ── */
+header{max-width:var(--maxw);margin:0 auto;padding:42px 24px 10px;text-align:center}
+header .hero-photo{position:relative;max-width:720px;margin:0 auto 30px;line-height:0}
+header .hero-photo::before{content:"";position:absolute;inset:-7% -7% -11% -7%;z-index:0;
+  background:radial-gradient(circle at 50% 44%,rgba(185,227,199,.8),rgba(214,236,200,.35) 55%,transparent 72%);filter:blur(10px)}
+header .hero-photo img{position:relative;z-index:1;width:100%;height:auto;display:block;border-radius:26px;
+  border:1px solid rgba(255,255,255,.6);box-shadow:0 34px 74px -34px rgba(60,110,80,.5),inset 0 1px 0 rgba(255,255,255,.6);
+  -webkit-mask-image:radial-gradient(132% 122% at 50% 42%,#000 66%,transparent 100%);
+  mask-image:radial-gradient(132% 122% at 50% 42%,#000 66%,transparent 100%)}
+header h1{font-size:clamp(25px,3.4vw,38px);font-weight:800;line-height:1.16;letter-spacing:-.02em;color:var(--txt)}
+header h1 .accent{background:linear-gradient(120deg,var(--sage),var(--sage-deep));-webkit-background-clip:text;background-clip:text;color:transparent}
+header .divider{display:inline-flex;align-items:center;gap:10px;margin:16px auto 0;color:var(--sage-deep);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+header .divider::before,header .divider::after{content:"";width:24px;height:1px;background:var(--line2)}
+header p{margin:16px auto 0;max-width:600px;color:var(--txt2);font-size:16.5px;line-height:1.75}
+header p b{color:var(--txt);font-weight:600}
+main{max-width:var(--maxw);margin:0 auto;padding:22px 24px 56px}
+/* 麵包屑 */
+.crumbs{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--txt3);margin:2px 0 18px;flex-wrap:wrap}
+.crumbs a{color:var(--sage-deep);cursor:pointer;font-weight:600}
+.crumbs a:hover{text-decoration:underline}
+.crumbs .sep{opacity:.5}
+.count{font-size:12.5px;color:var(--txt3);margin-bottom:16px;font-weight:600;letter-spacing:.02em}
+/* 視圖切換 */
+.view{display:none;animation:fadeIn .35s ease}
+.view.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+/* 玻璃卡片共用底 */
+.series,.course{background:linear-gradient(150deg,var(--glass),var(--glass2));backdrop-filter:blur(15px) saturate(1.12);-webkit-backdrop-filter:blur(15px) saturate(1.12);
+  border:1px solid var(--gline);box-shadow:0 12px 32px -18px rgba(60,110,80,.28),inset 0 1px 0 rgba(255,255,255,.8)}
+/* ── 第一層：系列卡 ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+.series{position:relative;border-radius:var(--radius);overflow:hidden;cursor:pointer;
+  padding:26px 24px 20px;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.series:hover{transform:translateY(-4px);box-shadow:0 26px 48px -22px color-mix(in srgb,var(--c,var(--sage)) 50%,rgba(60,110,80,.4)),inset 0 1px 0 rgba(255,255,255,.9)}
+.series .top{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c,var(--sage)),color-mix(in srgb,var(--c,var(--sage)) 40%,#fff))}
+.series .emoji{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;
+  background:radial-gradient(circle at 30% 25%,#fff,color-mix(in srgb,var(--c,var(--sage)) 26%,#fff));border:1px solid var(--gline);box-shadow:0 6px 14px -6px color-mix(in srgb,var(--c,var(--sage)) 55%,transparent)}
+.series h2{font-size:21px;font-weight:900;letter-spacing:-.02em;margin-bottom:8px;line-height:1.28;
+  background:linear-gradient(120deg,var(--c,var(--sage-deep)),color-mix(in srgb,var(--c,var(--sage-deep)) 62%,#2a2a2a));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.series h2 em{font-style:normal;display:block;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  -webkit-text-fill-color:var(--c,var(--sage-deep));color:var(--c,var(--sage-deep));margin-bottom:8px}
+.series p.desc{font-size:13.5px;color:var(--txt2);line-height:1.72;flex:1}
+.series .foot{display:flex;justify-content:space-between;align-items:center;margin-top:18px;font-size:12.5px}
+.series .foot .badge{color:var(--c,var(--sage-deep));border:1px solid var(--gline);background:rgba(255,255,255,.55);border-radius:999px;padding:5px 13px;font-weight:600}
+.series .foot .go{color:var(--txt2);font-weight:600}
+.series:hover .foot .go{color:var(--c,var(--sage-deep))}
+.series.soon{border-style:dashed;cursor:default;background:rgba(255,255,255,.32);box-shadow:none;border-color:var(--line2)}
+.series.soon:hover{transform:none;box-shadow:none}
+.series.soon .top{display:none}
+.series.soon .body-center{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:170px;text-align:center}
+.series.soon .plus{font-size:30px;color:var(--txt3)}
+.series.soon p{color:var(--txt3);font-size:13px;margin-top:8px;line-height:1.8}
+/* ── 第二層：課程卡 ── */
+.course{position:relative;border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.course:hover{transform:translateY(-4px);box-shadow:0 26px 48px -22px color-mix(in srgb,var(--c,var(--sage)) 46%,rgba(60,110,80,.4)),inset 0 1px 0 rgba(255,255,255,.9)}
+.course .top{height:3px;background:linear-gradient(90deg,var(--c,var(--sage)),color-mix(in srgb,var(--c,var(--sage)) 40%,#fff))}
+.course .body{padding:22px 22px 18px;flex:1}
+.course .ep{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--c,var(--sage-deep));font-weight:700}
+.course h2{font-size:18.5px;font-weight:900;letter-spacing:-.015em;margin:8px 0 8px;line-height:1.4;color:var(--txt)}
+.course p.desc{font-size:13.5px;color:var(--txt2);line-height:1.72}
+.course p.desc b{color:var(--txt);font-weight:600}
+.course .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+.course .tags span{font-size:11.5px;color:var(--txt2);border:1px solid var(--gline);background:rgba(255,255,255,.5);border-radius:8px;padding:4px 10px}
+.course .date{font-size:12px;color:var(--txt3);margin-top:12px}
+.course .links{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--gline);border-top:1px solid var(--gline);margin-top:auto}
+.course .links a{display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 8px;font-size:13.5px;font-weight:700;color:var(--txt2);background:rgba(255,255,255,.45);transition:.15s}
+.course .links a:hover{color:var(--c,var(--sage-deep));background:rgba(255,255,255,.72)}
+.course.soon{border-style:dashed;background:rgba(255,255,255,.32);box-shadow:none;border-color:var(--line2)}
+.course.soon:hover{transform:none;box-shadow:none}
+.course.soon .top{display:none}
+.course.soon .body{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:180px;text-align:center}
+.course.soon .plus{font-size:30px;color:var(--txt3)}
+.course.soon p{color:var(--txt3);font-size:13px;margin-top:8px;line-height:1.8}
+footer{max-width:var(--maxw);margin:40px auto 0;padding:30px 24px 54px;border-top:1px solid var(--line);text-align:center;color:var(--txt3);font-size:13px;line-height:1.95}
+footer a{color:var(--txt2)}
+/* ── 呈現方式切換 ── */
+.mode-switch{display:flex;align-items:center;justify-content:flex-end;gap:6px;margin:0 0 16px}
+.mode-switch .ms-label{font-size:12px;color:var(--txt3);margin-right:4px}
+.mode-switch .ms-btn{font:inherit;font-size:13px;font-weight:600;color:var(--txt2);cursor:pointer;
+  border:1px solid var(--gline);background:rgba(255,255,255,.5);border-radius:999px;padding:7px 14px;transition:.15s;backdrop-filter:blur(8px)}
+.mode-switch .ms-btn:hover{color:var(--sage-deep)}
+.mode-switch .ms-btn.on{color:#fff;background:linear-gradient(135deg,var(--sage),var(--sage-deep));border-color:transparent;box-shadow:0 8px 16px -6px rgba(78,158,119,.55)}
+/* 目錄側欄 */
+#toc{display:none}
+#toc .toc-inner{border:1px solid var(--gline);border-radius:var(--radius);
+  background:linear-gradient(150deg,var(--glass),var(--glass2));backdrop-filter:blur(15px) saturate(1.12);-webkit-backdrop-filter:blur(15px) saturate(1.12);
+  box-shadow:0 12px 32px -18px rgba(60,110,80,.28),inset 0 1px 0 rgba(255,255,255,.8);
+  padding:12px;max-height:calc(100vh - 96px);overflow:auto}
+#toc .toc-home{display:block;font-weight:800;color:var(--txt);font-size:14px;
+  padding:9px 10px;border-radius:10px;margin-bottom:4px;cursor:pointer}
+#toc .toc-home:hover{background:rgba(255,255,255,.55)}
+#toc .toc-group{margin-top:2px}
+#toc .toc-head{display:flex;align-items:center;gap:6px;font-weight:700;font-size:13.5px;color:var(--txt);
+  padding:9px 10px;border-radius:10px;cursor:pointer;transition:.15s}
+#toc .toc-head:hover{background:rgba(255,255,255,.55)}
+#toc .toc-head.active{color:var(--c,var(--sage-deep));background:color-mix(in srgb,var(--c,var(--sage)) 12%,rgba(255,255,255,.5))}
+#toc ul{list-style:none;margin:2px 0 6px;padding:0 0 0 8px;border-left:1px solid var(--line)}
+#toc ul li a{display:block;font-size:12.5px;color:var(--txt2);line-height:1.5;
+  padding:6px 10px;border-radius:8px;cursor:pointer}
+#toc ul li a:hover{color:var(--c,var(--sage-deep));background:rgba(255,255,255,.55)}
+#toc ul li a .toc-no{color:var(--c,var(--sage-deep));font-weight:800;margin-right:5px;font-variant-numeric:tabular-nums}
+body.mode-toc .layout{display:grid;grid-template-columns:240px 1fr;gap:28px;align-items:start}
+body.mode-toc #toc{display:block;position:sticky;top:80px}
+@media (max-width:760px){
+  header{padding-top:30px}
+  .nav{top:8px}
+  body.mode-toc .layout{grid-template-columns:1fr;gap:14px}
+  body.mode-toc #toc{position:static}
+  #toc .toc-inner{max-height:46vh}
+}
+</style>
 </head>
 <body>
-<p>轉往課程筆記館入口… <a href="lessons.html">沒跳轉請點這裡</a>｜<a href="kt-sweet-journey.html">旅程手冊</a>｜<a href="interpreter.html">隨身口譯機</a></p>
+<div class="stars" id="stars"></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand" onclick="showHome()">🍀&nbsp;<b>Learn&nbsp;AI&nbsp;with&nbsp;Tarshar</b>&nbsp;<small>課程筆記館</small></div>
+    <a class="n-link" onclick="showHome()">🏠 回入口</a>
+  </div>
+</nav>
+
+<header>
+  <div class="hero-photo" id="heroPhoto">
+    <img src="home-hero.jpg" alt="Learn AI with Tarshar — 一起輕輕鬆鬆學 AI" width="1254" height="1254" fetchpriority="high">
+  </div>
+  <h1 id="pageTitle">課程<span class="accent">筆記館</span></h1>
+  <div class="divider">一起輕輕鬆鬆學 AI</div>
+  <p id="pageSub">所有課程的<b>共同入口</b>：先選一個系列，再進入該系列的每一集——每集都有可對照錄影的<b>逐幀課堂筆記</b>與可打勾追蹤的<b>互動學習地圖</b>。</p>
+</header>
+
+<main>
+  <div class="mode-switch">
+    <span class="ms-label">呈現方式</span>
+    <button type="button" id="btnCards" class="ms-btn" onclick="setMode('card')">▦ 卡片</button>
+    <button type="button" id="btnToc" class="ms-btn" onclick="setMode('toc')">☰ 目錄</button>
+  </div>
+
+  <div class="layout">
+    <aside id="toc" aria-label="系列目錄"></aside>
+    <div id="content">
+
+  <nav class="crumbs" id="crumbs" style="display:none">
+    <a onclick="showHome()">🏠 筆記館入口</a><span class="sep">›</span><span id="crumbHere"></span>
+  </nav>
+
+  <!-- ══ 第一層：系列選擇 ══ -->
+  <section id="view-home" class="view active">
+    <div class="count" id="seriesCount"></div>
+    <div class="grid">
+
+      <div class="series" style="--c:var(--cyan)" onclick="showSeries('radio')">
+        <div class="top"></div>
+        <span class="emoji">📻</span>
+        <h2><em>SERIES 01</em>直播電台</h2>
+        <p class="desc">「生成式 AI 應用電台・晨學講堂」每週五晚間直播——每一集把當週最重要的 AI 工具與 Agent 實際操作一遍，課後做成逐幀筆記＋互動地圖。</p>
+        <div class="foot"><span class="badge" id="radioBadge">收錄 2 集</span><span class="go">進入系列 ›</span></div>
+      </div>
+
+      <div class="series" style="--c:var(--amber)" onclick="showSeries('plans')">
+        <div class="top"></div>
+        <span class="emoji">📚</span>
+        <h2><em>SERIES 02</em>Tarshar 教案集</h2>
+        <p class="desc">對外授課的完整教案——公部門、機關單位的 AI 體驗工作坊。每一份都是可直接照著上的教學設計（流程、金句、學員產出、帶回家）。</p>
+        <div class="foot"><span class="badge" id="plansBadge" style="color:var(--amber)">收錄 1 份</span><span class="go">進入系列 ›</span></div>
+      </div>
+
+      <div class="series" style="--c:var(--pink)" onclick="showSeries('life')">
+        <div class="top"></div>
+        <span class="emoji">🧰</span>
+        <h2><em>SERIES 03</em>生活應用</h2>
+        <p class="desc">課堂之外的實作成品——旅程手冊、隨身工具、參訪學習日誌。每一個都是「把 AI 技能用在生活裡」的完整作品。</p>
+        <div class="foot"><span class="badge" id="lifeBadge" style="color:var(--pink)">收錄 3 件</span><span class="go">進入系列 ›</span></div>
+      </div>
+
+      <div class="series" style="--c:var(--orange)" onclick="location.href='ipas-intermediate.html'">
+        <div class="top"></div>
+        <span class="emoji">🎓</span>
+        <h2><em>SERIES 04</em>iPAS 證照學習</h2>
+        <p class="desc">AI 應用規劃師中級三科學習地圖：把官方指引拆成 34 個能力單元，搭配 30 天路線、生活比喻、考點與可打勾進度。</p>
+        <div class="foot"><span class="badge" style="color:var(--orange)">三科 · 34 課</span><span class="go">開始學習 ›</span></div>
+      </div>
+
+      <div class="series" style="--c:var(--green)" onclick="location.href='https://tarshar4242.github.io/thesis-library/index.html#library'">
+        <div class="top"></div>
+        <span class="emoji">📖</span>
+        <h2><em>SERIES 05</em>論文研讀庫</h2>
+        <p class="desc">碩士論文文獻閱讀系統——每讀一篇都留下研究問題、理論、方法、頁碼證據與「要放進論文哪一段」，含建議閱讀路線與網頁研讀卡。</p>
+        <div class="foot"><span class="badge" style="color:var(--green)">文獻閱讀系統</span><span class="go">進入研讀庫 ›</span></div>
+      </div>
+
+      <div class="series" style="--c:var(--purple)" onclick="location.href='https://tarshar4242.github.io/thesis-library/skills.html'">
+        <div class="top"></div>
+        <span class="emoji">🛠️</span>
+        <h2><em>SERIES 06</em>SKILL 技能包</h2>
+        <p class="desc">1 個 Claude 的完整能力目錄——7 大主線 45 個技能，每個都附「怎麼開口」的呼叫關鍵字，點關鍵字即複製、貼進對話就能用。</p>
+        <div class="foot"><span class="badge" style="color:var(--purple)">7 線 · 45 技能</span><span class="go">進入目錄 ›</span></div>
+      </div>
+
+      <div class="series" style="--c:var(--rose)" onclick="showSeries('edm')">
+        <div class="top"></div>
+        <span class="emoji">📮</span>
+        <h2><em>SERIES 07</em>主題式電子報</h2>
+        <p class="desc">把每次做完的一件事，寫成一封主題信——用我自己的口吻，記錄一個非工程師怎麼把 AI 變成日常隊友。一期一期加，最新在最前面。</p>
+        <div class="foot"><span class="badge" id="edmBadge" style="color:var(--rose)">收錄 1 期</span><span class="go">進入系列 ›</span></div>
+      </div>
+
+      <div class="series soon">
+        <div class="top"></div>
+        <div class="body-center">
+          <span class="plus">＋</span>
+          <p>新系列籌備中<br>之後的其他課程系列（工作坊、專題班…）<br>會以獨立系列出現在這裡</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ 第二層：Tarshar 教案集 ══ -->
+  <section id="view-plans" class="view">
+    <div class="count" id="plansCount"></div>
+    <div class="grid">
+
+      <div class="course" style="--c:var(--blue)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 方法 #01</span>
+          <h2>單篇論文加工術：英文論文變中英研讀包 📖</h2>
+          <p class="desc">給研究生的方法教案：英文論文怎麼變成「研讀簡報＋逐段中英對照＋口語小抄」三件套。逐段翻譯不整篇丟、術語表固定譯法、抽段驗收，讀過的論文從此留得下來、找得到、講得出。</p>
+          <div class="tags"><span>📖 逐段翻譯</span><span>🗂️ 三件套</span><span>🗣️ 口語小抄</span><span>✅ 抽段驗收</span></div>
+          <div class="date">📅 2026 · 方法教學 · 七章節實錄</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="method-01-paper-translation.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--purple)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 方法 #02</span>
+          <h2>一堂直播課，變成一座可以逛的互動筆記館 🎬</h2>
+          <p class="desc">逐幀課堂筆記法：把一集直播錄影拆成一張張畫面親眼看過，配逐字稿與簡報原圖，做成逐幀筆記頁＋互動節點地圖。上完課的東西不再散掉，變成隨時回得去的筆記館。</p>
+          <div class="tags"><span>🎬 逐幀判讀</span><span>🗺️ 互動地圖</span><span>⏱️ 時間戳</span><span>🌐 一鍵上架</span></div>
+          <div class="date">📅 2026 · 方法教學 · 七章節實錄</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="method-02-frame-notes.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--pink)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 方法 #03</span>
+          <h2>一個主題，怎麼變成一套圖卡，再變成一座網站 🃏</h2>
+          <p class="desc">知識圖卡製作法：一張卡一個念頭，封面、內容卡、結尾卡的固定骨架，用形容詞跟 AI 描述風格，命名與版本管理不打架，最後同一套內容直接變成線上展示館。</p>
+          <div class="tags"><span>🃏 一卡一念頭</span><span>🎨 形容詞風格</span><span>🏷️ 命名規則</span><span>🌐 展示館</span></div>
+          <div class="date">📅 2026 · 方法教學 · 七章節實錄</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="method-03-knowledge-cards.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--orange)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 方法 #04</span>
+          <h2>樸素文件變身手帳風筆記，我怎麼做的 📔</h2>
+          <p class="desc">文件視覺化改造法：先用形容詞定義你的視覺標準，讓 AI 盤點哪裡不符合，先改一份當示範、確認風格再量產，改造版另存不覆蓋原稿。純文字規格書變成牛皮紙手帳風的真實過程。</p>
+          <div class="tags"><span>📔 手帳風</span><span>🔍 盤點診斷</span><span>1️⃣ 先改一份</span><span>🗂️ 版本管理</span></div>
+          <div class="date">📅 2026 · 方法教學 · 真實進行中案例</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="method-04-doc-makeover.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--cyan)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 方法 #05</span>
+          <h2>用 AI 生成影片與視覺素材：從參考圖到提示詞 🎨</h2>
+          <p class="desc">AI 生圖總是不像你要的？因為沒給錨點。參考素材分四夾收（臉部服飾、動作、原始影片抽格、提示詞）、角色設定檔固定一致性、提示詞四段骨架、多生候選再挑選的完整做法。</p>
+          <div class="tags"><span>🎨 參考錨點</span><span>🎞️ 影片抽格</span><span>🧬 角色一致性</span><span>✍️ 提示詞骨架</span></div>
+          <div class="date">📅 2026 · 方法教學 · 七章節實錄</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="method-05-ai-visuals.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--green)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 方法 #06</span>
+          <h2>蓋一座放研讀包的網站：論文圖書館 🍀</h2>
+          <p class="desc">給零基礎學員的方法教案：記錄小D 零程式基礎，用 AI 蓋出論文研讀庫網站的完整過程。起點、架構、視覺設計、踩坑、搜尋功能、部署、工作流程七個章節，每段都附可直接照做的方法，最後給明天就能開始的三步。</p>
+          <div class="tags"><span>🎓 零程式基礎</span><span>🗂️ 架構思考</span><span>🎨 形容詞對話</span><span>🌐 GitHub Pages</span></div>
+          <div class="date">📅 2026 · 方法教學 · 七章節實錄</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="build-knowledge-library.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--blue)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 方法 #07</span>
+          <h2>幫實體工作坊蓋線上導覽台，總站串起所有專案 🏛️</h2>
+          <p class="desc">學員回家就忘、講義會丟，但網址不會。幫一場機關工作坊做線上導覽台（流程、教材、帶得走的工具），再用「總站只放入口、一個專案一個站」的架構，讓作品越掛越多、互不干擾。</p>
+          <div class="tags"><span>🏛️ 導覽台</span><span>🗂️ 總站串子站</span><span>📱 QR 帶走</span><span>➕ 持續累積</span></div>
+          <div class="date">📅 2026 · 方法教學 · 七章節實錄</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="method-07-workshop-hub.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--green)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 方法 #08</span>
+          <h2>不用後端不用資料庫：跑在瀏覽器裡的小工具 🧰</h2>
+          <p class="desc">整個工具就是一個 HTML 檔，打開就能用。怎麼判斷需求適不適合、怎麼跟 AI 開口、怎麼串公開資料（台股回測實例）、怎麼借現成函式庫（QR code 實例），三行指令部署變網址，工具越攢越多。</p>
+          <div class="tags"><span>🧰 一檔一工具</span><span>📡 公開 API</span><span>📦 借現成函式庫</span><span>🌐 三行上線</span></div>
+          <div class="date">📅 2026 · 方法教學 · 雙成品實錄</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="method-08-browser-tools.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--purple)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 方法 #09</span>
+          <h2>用 AI 做一個裝在手機桌面的個人 App 📱</h2>
+          <p class="desc">市面 App 是給所有人的，不是為你的需求做的。PWA（網頁假裝成 App）、離線優先（先存手機、網路只是備份）、免費雲端同步（換手機進度不丟），連「會卡在哪裡」都誠實告訴你。</p>
+          <div class="tags"><span>📱 PWA</span><span>✈️ 離線優先</span><span>☁️ 雲端同步</span><span>💪 誠實談難度</span></div>
+          <div class="date">📅 2026 · 方法教學 · 七章節實錄</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="method-09-pwa-app.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--amber)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 方法 #10</span>
+          <h2>我不是工程師，但我最懂這條流程 🏭</h2>
+          <p class="desc">非工程師用 AI 把本職工作流程做成系統雛形的勇氣故事：六個資料夾只有兩個活下來，第一版很醜沒關係，你的專業知識加 AI 的手，就能讓老闆和同事看見你腦子裡在想什麼。</p>
+          <div class="tags"><span>🏭 流程即本錢</span><span>🔁 敢重來</span><span>🗣️ 雛形是溝通神器</span><span>⚖️ 知道界線</span></div>
+          <div class="date">📅 2026 · 方法教學 · 六版迭代實錄</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="method-10-worksys-courage.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--cyan)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 方法 #11</span>
+          <h2>工具吐的英文報告，變成手機一頁看完的網頁 📊</h2>
+          <p class="desc">分析報告是英文的、格式是給工程師的？請 AI 翻成中文、重點前置、分區編排、部署成一個誰都能點開的網址。這招套在任何工具自動產出的報告都行。</p>
+          <div class="tags"><span>📊 報告翻譯</span><span>📱 一頁滑完</span><span>🎯 重點前置</span><span>🔁 舉一反三</span></div>
+          <div class="date">📅 2026 · 方法教學 · 七章節實錄</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="method-11-report-to-web.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--pink)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 方法 #12</span>
+          <h2>幫自己請一個 AI 數位員工，甚至一整支團隊 🤖</h2>
+          <p class="desc">不是多請一個人，是把你的做法寫成一個人：職務說明書、交辦工作單、自動工作循環、驗證交付，再從一個數位員工長成一支有總管分工的團隊。</p>
+          <div class="tags"><span>📋 職務說明書</span><span>📨 交辦工作單</span><span>🔄 自動循環</span><span>👥 總管分工</span></div>
+          <div class="date">📅 2026 · 方法教學 · 七章節實錄</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="method-12-digital-staff.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--orange)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 方法 #13</span>
+          <h2>從 0 到 1 架一條自動化內容生產線 📮</h2>
+          <p class="desc">內容經營靠意志力必輸。以我的每週電子報為例：選免費工具、創刊號怎麼生、封面圖固定品牌風格、排程讓 AI 每週自動產草稿，人只做最後過目與發布。不是每週擠一篇，是搭一條會自己跑的線。</p>
+          <div class="tags"><span>📮 電子報</span><span>⏰ 排程自動化</span><span>🎨 封面一致性</span><span>👀 人審才發</span></div>
+          <div class="date">📅 2026 · 方法教學 · 七章節實錄</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="method-13-content-pipeline.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--green)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 方法 #15</span>
+          <h2>幫自己搭一個 AI 第二大腦 🧠</h2>
+          <p class="desc">任務派出去就追不到？一個總帳當單一事實來源、讓 AI 自己記帳、知識庫分區收納、定期稽核抓重複排程。不是記性變好，是東西有地方住。連維護成本都誠實告訴你。</p>
+          <div class="tags"><span>🧠 單一總帳</span><span>🤖 AI 自己記帳</span><span>📚 知識庫分區</span><span>🔍 定期稽核</span></div>
+          <div class="date">📅 2026 · 方法教學 · 七章節實錄</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="method-15-second-brain.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--blue)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 方法 #16</span>
+          <h2>想做大系統之前，先讓 AI 幫你踩剎車 🛑</h2>
+          <p class="desc">規格書寫得越漂亮越危險。把痛點跟解法拆開看、把成本攤在陽光下、問 AI 那句關鍵的話：「有沒有更輕的方式解決同一個痛點」。真實案例：一個大系統被換成三個輕量動作，痛點照樣解決。</p>
+          <div class="tags"><span>🛑 AI 踩剎車</span><span>💰 成本攤開算</span><span>🪶 最輕解法</span><span>⚖️ 升級界線</span></div>
+          <div class="date">📅 2026 · 方法教學 · 七章節實錄</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="method-16-decision-brake.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--purple)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 方法 #17</span>
+          <h2>AI 陪跑求職：把真的你，講給公部門聽 💼</h2>
+          <p class="desc">投遞公部門最怕漏東西。AI 幫你從公告抓急件清單、用訪談把零散經歷接成自傳故事、逐欄核對官方表格、送件前三層防漏檢查。特別適合中高齡與二度就業的你。</p>
+          <div class="tags"><span>💼 急件清單</span><span>🎤 訪談式自傳</span><span>📋 表格逐欄核對</span><span>✅ 三層防漏</span></div>
+          <div class="date">📅 2026 · 方法教學 · 七章節實錄</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="method-17-job-application.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--amber)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 方法 #18</span>
+          <h2>一百多篇論文，AI 幫你一天篩完 📚</h2>
+          <p class="desc">批次文獻篩選法：先定義你的相關性標準、分批餵給 AI 逐篇判讀、整理成相關性與研究方法總表，人只精讀高相關的那幾篇。不是讀得快，是先知道哪些不用讀。</p>
+          <div class="tags"><span>📚 批次初篩</span><span>🎯 相關性標準</span><span>📊 總表輸出</span><span>👀 人工複核</span></div>
+          <div class="date">📅 2026 · 方法教學 · 七章節實錄</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="method-18-batch-screening.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+
+
+
+
+      <div class="course" style="--c:var(--amber)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 理賠陪跑</span>
+          <h2>理賠陪跑主題館 🍀</h2>
+          <p class="desc">剛出院、看不懂醫療資料、不知道怎麼申請理賠？這是一位陪你一步一步做的教練：從查健康存摺、找保單、遮個資，到用 AI 看懂、正式送件，八站走完不迷路。全程不儲存、不經手任何個資。</p>
+          <div class="tags"><span>🏥 理賠申請</span><span>📱 手機跟著做</span><span>🔒 不收個資</span></div>
+          <div class="date">📅 2026/07 · 操作教學主題館 · 八站陪跑</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="claim-companion.html">🍀 開啟理賠陪跑</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--amber)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 地端 AI 工具</span>
+          <h2>地端 AI 語音轉紀錄 🎙️</h2>
+          <p class="desc">一份音檔自動變成你要的紀錄：會議記錄、課堂筆記、論文Meeting、演講摘要一鍵完成。全程離線、免費、資料不外流。含原理三步驟、五大分群、四份實際成品與給講師的教學重點。</p>
+          <div class="tags"><span>🔒 地端離線</span><span>🤖 自動化</span><span>📄 16 種紀錄</span><span>🖨️ 可列印PDF</span></div>
+          <div class="date">📅 2026/07 · 教學用教案 · 附 4 份成品範例</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="voice-to-notes.html">📚 開啟教案與範例</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--amber)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">教案 · 公部門工作坊</span>
+          <h2>AI 開機日．蘆洲監理所 🏛️</h2>
+          <p class="desc">「兩小時跟上 AI 那班車」——為監理所行政同仁設計的 AI 體驗工作坊。起承轉合四段、兩個小魔法破冰、四招心法、現場動手做，外加帶回家 11 招工具書。含完整教案與簡報講義。</p>
+          <div class="tags"><span>🏛️ 公部門</span><span>🧊 破冰</span><span>✍️ 四招</span><span>🛠️ 帶回家11招</span></div>
+          <div class="date">📅 2026/05 · 兩小時體驗工作坊 · 41 頁講義</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="luzhou-ai-startup.html">📚 開啟完整教案</a>
+        </div>
+      </div>
+
+      <div class="course soon">
+        <div class="top"></div>
+        <div class="body">
+          <span class="plus">＋</span>
+          <p>下一份教案籌備中<br>其他機關單位的 AI 工作坊教案<br>會陸續加進這裡</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ 第二層：生活應用系列 ══ -->
+  <section id="view-life" class="view">
+    <div class="count" id="lifeCount"></div>
+    <div class="grid">
+
+      <div class="course" style="--c:var(--green)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">生活應用 · 自動化工具</span>
+          <h2>行政助手 🏡</h2>
+          <p class="desc">LINE 訊息（連截圖）丟給它，AI 自動讀懂「誰・哪天・幾點・哪裡」→ 寫進試算表 → 排進 Google 日曆 → 時間到主動提醒。含完整程式碼與 6 步小白安裝教學，整套 $0。</p>
+          <div class="tags"><span>💬 LINE</span><span>🤖 Gemini</span><span>📊 試算表</span><span>📅 日曆</span></div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="admin-assistant.html">🛠 開啟工具與教學</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--green)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">生活應用 · 生圖指令包</span>
+          <h2>研究生的日常思維 🍀</h2>
+          <p class="desc">32 張研究生思維圖卡的 YAML 生圖咒語庫：文獻閱讀、筆記管理、寫作輸出、心態節奏四大類，點一下複製、貼給 AI 就能生圖。</p>
+          <div class="tags"><span>🎓 研究生思維</span><span>🧾 YAML 咒語</span><span>🖼️ 32 張圖卡</span></div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="graduate-daily-thinking.html">🍀 開啟生圖指令包</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--pink)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">生活應用 · 旅程手冊</span>
+          <h2>K&T 甜蜜日之旅 🌸</h2>
+          <p class="desc">箱根・鎌倉・東京 2026 的互動旅程手冊：行程、地圖、交通、清單一頁搞定，旅途中手機直接翻。</p>
+          <div class="tags"><span>🗾 箱根・鎌倉・東京</span><span>🗓️ 行程</span><span>📱 手機優先</span></div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="kt-sweet-journey.html">📖 開啟旅程手冊</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--cyan)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">生活應用 · 隨身工具</span>
+          <h2>隨身口譯機 🎙</h2>
+          <p class="desc">即時雙語口譯網頁：自動辨識中日語音、雙區顯示、逐字稿留存——旅行與會話場景直接開來用。</p>
+          <div class="tags"><span>🎤 語音辨識</span><span>🌐 中↔日</span><span>⚡ 即時</span></div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="interpreter.html">🎧 開啟口譯機</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--orange)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">生活應用 · 學習日誌</span>
+          <h2>三得利參訪學習日誌 🍺</h2>
+          <p class="desc">「泡沫上的科技，水裡的匠心」——三得利武藏野啤酒工場參訪的完整學習紀錄與圖文日誌。</p>
+          <div class="tags"><span>🏭 工場參訪</span><span>📷 圖文紀錄</span><span>🇯🇵 武藏野</span></div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="suntory-visit-report.html">📔 開啟學習日誌</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ 第二層：直播電台系列 ══ -->
+  <section id="view-radio" class="view">
+    <div class="count" id="radioCount"></div>
+    <div class="grid">
+
+      <!-- 課程卡片：新集數往上加（最新在最前） -->
+
+      <div class="course" style="--c:var(--green)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP46</span>
+          <h2>抽絲剝繭談 ChatGPT Work</h2>
+          <p class="desc">ChatGPT 桌面新版把 Chat／Work／Codex 放進同一個 App。重點示範 <b>Work</b>：給一句「目標」，它自動查行政院公告、生 16:9 動畫背景、疊上可編輯中文，<b>16 分鐘</b>交付「新青安 3.0」5 頁簡報；含 Sol／Terra／Luna 模型、權限核准、Sites 建站與手機 Remote 的<b>逐幀筆記</b>。</p>
+          <div class="tags"><span>🎯 目標交付</span><span>🧭 三模式</span><span>🧠 5.6 模型</span><span>🔐 權限</span><span>🌐 Sites</span></div>
+          <div class="date">📅 2026/07/19 直播 · 37 分鐘</div>
+        </div>
+        <div class="links">
+          <a href="ep46-notes.html">📝 逐幀筆記</a>
+          <a href="ep46-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--blue)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP45</span>
+          <h2>Google AI Studio 偷藏了這些 Agent！</h2>
+          <p class="desc">AI Studio 不只是聊天 Playground——它偷藏了一整排官方 Agent。以「颱風」示範 Codex 語音聽寫、TTS 情境、Build with Agents、Antigravity、AI Talk Radio 與多 Agent 團隊，含真實截圖與逐字稿的<b>逐幀筆記</b>。</p>
+          <div class="tags"><span>🧵 颱風案例</span><span>⌨️ 聽寫</span><span>🧪 AI Studio</span><span>🤖 Agent</span><span>🎙️ Podcast</span></div>
+          <div class="date">📅 2026/07/10 直播 · 37 分鐘</div>
+        </div>
+        <div class="links">
+          <a href="ep45-notes.html">📝 逐幀筆記</a>
+          <a href="ep45-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--purple)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP44</span>
+          <h2>2026 上半年一定會的 AI 技能</h2>
+          <p class="desc">半年總體檢：以「颱風」為貫穿案例，實錄文字、生圖、AI Agent、自動化四大主線——含真實簡報截圖、影片時間戳與逐字稿佐證的<b>逐幀筆記</b>。</p>
+          <div class="tags"><span>🧵 颱風案例</span><span>✍️ 文字</span><span>🎨 生圖</span><span>🤖 Agent</span><span>⚙️ 自動化</span></div>
+          <div class="date">📅 2026/07/03 直播 · 59 分鐘</div>
+        </div>
+        <div class="links">
+          <a href="ep44-notes.html">📝 逐幀筆記</a>
+          <a href="ep44-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--orange)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP43</span>
+          <h2>打通任督二脈學影片製作</h2>
+          <p class="desc">Google 影片三工具一次講清楚：<b>Vids</b>（商務編輯室）、<b>Flow</b>（生成片場）、<b>Gemini Omni</b>（聊天中拍片改片的導演）。含工具怎麼選、影片 Prompt 骨架、多輪編修心法與 Avatar 流程的課堂筆記。</p>
+          <div class="tags"><span>🎬 三工具</span><span>🎥 Omni</span><span>🎞️ Vids</span><span>🎬 Flow</span><span>🧑‍🎤 Avatar</span></div>
+          <div class="date">📅 2026/06/26 直播</div>
+        </div>
+        <div class="links">
+          <a href="ep43-notes.html">📝 課堂筆記</a>
+          <a href="ep43-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--blue)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP42</span>
+          <h2>各大模型 API 申請與應用</h2>
+          <p class="desc">把 ChatGPT／Gemini／Claude／OpenRouter 的 API 放在同一張地圖：API 是什麼、如何取得 Key、用 <b>Google Colab</b> 跑一次成功請求、三類常見錯誤、Token 與金鑰安全的課堂筆記。</p>
+          <div class="tags"><span>🔑 四家 API</span><span>🧪 Colab</span><span>🔌 OpenRouter</span><span>🛡️ 金鑰安全</span></div>
+          <div class="date">📅 2026/06/19 直播</div>
+        </div>
+        <div class="links">
+          <a href="ep42-notes.html">📝 課堂筆記</a>
+          <a href="ep42-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--pink)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP41</span>
+          <h2>AI 生圖篇：智慧漁網</h2>
+          <p class="desc">不只給漁獲、也不只給釣竿——把 Prompt、參數、<b>Seed</b>、比較方法組成「智慧漁網」，讓好結果能重現。深入 <b>Guidance／CFG</b> 服從旋鈕、Seed 種子碼與可重現紀錄表的課堂筆記。</p>
+          <div class="tags"><span>🎨 生圖</span><span>🎛️ CFG</span><span>🌱 Seed</span><span>📋 紀錄表</span></div>
+          <div class="date">📅 2026/06/12 直播</div>
+        </div>
+        <div class="links">
+          <a href="ep41-notes.html">📝 課堂筆記</a>
+          <a href="ep41-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--cyan)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP41｜視覺化簡報</span>
+          <h2>與 AI 共行：視覺化簡報技巧</h2>
+          <p class="desc">把 PowerPoint「<b>合併圖案</b>」當成<b>布林邏輯</b>工具：聯集、合併、分割、交集、減去五種操作，做圖示、鏡頭遮罩與文字穿透字。依 11 頁簡報逐頁整理的課堂筆記（本集無錄影回放）。</p>
+          <div class="tags"><span>🔷 布林邏輯</span><span>🧩 Merge Shapes</span><span>🖼️ 穿透字</span><span>📊 PowerPoint</span></div>
+          <div class="date">📅 2026/06 直播 · 11 頁簡報</div>
+        </div>
+        <div class="links">
+          <a href="ep41b-notes.html">📝 課堂筆記</a>
+          <a href="ep41b-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--green)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP40</span>
+          <h2>ChatGPT for Excel &amp; PowerPoint</h2>
+          <p class="desc">把 ChatGPT 放進 Office 側邊欄，完成 60–70% 的重複整理、初稿與檢查。三種產品釐清、下指令黃金公式（背景＋任務＋輸出）、Excel 四應用、PowerPoint 四應用的課堂筆記（含 Codex 入門）。</p>
+          <div class="tags"><span>🧮 Excel</span><span>📊 PowerPoint</span><span>🧭 三產品</span><span>🎯 下指令</span></div>
+          <div class="date">📅 2026/06/07 直播</div>
+        </div>
+        <div class="links">
+          <a href="ep40-notes.html">📝 課堂筆記</a>
+          <a href="ep40-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--purple)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP39</span>
+          <h2>NotebookLM 與 Markdown 格式交互應用</h2>
+          <p class="desc">讓 NotebookLM 產出「排版不跑掉」的報告：自然語言的坑（退格／表格會不見）、改用 <b>Markdown／YAML</b> 指令、工作室預覽複製保真、目錄與頁碼三做法，再用 <b>Google Docs＋Apps Script</b> 補頁碼／目錄／統一字體的課堂筆記。</p>
+          <div class="tags"><span>📓 NotebookLM</span><span>🔤 Markdown</span><span>🧾 YAML</span><span>⚙️ Apps Script</span></div>
+          <div class="date">📅 2026/05/29 直播</div>
+        </div>
+        <div class="links">
+          <a href="ep39-notes.html">📝 課堂筆記</a>
+          <a href="ep39-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--blue)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP38</span>
+          <h2>Gemini Avatar：從概念到應用</h2>
+          <p class="desc">認識<b>以 AI 驅動的虛擬互動角色</b>：核心四要素（文字／語音／形象／知識）、運作流程與製作五步、主要特色、四類應用情境、優勢限制與使用注意事項。含 <b>10 張手繪課程簡報原圖</b>的逐頁課堂筆記。</p>
+          <div class="tags"><span>🎭 虛擬人</span><span>🧩 多模態</span><span>🖼️ 10 張原圖</span><span>🛡️ 倫理品質</span></div>
+          <div class="date">📅 2026/05 直播 · 10 頁手繪簡報</div>
+        </div>
+        <div class="links">
+          <a href="ep38-notes.html">📝 課堂筆記</a>
+          <a href="ep38-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--rose)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP37</span>
+          <h2>與 AI 共行：RAG 訓練不用從頭開始</h2>
+          <p class="desc">本集核心 <b>RAG（檢索增強生成）</b>：上傳檔案就等於幫 AI 建「檢索資料庫」，不用從頭訓練。用三個<b>免費 RAG</b>工具貫穿——ChatGPT 專案功能、Gemini Gem、NotebookLM——再加客製化指令與兩個實作（建專案上傳檔案／設定專案指令杜絕編造）。</p>
+          <div class="tags"><span>🧠 RAG</span><span>📁 專案功能</span><span>💎 Gemini Gem</span><span>🛠️ 兩個實作</span></div>
+          <div class="date">📅 2026 直播 · RAG 免訓練</div>
+        </div>
+        <div class="links">
+          <a href="ep37-notes.html">📝 課堂筆記</a>
+          <a href="ep37-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--green)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP36</span>
+          <h2>Gemini Notebooks 5 種稀鬆平常的用法</h2>
+          <p class="desc">把 <b>Gemini 筆記本</b>從「聽過」變「天天用」：先學<b>六大環境設定</b>把 AI 調到懂你，再用五種情境——簡報模板資料庫、學習教練、專案管理、跨筆記本對話、Gemini×ChatGPT 共享來源。附<b>可直接複製的範例 Prompt</b>。</p>
+          <div class="tags"><span>📓 Notebooks</span><span>🧩 六大設定</span><span>🎨 五種用法</span><span>📋 Prompt 全集</span></div>
+          <div class="date">📅 2026 直播 · 5 種用法</div>
+        </div>
+        <div class="links">
+          <a href="ep36-notes.html">📝 課堂筆記</a>
+          <a href="ep36-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--cyan)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP35</span>
+          <h2>從 Prompt 到 Harness：打造可控 AI 系統</h2>
+          <p class="desc">為何模型越強、落地卻越難？認識 <b>Harness Engineering（駕馭工程）</b>——包在模型外層的軟體馬具。含大模型三慘事、AI 工程三次遷徙、<b>Agent−Model=Harness</b>、成熟 Harness <b>六層架構</b>，並用 Gem＋NotebookLM 親手實作「每日 AI 新鮮事產生器」。</p>
+          <div class="tags"><span>🐴 Harness</span><span>🏗️ 六層架構</span><span>🛠️ 實作手冊</span><span>📐 可控系統</span></div>
+          <div class="date">📅 2026 直播 · 六層架構</div>
+        </div>
+        <div class="links">
+          <a href="ep35-notes.html">📝 課堂筆記</a>
+          <a href="ep35-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--purple)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP34</span>
+          <h2>打通生成式 AI 任督二脈・Canva 動畫篇</h2>
+          <p class="desc">生圖與動畫一次打通：<b>ChatGPT Image 2.0</b>（代號 Duct Tape）五大升級、長輩圖與做簡報、YouMind 提示詞集散地、<b>AI 生圖著作權</b>三紅線，再用 <b>Canva Magic Layers</b> 拆圖層、加彈出動畫、請 AI 寫 <b>VBA 動畫腳本</b>。</p>
+          <div class="tags"><span>🖼️ Image 2.0</span><span>🎬 Magic Layers</span><span>⚖️ 著作權</span><span>🎞️ VBA 動畫</span></div>
+          <div class="date">📅 2026 直播 · 20:30–21:30</div>
+        </div>
+        <div class="links">
+          <a href="ep34-notes.html">📝 課堂筆記</a>
+          <a href="ep34-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--pink)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP33</span>
+          <h2>一起來讓簡報、資訊圖表改起來及動起來</h2>
+          <p class="desc">NotebookLM 資訊圖表 → Canva Magic Studio（Magic Layers／去背／換背景）→ Gamma 動態簡報 → ChatGPT 轉 GIF → VBA 巨集自動播放動畫，以「日本櫻花季」全流程實測；含完整逐字對話與 VBA 程式碼的<b>逐幀筆記</b>。</p>
+          <div class="tags"><span>🎨 Magic Layers</span><span>🎬 Gamma 動畫</span><span>🖼️ 資訊圖表</span><span>🌸 櫻花案例</span><span>🧩 VBA 巨集</span></div>
+          <div class="date">📅 2026/04/09 直播 · 37 分鐘</div>
+        </div>
+        <div class="links">
+          <a href="ep33-notes.html">📝 逐幀筆記</a>
+          <a href="ep33-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--green)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP32</span>
+          <h2>打通生成式 AI 任督二脈：Claude Code 篇</h2>
+          <p class="desc">資料夾內無簡報，全程靠 68 分鐘錄影逐幀抽格（205 張）親眼判讀還原：桌面版三分頁、Windows 終端機安裝真實踩雷、用自然語言呼叫 Skill 改 settings.json、/model 切換與 Plan Mode 實戰的<b>逐幀筆記</b>。</p>
+          <div class="tags"><span>💻 Claude Code</span><span>🖥️ 終端機安裝</span><span>🛠️ Skill 設定</span><span>🧪 Plan Mode</span><span>🎞️ 逐幀實錄</span></div>
+          <div class="date">📅 2026/04/10 直播 · 68 分鐘</div>
+        </div>
+        <div class="links">
+          <a href="ep32-notes.html">📝 逐幀筆記</a>
+          <a href="ep32-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--blue)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP31</span>
+          <h2>Gemini X Google Workspace 應用</h2>
+          <p class="desc">把 Gemini 用進 Maps／Docs／Sheet／Slide 四大 Workspace 產品：Maps 5 種智慧能力、Docs／Sheet／Slide 各 8 大應用類型，官方簡報全文收錄 <b>72 組現成 prompt</b> 範本可直接套用的課堂筆記。</p>
+          <div class="tags"><span>🗺️ Maps</span><span>📄 Docs</span><span>📊 Sheet</span><span>📽️ Slide</span><span>✍️ 72 組 prompt</span></div>
+          <div class="date">📅 2026/04/10 直播</div>
+        </div>
+        <div class="links">
+          <a href="ep31-notes.html">📝 課堂筆記</a>
+          <a href="ep31-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--purple)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP30</span>
+          <h2>AnythingLLM（NotebookLM 平替版）</h2>
+          <p class="desc">本地化／私有部署的 RAG 知識庫平台：核心功能、安裝七步驟、與 NotebookLM 的比較表，並收錄直播聊天室真實問答（記憶體不足錯誤、NotebookLM 15 頁上限的分段生成技巧）的課堂筆記。</p>
+          <div class="tags"><span>🧠 AnythingLLM</span><span>🏠 本地知識庫</span><span>📑 簡報全文</span><span>💬 課堂問答</span><span>🔐 資安</span></div>
+          <div class="date">📅 2026/03/26 直播</div>
+        </div>
+        <div class="links">
+          <a href="ep30-notes.html">📝 課堂筆記</a>
+          <a href="ep30-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--cyan)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP29</span>
+          <h2>會議紀錄字幕工作流</h2>
+          <p class="desc">從錄音檔轉逐字稿、整理成會議紀錄、到自動生成 VTT 字幕的完整流程，並延伸講解如何用<b>結構化 YAML 指令</b>精準控制 AI；依課堂筆記 PDF＋官方簡報＋真實逐字稿三份素材整理的課堂筆記。</p>
+          <div class="tags"><span>🎙️ 逐字稿</span><span>📝 會議紀錄</span><span>🎬 字幕 VTT</span><span>🧵 YAML 指令</span><span>🔧 自動化</span></div>
+          <div class="date">📅 2026/03/13 直播</div>
+        </div>
+        <div class="links">
+          <a href="ep29-notes.html">📝 課堂筆記</a>
+          <a href="ep29-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--purple)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP28</span>
+          <h2>文獻耙梳工具 AnswerThis</h2>
+          <p class="desc">以學術研究流程為核心的 <b>AI 研究助理平台</b>：掃描 2.5 億筆學術來源、每個回答附<b>逐行引用</b>直連原始論文。用 <b>Tools</b>（文獻回顧／學術搜尋／Chat with PDF／引用地圖）與 <b>Agents</b>（論文寫手／研究缺口發現器／改寫／同理心審稿）陪你從找題目寫到論文，並附 YAML 精準搜尋技巧。</p>
+          <div class="tags"><span>📚 文獻回顧</span><span>🔎 研究缺口</span><span>🔗 逐行引用</span><span>🗺️ 引用地圖</span><span>🧩 YAML 搜尋</span></div>
+          <div class="date">📅 2026/03 直播 · 學術研究助理</div>
+        </div>
+        <div class="links">
+          <a href="ep28-notes.html">📝 課堂筆記</a>
+          <a href="ep28-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--orange)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP27</span>
+          <h2>用 Prezi AI 做出動態簡報</h2>
+          <p class="desc">Prezi 是以「<b>縮放式視覺地圖</b>」為核心的<b>非線性</b>簡報工具：整份簡報畫在同一張畫布上，用鏡頭放大縮小移動來講故事。含三大產品（Present／Video／Design）、Prezi vs PowerPoint、Prezi AI 信用點數與中文字體、主題路徑等關鍵功能；逐頁整理自官方課程簡報。</p>
+          <div class="tags"><span>🎬 動態簡報</span><span>🔍 縮放式</span><span>🧭 非線性</span><span>🎥 Prezi Video</span><span>🪙 AI 點數</span></div>
+          <div class="date">📅 2026/03 直播 · 動態簡報工具</div>
+        </div>
+        <div class="links">
+          <a href="ep27-notes.html">📝 課堂筆記</a>
+          <a href="ep27-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--teal)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP26</span>
+          <h2>知行合一 Manus AI：Skill 與 Agents</h2>
+          <p class="desc">Manus AI 兩大進階主題：一是「<b>Skill 技能包</b>」——把最佳實踐、工作流程與工具打包成可重複呼叫的技能；二是「<b>Manus Agents</b>」——有身份、有記憶、能在 Telegram 替你連續辦事的個人代理。含 Skill 製作流程、Manus vs Claude Code、用 skill-creator 實作資訊圖表 Prompt 產生器（耗 96 點）、官方技能庫與 Telegram 九大功能。</p>
+          <div class="tags"><span>🧰 Skill 技能包</span><span>🛠️ skill-creator</span><span>🤖 Manus Agents</span><span>💬 Telegram</span><span>☁️ 雲端沙盒</span></div>
+          <div class="date">📅 2026/03 直播 · Skill × Agents</div>
+        </div>
+        <div class="links">
+          <a href="ep26-notes.html">📝 課堂筆記</a>
+          <a href="ep26-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--blue)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP25</span>
+          <h2>用 YAML 讓簡報乖乖聽話：從規格到產出一次搞定</h2>
+          <p class="desc">把簡報拆成「架構模組」與「風格模組」，用 YAML 把設計美感轉成可執行規則，再到 NotebookLM 建立專屬的簡報規格資料庫。示範把同一份規格拿到 Gemini、Nano Banana Pro 等工具實測比較，抓到方法後輸出可達六到八成穩定度。</p>
+          <div class="tags"><span>📐 YAML 規格設計</span><span>🧩 架構模組＋風格模組</span><span>🗂️ NotebookLM 資料庫</span><span>🖼️ 模板轉規格</span><span>🔬 跨工具實測</span></div>
+          <div class="date">📅 2026/02/11 直播 · YAML 簡報規格設計</div>
+        </div>
+        <div class="links">
+          <a href="ep25-notes.html">📝 課堂筆記</a>
+          <a href="ep25-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--green)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP24</span>
+          <h2>從亂試到有策略：Meta AI 圖像生成這樣學最快</h2>
+          <p class="desc">Meta AI 生圖引擎悄悄整合了 Midjourney 美學與 Flux 模型，免費就能做出接近專業水準的圖像。這集把「亂試」拆解成結構化提示詞五法則，並用六個真實案例示範失敗提示詞怎麼改寫成有效提示詞。</p>
+          <div class="tags"><span>🎨 Meta AI 生圖</span><span>🧩 提示詞結構</span><span>🔀 Midjourney＋Flux</span><span>🎬 圖轉影音</span><span>🛠️ 六大實戰案例</span></div>
+          <div class="date">📅 2026/03 直播 · Meta AI 圖像生成</div>
+        </div>
+        <div class="links">
+          <a href="ep24-notes.html">📝 課堂筆記</a>
+          <a href="ep24-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--rose)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP23</span>
+          <h2>用 YAML 讓 NotebookLM 資訊圖表乖乖聽話</h2>
+          <p class="desc">用三個超簡單的規則（冒號、縮排、減號）把 YAML 變成你跟 AI 之間的規則共識，資訊圖表不再亂生、亂補資料。同時盤點 NotebookLM、Google AI Studio、Felo AI、Manus、Napkin AI、Dreamina AI 等十個資訊圖表工具的定位與限制，附兩份可直接照抄的完整 YAML 規格範例。</p>
+          <div class="tags"><span>🧾 YAML規則</span><span>📊 資訊圖表</span><span>🛠️ 十大工具</span><span>🎨 生圖流派</span><span>🈶 中文字修正</span></div>
+          <div class="date">📅 2026/03 直播 · YAML 資訊圖表</div>
+        </div>
+        <div class="links">
+          <a href="ep23-notes.html">📝 課堂筆記</a>
+          <a href="ep23-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--cyan)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP21</span>
+          <h2>讓數據會說話：AI 賦能的 Power BI × Looker Studio 視覺化實戰</h2>
+          <p class="desc">從「懶人一鍵生成圖表」的痛點出發，比較 Power BI 與 Looker Studio 兩大工具，用模擬版全台頭獎彩券資料練習資料型態判讀與手動拖曳做圖，最後示範如何用 AI 技能把 Looker Studio 儀表板建置流程自動化。</p>
+          <div class="tags"><span>📊 資料視覺化</span><span>🧰 Power BI</span><span>📈 Looker Studio</span><span>🤖 AI 技能自動化</span><span>🎲 模擬資料實作</span></div>
+          <div class="date">📅 2026/02/12 直播 · 資料視覺化實戰</div>
+        </div>
+        <div class="links">
+          <a href="ep21-notes.html">📝 課堂筆記</a>
+          <a href="ep21-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course" style="--c:var(--amber)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">直播電台 EP20</span>
+          <h2>打通 Anthropic 任督二脈：Claude 篇</h2>
+          <p class="desc">從額度與隱私設定出發，一路拆解 Claude 的深度思考、寫作風格、Artifacts／SVG 視覺化、Connectors 連接器、Projects 與 Research，再到桌面版、Chrome 擴充與 Excel 數據分析，外加官方 Skills 生態一覽。把 Claude 從聊天工具升級成可控的整合型工作夥伴。</p>
+          <div class="tags"><span>🧠 深度思考</span><span>🎨 Artifacts／SVG</span><span>🔌 Connectors</span><span>📊 Excel 分析</span><span>🧰 官方 Skills</span></div>
+          <div class="date">📅 2026/01/24 直播 · Claude 篇</div>
+        </div>
+        <div class="links">
+          <a href="ep20-notes.html">📝 課堂筆記</a>
+          <a href="ep20-ai-skills.html">🗺️ 互動地圖</a>
+        </div>
+      </div>
+
+      <div class="course soon">
+        <div class="top"></div>
+        <div class="body">
+          <span class="plus">＋</span>
+          <p>下一集籌備中<br>把新課程的講義資料夾丟給 AI<br>就會自動出現在這裡</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ 第二層：主題式電子報 ══ -->
+  <section id="view-edm" class="view">
+    <div class="count" id="edmCount"></div>
+    <div class="grid">
+
+      <!-- 電子報卡片：新一期往上加（最新在最前） -->
+
+      <div class="course" style="--c:var(--rose)">
+        <div class="top"></div>
+        <div class="body">
+          <span class="ep">電子報 001 · 2026.07.23</span>
+          <h2>會議記錄我不聽打了，丟給電腦排好版 🎙️</h2>
+          <p class="desc">散會後那一小時，我外包給自己家的電腦。把音檔丟進資料夾，Whisper 轉錄、本地 AI 抓重點、程式鎖版面，離線免費、資料不外流，一份音檔自動變成排好版的紀錄。藏了一個「AI 懂內容、程式鎖版面」的分工原理。</p>
+          <div class="tags"><span>🔒 地端離線</span><span>🤖 自動化</span><span>🗝️ 分工原理</span><span>✍️ 本人口吻</span></div>
+          <div class="date">📅 2026.07.23 · 效率工具與自動化</div>
+        </div>
+        <div class="links" style="grid-template-columns:1fr">
+          <a href="edm-001.html">📮 開啟這一期</a>
+        </div>
+      </div>
+
+      <div class="course soon">
+        <div class="top"></div>
+        <div class="body">
+          <span class="plus">＋</span>
+          <p>下一期籌備中<br>做完一件事，就寫成一封主題信<br>會陸續加進這裡</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+    </div><!-- /#content -->
+  </div><!-- /.layout -->
+</main>
+
+<footer>
+  🍀 Learn AI with Tarshar ♥ 2026<br>
+  七個系列：📻 直播電台・📚 Tarshar 教案集・🧰 生活應用・🎓 iPAS 證照學習・📖 論文研讀庫・🛠️ SKILL 技能包・📮 主題式電子報——都從上方入口進入
+</footer>
+
+<script>
+const $ = s=>document.querySelector(s);
+function switchView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  $('#view-'+id).classList.add('active');
+  // 大圖主視覺只在首頁入口顯示；進入某個系列時收起，避免每次點功能都彈回大圖
+  const hero=document.getElementById('heroPhoto');
+  if(hero) hero.style.display = (id==='home') ? '' : 'none';
+  window.scrollTo({top:0,behavior:'auto'});
+}
+function showHome(){
+  switchView('home');
+  $('#crumbs').style.display='none';
+  $('#pageTitle').innerHTML = '課程<span class="accent">筆記館</span>';
+  $('#pageSub').innerHTML = '所有課程的<b>共同入口</b>：先選一個系列，再進入該系列的每一集——每集都有可對照錄影的<b>逐幀課堂筆記</b>與可打勾追蹤的<b>互動學習地圖</b>。';
+  if(location.hash) history.replaceState(null,'',location.pathname);
+  syncTocActive(null);
+}
+const SERIES_META = {
+  radio: {title:'📻 直播電台系列', sub:'生成式 AI 應用電台・晨學講堂——選一集進入<b>逐幀筆記</b>或<b>互動地圖</b>，新集數會排在最前面。'},
+  plans: {title:'📚 Tarshar 教案集', sub:'對外授課的完整教案——公部門、機關單位的 AI 體驗工作坊，點一份看完整教學設計。'},
+  life:  {title:'🧰 生活應用系列', sub:'課堂之外的實作成品——旅程手冊、隨身工具、參訪學習日誌，點一件直接開啟。'},
+  edm:   {title:'📮 主題式電子報', sub:'把每次做完的一件事寫成一封主題信——用我自己的口吻寫，一期一期加，最新在最前面。'}
+};
+function showSeries(key){
+  switchView(key);
+  const m = SERIES_META[key];
+  $('#crumbs').style.display='flex';
+  $('#crumbHere').textContent = m.title;
+  $('#pageTitle').textContent = m.title;
+  $('#pageSub').innerHTML = m.sub;
+  history.replaceState(null,'','#'+key);
+  syncTocActive(key);
+}
+
+/* ── 呈現方式：卡片 / 左側目錄 ── */
+const TOC_SERIES = [
+  {key:'radio', icon:'📻', label:'直播電台', color:'--cyan'},
+  {key:'plans', icon:'📚', label:'Tarshar 教案集', color:'--amber'},
+  {key:'life',  icon:'🧰', label:'生活應用', color:'--pink'},
+  {key:'ipas',  icon:'🎓', label:'iPAS 證照學習', color:'--orange', href:'ipas-intermediate.html'},
+  {key:'thesis',icon:'📖', label:'論文研讀庫', color:'--green', href:'https://tarshar4242.github.io/thesis-library/index.html#library'},
+  {key:'skill', icon:'🛠️', label:'SKILL 技能包', color:'--purple', href:'https://tarshar4242.github.io/thesis-library/skills.html'},
+  {key:'edm',   icon:'📮', label:'主題式電子報', color:'--rose'}
+];
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function buildTOC(){
+  const toc = document.getElementById('toc');
+  if(!toc) return;
+  let h = '<div class="toc-inner"><a class="toc-home" onclick="showHome()">🏠 筆記館入口</a>';
+  TOC_SERIES.forEach(s=>{
+    const cvar = `--c:var(${s.color})`;
+    if(s.href){
+      h += `<div class="toc-group"><div class="toc-head" data-key="${s.key}" style="${cvar}" onclick="location.href='${s.href}'">${s.icon} ${s.label}</div></div>`;
+    }else{
+      h += `<div class="toc-group"><div class="toc-head" data-key="${s.key}" style="${cvar}" onclick="showSeries('${s.key}')">${s.icon} ${s.label}</div>`;
+      const cards = document.querySelectorAll('#view-'+s.key+' .course:not(.soon)');
+      if(cards.length){
+        h += '<ul>';
+        cards.forEach(c=>{
+          const t = c.querySelector('h2'); const a = c.querySelector('.links a');
+          const epEl = c.querySelector('.ep');
+          if(t && a){
+            let code='';
+            if(epEl){
+              const et = epEl.textContent;
+              const m = et.match(/EP\s*\d+[a-z]?/i) || et.match(/#\s*\d+/) || et.match(/\b\d{3}\b/);
+              if(m) code = m[0].replace(/\s+/g,'').toUpperCase();
+            }
+            const pre = code ? `<b class="toc-no">${esc(code)}</b> ` : '';
+            h += `<li><a href="${esc(a.getAttribute('href'))}">${pre}${esc(t.textContent.trim())}</a></li>`;
+          }
+        });
+        h += '</ul>';
+      }
+      h += '</div>';
+    }
+  });
+  h += '</div>';
+  toc.innerHTML = h;
+}
+function syncTocActive(key){
+  document.querySelectorAll('#toc .toc-head').forEach(el=>{
+    el.classList.toggle('active', el.dataset.key===key);
+  });
+}
+function setMode(m){
+  const toc = m==='toc';
+  document.body.classList.toggle('mode-toc', toc);
+  const bt=document.getElementById('btnToc'), bc=document.getElementById('btnCards');
+  if(bt) bt.classList.toggle('on', toc);
+  if(bc) bc.classList.toggle('on', !toc);
+  try{ localStorage.setItem('lessons_mode', m); }catch(e){}
+  window.scrollTo({top:0,behavior:'auto'});
+}
+(function(){
+  const box = document.getElementById('stars');
+  const tints=['#e0a2a2','#9bbf86','#e4c079','#b6a3d4'];
+  for(let i=0;i<26;i++){
+    const s=document.createElement('i');
+    s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=(Math.random()*3)+'s';
+    s.style.background=tints[i%tints.length];
+    const sc=.6+Math.random()*1.1;s.style.transform=`scale(${sc})`;
+    box.appendChild(s);
+  }
+  const nRadio = document.querySelectorAll('#view-radio .course:not(.soon)').length;
+  const nPlans = document.querySelectorAll('#view-plans .course:not(.soon)').length;
+  const nLife = document.querySelectorAll('#view-life .course:not(.soon)').length;
+  const nEdm = document.querySelectorAll('#view-edm .course:not(.soon)').length;
+  const nSeries = document.querySelectorAll('#view-home .series:not(.soon)').length;
+  document.getElementById('seriesCount').textContent = `目前 ${nSeries} 個系列`;
+  document.getElementById('radioCount').textContent = `直播電台系列 · 目前收錄 ${nRadio} 集`;
+  document.getElementById('radioBadge').textContent = `收錄 ${nRadio} 集`;
+  document.getElementById('plansCount').textContent = `Tarshar 教案集 · 目前收錄 ${nPlans} 份教案`;
+  document.getElementById('plansBadge').textContent = `收錄 ${nPlans} 份`;
+  document.getElementById('lifeCount').textContent = `生活應用系列 · 目前收錄 ${nLife} 件作品`;
+  document.getElementById('lifeBadge').textContent = `收錄 ${nLife} 件`;
+  document.getElementById('edmCount').textContent = `主題式電子報 · 目前收錄 ${nEdm} 期`;
+  document.getElementById('edmBadge').textContent = `收錄 ${nEdm} 期`;
+  // 建左側目錄，並讀回上次選的呈現方式（卡片／目錄）
+  buildTOC();
+  let savedMode='card';
+  try{ if(localStorage.getItem('lessons_mode')==='toc') savedMode='toc'; }catch(e){}
+  setMode(savedMode);
+  // 支援直接以 #radio / #life 進入系列頁（各頁「回入口」可直達）
+  const h = location.hash.replace('#','');
+  if(SERIES_META[h]) showSeries(h);
+})();
+</script>
 </body>
 </html>
