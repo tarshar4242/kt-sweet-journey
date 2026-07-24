@@ -146,6 +146,7 @@ footer a{color:var(--txt2)}
 #toc ul li a{display:block;font-size:12.5px;color:var(--txt2);line-height:1.5;
   padding:6px 10px;border-radius:8px;cursor:pointer}
 #toc ul li a:hover{color:var(--c,var(--sage-deep));background:rgba(255,255,255,.55)}
+#toc ul li a .toc-no{color:var(--c,var(--sage-deep));font-weight:800;margin-right:5px;font-variant-numeric:tabular-nums}
 body.mode-toc .layout{display:grid;grid-template-columns:240px 1fr;gap:28px;align-items:start}
 body.mode-toc #toc{display:block;position:sticky;top:80px}
 @media (max-width:760px){
@@ -1161,7 +1162,17 @@ function buildTOC(){
         h += '<ul>';
         cards.forEach(c=>{
           const t = c.querySelector('h2'); const a = c.querySelector('.links a');
-          if(t && a){ h += `<li><a href="${esc(a.getAttribute('href'))}">${esc(t.textContent.trim())}</a></li>`; }
+          const epEl = c.querySelector('.ep');
+          if(t && a){
+            let code='';
+            if(epEl){
+              const et = epEl.textContent;
+              const m = et.match(/EP\s*\d+[a-z]?/i) || et.match(/#\s*\d+/) || et.match(/\b\d{3}\b/);
+              if(m) code = m[0].replace(/\s+/g,'').toUpperCase();
+            }
+            const pre = code ? `<b class="toc-no">${esc(code)}</b> ` : '';
+            h += `<li><a href="${esc(a.getAttribute('href'))}">${pre}${esc(t.textContent.trim())}</a></li>`;
+          }
         });
         h += '</ul>';
       }
