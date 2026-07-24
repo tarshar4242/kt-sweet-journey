@@ -21,8 +21,8 @@ body{font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,san
 main{max-width:760px;margin:0 auto;padding:0 18px 80px}
 
 /* ── 頁首 ── */
-header{text-align:center;padding:58px 20px 10px}
-.brand{display:inline-block;font-size:12.5px;letter-spacing:3px;color:var(--green-dk);
+header{text-align:center;padding:74px 20px 10px}
+.brand{display:inline-block;font-size:12px;letter-spacing:1.2px;white-space:nowrap;color:var(--green-dk);
   border:1px solid var(--green-line);background:var(--green-lt);border-radius:999px;padding:6px 18px;margin-bottom:18px;font-weight:700}
 header h1{font-size:clamp(27px,6vw,42px);font-weight:900;line-height:1.35;color:var(--ink)}
 header h1 em{font-style:normal;color:var(--green)}
@@ -124,8 +124,8 @@ section{margin-top:64px}
 .step.checked h3::after{content:" ✅";font-size:15px}
 kbd{background:var(--card2);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:1px 7px;font-size:13px;font-family:inherit;color:var(--ink);white-space:nowrap}
 a{color:var(--green-dk)}
-.progress{position:sticky;top:0;z-index:50;background:rgba(246,241,231,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:8px 18px;text-align:center;font-size:13px;color:var(--green-dk);font-weight:700;display:none}
-.progress.show{display:block}
+.progress{position:fixed;right:14px;bottom:14px;z-index:9999;background:rgba(255,255,255,.96);border:1.5px solid var(--green-line);border-radius:999px;padding:8px 15px;font-size:13px;color:var(--green-dk);font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,.18);backdrop-filter:blur(6px);display:none}
+.progress.show{display:inline-flex}
 
 /* ── 程式碼 ── */
 .codewrap{position:relative;max-width:760px;margin:14px auto 0}
@@ -151,12 +151,9 @@ details .a b{color:var(--ink)}
 
 /* 頁尾 */
 footer{text-align:center;margin-top:70px;color:var(--ink3);font-size:13px;letter-spacing:2px}
-.dots{display:flex;gap:6px;justify-content:center;margin-bottom:10px}
-.dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}
-.dots i.on{background:var(--gold)}
-.homebtn{position:fixed;left:14px;bottom:14px;z-index:9999;display:inline-flex;align-items:center;gap:6px;
-  font-size:13px;font-weight:700;text-decoration:none;color:var(--green-dk);background:rgba(255,253,248,.92);
-  border:1px solid var(--green-line);border-radius:999px;padding:9px 16px;backdrop-filter:blur(8px);box-shadow:0 4px 16px rgba(47,72,88,.14)}
+.homebtn{position:fixed;top:14px;left:14px;z-index:99999;display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.96);color:#3f6b2e;border:1.5px solid #a8c686;border-radius:999px;padding:8px 15px;
+  font-size:13.5px;font-weight:700;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,.22);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 @media (max-width:520px){
   .duo{flex-direction:column}
   .duo .mid{transform:rotate(90deg);justify-content:center}
@@ -168,7 +165,7 @@ footer{text-align:center;margin-top:70px;color:var(--ink3);font-size:13px;letter
 <div class="progress" id="progress"></div>
 
 <header>
-  <span class="brand">🏡 好厝 · 行政助手</span>
+  <span class="brand">🍀 Learn AI with Tarshar · 行政助手</span>
   <h1>LINE 傳個訊息<br>行程<em>自動</em>進日曆、自動提醒</h1>
   <p class="sub">客戶在 LINE 東交代一句、西丟一張截圖，一忙就忘、事情散在各處？<br>這個小工具幫你全部接住——而且<b>用的都是免費工具</b>。</p>
   <div class="pain">
@@ -704,8 +701,7 @@ function 測試Gemini() {
 </section>
 
 <footer>
-  <div class="dots"><i></i><i></i><i class="on"></i><i></i><i></i></div>
-  好厝 · 行政助手 ｜ Learn AI with Tarshar
+  🍀 Learn AI with Tarshar ｜ 行政助手
 </footer>
 </main>
 
