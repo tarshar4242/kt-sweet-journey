@@ -128,19 +128,35 @@ DATA.series.forEach((s,i)=>{
 });
 function expandAll(on){document.querySelectorAll('.branch').forEach(b=>{if(!b.classList.contains('ext')&&!b.classList.contains('single'))b.classList.toggle('open',on);});}
 expandAll(false);
-// 搜尋
+// 搜尋（同時搜「系列名稱」與「各集項目」）
 const q=document.getElementById('q');
+function hl(el,v){
+  const raw = el.dataset.raw!==undefined ? el.dataset.raw : (el.dataset.raw=el.textContent);
+  if(!v){ el.innerHTML=raw; return; }
+  const idx=raw.toLowerCase().indexOf(v);
+  el.innerHTML = idx<0 ? raw : raw.slice(0,idx)+'<mark>'+raw.slice(idx,idx+v.length)+'</mark>'+raw.slice(idx+v.length);
+}
 q.addEventListener('input',()=>{
   const v=q.value.trim().toLowerCase();
   document.querySelectorAll('.branch').forEach(b=>{
-    const leaves=b.querySelectorAll('.leaf');if(!leaves.length)return;
-    let hit=0;
-    leaves.forEach(l=>{const m=!v||l.dataset.txt.includes(v);l.style.display=m?'':'none';if(m)hit++;
-      const lt=l.querySelector('.lt');lt.innerHTML=lt.textContent;
-      if(v&&m){const t=lt.textContent;const idx=t.toLowerCase().indexOf(v);if(idx>=0)lt.innerHTML=t.slice(0,idx)+'<mark>'+t.slice(idx,idx+v.length)+'</mark>'+t.slice(idx+v.length);}
+    const nameEl=b.querySelector('.bh .t b');
+    const subEl=b.querySelector('.bh .t small');
+    const bname=((nameEl?nameEl.textContent:'')+' '+(subEl?subEl.textContent:'')).toLowerCase();
+    const nameHit = !!v && bname.includes(v);
+    const leaves=[...b.querySelectorAll('.leaf')];
+    let leafHit=0;
+    leaves.forEach(l=>{
+      const own = !v || l.dataset.txt.includes(v);
+      const show = own || nameHit;               // 系列名稱命中時，該系列項目全顯示
+      l.style.display = show?'':'none';
+      const lt=l.querySelector('.lt');
+      hl(lt, (v && l.dataset.txt.includes(v)) ? v : '');
+      if(v && l.dataset.txt.includes(v)) leafHit++;
     });
-    b.classList.toggle('open', !!v && hit>0);
-    b.style.display=(v&&hit===0)?'none':'';
+    if(nameEl) hl(nameEl, nameHit? v : '');
+    const visible = !v || nameHit || leafHit>0;
+    b.style.display = visible ? '' : 'none';
+    if(leaves.length) b.classList.toggle('open', !!v && (nameHit || leafHit>0));
   });
 });
 </script>
