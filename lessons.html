@@ -7,7 +7,7 @@
 <meta name="description" content="晨學講堂課後筆記館：先選系列（直播電台…），再進入各集的逐幀課堂筆記與互動學習地圖">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
   /* 透明感：暖奶油底＋柔綠光暈＋磨砂玻璃卡片 */
@@ -53,7 +53,7 @@ header .hero-photo img{position:relative;z-index:1;width:100%;height:auto;displa
   border:1px solid rgba(255,255,255,.6);box-shadow:0 34px 74px -34px rgba(60,110,80,.5),inset 0 1px 0 rgba(255,255,255,.6);
   -webkit-mask-image:radial-gradient(132% 122% at 50% 42%,#000 66%,transparent 100%);
   mask-image:radial-gradient(132% 122% at 50% 42%,#000 66%,transparent 100%)}
-header h1{font-size:clamp(32px,5.2vw,56px);font-weight:800;line-height:1.1;letter-spacing:-.03em;color:var(--txt)}
+header h1{font-size:clamp(32px,5.2vw,56px);font-weight:900;line-height:1.1;letter-spacing:-.03em;color:var(--txt)}
 header h1 .accent{background:linear-gradient(120deg,var(--sage),var(--sage-deep));-webkit-background-clip:text;background-clip:text;color:transparent}
 header .divider{display:inline-flex;align-items:center;gap:10px;margin:16px auto 0;color:var(--sage-deep);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
 header .divider::before,header .divider::after{content:"";width:24px;height:1px;background:var(--line2)}
@@ -81,8 +81,11 @@ main{max-width:var(--maxw);margin:0 auto;padding:22px 24px 56px}
 .series .top{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c,var(--sage)),color-mix(in srgb,var(--c,var(--sage)) 40%,#fff))}
 .series .emoji{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;
   background:radial-gradient(circle at 30% 25%,#fff,color-mix(in srgb,var(--c,var(--sage)) 26%,#fff));border:1px solid var(--gline);box-shadow:0 6px 14px -6px color-mix(in srgb,var(--c,var(--sage)) 55%,transparent)}
-.series h2{font-size:21px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px;line-height:1.28;color:var(--txt)}
-.series h2 em{font-style:normal;display:block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--c,var(--sage-deep));margin-bottom:8px}
+.series h2{font-size:21px;font-weight:900;letter-spacing:-.02em;margin-bottom:8px;line-height:1.28;
+  background:linear-gradient(120deg,var(--c,var(--sage-deep)),color-mix(in srgb,var(--c,var(--sage-deep)) 62%,#2a2a2a));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.series h2 em{font-style:normal;display:block;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  -webkit-text-fill-color:var(--c,var(--sage-deep));color:var(--c,var(--sage-deep));margin-bottom:8px}
 .series p.desc{font-size:13.5px;color:var(--txt2);line-height:1.72;flex:1}
 .series .foot{display:flex;justify-content:space-between;align-items:center;margin-top:18px;font-size:12.5px}
 .series .foot .badge{color:var(--c,var(--sage-deep));border:1px solid var(--gline);background:rgba(255,255,255,.55);border-radius:999px;padding:5px 13px;font-weight:600}
@@ -100,7 +103,7 @@ main{max-width:var(--maxw);margin:0 auto;padding:22px 24px 56px}
 .course .top{height:3px;background:linear-gradient(90deg,var(--c,var(--sage)),color-mix(in srgb,var(--c,var(--sage)) 40%,#fff))}
 .course .body{padding:22px 22px 18px;flex:1}
 .course .ep{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--c,var(--sage-deep));font-weight:700}
-.course h2{font-size:18.5px;font-weight:800;letter-spacing:-.015em;margin:8px 0 8px;line-height:1.4;color:var(--txt)}
+.course h2{font-size:18.5px;font-weight:900;letter-spacing:-.015em;margin:8px 0 8px;line-height:1.4;color:var(--txt)}
 .course p.desc{font-size:13.5px;color:var(--txt2);line-height:1.72}
 .course p.desc b{color:var(--txt);font-weight:600}
 .course .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
