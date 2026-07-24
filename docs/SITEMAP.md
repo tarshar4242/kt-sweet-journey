@@ -572,6 +572,13 @@
 - 內容物（章節）：1它解決什麼問題？ ／ 2它怎麼運作？三步驟 ／ 3不只會議記錄——五大分群、16 種紀錄 ／ 4看實際成品 ／ 5怎麼開始用？ ／ 6給講師的教學重點
 - 連到其他頁：sample-lecture.html, sample-project.html, sample-talk.html, sample-thesis.html
 
+#### `ai-kaiji-proposal.html`　`教案`
+- 網址：https://tarshar4242.github.io/kt-sweet-journey/ai-kaiji-proposal.html
+- 標題：AI 開機日｜機關投案版完整教案
+- 內容簡述：Tarshar 教案集：AI 開機日——兩小時跟上 AI 那班車。機關單位通用的投案版完整教案：課程目標、120 分鐘分鐘級流程表、教學設計理念、實作與評量、設備需求、投案附件清單與客製選項，以蘆洲監理所實證場為基礎
+- 內容物（章節）：1. 課程基本資料 ／ 2. 課程目標與預期效益 ／ 3. 分鐘級課程流程表 ／ 4. 教學設計理念 ／ 5. 四招心法＋提示語範本 ／ 6. 實作活動與評量 ／ 7. 延伸：帶回家 11 招 ／ 8. 教材與設備需求 ／ 9. 實證場次與講師 ／ 10. 投案附件清單與客製選項
+- 連到其他頁：luzhou-ai-startup.html
+
 #### `luzhou-ai-startup.html`　`教案`
 - 網址：https://tarshar4242.github.io/kt-sweet-journey/luzhou-ai-startup.html
 - 標題：AI 開機日．蘆洲監理所｜教案
@@ -761,6 +768,7 @@
 | `ipas-intermediate.html` | 單頁學習 | SERIES 04 iPAS |
 | `kt-sweet-journey.html` | 作品 | SERIES 03 生活應用 |
 | `lessons.html` | 入口首頁 | — |
+| `ai-kaiji-proposal.html` | 教案 | SERIES 02 教案集 |
 | `luzhou-ai-startup.html` | 教案 | SERIES 02 教案集 |
 | `method-01-paper-translation.html` | 教案 | SERIES 02 教案集 |
 | `method-02-frame-notes.html` | 教案 | SERIES 02 教案集 |
