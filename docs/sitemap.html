@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>課程筆記館・站台地圖（心智圖）</title>
+<meta name="description" content="Learn AI with Tarshar 課程筆記館的完整站台結構互動心智圖：7 大系列、每頁可點。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FBFAF6;--ink:#26302A;--ink2:#5C685F;--ink3:#93998F;--sage:#4E9E77;--sage-deep:#3B7D5D;
+ --glass:rgba(255,255,255,.6);--glass2:rgba(255,255,255,.4);--gline:rgba(255,255,255,.78);--hair:rgba(78,158,119,.18);
+ --font:'Inter','Noto Sans TC',-apple-system,BlinkMacSystemFont,"PingFang TC","Microsoft JhengHei",sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;
+ background:radial-gradient(900px 620px at 84% -8%,rgba(160,214,180,.5),transparent 60%),radial-gradient(720px 540px at 6% 6%,rgba(214,236,200,.46),transparent 62%),radial-gradient(1100px 820px at 50% 118%,rgba(150,206,175,.34),transparent 60%),linear-gradient(180deg,#FCFBF7,#F3F7EC);background-attachment:fixed}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:960px;margin:0 auto;padding:30px 20px 70px}
+.glass{background:linear-gradient(150deg,var(--glass),var(--glass2));backdrop-filter:blur(15px) saturate(1.12);-webkit-backdrop-filter:blur(15px) saturate(1.12);border:1px solid var(--gline);box-shadow:0 12px 32px -18px rgba(60,110,80,.28),inset 0 1px 0 rgba(255,255,255,.8)}
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.top .home{font-size:13px;font-weight:700;color:var(--sage-deep);background:rgba(255,255,255,.55);border:1px solid var(--gline);border-radius:999px;padding:8px 14px}
+h1{font-size:clamp(24px,3.4vw,32px);font-weight:800;letter-spacing:-.025em;margin-top:14px}
+.stamp{color:var(--ink3);font-size:12.5px;margin-top:6px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 6px;align-items:center}
+.tools button{font:inherit;font-size:13px;font-weight:600;color:var(--ink2);cursor:pointer;border:1px solid var(--gline);background:rgba(255,255,255,.55);border-radius:999px;padding:8px 14px;transition:.15s}
+.tools button:hover{color:var(--sage-deep)}
+.search{flex:1;min-width:180px;position:relative}
+.search input{width:100%;font:inherit;font-size:14px;padding:9px 14px 9px 34px;border-radius:999px;border:1px solid var(--gline);background:rgba(255,255,255,.6);outline:none}
+.search input:focus{border-color:var(--sage)}
+.search .ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--ink3);font-size:14px}
+/* root */
+.root{border-radius:16px;padding:18px 22px;margin:16px 0 10px;display:flex;align-items:center;gap:14px}
+.root .rk{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:24px;background:radial-gradient(circle at 30% 25%,#fff,rgba(185,227,199,.6));border:1px solid var(--gline)}
+.root b{font-size:19px;font-weight:800}
+.root small{display:block;color:var(--ink3);font-size:12.5px;font-weight:500}
+.root .open{margin-left:auto;font-size:13px;font-weight:700;color:var(--sage-deep)}
+/* tree */
+.tree{margin-left:8px;border-left:2px dashed var(--hair);padding-left:16px}
+.branch{margin:10px 0}
+.bh{border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:.15s;position:relative;border-left:4px solid var(--bc)}
+.bh:hover{box-shadow:0 16px 34px -20px color-mix(in srgb,var(--bc) 55%,rgba(60,110,80,.4))}
+.bh .ic{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;font-size:21px;flex:none;background:color-mix(in srgb,var(--bc) 12%,#fff);border:1px solid color-mix(in srgb,var(--bc) 26%,#fff)}
+.bh .t{flex:1;min-width:0}
+.bh .t b{font-size:17px;font-weight:800;color:var(--bc)}
+.bh .t small{display:block;color:var(--ink2);font-size:12.5px;font-weight:500;margin-top:1px}
+.bh .cnt{font-size:12px;font-weight:700;color:var(--bc);background:color-mix(in srgb,var(--bc) 10%,#fff);border:1px solid color-mix(in srgb,var(--bc) 24%,#fff);border-radius:999px;padding:4px 11px;white-space:nowrap}
+.bh .chev{color:var(--ink3);font-size:12px;transition:transform .25s;flex:none}
+.branch.open .chev{transform:rotate(90deg)}
+.branch.ext .chev,.branch.single .chev{opacity:.35}
+.kids{display:none;margin:6px 0 4px 26px;border-left:2px dashed var(--hair);padding-left:14px}
+.branch.open .kids{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.leaf{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:11px;margin:5px 0;background:rgba(255,255,255,.5);border:1px solid var(--gline);transition:.15s}
+.leaf:hover{background:rgba(255,255,255,.75)}
+.leaf .no{font-size:12.5px;font-weight:800;color:var(--bc);font-variant-numeric:tabular-nums;flex:none;min-width:38px}
+.leaf .lt{flex:1;min-width:0;font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.leaf .ls{display:flex;gap:6px;flex:none;flex-wrap:wrap}
+.leaf .ls a{font-size:11.5px;font-weight:600;color:var(--bc);border:1px solid color-mix(in srgb,var(--bc) 30%,#fff);background:color-mix(in srgb,var(--bc) 7%,#fff);border-radius:999px;padding:4px 10px;transition:.15s}
+.leaf .ls a:hover{background:var(--bc);color:#fff}
+.hint{color:var(--ink3);font-size:12px;margin:2px 0 0 4px}
+.empty{color:var(--ink3);font-size:13px;padding:10px 4px}
+footer{text-align:center;color:var(--ink3);font-size:12.5px;margin-top:34px;line-height:1.9}
+mark{background:color-mix(in srgb,var(--sage) 22%,#fff);border-radius:3px;padding:0 2px}
+@media(max-width:600px){.leaf{flex-wrap:wrap}.leaf .lt{white-space:normal}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="home" href="https://tarshar4242.github.io/kt-sweet-journey/lessons.html">🍀 課程筆記館入口</a>
+  </div>
+  <h1>站台地圖・互動心智圖</h1>
+  <div class="stamp" id="stamp"></div>
+
+  <div class="tools">
+    <button onclick="expandAll(true)">＋ 全部展開</button>
+    <button onclick="expandAll(false)">－ 全部收合</button>
+    <div class="search"><span class="ic">🔍</span><input id="q" type="search" placeholder="搜尋集數、教案、關鍵字…" autocomplete="off"></div>
+  </div>
+
+  <a class="root glass" id="rootNode">
+    <span class="rk">🍀</span>
+    <div><b>課程筆記館</b><small class="ru"></small></div>
+    <span class="open">開啟首頁 ›</span>
+  </a>
+
+  <div class="tree" id="tree"></div>
+
+  <footer>🍀 Learn AI with Tarshar · 站台地圖由程式依全站結構自動產生</footer>
+</div>
+<script>
+const DATA={"root": {"name": "課程筆記館", "url": "https://tarshar4242.github.io/kt-sweet-journey/lessons.html"}, "series": [{"key": "radio", "icon": "📻", "name": "直播電台", "color": "#2f7d92", "type": "two", "sub": "晨學講堂直播課，每集＝逐幀筆記＋互動地圖", "items": [{"code": "EP46", "title": "抽絲剝繭談 ChatGPT Work", "links": [{"label": "📝 逐幀筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep46-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep46-ai-skills.html"}]}, {"code": "EP45", "title": "Google AI Studio 偷藏了這些 Agent！", "links": [{"label": "📝 逐幀筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep45-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep45-ai-skills.html"}]}, {"code": "EP44", "title": "2026 上半年一定會的 AI 技能", "links": [{"label": "📝 逐幀筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep44-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep44-ai-skills.html"}]}, {"code": "EP43", "title": "打通任督二脈學影片製作", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep43-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep43-ai-skills.html"}]}, {"code": "EP42", "title": "各大模型 API 申請與應用", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep42-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep42-ai-skills.html"}]}, {"code": "EP41", "title": "AI 生圖篇：智慧漁網", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep41-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep41-ai-skills.html"}]}, {"code": "EP41", "title": "與 AI 共行：視覺化簡報技巧", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep41b-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep41b-ai-skills.html"}]}, {"code": "EP40", "title": "ChatGPT for Excel &amp; PowerPoint", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep40-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep40-ai-skills.html"}]}, {"code": "EP39", "title": "NotebookLM 與 Markdown 格式交互應用", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep39-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep39-ai-skills.html"}]}, {"code": "EP38", "title": "Gemini Avatar：從概念到應用", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep38-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep38-ai-skills.html"}]}, {"code": "EP37", "title": "與 AI 共行：RAG 訓練不用從頭開始", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep37-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep37-ai-skills.html"}]}, {"code": "EP36", "title": "Gemini Notebooks 5 種稀鬆平常的用法", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep36-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep36-ai-skills.html"}]}, {"code": "EP35", "title": "從 Prompt 到 Harness：打造可控 AI 系統", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep35-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep35-ai-skills.html"}]}, {"code": "EP34", "title": "打通生成式 AI 任督二脈・Canva 動畫篇", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep34-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep34-ai-skills.html"}]}, {"code": "EP33", "title": "一起來讓簡報、資訊圖表改起來及動起來", "links": [{"label": "📝 逐幀筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep33-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep33-ai-skills.html"}]}, {"code": "EP32", "title": "打通生成式 AI 任督二脈：Claude Code 篇", "links": [{"label": "📝 逐幀筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep32-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep32-ai-skills.html"}]}, {"code": "EP31", "title": "Gemini X Google Workspace 應用", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep31-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep31-ai-skills.html"}]}, {"code": "EP30", "title": "AnythingLLM（NotebookLM 平替版）", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep30-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep30-ai-skills.html"}]}, {"code": "EP29", "title": "會議紀錄字幕工作流", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep29-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep29-ai-skills.html"}]}, {"code": "EP28", "title": "文獻耙梳工具 AnswerThis", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep28-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep28-ai-skills.html"}]}, {"code": "EP27", "title": "用 Prezi AI 做出動態簡報", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep27-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep27-ai-skills.html"}]}, {"code": "EP26", "title": "知行合一 Manus AI：Skill 與 Agents", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep26-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep26-ai-skills.html"}]}, {"code": "EP25", "title": "用 YAML 讓簡報乖乖聽話：從規格到產出一次搞定", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep25-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep25-ai-skills.html"}]}, {"code": "EP24", "title": "從亂試到有策略：Meta AI 圖像生成這樣學最快", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep24-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep24-ai-skills.html"}]}, {"code": "EP23", "title": "用 YAML 讓 NotebookLM 資訊圖表乖乖聽話", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep23-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep23-ai-skills.html"}]}, {"code": "EP21", "title": "讓數據會說話：AI 賦能的 Power BI × Looker Studio 視覺化實戰", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep21-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep21-ai-skills.html"}]}, {"code": "EP20", "title": "打通 Anthropic 任督二脈：Claude 篇", "links": [{"label": "📝 課堂筆記", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep20-notes.html"}, {"label": "🗺️ 互動地圖", "url": "https://tarshar4242.github.io/kt-sweet-journey/ep20-ai-skills.html"}]}]}, {"key": "plans", "icon": "📚", "name": "Tarshar 教案集", "color": "#9c7b23", "type": "two", "sub": "對外授課的完整教案（公部門／機關工作坊）", "items": [{"code": "#01", "title": "單篇論文加工術：英文論文變中英研讀包 📖", "links": [{"label": "📚 開啟完整教案", "url": "https://tarshar4242.github.io/kt-sweet-journey/method-01-paper-translation.html"}]}, {"code": "#02", "title": "一堂直播課，變成一座可以逛的互動筆記館 🎬", "links": [{"label": "📚 開啟完整教案", "url": "https://tarshar4242.github.io/kt-sweet-journey/method-02-frame-notes.html"}]}, {"code": "#03", "title": "一個主題，怎麼變成一套圖卡，再變成一座網站 🃏", "links": [{"label": "📚 開啟完整教案", "url": "https://tarshar4242.github.io/kt-sweet-journey/method-03-knowledge-cards.html"}]}, {"code": "#04", "title": "樸素文件變身手帳風筆記，我怎麼做的 📔", "links": [{"label": "📚 開啟完整教案", "url": "https://tarshar4242.github.io/kt-sweet-journey/method-04-doc-makeover.html"}]}, {"code": "#05", "title": "用 AI 生成影片與視覺素材：從參考圖到提示詞 🎨", "links": [{"label": "📚 開啟完整教案", "url": "https://tarshar4242.github.io/kt-sweet-journey/method-05-ai-visuals.html"}]}, {"code": "#06", "title": "蓋一座放研讀包的網站：論文圖書館 🍀", "links": [{"label": "📚 開啟完整教案", "url": "https://tarshar4242.github.io/kt-sweet-journey/build-knowledge-library.html"}]}, {"code": "#07", "title": "幫實體工作坊蓋線上導覽台，總站串起所有專案 🏛️", "links": [{"label": "📚 開啟完整教案", "url": "https://tarshar4242.github.io/kt-sweet-journey/method-07-workshop-hub.html"}]}, {"code": "#08", "title": "不用後端不用資料庫：跑在瀏覽器裡的小工具 🧰", "links": [{"label": "📚 開啟完整教案", "url": "https://tarshar4242.github.io/kt-sweet-journey/method-08-browser-tools.html"}]}, {"code": "#09", "title": "用 AI 做一個裝在手機桌面的個人 App 📱", "links": [{"label": "📚 開啟完整教案", "url": "https://tarshar4242.github.io/kt-sweet-journey/method-09-pwa-app.html"}]}, {"code": "#10", "title": "我不是工程師，但我最懂這條流程 🏭", "links": [{"label": "📚 開啟完整教案", "url": "https://tarshar4242.github.io/kt-sweet-journey/method-10-worksys-courage.html"}]}, {"code": "#11", "title": "工具吐的英文報告，變成手機一頁看完的網頁 📊", "links": [{"label": "📚 開啟完整教案", "url": "https://tarshar4242.github.io/kt-sweet-journey/method-11-report-to-web.html"}]}, {"code": "#12", "title": "幫自己請一個 AI 數位員工，甚至一整支團隊 🤖", "links": [{"label": "📚 開啟完整教案", "url": "https://tarshar4242.github.io/kt-sweet-journey/method-12-digital-staff.html"}]}, {"code": "#13", "title": "從 0 到 1 架一條自動化內容生產線 📮", "links": [{"label": "📚 開啟完整教案", "url": "https://tarshar4242.github.io/kt-sweet-journey/method-13-content-pipeline.html"}]}, {"code": "#15", "title": "幫自己搭一個 AI 第二大腦 🧠", "links": [{"label": "📚 開啟完整教案", "url": "https://tarshar4242.github.io/kt-sweet-journey/method-15-second-brain.html"}]}, {"code": "#16", "title": "想做大系統之前，先讓 AI 幫你踩剎車 🛑", "links": [{"label": "📚 開啟完整教案", "url": "https://tarshar4242.github.io/kt-sweet-journey/method-16-decision-brake.html"}]}, {"code": "#17", "title": "AI 陪跑求職：把真的你，講給公部門聽 💼", "links": [{"label": "📚 開啟完整教案", "url": "https://tarshar4242.github.io/kt-sweet-journey/method-17-job-application.html"}]}, {"code": "#18", "title": "一百多篇論文，AI 幫你一天篩完 📚", "links": [{"label": "📚 開啟完整教案", "url": "https://tarshar4242.github.io/kt-sweet-journey/method-18-batch-screening.html"}]}, {"code": "", "title": "理賠陪跑主題館 🍀", "links": [{"label": "🍀 開啟理賠陪跑", "url": "https://tarshar4242.github.io/kt-sweet-journey/claim-companion.html"}]}, {"code": "", "title": "地端 AI 語音轉紀錄 🎙️", "links": [{"label": "📚 開啟教案與範例", "url": "https://tarshar4242.github.io/kt-sweet-journey/voice-to-notes.html"}]}, {"code": "", "title": "AI 開機日．蘆洲監理所 🏛️", "links": [{"label": "📚 開啟完整教案", "url": "https://tarshar4242.github.io/kt-sweet-journey/luzhou-ai-startup.html"}]}]}, {"key": "life", "icon": "🧰", "name": "生活應用", "color": "#b25269", "type": "two", "sub": "課堂之外的實作成品", "items": [{"code": "", "title": "行政助手 🏡", "links": [{"label": "🛠 開啟工具與教學", "url": "https://tarshar4242.github.io/kt-sweet-journey/admin-assistant.html"}]}, {"code": "", "title": "研究生的日常思維 🍀", "links": [{"label": "🍀 開啟生圖指令包", "url": "https://tarshar4242.github.io/kt-sweet-journey/graduate-daily-thinking.html"}]}, {"code": "", "title": "K&amp;T 甜蜜日之旅 🌸", "links": [{"label": "📖 開啟旅程手冊", "url": "https://tarshar4242.github.io/kt-sweet-journey/kt-sweet-journey.html"}]}, {"code": "", "title": "隨身口譯機 🎙", "links": [{"label": "🎧 開啟口譯機", "url": "https://tarshar4242.github.io/kt-sweet-journey/interpreter.html"}]}, {"code": "", "title": "三得利參訪學習日誌 🍺", "links": [{"label": "📔 開啟學習日誌", "url": "https://tarshar4242.github.io/kt-sweet-journey/suntory-visit-report.html"}]}]}, {"key": "ipas", "icon": "🎓", "name": "iPAS 證照學習", "color": "#bf6a1e", "type": "single", "url": "https://tarshar4242.github.io/kt-sweet-journey/ipas-intermediate.html", "sub": "AI 應用規劃師中級・單頁直達"}, {"key": "thesis", "icon": "📖", "name": "論文研讀庫", "color": "#3f8560", "type": "ext", "url": "https://tarshar4242.github.io/thesis-library/index.html#library", "sub": "外站（thesis-library repo）"}, {"key": "skill", "icon": "🛠️", "name": "SKILL 技能包", "color": "#6a5acf", "type": "ext", "url": "https://tarshar4242.github.io/thesis-library/skills.html", "sub": "外站（thesis-library repo）"}, {"key": "edm", "icon": "📮", "name": "主題式電子報", "color": "#b5476a", "type": "two", "sub": "每期一頁，最新在前", "items": [{"code": "001", "title": "會議記錄我不聽打了，丟給電腦排好版 🎙️", "links": [{"label": "📮 開啟這一期", "url": "https://tarshar4242.github.io/kt-sweet-journey/edm-001.html"}]}]}], "base": "https://tarshar4242.github.io/kt-sweet-journey/", "stamp": "2026-07-24 快照 · commit 7978815"};
+document.getElementById('stamp').textContent=DATA.stamp;
+document.querySelector('#rootNode').href=DATA.root.url;
+document.querySelector('.ru').textContent=DATA.root.url.replace('https://','');
+const tree=document.getElementById('tree');
+function esc(s){return s;}
+DATA.series.forEach((s,i)=>{
+  const br=document.createElement('div');
+  br.className='branch '+(s.type==='ext'?'ext':s.type==='single'?'single':'');
+  br.style.setProperty('--bc',s.color);
+  const cnt = s.items? s.items.length+' 項' : (s.type==='ext'?'外站':'單頁');
+  br.innerHTML=`<div class="bh glass" style="border-left-color:${s.color}">
+      <span class="ic">${s.icon}</span>
+      <div class="t"><b>${s.name}</b><small>${s.sub}</small></div>
+      <span class="cnt">${cnt}</span>
+      <span class="chev">▶</span>
+    </div>`;
+  const bh=br.querySelector('.bh');
+  if(s.type==='ext'||s.type==='single'){
+    bh.onclick=()=>window.open(s.url,'_self');
+    bh.style.cursor='pointer';
+  }else{
+    const kids=document.createElement('div');kids.className='kids';
+    s.items.forEach(it=>{
+      const leaf=document.createElement('div');leaf.className='leaf';leaf.style.setProperty('--bc',s.color);
+      const ls=it.links.map(l=>`<a href="${l.url}" target="_self">${l.label}</a>`).join('');
+      leaf.innerHTML=`${it.code?`<span class="no">${it.code}</span>`:''}<span class="lt" title="${it.title}">${it.title}</span><span class="ls">${ls}</span>`;
+      leaf.dataset.txt=(it.code+' '+it.title).toLowerCase();
+      kids.appendChild(leaf);
+    });
+    br.appendChild(kids);
+    bh.onclick=()=>br.classList.toggle('open');
+  }
+  tree.appendChild(br);
+});
+function expandAll(on){document.querySelectorAll('.branch').forEach(b=>{if(!b.classList.contains('ext')&&!b.classList.contains('single'))b.classList.toggle('open',on);});}
+expandAll(false);
+// 搜尋
+const q=document.getElementById('q');
+q.addEventListener('input',()=>{
+  const v=q.value.trim().toLowerCase();
+  document.querySelectorAll('.branch').forEach(b=>{
+    const leaves=b.querySelectorAll('.leaf');if(!leaves.length)return;
+    let hit=0;
+    leaves.forEach(l=>{const m=!v||l.dataset.txt.includes(v);l.style.display=m?'':'none';if(m)hit++;
+      const lt=l.querySelector('.lt');lt.innerHTML=lt.textContent;
+      if(v&&m){const t=lt.textContent;const idx=t.toLowerCase().indexOf(v);if(idx>=0)lt.innerHTML=t.slice(0,idx)+'<mark>'+t.slice(idx,idx+v.length)+'</mark>'+t.slice(idx+v.length);}
+    });
+    b.classList.toggle('open', !!v && hit>0);
+    b.style.display=(v&&hit===0)?'none':'';
+  });
+});
+</script>
+</body>
+</html>
