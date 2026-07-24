@@ -572,6 +572,13 @@
 - 內容物（章節）：1它解決什麼問題？ ／ 2它怎麼運作？三步驟 ／ 3不只會議記錄——五大分群、16 種紀錄 ／ 4看實際成品 ／ 5怎麼開始用？ ／ 6給講師的教學重點
 - 連到其他頁：sample-lecture.html, sample-project.html, sample-talk.html, sample-thesis.html
 
+#### `method-19-ai-full-journey.html`　`教案`
+- 網址：https://tarshar4242.github.io/kt-sweet-journey/method-19-ai-full-journey.html
+- 標題：一場課的簡報講義，AI 從投案陪我做到上架：全歷程實錄
+- 內容簡述：Tarshar 教案集：蘆洲監理所「AI 開機日」的簡報與講義是怎麼跟 AI 一起寫出來的——投案、整套教材包、41頁分鏡表、多版本比稿、課後迭代、上架導覽台，從零到完成的真實協作全紀錄，教你怎麼用 AI 走完一件事的全歷程
+- 內容物（章節）：0. 五個階段一張圖 ／ 1. 投案：先把敲門資料弄整齊 ／ 2. 一次生成整套教材包 ／ 3. 先寫分鏡表，再做簡報 ／ 4. 多版本比稿，改到上課當天 ／ 5. 課後迭代 ／ 6. 上架：讓成果有個家 ／ 7. 全歷程心法與工具分工 ／ 8. 你的三步驟行動建議
+- 連到其他頁：luzhou-ai-startup.html, ai-kaiji-proposal.html, method-07-workshop-hub.html
+
 #### `ai-kaiji-proposal.html`　`教案`
 - 網址：https://tarshar4242.github.io/kt-sweet-journey/ai-kaiji-proposal.html
 - 標題：AI 開機日｜機關投案版完整教案
@@ -769,6 +776,7 @@
 | `kt-sweet-journey.html` | 作品 | SERIES 03 生活應用 |
 | `lessons.html` | 入口首頁 | — |
 | `ai-kaiji-proposal.html` | 教案 | SERIES 02 教案集 |
+| `method-19-ai-full-journey.html` | 教案 | SERIES 02 教案集 |
 | `luzhou-ai-startup.html` | 教案 | SERIES 02 教案集 |
 | `method-01-paper-translation.html` | 教案 | SERIES 02 教案集 |
 | `method-02-frame-notes.html` | 教案 | SERIES 02 教案集 |
