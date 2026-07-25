@@ -143,6 +143,17 @@
   .toast.show{ opacity:.97; }
   .home-fab{ position:fixed; top:12px; right:12px; z-index:30; width:2.3rem; height:2.3rem; border-radius:50%; background:var(--card); border:1px solid var(--card-brd); box-shadow:0 4px 12px rgba(120,90,160,.2); display:flex; align-items:center; justify-content:center; text-decoration:none; font-size:1.1rem; opacity:.9; }
   @media (display-mode:standalone){ .home-fab{ display:none; } }
+  .onboard{ position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center; padding:18px; overflow:auto;
+    background:radial-gradient(80% 50% at 100% 0%, rgba(170,142,230,.4), transparent 60%),radial-gradient(70% 50% at 0% 10%, rgba(197,178,240,.4), transparent 60%),linear-gradient(180deg,#f3eefc,#efe7fa); }
+  .onboard[hidden]{ display:none; }
+  .onboard-card{ background:#fff; border-radius:26px; padding:1.8rem 1.4rem 1.5rem; max-width:430px; width:100%; box-shadow:0 20px 50px rgba(120,90,160,.28); text-align:center; }
+  .ob-mascot{ width:92px; height:92px; margin:0 auto .4rem; display:block; filter:drop-shadow(0 6px 12px rgba(126,214,160,.4)); }
+  .onboard-card h2{ font-size:1.3rem; color:#403a58; margin-bottom:.6rem; }
+  .ob-lead{ font-size:.95rem; color:#5a5470; line-height:1.75; margin-bottom:1rem; }
+  .ob-steps{ text-align:left; margin:0 auto 1rem; padding-left:1.3rem; font-size:.9rem; color:#5a5470; line-height:1.9; }
+  .ob-apply{ display:inline-block; font-weight:800; margin-bottom:.9rem; color:#9d81dd; }
+  .onboard-card input{ width:100%; background:#faf8fd; border:1px solid rgba(150,120,180,.25); border-radius:14px; padding:.8rem .9rem; font-family:monospace; margin-bottom:.7rem; }
+  .ob-note{ font-size:.78rem; color:#918aa6; margin-top:.8rem; }
 </style>
 </head>
 <body>
@@ -274,6 +285,24 @@
 
 <div class="modal-bg" id="modal-bg"><div class="modal" id="modal"></div></div>
 <div class="toast" id="toast"></div>
+
+<!-- 第一次啟動：必須先貼金鑰才能進 -->
+<div class="onboard" id="onboard" hidden>
+  <div class="onboard-card">
+    <svg class="ob-mascot"><use href="#sprite"/></svg>
+    <h2>歡迎使用四葉草行事曆 🍀</h2>
+    <p class="ob-lead">這個 App 最厲害的功能是「<b>拍一張通知單，自動變成行程</b>」。這需要一組<b>免費的辨識碼</b>，第一次使用請先完成這一步。</p>
+    <ol class="ob-steps">
+      <li>點下面連結，用 Google 帳號<b>免費申請</b>一組辨識碼</li>
+      <li>複製申請到的那一串碼</li>
+      <li>貼回下面框框，按「開始使用」</li>
+    </ol>
+    <a class="ob-apply" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">→ 免費申請辨識碼（Google AI Studio）</a>
+    <input id="ob-key" type="text" placeholder="把申請到的一串碼貼在這" autocomplete="off" spellcheck="false">
+    <button class="btn-grad w100" id="ob-go" disabled>開始使用 🍀</button>
+    <p class="ob-note">辨識碼只會存在你這支手機，不會外傳。</p>
+  </div>
+</div>
 
 <script>
 "use strict";
@@ -568,8 +597,12 @@ function renderAll(){renderCal();if($("#v-list").classList.contains("active"))re
   const ai=document.createElement("link");ai.rel="apple-touch-icon";ai.href=icon;document.head.appendChild(ai);
 }catch(e){}})();
 
+/* ===== 第一次啟動：必須先貼金鑰 ===== */
+function showOnboard(){const ob=$("#onboard"),key=$("#ob-key"),go=$("#ob-go");ob.hidden=false;key.oninput=()=>{go.disabled=key.value.trim().length<12;};go.onclick=()=>{const k=key.value.trim();if(k.length<12){toast("請貼上申請到的辨識碼");return;}state.prefs.geminiApiKey=k;state.prefs.onboardingDone=true;savePrefs(state.prefs);ob.hidden=true;toast("開通完成，開始用吧 🍀");};}
+
 /* ===== 啟動 ===== */
 applyTheme();
+if(!state.prefs.geminiApiKey.trim())showOnboard();
 show("v-cal");
 reload().then(()=>{if(state.prefs.notificationMode==="allowed")reqNotify();});
 window.openAdd=openAdd;
