@@ -25,7 +25,6 @@
     font-family:-apple-system,'PingFang TC','Noto Sans TC',sans-serif; color:var(--text);
     min-height:100dvh; padding-bottom:92px; position:relative; overflow-x:hidden;
     background:radial-gradient(72% 46% at 100% 0%, rgba(170,142,230,.34), transparent 60%),radial-gradient(58% 40% at 0% 6%, rgba(197,178,240,.28), transparent 60%),radial-gradient(85% 52% at 88% 100%, rgba(157,129,221,.24), transparent 60%),radial-gradient(40% 30% at 6% 92%, rgba(244,169,141,.14), transparent 60%),linear-gradient(180deg,#fbf9ff 0%, #f7f4fc 100%);
-    background-attachment:fixed;
   }
   .silk,.stars{ position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
   .silk{ opacity:var(--silk-op); }
@@ -141,7 +140,7 @@
 <body>
 <a class="home-fab" href="../#life" title="回筆記館入口">🏠</a>
 <svg class="silk" viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice">
-  <defs><filter id="blur"><feGaussianBlur stdDeviation="14"/></filter></defs>
+  <defs><filter id="blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="9"/></filter></defs>
   <g filter="url(#blur)" fill="none" stroke-linecap="round">
     <path d="M-40 60 C 120 10 260 120 460 30" style="stroke:var(--silk2)" stroke-width="46" opacity=".55"/>
     <path d="M-40 110 C 130 70 250 180 460 90" style="stroke:var(--silk3)" stroke-width="30" opacity=".4"/>
@@ -315,7 +314,7 @@ let state={events:[],prefs:loadPrefs(),calRef:new Date(),calSel:twToday(),formPr
 /* ===== 主題 ===== */
 function applyTheme(){
   const t=THEMES.find(x=>x.id===state.prefs.themeId)||THEMES[0],r=document.documentElement.style;
-  document.body.style.background=t.bg; document.body.style.backgroundAttachment="fixed";
+  document.body.style.background=t.bg;
   r.setProperty("--accent1",t.accent1);r.setProperty("--accent2",t.accent2);
   r.setProperty("--text",t.text);r.setProperty("--muted",t.muted);
   r.setProperty("--card",t.card);r.setProperty("--card-brd",t.cardBrd);r.setProperty("--evt-bg",t.evtBg);
