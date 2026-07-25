@@ -57,6 +57,11 @@
   單頁直達型系列（如 iPAS）用 `onclick="location.href='<page>.html'"`，不需第二層。
   各頁「回入口」連結用 `lessons.html#radio`／`#plans`／`#life`（直達系列頁）；
   獨立作品頁左下角有固定「🏠 回筆記館入口」浮動鈕。
+  （2026-07-25 新增）「🔧 TARSHAR 工具集」系列＝單頁直達型（onclick location.href='tools.html'，
+  TOC_SERIES 已補列）：`tools.html` 是仿 tool.lifehacker.tw 風格的免費線上工具箱總覽頁
+  （搜尋＋分類篩選＋深淺色切換，工具資料在頁內 JS 的 `TOOLS` 陣列）；
+  之後做出新工具（互動網頁、小幫手、指令包⋯）→ 在 `TOOLS` 陣列加一筆（icon／name／cat／desc／tags／href），
+  並同步更新入口卡與 CLAUDE.md 此處的「收錄 N 樣」數字。
   （2026-07-23 新增）「📮 主題式電子報」系列（showSeries('edm')＋#view-edm）：
   每期一頁 `edm-NNN.html`，卡片前綴「電子報 NNN」，編號「電子報 NNN｜YYYY.MM.DD」，最新在最前；
   回入口用 `lessons.html#edm`。首頁另有「呈現方式」切換鈕（▦ 卡片／☰ 目錄）：

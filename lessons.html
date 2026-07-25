@@ -253,6 +253,14 @@ body.mode-toc #toc{display:block;position:sticky;top:80px}
         <div class="foot"><span class="badge" id="edmBadge" style="color:var(--rose)">收錄 1 期</span><span class="go">進入系列 ›</span></div>
       </div>
 
+      <div class="series" style="--c:var(--blue)" onclick="location.href='tools.html'">
+        <div class="top"></div>
+        <span class="emoji">🔧</span>
+        <h2><em>SERIES 08</em>TARSHAR 工具集</h2>
+        <p class="desc">我跟 AI 一起做出來的免費線上工具箱——口譯機、行政助手、生圖指令包、理賠陪跑⋯⋯免安裝免註冊，瀏覽器打開就能用，歡迎分享給朋友。</p>
+        <div class="foot"><span class="badge" style="color:var(--blue)">收錄 10 樣工具</span><span class="go">打開工具箱 ›</span></div>
+      </div>
+
       <div class="series soon">
         <div class="top"></div>
         <div class="body-center">
@@ -1351,7 +1359,7 @@ body.mode-toc #toc{display:block;position:sticky;top:80px}
 
 <footer>
   🍀 Learn AI with Tarshar ♥ 2026<br>
-  七個系列：📻 直播電台・📚 Tarshar 教案集・🧰 生活應用・🎓 iPAS 證照學習・📖 論文研讀庫・🛠️ SKILL 技能包・📮 主題式電子報——都從上方入口進入<br>
+  八個系列：📻 直播電台・📚 Tarshar 教案集・🧰 生活應用・🎓 iPAS 證照學習・📖 論文研讀庫・🛠️ SKILL 技能包・📮 主題式電子報・🔧 TARSHAR 工具集——都從上方入口進入<br>
   <a href="sitemap.html" style="display:inline-block;margin-top:12px;font-weight:700;color:var(--sage-deep);border:1px solid var(--gline);background:rgba(255,255,255,.55);border-radius:999px;padding:8px 16px">🗺️ 站台地圖（互動心智圖）</a>
 </footer>
 
@@ -1398,7 +1406,8 @@ const TOC_SERIES = [
   {key:'ipas',  icon:'🎓', label:'iPAS 證照學習', color:'--orange', href:'ipas-intermediate.html'},
   {key:'thesis',icon:'📖', label:'論文研讀庫', color:'--green', href:'https://tarshar4242.github.io/thesis-library/index.html#library'},
   {key:'skill', icon:'🛠️', label:'SKILL 技能包', color:'--purple', href:'https://tarshar4242.github.io/thesis-library/skills.html'},
-  {key:'edm',   icon:'📮', label:'主題式電子報', color:'--rose'}
+  {key:'edm',   icon:'📮', label:'主題式電子報', color:'--rose'},
+  {key:'tools', icon:'🔧', label:'TARSHAR 工具集', color:'--blue', href:'tools.html'}
 ];
 function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function buildTOC(){
