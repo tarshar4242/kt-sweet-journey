@@ -121,6 +121,16 @@ main{max-width:1080px;margin:0 auto;padding:1.1rem 1.2rem 2rem}
   display:inline-block;font-size:.72rem;font-weight:700;color:var(--primary);
   background:var(--primary-soft);border-radius:6px;padding:.05rem .5rem;margin-top:.15rem;
 }
+.tool .cost{
+  display:inline-block;font-size:.72rem;font-weight:700;border-radius:6px;
+  padding:.05rem .5rem;margin:.15rem 0 0 .3rem;
+}
+.cost.c-free{color:#2e7d4f;background:#e3f4ea}
+.cost.c-device{color:#8a6d1a;background:#faf3d9}
+.cost.c-key{color:#b3541e;background:#fdeadd}
+html[data-theme="dark"] .cost.c-free{color:#7fd6a4;background:#14301f}
+html[data-theme="dark"] .cost.c-device{color:#e5c96a;background:#332a10}
+html[data-theme="dark"] .cost.c-key{color:#f0a06a;background:#3a2213}
 .tool p{font-size:.88rem;color:var(--muted);flex:1}
 .tool .foot{
   display:flex;align-items:center;justify-content:space-between;
@@ -198,6 +208,7 @@ footer a{font-weight:700}
   <div class="search">🔍<input type="search" id="q" placeholder="搜尋工具：口譯⋯"></div>
   <div class="chips" id="chips"></div>
   <p class="count-line" id="countLine"></p>
+  <p class="count-line" style="margin-top:.3rem">標示說明：✅ 免費即用｜⚡ 本機運算（免費，速度看你的設備）｜🔑 需自備 AI 金鑰（工具內會教你怎麼申請）</p>
 </div>
 
 <main>
@@ -224,11 +235,15 @@ footer a{font-weight:700}
 <script>
 /* 收錄定義（嚴格）：只放「單一用途、點進來就能直接完成一件事」的線上小工具，
    免安裝免註冊、不用先學。行程手冊、日誌、教學頁、目錄頁都不算工具，不收。
-   新工具做好 → 加一筆進 TOOLS，並在 CATS 補上還沒有的分類。 */
+   新工具做好 → 加一筆進 TOOLS，並在 CATS 補上還沒有的分類。
+   cost 欄位（必填）：'free'＝免費即用（純前端或免費公開資料源）；
+   'device'＝在使用者裝置上跑 AI 模型（免費但速度看設備）；
+   'key'＝需使用者自備 AI 金鑰。凡是 device／key 的工具，工具頁內
+   「開始使用前」必須先跳出白話提示說明要準備什麼、會發生什麼。 */
 const TOOLS = [
   {
     icon:'🎙', tint:'#e0f2f7', tintD:'#12333d',
-    name:'隨身口譯機', cat:'voice',
+    name:'隨身口譯機', cat:'voice', cost:'free',
     desc:'即時中日雙語口譯：點進來按下麥克風就能用——自動辨識你說的語言、雙區大字顯示、逐字稿留存。旅行、會話場景直接開。',
     tags:['語音辨識','中↔日','即時'],
     href:'interpreter.html'
@@ -244,6 +259,8 @@ const CATS = [
   {key:'convert',   label:'🔄 轉換'},
   {key:'random',    label:'🎲 抽選'}
 ];
+
+const COST_LABEL = {free:'✅ 免費即用', device:'⚡ 本機運算', key:'🔑 需自備金鑰'};
 
 let curCat = 'all', curQ = '';
 const $ = s => document.querySelector(s);
@@ -265,7 +282,7 @@ function render(){
         <div class="tool-icon">${t.icon}</div>
         <div>
           <h2>${t.name}</h2>
-          <span class="cat-tag">${CATS.find(c => c.key === t.cat).label}</span>
+          <span class="cat-tag">${CATS.find(c => c.key === t.cat).label}</span><span class="cost c-${t.cost || 'free'}">${COST_LABEL[t.cost || 'free']}</span>
         </div>
       </div>
       <p>${t.desc}</p>
