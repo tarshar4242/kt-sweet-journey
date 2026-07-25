@@ -32,6 +32,8 @@
   .stars i{ position:absolute; background:#fff; border-radius:50%; animation:tw 3s infinite ease-in-out; }
   @keyframes tw{ 0%,100%{opacity:.3} 50%{opacity:.9} }
   main{ position:relative; z-index:1; max-width:640px; margin:0 auto; padding:0 16px; }
+  .view{ display:none; }
+  .view.active{ display:block; }
 
   button,input,select,textarea{ font-family:inherit; font-size:1rem; color:inherit; }
   button{ cursor:pointer; border:none; background:none; }
@@ -172,7 +174,7 @@
 
 <main>
   <!-- 月曆 -->
-  <section id="v-cal" class="view">
+  <section id="v-cal" class="view active">
     <div class="greet">
       <svg class="mascot"><use href="#sprite"/></svg>
       <div class="grow">
@@ -339,7 +341,7 @@ function sanitizeEvent(raw){const t=nowISO(),src=VALID_SRC.has(raw.source)?raw.s
 async function upsert(raw){const ev=sanitizeEvent(raw);await dbPut(ev);await reload();return ev;}
 
 /* ===== 導覽 ===== */
-function show(v){$$(".view").forEach(x=>x.classList.toggle("active",x.id===v));$$(".view").forEach(x=>x.style.display=x.id===v?"block":"none");$$("nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));if(v==="v-set")renderSettings();if(v==="v-list")renderList();if(v==="v-cal")renderCal();window.scrollTo(0,0);}
+function show(v){$$(".view").forEach(x=>x.classList.toggle("active",x.id===v));$$("nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));if(v==="v-set")renderSettings();if(v==="v-list")renderList();if(v==="v-cal")renderCal();window.scrollTo(0,0);}
 $$("nav button").forEach(b=>b.onclick=()=>{if(b.dataset.v==="v-add")openAdd();else show(b.dataset.v);});
 
 /* ===== 月曆 ===== */
