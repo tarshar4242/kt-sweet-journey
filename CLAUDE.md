@@ -59,9 +59,12 @@
   獨立作品頁左下角有固定「🏠 回筆記館入口」浮動鈕。
   （2026-07-25 新增）「🔧 TARSHAR 工具集」系列＝單頁直達型（onclick location.href='tools.html'，
   TOC_SERIES 已補列）：`tools.html` 是仿 tool.lifehacker.tw 風格的免費線上工具箱總覽頁
-  （搜尋＋分類篩選＋深淺色切換，工具資料在頁內 JS 的 `TOOLS` 陣列）；
-  之後做出新工具（互動網頁、小幫手、指令包⋯）→ 在 `TOOLS` 陣列加一筆（icon／name／cat／desc／tags／href），
-  並同步更新入口卡與 CLAUDE.md 此處的「收錄 N 樣」數字。
+  （搜尋＋分類篩選＋深淺色切換，工具資料在頁內 JS 的 `TOOLS` 陣列）。
+  ⚠️ **收錄定義很嚴格（使用者 2026-07-25 明確指定）**：只收「單一用途、點進來就能直接
+  完成一件事」的線上小工具（參考 tool.lifehacker.tw 的換行轉換器、抽獎轉盤那種）；
+  行程手冊、參訪日誌、心得分享、教學頁、目錄導覽頁**都不算工具，不可以放進去**。
+  工具會由使用者指定、一個一個設計加入 → 在 `TOOLS` 陣列加一筆（icon／name／cat／desc／tags／href），
+  分類晶片只顯示有工具的分類（CATS 補 key 即可），並同步更新入口卡與此處的「收錄 N 樣」數字。
   （2026-07-23 新增）「📮 主題式電子報」系列（showSeries('edm')＋#view-edm）：
   每期一頁 `edm-NNN.html`，卡片前綴「電子報 NNN」，編號「電子報 NNN｜YYYY.MM.DD」，最新在最前；
   回入口用 `lessons.html#edm`。首頁另有「呈現方式」切換鈕（▦ 卡片／☰ 目錄）：
@@ -76,3 +79,6 @@
 
 - 單檔 HTML（內含 CSS/JS）、繁體中文、手機優先、進度存 localStorage，
   以 GitHub Pages 發佈（https://tarshar4242.github.io/kt-sweet-journey/<檔名>.html）。
+- **跟使用者報網址一律給統一入口 `https://tarshar4242.github.io/`**（2026-07-25 使用者指定）：
+  個別頁面的長網址在 Pages 重建期間會先 404、又有轉址，對她很麻煩；
+  根網址永遠有效並自動帶到課程館，新內容請她從入口點進去即可。
