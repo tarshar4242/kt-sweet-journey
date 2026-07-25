@@ -105,6 +105,12 @@
   .prio button{ flex:1; border:2px solid var(--card-brd); border-radius:14px; padding:.55rem; font-size:.85rem; font-weight:700; background:var(--card); }
   .prio button.on{ border-color:var(--lav-deep); background:rgba(157,129,221,.08); }
   .prio .d{ width:.7rem; height:.7rem; border-radius:50%; display:inline-block; vertical-align:-1px; margin-right:.3rem; }
+  .hint{ font-size:.85rem; color:var(--muted); line-height:1.7; margin:.4rem 0; }
+  .addbar{ display:flex; align-items:center; gap:10px; padding:18px 2px 12px; }
+  .addbar #add-cancel{ color:var(--lav-deep); font-weight:800; font-size:1rem; padding:.2rem .2rem; }
+  .photo-drop{ display:flex; align-items:center; justify-content:center; gap:8px; width:100%; min-height:120px; border:2px dashed var(--lav); border-radius:20px; background:var(--evt-bg); color:var(--lav-deep); font-weight:800; font-size:1.05rem; text-align:center; padding:1rem; }
+  .setup-card{ margin-top:1rem; padding:1rem; border:1px solid var(--card-brd); border-radius:16px; background:var(--evt-bg); }
+  .confirm{ background:linear-gradient(135deg,var(--accent1),var(--accent2)); color:#fff; font-weight:800; text-align:center; padding:.7rem 1rem; border-radius:14px; margin-bottom:1rem; }
 
   /* 設定 */
   .set-sec{ margin-bottom:1.4rem; }
@@ -133,9 +139,9 @@
   .modal-bg{ position:fixed; inset:0; background:rgba(60,45,90,.4); z-index:40; display:none; align-items:flex-end; justify-content:center; }
   .modal-bg.show{ display:flex; }
   .modal{ background:var(--card); width:100%; max-width:640px; border-radius:24px 24px 0 0; padding:1.2rem 1.1rem calc(1.2rem + env(safe-area-inset-bottom)); max-height:88dvh; overflow:auto; }
-  .toast{ position:fixed; left:50%; bottom:100px; transform:translateX(-50%); background:var(--lav-deep); color:#fff; padding:.65rem 1.1rem; border-radius:14px; font-size:.85rem; z-index:60; opacity:0; transition:opacity .2s; max-width:90%; text-align:center; white-space:pre-line; box-shadow:0 8px 24px rgba(120,90,160,.4); }
+  .toast{ position:fixed; left:50%; bottom:100px; transform:translateX(-50%); background:var(--lav-deep); color:#fff; padding:.65rem 1.1rem; border-radius:14px; font-size:.85rem; z-index:60; opacity:0; transition:opacity .2s; max-width:90%; text-align:center; white-space:pre-line; box-shadow:0 8px 24px rgba(120,90,160,.4); pointer-events:none; }
   .toast.show{ opacity:.97; }
-  .home-fab{ position:fixed; top:12px; left:12px; z-index:30; width:2.3rem; height:2.3rem; border-radius:50%; background:var(--card); border:1px solid var(--card-brd); box-shadow:0 4px 12px rgba(120,90,160,.2); display:flex; align-items:center; justify-content:center; text-decoration:none; font-size:1.1rem; opacity:.9; }
+  .home-fab{ position:fixed; top:12px; right:12px; z-index:30; width:2.3rem; height:2.3rem; border-radius:50%; background:var(--card); border:1px solid var(--card-brd); box-shadow:0 4px 12px rgba(120,90,160,.2); display:flex; align-items:center; justify-content:center; text-decoration:none; font-size:1.1rem; opacity:.9; }
   @media (display-mode:standalone){ .home-fab{ display:none; } }
 </style>
 </head>
@@ -199,24 +205,38 @@
 
   <!-- 新增 -->
   <section id="v-add" class="view">
-    <div class="ptitle" id="add-title">新增行程</div>
+    <div class="addbar"><button type="button" id="add-cancel">‹ 返回</button><div class="ptitle" id="add-title" style="padding:0">拍照加行程</div></div>
     <div class="seg" id="add-mode">
-      <button data-m="manual" class="on">✍️ 手動</button>
+      <button data-m="photo" class="on">📸 拍照</button>
       <button data-m="paste">📋 貼文字</button>
-      <button data-m="photo">📸 拍照</button>
+      <button data-m="manual">✍️ 手寫</button>
     </div>
+
+    <div id="pane-photo" style="margin-bottom:1rem">
+      <p class="hint">拍或選一張通知單的照片，App 幫你認出上面的日期時間地點，變成行程。</p>
+      <label class="photo-drop" for="photo-file">📷　拍照 / 選一張通知單</label>
+      <input type="file" id="photo-file" accept="image/*" capture="environment" hidden>
+      <div id="photo-name" class="hint" style="text-align:center"></div>
+      <button class="btn-grad w100" id="photo-run" style="margin-top:.7rem">開始認字</button>
+      <p id="photo-status" class="hint"></p>
+      <div id="photo-setup" class="hidden setup-card">
+        <b>第一次用：開通「拍照認字」（只要做一次）</b>
+        <p class="hint" style="margin:.4rem 0">拍照認字需要一組免費的辨識碼。點下面免費申請，複製後貼進來，之後就不用再弄了。</p>
+        <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" style="font-weight:700">→ 免費申請辨識碼（Google AI Studio）</a>
+        <input id="photo-key" type="text" placeholder="把申請到的一串碼貼在這" autocomplete="off" spellcheck="false" style="font-family:monospace;margin-top:.5rem">
+        <button class="btn-grad w100" id="photo-key-save" style="margin-top:.5rem">存好，開始認字</button>
+      </div>
+    </div>
+
     <div id="pane-paste" class="hidden" style="margin-bottom:1rem">
-      <label class="field"><span>貼上會議／活動文字，自動抓出時間地點</span>
-        <textarea id="paste-text" placeholder="例如：3/15 下午2點 在 302 會議室 開產品週會"></textarea></label>
-      <button class="btn-grad w100" id="paste-parse">解析文字</button>
+      <p class="hint">把 LINE／email 裡的開會文字貼進來，自動認出日期時間地點。</p>
+      <textarea id="paste-text" placeholder="例如：3/15 下午2點 在 302 會議室 開產品週會"></textarea>
+      <button class="btn-grad w100" id="paste-parse" style="margin-top:.5rem">認出時間地點</button>
     </div>
-    <div id="pane-photo" class="hidden" style="margin-bottom:1rem">
-      <p class="list-note" style="margin-bottom:.6rem">拍或選一張會議通知單，AI 自動辨識。需先到「設定」填入自己的 AI 金鑰（免費申請）。</p>
-      <input type="file" id="photo-file" accept="image/*" capture="environment" style="margin-bottom:.6rem">
-      <button class="btn-grad w100" id="photo-run">辨識照片</button>
-      <p id="photo-status" class="list-note" style="margin-top:.6rem"></p>
-    </div>
-    <form id="evt-form">
+
+    <div id="confirm-banner" class="confirm hidden">✅ 認出來了！下面確認一下就存，有錯可以直接改</div>
+
+    <form id="evt-form" class="hidden">
       <input type="hidden" id="f-id">
       <label class="field"><span>標題 *</span><input id="f-title" required placeholder="會議／行程名稱"></label>
       <label class="field"><span>日期 *</span><input type="date" id="f-date" required></label>
@@ -235,7 +255,7 @@
       <label class="field"><span>提醒</span>
         <select id="f-remind"><option value="0">不提醒</option><option value="5">5 分鐘前</option><option value="15">15 分鐘前</option><option value="30">30 分鐘前</option><option value="60">60 分鐘前</option></select></label>
       <div class="row" style="margin-top:.3rem">
-        <button type="submit" class="btn-grad grow">儲存行程</button>
+        <button type="submit" class="btn-grad grow">存進行事曆</button>
         <button type="button" id="f-delete" class="btn-soft hidden">刪除</button>
       </div>
     </form>
@@ -282,7 +302,7 @@ const THEMES=[
    bg:"radial-gradient(120% 80% at 80% -10%, rgba(183,169,255,.22), transparent 55%),radial-gradient(90% 60% at 10% 5%, rgba(142,230,168,.10), transparent 50%),linear-gradient(180deg,#1b1e3a 0%,#14162b 60%,#101227 100%)"},
 ];
 const DEFAULT_PREFS={themeId:"clover",fontScale:"md",defaultReminderMinutes:15,primaryCalendar:"outlook",geminiApiKey:"",ocrQuotaDate:"",ocrQuotaUsed:0,notificationMode:"unset"};
-const FONT_PX={sm:15,md:16,lg:18};
+const FONT_PX={sm:16,md:18,lg:21};
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const pad=n=>String(n).padStart(2,"0");
 const uid=()=>Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,9);
@@ -390,32 +410,46 @@ function renderList(){
 }
 
 /* ===== 新增/編輯 ===== */
+let addContext="photo";
+function switchMode(m){addContext=m;$$("#add-mode button").forEach(b=>b.classList.toggle("on",b.dataset.m===m));$("#pane-paste").classList.toggle("hidden",m!=="paste");$("#pane-photo").classList.toggle("hidden",m!=="photo");$("#evt-form").classList.toggle("hidden",m!=="manual");$("#confirm-banner").classList.add("hidden");$("#photo-setup").classList.add("hidden");}
+function revealForm(){$("#evt-form").classList.remove("hidden");$("#confirm-banner").classList.remove("hidden");$("#confirm-banner").scrollIntoView({behavior:"smooth",block:"start"});}
+$$("#add-mode button").forEach(b=>b.onclick=()=>switchMode(b.dataset.m));
+$("#add-cancel").onclick=()=>show("v-cal");
+$("#photo-file").onchange=()=>{const f=$("#photo-file").files[0];$("#photo-name").textContent=f?("已選好照片："+f.name):"";};
 function openAdd(dateKey,editId){
-  show("v-add");switchMode("manual");const f=$("#evt-form");
+  show("v-add");const f=$("#evt-form");
   if(editId){const e=state.events.find(x=>x.id===editId);if(!e)return;
-    $("#add-title").textContent="編輯行程";$("#f-id").value=e.id;$("#f-title").value=e.title;
+    switchMode("manual");$("#add-title").textContent="編輯行程";$("#f-id").value=e.id;$("#f-title").value=e.title;
     $("#f-date").value=new Date(e.startAt).toLocaleDateString("en-CA");
     $("#f-start").value=(fmtTime(e.startAt)==="00:00"&&(!e.endAt||e.endAt===e.startAt))?"":fmtTime(e.startAt);
     $("#f-end").value=e.endAt&&e.endAt!==e.startAt?fmtTime(e.endAt):"";
     $("#f-loc").value=e.location;$("#f-notes").value=e.notes;setPrio(e.color);$("#f-remind").value=String(e.reminderMinutes||0);
     $("#f-delete").classList.remove("hidden");$("#f-delete").onclick=async()=>{if(confirm("確定刪除這筆行程？")){await dbDel(e.id);await reload();toast("已刪除");show("v-cal");}};
-  }else{$("#add-title").textContent="新增行程";f.reset();$("#f-id").value="";$("#f-date").value=dateKey||state.calSel||twToday();setPrio("medium");$("#f-remind").value=String(state.prefs.defaultReminderMinutes);$("#f-delete").classList.add("hidden");}
+  }else{
+    f.reset();$("#f-id").value="";$("#f-date").value=dateKey||state.calSel||twToday();setPrio("medium");$("#f-remind").value=String(state.prefs.defaultReminderMinutes);$("#f-delete").classList.add("hidden");$("#photo-name").textContent="";$("#photo-status").textContent="";$("#photo-file").value="";
+    if(dateKey){switchMode("manual");$("#add-title").textContent="手寫新增";}
+    else{switchMode("photo");$("#add-title").textContent="拍照加行程";}
+  }
 }
 function setPrio(v){state.formPrio=v;$$("#f-prio button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));}
 $$("#f-prio button").forEach(b=>b.onclick=()=>setPrio(b.dataset.v));
 $("#evt-form").onsubmit=async e=>{e.preventDefault();const date=$("#f-date").value;if(!$("#f-title").value.trim()||!date){toast("請填標題和日期");return;}
-  const start=$("#f-start").value,end=$("#f-end").value;
-  const raw={id:$("#f-id").value||undefined,title:$("#f-title").value,startAt:localInputToISO(date,start),endAt:localInputToISO(date,end||start||"00:00"),location:$("#f-loc").value,notes:$("#f-notes").value,color:state.formPrio,source:$("#f-id").value?undefined:"manual",reminderMinutes:Number($("#f-remind").value)};
-  if($("#f-id").value){const old=state.events.find(x=>x.id===$("#f-id").value);raw.createdAt=old?.createdAt;raw.source=old?.source;}
-  await upsert(raw);toast("已儲存 🍀");show("v-cal");};
-function switchMode(m){$$("#add-mode button").forEach(b=>b.classList.toggle("on",b.dataset.m===m));$("#pane-paste").classList.toggle("hidden",m!=="paste");$("#pane-photo").classList.toggle("hidden",m!=="photo");}
-$$("#add-mode button").forEach(b=>b.onclick=()=>switchMode(b.dataset.m));
+  const start=$("#f-start").value,end=$("#f-end").value,editing=!!$("#f-id").value;
+  const raw={id:$("#f-id").value||undefined,title:$("#f-title").value,startAt:localInputToISO(date,start),endAt:localInputToISO(date,end||start||"00:00"),location:$("#f-loc").value,notes:$("#f-notes").value,color:state.formPrio,source:editing?undefined:(addContext==="photo"?"ocr":addContext==="paste"?"paste":"manual"),reminderMinutes:Number($("#f-remind").value)};
+  if(editing){const old=state.events.find(x=>x.id===$("#f-id").value);raw.createdAt=old?.createdAt;raw.source=old?.source;}
+  await upsert(raw);
+  if(raw.reminderMinutes>0&&state.prefs.notificationMode!=="allowed"){const ok=await reqNotify();if(ok){state.prefs.notificationMode="allowed";savePrefs(state.prefs);scheduleAll();}}
+  if(!editing&&(addContext==="photo"||addContext==="paste")){switchMode(addContext);$("#f-title").value="";$("#f-loc").value="";$("#f-notes").value="";$("#paste-text").value="";$("#photo-name").textContent="";$("#photo-file").value="";toast("已存 🍀 可以接著下一張");}
+  else{toast("已存 🍀");show("v-cal");}
+};
 
 /* ===== 貼文字 / 拍照 ===== */
-$("#paste-parse").onclick=async()=>{const txt=$("#paste-text").value.trim();if(!txt){toast("請先貼上文字");return;}let p=null;if(state.prefs.geminiApiKey.trim()){try{p=await aiParse(txt,"text");}catch(e){toast("AI 解析失敗，改用內建規則");}}if(!p)p=localParse(txt);fillForm(p);switchMode("manual");toast("已帶入，確認後儲存");};
-function localParse(txt){const lines=txt.split(/\n/).map(s=>s.trim()).filter(Boolean);const title=(lines[0]||"新行程").slice(0,TITLE_MAX);let y=new Date().getFullYear(),mo=null,da=null;let md=txt.match(/(\d{4})[\/\-年](\d{1,2})[\/\-月](\d{1,2})/)||txt.match(/(\d{1,2})[\/月](\d{1,2})/);if(md){if(md.length===4){y=+md[1];mo=+md[2];da=+md[3];}else{mo=+md[1];da=+md[2];}}if(/今天/.test(txt)){const d=new Date();mo=d.getMonth()+1;da=d.getDate();}if(/明天/.test(txt)){const d=new Date(Date.now()+86400000);mo=d.getMonth()+1;da=d.getDate();}let hh=null,mm=0;const tm=txt.match(/(上午|下午|早上|晚上)?\s*(\d{1,2})[:：點時](\d{0,2})/);if(tm){hh=+tm[2];mm=tm[3]?+tm[3]:0;if(/(下午|晚上)/.test(tm[1]||"")&&hh<12)hh+=12;}const loc=(txt.match(/(?:在|地點[:：]?|＠|@)\s*([^\n，,。;；]{1,40})/)||[])[1]||"";return{title,date:(mo&&da)?`${y}-${pad(mo)}-${pad(da)}`:twToday(),start:hh!=null?`${pad(hh)}:${pad(mm)}`:"",end:"",location:loc.trim(),notes:""};}
+$("#paste-parse").onclick=async()=>{const txt=$("#paste-text").value.trim();if(!txt){toast("請先貼上文字");return;}let p=null;if(state.prefs.geminiApiKey.trim()){try{p=await aiParse(txt,"text");}catch(e){toast("線上認字失敗，改用內建規則");}}if(!p)p=localParse(txt);fillForm(p);revealForm();toast("認出來了，確認就存");};
+function localParse(txt){let work=" "+txt.replace(/\n/g," ")+" ";let y=new Date().getFullYear(),mo=null,da=null;let md=work.match(/(\d{4})[\/\-年](\d{1,2})[\/\-月](\d{1,2})日?/)||work.match(/(\d{1,2})[\/月](\d{1,2})日?/);if(md){if(md.length===4){y=+md[1];mo=+md[2];da=+md[3];}else{mo=+md[1];da=+md[2];}work=work.replace(md[0]," ");}if(/今天/.test(work)){const d=new Date();mo=d.getMonth()+1;da=d.getDate();work=work.replace(/今天/g," ");}if(/明天/.test(work)){const d=new Date(Date.now()+86400000);mo=d.getMonth()+1;da=d.getDate();work=work.replace(/明天/g," ");}let hh=null,mm=0;const tm=work.match(/(上午|下午|早上|晚上|中午)?\s*(\d{1,2})[:：點時](\d{0,2})分?/);if(tm){hh=+tm[2];mm=tm[3]?+tm[3]:0;if(/(下午|晚上)/.test(tm[1]||"")&&hh<12)hh+=12;if(/中午/.test(tm[1]||"")&&hh<12)hh=12;work=work.replace(tm[0]," ");}let loc="",titleHint="";const lm=work.match(/(?:在|地點[:：]?|＠|@)\s*([^\n，,。;；]{1,30})/);if(lm){let l=lm[1].trim();const vm=l.match(/^(.*?)(開會|開|召開|舉行|進行|討論|報告|參加)(.+)$/);if(vm&&vm[1].trim()){loc=vm[1].trim();titleHint=((vm[2]==="開會")?"開會":"")+vm[3];titleHint=titleHint.trim();}else loc=l;work=work.replace(lm[0]," ");}let title=titleHint||work.replace(/\s+/g," ").trim();title=title.replace(/^(開會|召開|舉行|進行|參加|開)\s*/,"").trim();title=(title||"新行程").slice(0,TITLE_MAX);return{title,date:(mo&&da)?`${y}-${pad(mo)}-${pad(da)}`:twToday(),start:hh!=null?`${pad(hh)}:${pad(mm)}`:"",end:"",location:loc,notes:""};}
 function fillForm(p){$("#f-title").value=p.title||"";$("#f-date").value=p.date||twToday();$("#f-start").value=p.start||"";$("#f-end").value=p.end||"";$("#f-loc").value=p.location||"";$("#f-notes").value=p.notes||"";setPrio(p.priority&&PRIO[p.priority]?p.priority:"medium");$("#f-remind").value=String(state.prefs.defaultReminderMinutes);}
-$("#photo-run").onclick=async()=>{const key=state.prefs.geminiApiKey.trim();if(!key){toast("請先到設定填入 AI 金鑰");show("v-set");return;}const file=$("#photo-file").files[0];if(!file){toast("請先選一張照片");return;}$("#photo-status").textContent="辨識中…";$("#photo-run").disabled=true;try{const b64=await fileToB64(file),p=await aiParse(b64,"image",file.type);fillForm(p);markQuota();switchMode("manual");$("#photo-status").textContent="";toast("辨識完成，確認後儲存 🍀");}catch(e){$("#photo-status").textContent="辨識失敗："+(e.message||e);}finally{$("#photo-run").disabled=false;}};
+async function runPhoto(){const file=$("#photo-file").files[0];if(!file){toast("請先拍照或選一張照片");return;}const key=state.prefs.geminiApiKey.trim();if(!key){$("#photo-setup").classList.remove("hidden");$("#photo-setup").scrollIntoView({behavior:"smooth",block:"center"});toast("第一次要先開通拍照認字（下方）");return;}$("#photo-status").textContent="認字中…請稍候";$("#photo-run").disabled=true;try{const b64=await fileToB64(file),p=await aiParse(b64,"image",file.type);fillForm(p);markQuota();$("#photo-status").textContent="";revealForm();toast("認出來了，確認就存 🍀");}catch(e){$("#photo-status").textContent="認字失敗，可改用『手寫』或再試一次（"+(e.message||e)+"）";}finally{$("#photo-run").disabled=false;}}
+$("#photo-run").onclick=runPhoto;
+$("#photo-key-save").onclick=async()=>{const k=$("#photo-key").value.trim();if(!k){toast("請先貼上辨識碼");return;}state.prefs.geminiApiKey=k;savePrefs(state.prefs);$("#photo-setup").classList.add("hidden");toast("開通完成 🍀");if($("#photo-file").files[0])runPhoto();};
 function fileToB64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(",")[1]);r.onerror=rej;r.readAsDataURL(file);});}
 async function aiParse(payload,kind,mime){const key=state.prefs.geminiApiKey.trim();if(!key)throw new Error("無金鑰");const prompt=`你是行程解析助手。從輸入抓出單一行程，只回傳 JSON（不要多餘文字）：{"title":"","date":"YYYY-MM-DD","start":"HH:MM","end":"HH:MM","location":"","notes":"","priority":"high|medium|low"}。找不到的欄位給空字串。今天是 ${twToday()}（台灣時間）。`;const parts=[{text:prompt}];if(kind==="image")parts.push({inline_data:{mime_type:mime||"image/jpeg",data:payload}});else parts.push({text:"\n輸入內容：\n"+payload});const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(key)}`;const r=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts}]})});if(!r.ok)throw new Error("API "+r.status);const j=await r.json(),txt=j?.candidates?.[0]?.content?.parts?.[0]?.text||"",mm=txt.match(/\{[\s\S]*\}/);if(!mm)throw new Error("無法解析回應");return JSON.parse(mm[0]);}
 function markQuota(){const t=twToday(),p=state.prefs;p.ocrQuotaUsed=(p.ocrQuotaDate===t?p.ocrQuotaUsed:0)+1;p.ocrQuotaDate=t;savePrefs(p);}
@@ -426,14 +460,14 @@ function renderSettings(){
   $("#set-body").innerHTML=`
   <div class="ptitle">設定</div>
   <section class="card" style="padding:1rem;margin-bottom:1.4rem">
-    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem"><span>🔑</span><b>AI 辨識金鑰（拍照辨識）</b></div>
-    <p class="list-note" style="margin-bottom:.7rem">填入自己的 Google AI 金鑰即可拍照辨識，<b>不限次數</b>。金鑰只存在這台裝置，不外傳。未填也能手動新增、貼文字解析（不花錢）。</p>
-    <span class="badge ${keySet?'b-green':'b-amber'}">${keySet?'已設定 · 辨識不限次數':'未設定 · 拍照需金鑰'}</span>
-    <label class="field" style="margin-top:.8rem"><span>API Key</span>
-      <div style="position:relative"><input id="s-key" type="password" value="${esc(p.geminiApiKey)}" placeholder="貼上 AIza... 開頭的金鑰" autocomplete="off" spellcheck="false" style="font-family:monospace;padding-right:2.6rem">
+    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem"><span>📸</span><b>拍照認字（幫照片認出時間地點）</b></div>
+    <p class="list-note" style="margin-bottom:.7rem">要用「拍照加行程」，需要一組免費的辨識碼（只設定一次）。點下面免費申請、複製貼進來就好。不想弄也沒關係——「貼文字」和「手寫」不用設定、也不花錢。</p>
+    <span class="badge ${keySet?'b-green':'b-amber'}">${keySet?'✅ 已開通 · 可以拍照認字':'尚未開通 · 拍照需先設定一次'}</span>
+    <label class="field" style="margin-top:.8rem"><span>辨識碼</span>
+      <div style="position:relative"><input id="s-key" type="password" value="${esc(p.geminiApiKey)}" placeholder="把申請到的一串碼貼在這" autocomplete="off" spellcheck="false" style="font-family:monospace;padding-right:2.6rem">
       <button id="s-key-eye" type="button" style="position:absolute;right:.6rem;top:50%;transform:translateY(-50%)">👁</button></div></label>
-    <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" class="list-note" style="display:inline-block;margin-bottom:.6rem">前往 Google AI Studio 免費申請金鑰 →</a>
-    <div class="row"><button id="s-key-save" class="btn-grad grow">儲存金鑰</button>${keySet?'<button id="s-key-clear" class="btn-soft">清除</button>':''}</div>
+    <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" class="list-note" style="display:inline-block;margin-bottom:.6rem">→ 免費申請辨識碼（Google AI Studio）</a>
+    <div class="row"><button id="s-key-save" class="btn-grad grow">存好辨識碼</button>${keySet?'<button id="s-key-clear" class="btn-soft">清除</button>':''}</div>
   </section>
 
   <div class="set-sec"><div class="slabel">外觀主題</div>
@@ -444,42 +478,41 @@ function renderSettings(){
     <div class="seg">${["sm","md","lg"].map(s=>`<button data-fs="${s}" class="${p.fontScale===s?'on':''}">${s==='sm'?'小':s==='md'?'中':'大'}</button>`).join("")}</div>
   </div>
 
-  <div class="set-sec"><div class="slabel">預設提醒</div>
+  <div class="set-sec"><div class="slabel">開會提醒</div>
+    <p class="list-note" style="margin:.2rem 0 .5rem">在新增行程時選了「幾分鐘前提醒」，App 會在開會前跳通知給你。第一次會問你要不要「允許通知」，按允許就會響。</p>
     <select id="s-remind" ${p.notificationMode!=='allowed'?'disabled':''}>${[5,15,30,60].map(n=>`<option value="${n}" ${p.defaultReminderMinutes===n?'selected':''}>新行程預設 ${n} 分鐘前提醒</option>`).join("")}</select>
     <section class="card" style="padding:1rem;margin-top:.7rem">
-      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem"><b>行程提醒</b> <span class="badge ${p.notificationMode==='allowed'?'b-green':'b-amber'}">${p.notificationMode==='allowed'?'已允許':p.notificationMode==='blocked'?'已封鎖':'尚未設定'}</span></div>
-      <p class="list-note" style="margin-bottom:.6rem">${p.notificationMode==='allowed'?'已開啟提醒。若瀏覽器詢問請點「允許」。':p.notificationMode==='blocked'?'已關閉提醒，不會收到任何通知。':'尚未啟用提醒。選「已允許」即可開始使用。'}</p>
-      <div class="seg">${[["allowed","已允許"],["blocked","已封鎖"],["unset","尚未設定"]].map(([v,l])=>`<button data-nm="${v}" class="${p.notificationMode===v?'on':''}">${l}</button>`).join("")}</div>
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem"><b>通知開關</b> <span class="badge ${p.notificationMode==='allowed'?'b-green':'b-amber'}">${p.notificationMode==='allowed'?'已開啟':p.notificationMode==='blocked'?'已關閉':'尚未開啟'}</span></div>
+      <p class="list-note" style="margin-bottom:.6rem">${p.notificationMode==='allowed'?'提醒已開啟，開會前會跳通知。':p.notificationMode==='blocked'?'提醒已關閉，不會收到通知。可隨時改回「開啟」。':'還沒開啟提醒。按「開啟」就能開始收到開會通知。'}</p>
+      <div class="seg">${[["allowed","開啟"],["blocked","關閉"],["unset","先不要"]].map(([v,l])=>`<button data-nm="${v}" class="${p.notificationMode===v?'on':''}">${l}</button>`).join("")}</div>
     </section>
   </div>
 
-  <div class="set-sec"><div class="slabel">匯出行事曆</div>
-    <select id="s-cal"><option value="outlook" ${p.primaryCalendar==='outlook'?'selected':''}>企業郵件行事曆（.ics）</option><option value="google" ${p.primaryCalendar==='google'?'selected':''}>雲端行事曆（.ics）</option><option value="app_only" ${p.primaryCalendar==='app_only'?'selected':''}>僅保留在本 App</option></select>
-    <ul class="list-note" style="margin-top:.5rem"><li>匯出 .ics 後可用手機日曆或 Outlook 開啟加入</li><li>公司會議建議 Outlook，個人行程可選雲端行事曆</li></ul>
+  <div class="set-sec"><div class="slabel">把行程存成檔案</div>
+    <p class="list-note" style="margin:.2rem 0 .5rem">可以把行程存成一個行事曆檔案（.ics），用手機內建日曆、Outlook 或 Google 日曆打開就能加進去。（這是「存成檔案」，不是即時同步；之後在這裡改了行程，那邊不會自動變。）</p>
+    ${state.events.length?`<button id="s-export" class="btn-grad w100" style="margin-bottom:.5rem">⬇️ 存成行事曆檔案（.ics）</button><button id="s-share" class="btn-soft w100">🔗 用文字分享行程</button>`:`<section class="card day"><div class="empty" style="padding:18px"><p>還沒有行程可以存，先加一筆吧 🍀</p></div></section>`}
   </div>
 
-  <div class="set-sec">${state.events.length?`<button id="s-export" class="btn-grad w100" style="margin-bottom:.5rem">⬇️ 匯出全部行程（.ics）</button><button id="s-share" class="btn-soft w100">🔗 分享行程文字</button>`:`<section class="card day"><div class="empty" style="padding:18px"><p>尚無行程可匯出，先新增會議吧 🍀</p></div></section>`}</div>
-
   <section class="card" style="padding:1rem;margin-bottom:1.4rem">
-    <b>裝置同步（A → B）</b>
-    <p class="list-note" style="margin:.4rem 0 .7rem">資料不上雲。A 裝置匯出後，B 裝置匯入本機資料庫完成合併。</p>
-    <div class="slabel">A 裝置：匯出</div>
-    <button id="s-bk-save" class="btn-grad w100" style="margin-bottom:.4rem">💾 儲存到本機備份庫（${state.events.length} 場）</button>
-    <button id="s-bk-dl" class="btn-soft w100" style="margin-bottom:.9rem">📄 下載備份檔（跨裝置傳輸）</button>
-    <div class="slabel">B 裝置：匯入</div>
+    <b>備份 / 換手機</b>
+    <p class="list-note" style="margin:.4rem 0 .7rem">行程只存在這支手機裡（不上雲）。要換手機、或怕不見，就存一個備份檔傳到新手機，再讀回來。</p>
+    <div class="slabel">這支手機：存備份</div>
+    <button id="s-bk-save" class="btn-grad w100" style="margin-bottom:.4rem">💾 先存一份在這支手機（${state.events.length} 場）</button>
+    <button id="s-bk-dl" class="btn-soft w100" style="margin-bottom:.9rem">📄 下載備份檔（傳到別支手機用）</button>
+    <div class="slabel">另一支手機：讀回來</div>
     <p class="list-note" style="margin-bottom:.4rem">${backupInfo()}</p>
-    <button id="s-bk-local" class="btn-grad w100" style="margin-bottom:.4rem" ${localStorage.getItem(BACKUP_KEY)?'':'disabled'}>📥 從本機備份庫匯入</button>
+    <button id="s-bk-local" class="btn-grad w100" style="margin-bottom:.4rem" ${localStorage.getItem(BACKUP_KEY)?'':'disabled'}>📥 讀回這支手機存的備份</button>
     <input type="file" id="s-bk-file" accept=".json,application/json" class="hidden">
-    <button id="s-bk-pick" class="btn-soft w100">📂 選擇備份檔匯入</button>
+    <button id="s-bk-pick" class="btn-soft w100">📂 讀入別支傳來的備份檔</button>
   </section>
 
   <section class="card" style="padding:1rem;margin-bottom:1.4rem">
-    <p class="list-note">行程資料儲存在此裝置瀏覽器（IndexedDB），不會上傳雲端。這也代表：換瀏覽器或清除資料前，記得先用上方「裝置同步」備份。</p>
+    <p class="list-note">你記的行程只存在這支手機的瀏覽器裡，不會上傳雲端，別人看不到。換手機或清除瀏覽器資料前，記得先用上面「備份」存一份。</p>
   </section>
 
   <section class="card" style="padding:1rem">
     <b>關於</b>
-    <p class="list-note" style="margin-top:.4rem">四葉草行事曆 🍀｜拍照辨識、本機行程、匯出行事曆。單一檔案、免安裝、離線可用、記行程完全免費。</p>
+    <p class="list-note" style="margin-top:.4rem">四葉草行事曆 🍀｜拍照加行程、行程只存這支手機、可存成行事曆檔案。單一檔案、免安裝、離線可用、記行程完全免費。</p>
     <p class="list-note" style="margin-top:.5rem"><a href="#" id="s-install">📲 如何安裝到手機主畫面</a></p>
   </section>`;
   bindSettings();
@@ -494,7 +527,6 @@ function bindSettings(){
   $$("[data-fs]").forEach(b=>b.onclick=()=>{p.fontScale=b.dataset.fs;savePrefs(p);applyTheme();renderSettings();});
   $("#s-remind")&&($("#s-remind").onchange=e=>{p.defaultReminderMinutes=Number(e.target.value);savePrefs(p);});
   $$("[data-nm]").forEach(b=>b.onclick=async()=>{const v=b.dataset.nm;if(v==="allowed")await reqNotify();p.notificationMode=v;savePrefs(p);scheduleAll();renderSettings();});
-  $("#s-cal").onchange=e=>{p.primaryCalendar=e.target.value;savePrefs(p);};
   $("#s-export")&&($("#s-export").onclick=()=>exportICS(state.events));
   $("#s-share")&&($("#s-share").onclick=()=>shareText(state.events));
   $("#s-bk-save").onclick=()=>{const b=makeBackup(state.events);localStorage.setItem(BACKUP_KEY,JSON.stringify(b));toast(`已存到本機備份庫（${b.events.length} 場）`);renderSettings();};
@@ -514,7 +546,7 @@ async function importBackupText(text){const r=parseBackup(text);if(!r.ok){toast(
 
 /* ===== .ics / 分享 ===== */
 function icsEsc(s){return(s||"").replace(/\\/g,"\\\\").replace(/\n/g,"\\n").replace(/,/g,"\\,").replace(/;/g,"\\;");}
-function icsDate(iso){const d=new Date(iso);return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;}
+function icsDate(iso){const d=new Date(iso);return `${d.getUTCFullYear()}${pad(d.getUTCMonth()+1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}${pad(d.getUTCSeconds())}Z`;}
 function buildICS(events){let l=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//clover-cal//TW//ZH","CALSCALE:GREGORIAN"];for(const e of events){l.push("BEGIN:VEVENT","UID:"+icsEsc(e.id)+"@clover-cal","DTSTAMP:"+icsDate(nowISO()),"DTSTART:"+icsDate(e.startAt),"DTEND:"+icsDate(e.endAt),"SUMMARY:"+icsEsc(e.title));if(e.location)l.push("LOCATION:"+icsEsc(e.location));if(e.notes)l.push("DESCRIPTION:"+icsEsc(e.notes));if(e.reminderMinutes>0)l.push("BEGIN:VALARM","ACTION:DISPLAY","TRIGGER:-PT"+e.reminderMinutes+"M","DESCRIPTION:行程提醒","END:VALARM");l.push("END:VEVENT");}l.push("END:VCALENDAR");return l.join("\r\n");}
 function exportICS(events){if(!events.length){toast("目前沒有行程可匯出");return;}const blob=new Blob([buildICS(events)],{type:"text/calendar"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="行程.ics";a.click();URL.revokeObjectURL(url);toast(`已下載 .ics（${events.length} 場）`);}
 function eventsToText(events){return events.slice().sort((a,b)=>new Date(a.startAt)-new Date(b.startAt)).map(e=>`📅 ${e.title}\n🕐 ${fmtFull(e.startAt)} ${fmtTime(e.startAt)}${e.location?"\n📍 "+e.location:""}`).join("\n\n");}
