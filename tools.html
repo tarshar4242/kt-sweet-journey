@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TARSHAR 工具集｜免費線上小工具：隨身口譯機</title>
+<title>TARSHAR 工具集｜課堂抽獎、倒數計時、QR 產生器、封面圖、口譯機</title>
 <meta name="description" content="Tarshar 與 AI 一起打造的免費線上工具箱：每一樣都是單一用途、點進來就能直接完成一件事的小工具。瀏覽器打開就能用，免安裝、免註冊，新工具持續增加中。">
 <meta name="theme-color" content="#0e91ad">
 <meta property="og:type" content="website">
@@ -205,7 +205,7 @@ footer a{font-weight:700}
 </header>
 
 <div class="toolbar">
-  <div class="search">🔍<input type="search" id="q" placeholder="搜尋工具：口譯⋯"></div>
+  <div class="search">🔍<input type="search" id="q" placeholder="搜尋工具：抽獎、倒數、QR、封面⋯"></div>
   <div class="chips" id="chips"></div>
   <p class="count-line" id="countLine"></p>
   <p class="count-line" style="margin-top:.3rem">標示說明：✅ 免費即用｜⚡ 本機運算（免費，速度看你的設備）｜🔑 需自備 AI 金鑰（工具內會教你怎麼申請）</p>
@@ -242,22 +242,108 @@ footer a{font-weight:700}
    「開始使用前」必須先跳出白話提示說明要準備什麼、會發生什麼。 */
 const TOOLS = [
   {
+    icon:'🎡', tint:'#fdeee2', tintD:'#3a2718',
+    name:'課堂抽獎神器', cat:'random', cost:'free',
+    desc:'點名不尷尬，中獎的是命運不是我。幸運轉盤、抽籤、隨機分組三合一，名單記得住、中過獎的可以排除，連抽多輪不重複。',
+    tags:['幸運轉盤','隨機分組','名單記憶'],
+    href:'tool-lottery.html'
+  },
+  {
+    icon:'⏰', tint:'#faf3d9', tintD:'#332a10',
+    name:'課堂倒數計時器', cat:'time', cost:'free',
+    desc:'討論五分鐘，是真的五分鐘。全螢幕大字倒數、最後十秒變紅提醒、溫柔版鈴聲、螢幕不休眠，投影幕後排也看得到。',
+    tags:['全螢幕','防休眠','碼表'],
+    href:'tool-timer.html'
+  },
+  {
     icon:'🎙', tint:'#e0f2f7', tintD:'#12333d',
     name:'隨身口譯機', cat:'voice', cost:'free',
     desc:'即時中日雙語口譯：點進來按下麥克風就能用——自動辨識你說的語言、雙區大字顯示、逐字稿留存。旅行、會話場景直接開。',
     tags:['語音辨識','中↔日','即時'],
     href:'interpreter.html'
+  },
+  {
+    icon:'🎤', tint:'#e3f4f8', tintD:'#123742',
+    name:'語音速記器', cat:'voice', cost:'free',
+    desc:'用講的比用打的快，嘴巴就是鍵盤。一直講一直記，自動接成同一篇筆記，隨時複製或下載，重新整理也不會不見。',
+    tags:['說話變文字','累積筆記','一鍵複製'],
+    href:'tool-voice-notes.html'
+  },
+  {
+    icon:'✍️', tint:'#e6f4ea', tintD:'#16321e',
+    name:'空白換行轉換器', cat:'text', cost:'free',
+    desc:'貼文空行老是被 FB、IG、Threads 偷吃掉？貼進來施展防吃咒，空行一格都不會少，還有還原模式可以把隱形字元清乾淨。',
+    tags:['防吃空行','FB/IG/Threads','一鍵複製'],
+    href:'tool-linebreak.html'
+  },
+  {
+    icon:'🎬', tint:'#efeafa', tintD:'#251c3d',
+    name:'SRT 字幕轉逐字稿', cat:'text', cost:'free',
+    desc:'時間碼掰掰，逐字稿直接帶走。丟進字幕檔自動去時間碼、智慧併段，還有每分鐘一個時間戳的重點版，回看影片超方便。',
+    tags:['SRT/VTT','智慧分段','下載txt'],
+    href:'tool-srt.html'
+  },
+  {
+    icon:'✉️', tint:'#fdeaf1', tintD:'#3a1725',
+    name:'Email 美化編輯器', cat:'text', cost:'free',
+    desc:'Markdown 進，漂亮信出，老闆以為你會排版。左邊打字右邊即時預覽，一鍵複製貼進 Gmail 直接帶格式，還有 LINE 純文字版。',
+    tags:['Markdown','Gmail 格式','內建範本'],
+    href:'tool-email-md.html'
+  },
+  {
+    icon:'📱', tint:'#e8f0f8', tintD:'#152a3d',
+    name:'QR Code 產生器', cat:'convert', cost:'free',
+    desc:'網址太長唸不出來？掃一下就到。高解析 QR 投影不糊，還有海報模式：大字標題＋掃碼圖一次生好，印出來貼教室門口。',
+    tags:['高解析','海報模式','🍀 圖章'],
+    href:'tool-qrcode.html'
+  },
+  {
+    icon:'🖼️', tint:'#fdf3e2', tintD:'#3a2c12',
+    name:'封面圖產生器', cat:'image', cost:'free',
+    desc:'不會 Canva 也沒關係，打字就有封面。FB、IG、YouTube、簡報四種尺寸，字太長自動排好不爆版，挑個漸層按下載就完工。',
+    tags:['四種尺寸','自動排版','品牌漸層'],
+    href:'tool-cover.html'
+  },
+  {
+    icon:'🪞', tint:'#eef7e8', tintD:'#1e3317',
+    name:'Before/After 對比展示器', cat:'image', cost:'free',
+    desc:'左邊是昨天的你，右邊是學會 AI 的你。兩張圖拉滑桿對比，可以匯出並排對比圖，還能打包成互動網頁傳給別人玩。',
+    tags:['滑桿對比','匯出圖','互動網頁'],
+    href:'tool-beforeafter.html'
+  },
+  {
+    icon:'✨', tint:'#e3f4f8', tintD:'#123742',
+    name:'AI 圖片浮水印修復器', cat:'image', cost:'free',
+    desc:'圖不出門，角落那朵小星星自己消失。智慧修補或裁切避開兩種方式，處理自己 AI 生成圖的角落標記，圖片全程不上傳。',
+    tags:['智慧修補','批次處理','不上傳'],
+    href:'tool-watermark.html'
+  },
+  {
+    icon:'💱', tint:'#e6f4ea', tintD:'#16321e',
+    name:'貨幣轉換器', cat:'convert', cost:'free',
+    desc:'出國前算一下，回國後不心痛。免費匯率即時換算，斷網也能用上次的匯率，還附旅日小抄：這筆錢等於幾碗一蘭拉麵。',
+    tags:['免費匯率','旅日小抄','離線可用'],
+    href:'tool-currency.html'
+  },
+  {
+    icon:'🤖', tint:'#fdeadd', tintD:'#3a2213',
+    name:'AI 留言分析器', cat:'ai', cost:'key',
+    desc:'三百則留言不用一則一則看，AI 幫你先讀完。留言整坨貼進來，情緒統計、主題分類、值得回覆的都幫你挑好，附白話金鑰教學。',
+    tags:['情緒統計','主題分類','匯出CSV'],
+    href:'tool-comments-ai.html'
   }
 ];
 
 /* 分類主檔：晶片只會顯示「目前有工具」的分類，先留著的不會出現 */
 const CATS = [
   {key:'all',       label:'✨ 全部'},
+  {key:'random',    label:'🎲 抽選'},
+  {key:'time',      label:'⏰ 時間'},
   {key:'voice',     label:'🎙 語音'},
   {key:'text',      label:'✍️ 文字'},
   {key:'image',     label:'🎨 圖片'},
   {key:'convert',   label:'🔄 轉換'},
-  {key:'random',    label:'🎲 抽選'}
+  {key:'ai',        label:'🤖 AI 幫手'}
 ];
 
 const COST_LABEL = {free:'✅ 免費即用', device:'⚡ 本機運算', key:'🔑 需自備金鑰'};
