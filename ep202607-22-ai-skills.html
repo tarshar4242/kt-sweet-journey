@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NotebookLM 最新 Agentic 功能｜互動式學習地圖</title>
-<meta name="description" content="EP202607.20：NotebookLM 既有功能與 AI Agent 復刻六步驟、更名為 Gemini Notebook 的生態系整合、Gemini 兩大功能、NotebookLM Agentic Pack 懶人包安裝與 4 個研究 Skill，互動式多層次學習地圖">
+<title>生成式AI簡報工具｜互動式學習地圖</title>
+<meta name="description" content="EP202607.22：Gemini/ChatGPT/Claude/NotebookLM/Gamma/Manus六種AI簡報工具、YAML套版技巧、Canva魔法圖層解構、HTML風格簡報Bonus，互動式多層次學習地圖">
 <style>
 :root{
   --bg:#ffffff; --bg2:#F7F6F3; --panel:#ffffff; --panel2:#F7F6F3;
   --line:#E7E6E3; --line2:#DBD9D5;
   --txt:#191919; --txt2:#5f5f5f; --txt3:#9B9B9B;
   --cyan:#2f7d92; --blue:#3b6bb0; --purple:#5645D4; --pink:#b25269;
-  --green:#3f8560; --orange:#bf6a1e; --red:#c0453f; --teal:#0d8f80; --amber:#9c7b23;
-  --feat:#2f7d92; --feat2:color-mix(in srgb,var(--feat) 55%,#fff);
+  --green:#3f8560; --orange:#bf6a1e; --red:#c0453f; --teal:#0d8f80; --amber:#9c7b23; --rose:#b23a5b;
+  --feat:#b23a5b; --feat2:color-mix(in srgb,var(--feat) 55%,#fff);
   --radius:12px; --maxw:1080px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -106,8 +106,6 @@ table.cmp td{padding:9px 12px;border:1px solid var(--line);line-height:1.7}
 .callout.tip{background:#EDF7F1;border:1px solid #CBE6D5;color:#166a4c}
 .callout.warn{background:#FBF7EC;border:1px solid #EFE3C4;color:#7a5b12}
 .callout .ic{font-size:17px}
-.prompt,.promptbox{background:#1d1d1f;border:1px solid #2c2c31;border-radius:10px;padding:13px 15px;margin-top:6px;font-size:13px;line-height:1.85;color:#e6e6ea;white-space:pre-wrap;font-family:"Cascadia Code",Consolas,"Noto Sans TC",monospace}
-.prompt b,.promptbox b{color:#fff}
 figure.shot{margin:10px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
 figure.shot img{display:block;width:100%;height:auto}
 figure.shot figcaption{font-size:12.5px;color:var(--txt3);padding:9px 14px;border-top:1px solid var(--line);background:var(--bg2);line-height:1.7}
@@ -143,26 +141,26 @@ footer .heart{color:var(--pink)}
 <div class="stars" id="stars"></div>
 
 <header class="top">
-  <a class="navlink" href="lessons.html#radio" style="border-color:#a8cdd6">🏠 回筆記館入口</a>
+  <a class="navlink" href="lessons.html#radio" style="border-color:#e3b2c1">🏠 回筆記館入口</a>
   <div class="logo">
-    <div class="dot">📓</div>
-    <div>NotebookLM Agentic 地圖<small>YEAR-MID LEARNING · EP202607.20</small></div>
+    <div class="dot">🎨</div>
+    <div>簡報工具地圖<small>YEAR-MID LEARNING · EP202607.22</small></div>
   </div>
   <div class="searchbox">
     <span class="icon">🔍</span>
-    <input id="searchInput" type="search" placeholder="搜尋技能關鍵字：Agentic、Gemini Notebook、懶人包…" autocomplete="off">
+    <input id="searchInput" type="search" placeholder="搜尋技能關鍵字：YAML、套版、魔法圖層、Agent…" autocomplete="off">
   </div>
-  <a class="navlink" href="ep202607-20-notes.html">📝 課堂筆記</a>
+  <a class="navlink" href="ep202607-22-notes.html">📝 課堂筆記</a>
 </header>
 
 <section class="hero">
-  <span class="ep">EP202607.20 · 年中共學 · 2026/07/20</span>
-  <h1>NotebookLM 最新 Agentic 功能<br>打造你的 AI 研究助理</h1>
-  <p class="sub">既有六大功能怎麼被 AI Agent 拆成六步驟復刻，加上 Google 把 NotebookLM 整合升級為 Gemini Notebook 的完整生態系變化。<br>點進每一章，逐層展開<b>本集實際教到</b>的概念與懶人包安裝說明，學會一項就打一個勾。</p>
+  <span class="ep">EP202607.22 · 年中共學 · 2026/07/22</span>
+  <h1>生成式AI簡報工具<br>一次掌握 6 種簡報工具</h1>
+  <p class="sub">Gemini、ChatGPT、Claude、NotebookLM、Gamma、Manus，各有各的定位與眉角——外加 PowerPoint AI Agent 與 HTML 風格簡報兩個 Bonus。<br>點進每一章，逐層展開<b>本集實際教到</b>的工具特性與實戰技巧，學會一項就打一個勾。</p>
   <div class="meta">
     <span>🎙️ 生成式AI應用電台・年中共學</span>
-    <span>📓 Gemini Notebook</span>
-    <span>🤖 Agentic 六步驟</span>
+    <span>🎨 6 種工具＋2 個 Bonus</span>
+    <span>📐 YAML 套版技巧</span>
     <span>✅ 進度自動記憶（本機瀏覽器）</span>
   </div>
 </section>
@@ -187,122 +185,141 @@ footer .heart{color:var(--pink)}
 
   <section id="view-home" class="view active">
     <div class="grid">
-      <div class="card" style="--c:var(--cyan)" onclick="showChapter('agentic')">
-        <div class="glowline"></div><span class="emoji">🤖</span>
-        <h3><em>CHAPTER 01</em>既有功能＋Agent 六步驟</h3>
-        <p>NotebookLM 既有六大功能，怎麼被 AI Agent 拆成可操作的六個步驟。</p>
-        <div class="foot"><div class="mini"><i data-mini="agentic"></i></div><span class="go">進入 ›</span></div>
+      <div class="card" style="--c:var(--blue)" onclick="showChapter('gengpt')">
+        <div class="glowline"></div><span class="emoji">💬</span>
+        <h3><em>CHAPTER 01</em>Gemini＋ChatGPT 系列</h3>
+        <p>Canvas／問問Gemini／Nano banana，以及 ChatGPT 四大功能與套版、16:9分頁技巧。</p>
+        <div class="foot"><div class="mini"><i data-mini="gengpt"></i></div><span class="go">進入 ›</span></div>
       </div>
-      <div class="card" style="--c:var(--blue)" onclick="showChapter('rename')">
-        <div class="glowline"></div><span class="emoji">📓</span>
-        <h3><em>CHAPTER 02</em>更名為 Gemini Notebook</h3>
-        <p>整合 Gemini、Google 搜尋、Google 生態系、安全雲端電腦與程式碼執行能力。</p>
-        <div class="foot"><div class="mini"><i data-mini="rename"></i></div><span class="go">進入 ›</span></div>
+      <div class="card" style="--c:var(--purple)" onclick="showChapter('claudenb')">
+        <div class="glowline"></div><span class="emoji">🧩</span>
+        <h3><em>CHAPTER 02</em>Claude系列＋NotebookLM</h3>
+        <p>Claude 的 PowerPoint Agent 雙重門檻、NotebookLM 的 YAML 套版與 Canva 魔法圖層解構。</p>
+        <div class="foot"><div class="mini"><i data-mini="claudenb"></i></div><span class="go">進入 ›</span></div>
       </div>
-      <div class="card" style="--c:var(--amber)" onclick="showChapter('gemini2')">
+      <div class="card" style="--c:var(--teal)" onclick="showChapter('gammanus')">
+        <div class="glowline"></div><span class="emoji">🚀</span>
+        <h3><em>CHAPTER 03</em>Gamma＋Manus＋Bonus</h3>
+        <p>老牌 Gamma 追上 Agent 浪潮、Manus 轉點數收費、HTML 風格簡報示範。</p>
+        <div class="foot"><div class="mini"><i data-mini="gammanus"></i></div><span class="go">進入 ›</span></div>
+      </div>
+      <div class="card" style="--c:var(--rose)" onclick="showChapter('qatips')">
         <div class="glowline"></div><span class="emoji">💡</span>
-        <h3><em>CHAPTER 03</em>Gemini 兩大功能＋缺點</h3>
-        <p>整理思路 vs 讀書與學習，以及目前的兩個限制：幻覺與無法分享。</p>
-        <div class="foot"><div class="mini"><i data-mini="gemini2"></i></div><span class="go">進入 ›</span></div>
-      </div>
-      <div class="card" style="--c:var(--green)" onclick="showChapter('pack')">
-        <div class="glowline"></div><span class="emoji">📦</span>
-        <h3><em>CHAPTER 04</em>懶人包安裝與 4 個 Skill</h3>
-        <p>NotebookLM MCP + 4 個研究 Skill，串成完整證據鏈研究工作流。</p>
-        <div class="foot"><div class="mini"><i data-mini="pack"></i></div><span class="go">進入 ›</span></div>
+        <h3><em>CHAPTER 04</em>真實 Q&A＋實戰心法</h3>
+        <p>學員直播現場提問與解法，加上版權措辭、給資料等實戰建議。</p>
+        <div class="foot"><div class="mini"><i data-mini="qatips"></i></div><span class="go">進入 ›</span></div>
       </div>
     </div>
 
     <div class="resources">
       <h3>📦 <span>課程原始資料</span></h3>
       <div class="res-grid">
-        <a href="ep202607-20-notes.html"><span class="ic">📝</span><span><b>課堂筆記</b>逐頁嵌入 10 張簡報原圖</span></a>
+        <a href="ep202607-22-notes.html"><span class="ic">📝</span><span><b>課堂筆記</b>逐頁嵌入簡報原圖＋真實逐字稿與截圖</span></a>
         <a href="lessons.html#radio"><span class="ic">📻</span><span><b>直播電台系列</b>回系列總覽，一集一卡</span></a>
-        <a href="https://github.com/jacob-bd/notebooklm-mcp-cli" target="_blank" rel="noopener"><span class="ic">🔗</span><span><b>notebooklm-mcp-cli</b>上游 GitHub 專案</span></a>
+        <a href="ep202607-20-notes.html"><span class="ic">📓</span><span><b>相關集數</b>NotebookLM Agentic 功能</span></a>
       </div>
     </div>
   </section>
 
-  <section id="view-agentic" class="view" style="--c:var(--cyan)"></section>
-  <section id="view-rename" class="view" style="--c:var(--blue)"></section>
-  <section id="view-gemini2" class="view" style="--c:var(--amber)"></section>
-  <section id="view-pack" class="view" style="--c:var(--green)"></section>
+  <section id="view-gengpt" class="view" style="--c:var(--blue)"></section>
+  <section id="view-claudenb" class="view" style="--c:var(--purple)"></section>
+  <section id="view-gammanus" class="view" style="--c:var(--teal)"></section>
+  <section id="view-qatips" class="view" style="--c:var(--rose)"></section>
 </main>
 
 <footer>
-  本頁為 EP202607.20「NotebookLM 最新 Agentic 功能」課後整理・介面沿用本站互動式學習地圖<br>
+  本頁為 EP202607.22「生成式AI簡報工具」課後整理・介面沿用本站互動式學習地圖<br>
   🍀 Learn AI with Tarshar <span class="heart">♥</span> 2026｜進度僅存於本機瀏覽器 localStorage
 </footer>
 
 <script>
 const DATA = {
-  agentic: {
-    key:'agentic', color:'var(--cyan)', emoji:'🤖', code:'CHAPTER 01', title:'既有功能＋Agent 六步驟',
-    intro:'先搞懂 NotebookLM 既有六大功能，再看怎麼被 AI Agent 拆成可操作步驟。',
+  gengpt: {
+    key:'gengpt', color:'var(--blue)', emoji:'💬', code:'CHAPTER 01', title:'Gemini＋ChatGPT 系列',
+    intro:'從最簡單的 Gemini 三種應用開始，再到 ChatGPT 的四大功能與套版技巧。',
     topics:[
-      {t:'既有六大功能', s:'上傳／摘要／問答／筆記／引用／音訊｜簡報封面',
+      {t:'Gemini 簡報系列：Canvas／問問Gemini／Nano banana', s:'三種應用一次認識｜簡報 2-4',
        blocks:[
-        {h:'六大功能',table:{head:['功能','說明'],rows:[['上傳與整合來源','文件、PDF、網頁、YouTube、文字等'],['資料理解與摘要','快速摘要重點、解釋概念、回答問題'],['互動問答','根據來源回答問題，深入追問更理解'],['筆記／筆記本','整理重點、建立筆記與想法，持續累積知識'],['引用來源','答案皆附上來源引用，降低幻覺風險'],['音訊概述','將重點轉換為對話式音訊摘要，方便聆聽']]}},
-        {h:'看課堂筆記',shot:{img:'ep202607-20-img/s1-overview.jpg',cap:'簡報封面｜既有功能與 Agent 操作對照'}},
-        {h:'看課堂筆記',p:'👉 <a href="ep202607-20-notes.html#sec-existing" style="color:var(--cyan)">筆記 1：既有六大功能</a>'}]},
-      {t:'Agent 復刻六步驟', s:'匯入→解析→產生→追問→輸出→標註｜簡報封面',
+        {h:'三種應用',ul:['<b>Canvas</b>：對話框輸入需求，開啟畫布連接 Google 簡報，做完直接放在 Google 簡報裡，可輸出 PPTX 編輯。','<b>問問 Gemini</b>：用對話協助發想、整理與問答——靈感發想、重點整理、快速問答。','<b>Nano banana</b>：輕量創意工具，快速延伸視覺靈感——創意延伸、視覺發想、快速生成，也是 GPT Image 2.0 出現前大家做逐頁簡報的主力工具。']},
+        {h:'講師老實評價',p:'Canvas 做出來「非常非常陽春，就像比較商務型再陽春一點的簡報」，但免費堪用；Nano Banana 對繁體中文的反向提示詞（不要模糊、不要多餘筆劃）吃得很準，GPT 反而不太理會。'},
+        {h:'看課堂筆記',shot:{img:'ep202607-22-img/s1-yaml-prompt-live.jpg',cap:'錄影 12:37｜現場實拍：問問 Gemini 分頁中輸入 YAML 格式的無人機簡報提示詞'}},
+        {h:'看課堂筆記',p:'👉 <a href="ep202607-22-notes.html#sec-gemini" style="color:var(--blue)">筆記 2：Gemini 簡報系列</a>'}]},
+      {t:'ChatGPT 簡報系列：四大功能＋套版＋16:9分頁', s:'Chat/Work/Agent/Image2.0｜簡報 5',
        blocks:[
-        {h:'六步驟',steps:['匯入來源：上傳或連結文件、PDF、網頁、YouTube、文字等。','AI Agent 解析內容：讀取來源、理解內容、擷取重點。','產生摘要與見解：生成摘要、關鍵重點、洞見與結論。','互動問答與追問：根據內容回答問題，支援多輪對話。','整理與輸出：建立筆記、心智圖、表格或清單等。','引用與來源標註：標註來源段落，提供可驗證依據。']},
-        {h:'幻覺風險提醒',warn:'NotebookLM 本身因答案皆附來源引用，幻覺風險低；但若用外部模型打造 Agent，仍需嚴格限制來源、要求逐段引用並人工驗證。'},
-        {h:'看課堂筆記',p:'👉 <a href="ep202607-20-notes.html#sec-agentic" style="color:var(--cyan)">筆記 2：Agent 復刻六步驟</a>'}]}
+        {h:'四大功能',table:{head:['功能','定位'],rows:[
+          ['① Chat','聰明對話，即時解答'],
+          ['② Work','整合工具，高效完成任務'],
+          ['③ Agent','專屬助理，主動完成工作'],
+          ['④ Image 2.0','創意生成，視覺再進化']
+        ]}},
+        {h:'套版技巧',p:'先做出滿意的第一張，再跟它說：「請按照這個風格，依序的做完」，後面幾頁就會跟著套用同一種風格。'},
+        {h:'解決多頁被合成一張圖',tip:'下指令時要明講「16比9，每一張都分開」——這是真實學員問題的現場解法，也適用其他工具遇到多頁擠成一張圖的狀況。'},
+        {h:'ChatGPT 的 PowerPoint 增益集',steps:['在 PowerPoint 選單「檔案→其他→選項→自訂功能區」勾選增益集，即可在功能區看到入口。','要求 PowerPoint 2019 之後版本，且必須是正版才能安裝。','免費版 ChatGPT 就能使用，這其實是 Codex 的功能。','可設定固定指示（例如字體一律放大至少24），也能導入自訂 Skill。']},
+        {h:'看課堂筆記',p:'👉 <a href="ep202607-22-notes.html#sec-chatgpt" style="color:var(--blue)">筆記 3：ChatGPT 簡報系列</a>'}]}
     ]
   },
-  rename: {
-    key:'rename', color:'var(--blue)', emoji:'📓', code:'CHAPTER 02', title:'更名為 Gemini Notebook',
-    intro:'NotebookLM 整合升級進 Gemini 生態系的完整變化。',
+  claudenb: {
+    key:'claudenb', color:'var(--purple)', emoji:'🧩', code:'CHAPTER 02', title:'Claude系列＋NotebookLM',
+    intro:'Claude 走 PowerPoint Agent 路線但門檻較高；NotebookLM 是套版高手，改不動就找 Canva 救援。',
     topics:[
-      {t:'NotebookLM → Gemini Notebook', s:'整合五大要素｜簡報 3-4',
+      {t:'Claude 簡報系列＋PowerPoint AI Agent', s:'需付費版＋Microsoft 365｜簡報 6、12',
        blocks:[
-        {h:'整合組成',ul:['Gemini＋Google 搜尋＋Google 生態系（Drive、Docs、Sheets、Gmail）＋安全雲端電腦＋原生程式碼執行能力。','已開放對象：AI Ultra 與指定 Workspace 用戶；未來數週推送至所有 Google AI Pro 網頁版用戶。','安全與信任：在安全的雲端環境中執行程式碼，保護資料與隱私。']},
-        {h:'看課堂筆記',shot:{img:'ep202607-20-img/s2-rename.jpg',cap:'簡報 3｜Google 已將 NotebookLM 更名為 Gemini Notebook'}},
-        {h:'看課堂筆記',p:'👉 <a href="ep202607-20-notes.html#sec-rename" style="color:var(--blue)">筆記 3：更名為 Gemini Notebook</a>'}]},
-      {t:'成為共通研究載體＋無處不在', s:'串連 Gemini App／搜尋｜簡報 5-6',
+        {h:'Claude 三項功能',table:{head:['功能','定位'],rows:[
+          ['① Claude','對話生成，快速成稿'],
+          ['② Claude design','設計美觀，風格一致'],
+          ['③ Claude cowork','協作共享，團隊共創']
+        ]}},
+        {h:'PowerPoint Agent 雙重門檻',warn:'Claude 版的 PowerPoint 增益集需要「付費版 Claude ＋ Microsoft 365 訂閱」才能使用，門檻比 ChatGPT／Codex（免費版＋正版 PowerPoint 2019＋即可）明顯高，講師直言：「他關卡比較多一點，他GPT的Codex比較簡單一點。」'},
+        {h:'AI Agent in PowerPoint 五大任務',ul:['內容生成：依主題快速產生簡報大綱與內容。','文字優化：潤飾文字、調整語氣讓表達更專業。','設計建議：提供版面、配色與圖示搭配建議。','資料視覺化：將數據轉換成圖表提升說服力。','一鍵美化：自動調整對齊、字體與整體版面風格。']},
+        {h:'看課堂筆記',p:'👉 <a href="ep202607-22-notes.html#sec-claude" style="color:var(--purple)">筆記 4：Claude 系列＋PowerPoint Agent</a>'}]},
+      {t:'NotebookLM：YAML套版＋Canva魔法圖層解構', s:'最會套版的工具｜簡報 7',
        blocks:[
-        {h:'研究載體',p:'Gemini App、Gemini Notebook（完整同步）、Google 搜尋（未來帶入 AI Mode）三者互通，做到研究、整理、同步、延伸搜尋、AI 延伸洞察、多端連結。'},
-        {h:'四個重點功能',ul:['Gemini 上傳選項：可上傳檔案與資料。','Gemini Gem 加入檔案：提供 Gem 參考。','Antigravity：可直接叫出使用。','AI Mode：未來功能。']},
-        {h:'看課堂筆記',shot:{img:'ep202607-20-img/s4-research-vehicle.jpg',cap:'簡報 5｜Gemini Notebook 成為研究載體'}},
-        {h:'看課堂筆記',p:'👉 <a href="ep202607-20-notes.html#sec-vehicle" style="color:var(--blue)">筆記 4：成為研究載體</a>'}]}
+        {h:'YAML 格式要求',p:'用 title / description / theme / slides 結構鎖定每一頁標題與內容，讓輸出格式固定、風格一致；套版時只要給一個喜歡的風格（例如藍色風格），NotebookLM 就能一鍵套用到全部頁面。'},
+        {h:'字型／版型改不動的救援法',steps:['把輸出的圖片貼到 Canva。','跟 Canva 說「請使用魔法圖層，把這張圖解構出來」。','圖會像 Illustrator 圖層一樣拆成各自獨立的物件（底圖、文字、插圖各自分開）。','文字、圖片都可以個別移動與替換字型。','整份簡報要一次拆解，可改用 PDF 整份匯入 Canva AI。']},
+        {h:'額度提醒',warn:'Canva 免費版每月僅 5 次額度（可能調整），教育版基本上不太受限。'},
+        {h:'看課堂筆記',shot:{img:'ep202607-22-img/s2-notebooklm-output.jpg',cap:'錄影 38:22｜現場實拍：NotebookLM／Gemini Notebook 風格套版後的無人機主題簡報封面'}},
+        {h:'看課堂筆記',p:'👉 <a href="ep202607-22-notes.html#sec-notebooklm" style="color:var(--purple)">筆記 5：NotebookLM 簡報系列</a>'}]}
     ]
   },
-  gemini2: {
-    key:'gemini2', color:'var(--amber)', emoji:'💡', code:'CHAPTER 03', title:'Gemini 兩大功能＋缺點',
-    intro:'整理思路與讀書學習兩大功能，以及目前該注意的限制。',
+  gammanus: {
+    key:'gammanus', color:'var(--teal)', emoji:'🚀', code:'CHAPTER 03', title:'Gamma＋Manus＋Bonus',
+    intro:'2023年就出道的老牌 Gamma 也追上 Agent 浪潮；Manus 已轉點數制；最後看兩個 Bonus 花絮。',
     topics:[
-      {t:'兩大功能：整理思路 vs 讀書與學習', s:'工作向 vs 學習向｜簡報 8-10',
+      {t:'Gamma：老牌追上 Agent 浪潮', s:'Agent創作／研究引用／多格式轉換｜簡報 8-10',
        blocks:[
-        {h:'對照',table:{head:['功能','核心價值'],rows:[['整理思路','把零散資訊整理成可理解的脈絡：匯入→依主題分組→整理成重點'],['讀書與學習','建立課程、追蹤進度：設定主題→取得學習內容→追蹤進度與複習']]}},
-        {h:'看課堂筆記',shot:{img:'ep202607-20-img/s7-func1-organize.jpg',cap:'簡報 9｜功能一：整理思路'}},
-        {h:'看課堂筆記',p:'👉 <a href="ep202607-20-notes.html#sec-gemini2" style="color:var(--amber)">筆記 7：Gemini 兩大功能</a>'}]},
-      {t:'目前的兩個缺點', s:'幻覺與無法分享｜簡報 7',
+        {h:'四大新功能',ul:['Agent 創作：輸入想法、筆記或檔案，快速生成簡報草稿。','研究與引用：協助研究主題、整理脈絡並標明出處。','多格式轉換：可延伸為文件、簡報與社群貼文。','工作情境：研究摘要、培訓簡報、會議紀錄一次整合。']},
+        {h:'Agent 模式三步驟',steps:['輸入素材：貼上想法、筆記、會議紀錄或上傳檔案。','AI 研究整理：自動歸納重點、補充脈絡並協助標明出處。','生成簡報：快速形成頁面架構、重點內容與可分享版本。']},
+        {h:'講師觀察',p:'Gamma 大概 2023 年就出現，是最早期的 AI 簡報工具之一，「他怕他被時代淘汰掉，所以他也會跟著這個時代一起進步」，加入 Agent 功能維持競爭力。'},
+        {h:'看課堂筆記',shot:{img:'ep202607-22-img/s3-gamma-create.jpg',cap:'錄影 48:00｜現場實拍 gamma.app/create 建立頁面與「與 Agent 一起創作」新功能'}},
+        {h:'看課堂筆記',p:'👉 <a href="ep202607-22-notes.html#sec-gamma" style="color:var(--teal)">筆記 6：Gamma 簡報新功能</a>'}]},
+      {t:'Manus＋Bonus：點數制、PowerPoint Agent、HTML簡報', s:'簡報功能／花絮工具／HTML風格｜簡報 11、13',
        blocks:[
-        {h:'兩個缺點',warn:'① 幻覺跑出來了：有時會產生不正確或虛構內容。② 無法分享：內容不易直接共享給他人。使用前要查核內容，協作分享也有限制。'},
-        {h:'看課堂筆記',shot:{img:'ep202607-20-img/s6-drawbacks.jpg',cap:'簡報 7｜Gemini + NotebookLM 兩個缺點'}},
-        {h:'看課堂筆記',p:'👉 <a href="ep202607-20-notes.html#sec-cons" style="color:var(--amber)">筆記 6：目前的兩個缺點</a>'}]}
+        {h:'Manus 現況',warn:'Manus 已轉為點數收費制，講師直言「老實說Manus現在做簡報的人應該比較少」；可選擇圖片完全不能改的鎖定版，或可編輯的 PowerPoint 版本。'},
+        {h:'花絮工具（產品名稱因收音品質無法確認）',p:'另一款早期熱門 AI 簡報工具也是點數制：可選繁體中文、頁數 30-50 頁自動生成，AI 會自動上網查資料，但「真金白銀，每頁都是要扣點數的」。'},
+        {h:'Bonus：HTML 風格簡報',p:'雲端線上格式，不需要離開瀏覽器調整、demo 也在線上；特色是互動感強、渲染鋪陳好看，「他其實就是一個網頁版本的概念而已」——結構化、可讀性高、視覺一致。'},
+        {h:'看課堂筆記',p:'👉 <a href="ep202607-22-notes.html#sec-manus" style="color:var(--teal)">筆記 7-8：Manus＋Bonus 兩章</a>'}]}
     ]
   },
-  pack: {
-    key:'pack', color:'var(--green)', emoji:'📦', code:'CHAPTER 04', title:'懶人包安裝與 4 個 Skill',
-    intro:'NotebookLM MCP 懶人包安裝流程，以及 4 個研究 Skill 怎麼串接。',
+  qatips: {
+    key:'qatips', color:'var(--rose)', emoji:'💡', code:'CHAPTER 04', title:'真實 Q&A＋實戰心法',
+    intro:'直播現場真實學員提問與解法，加上幾個放諸各工具皆準的實戰建議。',
     topics:[
-      {t:'5 分鐘啟動安裝', s:'PowerShell 一鍵流程｜README',
+      {t:'四則真實學員 Q&A', s:'字型／PPTX輸出／10頁限制／圖太糊｜Google Meet 聊天室截圖',
        blocks:[
-        {h:'安裝指令',p:'Set-ExecutionPolicy -Scope Process Bypass<br>cd &lt;本資料夾&gt;<br>.\\install_notebooklm_mcp.ps1<br>.\\login_notebooklm.ps1<br>.\\setup_codex.ps1<br>.\\install_skills.ps1 -Force<br>.\\verify_notebooklm.ps1'},
-        {h:'重要限制',warn:'notebooklm-mcp-cli 是社群維護的非官方橋接器；請勿把敏感資料放入未審核的第三方橋接器；NotebookLM 的 source、配額與功能會依帳號／方案／地區改變。'},
-        {h:'看課堂筆記',p:'👉 <a href="ep202607-20-notes.html#sec-pack" style="color:var(--green)">筆記 8：懶人包安裝</a>'}]},
-      {t:'4 個研究 Skill 串接', s:'找缺口→批判回顧→跨筆記本比較→APA｜懶人包介紹簡報',
+        {h:'Q1：NotebookLM 字型改不出來',p:'A：貼到 Canva 用「魔法圖層」解構成可個別編輯的物件，文字與字型都能替換。'},
+        {h:'Q2：ChatGPT Image 2.0 能否輸出可編輯 PPTX？',p:'A：解構有極限，圖片與部分元素可改但文字通常不能改；想要完全可動，建議改用 Canva 魔法圖層。'},
+        {h:'Q3：ChatGPT 多頁被合併成一張圖怎麼辦？',p:'A：下指令時明確要求「16:9，每一張都分開」。'},
+        {h:'Q4：下載的圖太糊，Canva 沒辦法重繪？',p:'A：按圖片右上角選項用「取消模糊／增強」功能；整份簡報則改用 PDF 整份匯入 Canva AI 一次拆解。'},
+        {h:'看課堂筆記',p:'👉 <a href="ep202607-22-notes.html#sec-qa" style="color:var(--rose)">筆記 9：真實學員 Q&A</a>'}]},
+      {t:'放諸各工具皆準的實戰心法', s:'版權措辭／專有名詞／給資料／個人首選｜逐字稿重點整理',
        blocks:[
-        {h:'串接流程',p:'Evidence Gap → Literature Critic（含三角檢證）→ Cross-Notebook Compare → APA References → 研究稿件'},
-        {h:'四個 Skill',ul:['<b>Evidence Gap</b>：盤點現有證據，建立缺口矩陣，找不到 ≠ 不存在。','<b>Literature Critic</b>：Source Map、Claim Matrix、三角檢證，沒 citation 就標 uncited。','<b>Cross-Notebook Compare</b>：先隔離各筆記本再比較，不把 A 的證據當 B 的證據。','<b>APA References</b>：驗證 DOI/URL，缺資料標 NEEDS_VERIFICATION，不自行補造。']},
-        {h:'看課堂筆記',p:'👉 <a href="ep202607-20-notes.html#sec-pack" style="color:var(--green)">筆記 8：4 個研究 Skill</a>'}]}
+        {h:'四個心法',ul:['<b>版權措辭</b>：要求特定風格（如玩具總動員）時，改用「類似」「相似」的說法，因為版權偵測抓得比較嚴。','<b>專有名詞處理</b>：先請 AI 用形容的方式解釋這個名詞，再按照它的說明去畫，效果更穩定。','<b>建議提供自己的資料</b>：除非你對該領域非常熟悉、能自行判斷正確性，否則建議把真實資料餵給 AI，而非完全仰賴它的既有知識。','<b>講師個人首選</b>：「ChatGPT跟Codex算是我的首選」——把想做的內容和想法直接告訴它，讓它做一做。']},
+        {h:'免費不是永久保證',tip:'開場就提醒：免費功能未來很可能收費，Manus、另一款花絮工具都已從免費轉為點數制，這是 AI 工具產業的常見策略。'},
+        {h:'看課堂筆記',p:'👉 <a href="ep202607-22-notes.html#sec-recap" style="color:var(--rose)">筆記 10：重點整理</a>'}]}
     ]
   }
 };
-const ORDER = ['agentic','rename','gemini2','pack'];
+const ORDER = ['gengpt','claudenb','gammanus','qatips'];
 const $ = s=>document.querySelector(s);
 function renderChapter(ch){
   const d=DATA[ch];const next=ORDER[(ORDER.indexOf(ch)+1)%ORDER.length];const prev=ORDER[(ORDER.indexOf(ch)+ORDER.length-1)%ORDER.length];
@@ -328,7 +345,7 @@ function showHome(){switchView('home');$('#crumbs').style.display='none';clearSe
 function showChapter(ch){switchView(ch);$('#crumbs').style.display='flex';$('#crumbHere').textContent=`${DATA[ch].emoji} ${DATA[ch].title}`;clearSearch();syncChecks();}
 function toggleTopic(id){$('#topic-'+id).classList.toggle('open');}
 function openTopic(ch,i){showChapter(ch);const el=$('#topic-'+ch+'-'+i);el.classList.add('open');setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),150);}
-const KEY='ep202607-20-skills-v1';
+const KEY='ep202607-22-skills-v1';
 const store=()=>JSON.parse(localStorage.getItem(KEY)||'{}');
 function setDone(id,val){const s=store();if(val)s[id]=1;else delete s[id];localStorage.setItem(KEY,JSON.stringify(s));updateProgress();}
 const TOTAL=ORDER.reduce((n,ch)=>n+DATA[ch].topics.length,0);
@@ -338,7 +355,7 @@ function resetProgress(){if(confirm('確定要清空所有打勾進度嗎？')){
 function stripTags(s){return s.replace(/<[^>]+>/g,'');}
 const INDEX=[];
 ORDER.forEach(ch=>DATA[ch].topics.forEach((tp,i)=>{let body=tp.s+' ';tp.blocks.forEach(b=>{if(b.p)body+=stripTags(b.p)+' ';if(b.ul)body+=b.ul.map(stripTags).join(' ')+' ';if(b.steps)body+=b.steps.map(stripTags).join(' ')+' ';if(b.tip)body+=stripTags(b.tip)+' ';if(b.warn)body+=stripTags(b.warn)+' ';if(b.table)body+=b.table.rows.flat().map(stripTags).join(' ')+' ';});INDEX.push({ch,i,title:tp.t,body});}));
-$('#searchInput').addEventListener('input',e=>{const q=e.target.value.trim();const box=$('#searchResults');if(!q){box.classList.remove('show');box.innerHTML='';return;}const hits=INDEX.filter(x=>(x.title+x.body).toLowerCase().includes(q.toLowerCase()));box.classList.add('show');if(!hits.length){box.innerHTML=`<div class="sr-empty">找不到「${q}」，換個關鍵字試試（例：Agentic、Gemini Notebook、Skill）</div>`;return;}const hl=s=>s.replace(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),m=>`<mark>${m}</mark>`);box.innerHTML=hits.map(x=>{const pos=x.body.toLowerCase().indexOf(q.toLowerCase());const snip=x.body.substr(Math.max(0,pos-20),90);return `<div class="sr-item" onclick="openTopic('${x.ch}',${x.i})"><div class="path">${DATA[x.ch].emoji} ${DATA[x.ch].title} › 技能 ${x.i+1}</div><h6>${hl(x.title)}</h6><p>…${hl(snip)}…</p></div>`;}).join('');});
+$('#searchInput').addEventListener('input',e=>{const q=e.target.value.trim();const box=$('#searchResults');if(!q){box.classList.remove('show');box.innerHTML='';return;}const hits=INDEX.filter(x=>(x.title+x.body).toLowerCase().includes(q.toLowerCase()));box.classList.add('show');if(!hits.length){box.innerHTML=`<div class="sr-empty">找不到「${q}」，換個關鍵字試試（例：YAML、套版、魔法圖層）</div>`;return;}const hl=s=>s.replace(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),m=>`<mark>${m}</mark>`);box.innerHTML=hits.map(x=>{const pos=x.body.toLowerCase().indexOf(q.toLowerCase());const snip=x.body.substr(Math.max(0,pos-20),90);return `<div class="sr-item" onclick="openTopic('${x.ch}',${x.i})"><div class="path">${DATA[x.ch].emoji} ${DATA[x.ch].title} › 技能 ${x.i+1}</div><h6>${hl(x.title)}</h6><p>…${hl(snip)}…</p></div>`;}).join('');});
 function clearSearch(){$('#searchInput').value='';$('#searchResults').classList.remove('show');$('#searchResults').innerHTML='';}
 (function(){const box=$('#stars');for(let i=0;i<70;i++){const s=document.createElement('i');s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animationDelay=(Math.random()*3)+'s';s.style.transform=`scale(${.5+Math.random()*1.5})`;box.appendChild(s);}})();
 syncChecks();updateProgress();
