@@ -64,9 +64,18 @@ main{max-width:860px;margin:0 auto;padding:1.2rem 1.2rem 2.5rem}
 .weight-row input{width:90px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);
   color:var(--text);font:inherit;font-size:1rem;font-weight:700;padding:.45rem .7rem;outline:none;text-align:center}
 .weight-row input:focus{border-color:var(--primary)}
+.seg{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.7rem}
+.seg button{flex:1 1 130px;font-size:.92rem;font-weight:800;border:1.5px solid var(--border);
+  background:var(--bg);border-radius:12px;padding:.6rem .8rem;transition:.15s}
+.seg button small{display:block;font-size:.72rem;font-weight:600;color:var(--muted)}
+.seg button.on{border-color:var(--primary);background:var(--primary-soft);color:var(--primary-deep)}
+.seg button.on small{color:var(--primary-deep)}
 .protein-goal{margin-top:.6rem;background:var(--primary-soft);border-radius:10px;
-  padding:.65rem .9rem;font-size:.88rem;display:none}
+  padding:.65rem .9rem;font-size:.88rem}
 .protein-goal b{color:var(--primary-deep)}
+.meal .plus{font-size:.82rem;margin-top:.45rem;background:var(--warn-soft);color:var(--warn);
+  border-radius:8px;padding:.35rem .6rem;font-weight:700}
+.advice{margin-top:.5rem;font-size:.86rem}
 /* 三餐卡片 */
 .meal-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.6rem;margin-bottom:.4rem}
 .meals{display:grid;gap:.8rem;margin-top:.6rem}
@@ -125,11 +134,15 @@ footer b{color:var(--text)}
 <main>
 
   <section class="panel">
-    <h2>🎯 先算你的蛋白質目標 <small>選填，只存在你的手機</small></h2>
+    <h2>🎯 我的目標設定 <small>只存在你的手機</small></h2>
+    <div class="seg" id="modeSeg">
+      <button data-mode="diet">🔥 減肥期間<small>熱量吃少一點，瘦得動</small></button>
+      <button data-mode="normal">⚖️ 正常維持<small>吃回正常量，顧肌肉</small></button>
+    </div>
     <div class="weight-row">
       <span>我的體重</span>
       <input type="number" id="weight" inputmode="decimal" min="30" max="200" placeholder="60">
-      <span>公斤</span>
+      <span>公斤（選填，填了目標更準）</span>
     </div>
     <div class="protein-goal" id="proteinGoal"></div>
   </section>
@@ -184,61 +197,86 @@ footer b{color:var(--text)}
 
 <script>
 /* 餐池：每一餐都符合「低油、潤口、高蛋白」三堅持。
-   p＝蛋白質約略克數、kcal＝熱量約略值（外食抓大概，不必精算）。 */
+   p＝蛋白質約略克數、kcal＝熱量約略值（外食抓大概，不必精算）。
+   plus／pk＝「正常維持」模式的加量建議與大約增加的熱量、pp＝加量增加的蛋白質。 */
 const POOL = {
   b: [
     {n:'超商蛋白質組', src:'超商', items:'無糖豆漿 400ml＋茶葉蛋 2 顆＋小顆烤地瓜', p:24, kcal:380, wet:1, lo:1,
-     tip:'地瓜用<b>微波爐</b>叮 30 秒回溫，更軟更好入口。'},
+     tip:'地瓜用<b>微波爐</b>叮 30 秒回溫，更軟更好入口。',
+     plus:'地瓜換大顆＋再加一顆茶葉蛋', pk:130, pp:7},
     {n:'早餐店里肌組', src:'早餐店', items:'里肌蛋吐司（不塗美乃滋）＋無糖豆漿', p:28, kcal:420, lo:1,
-     tip:'跟老闆說「少油煎、不加美乃滋」，配豆漿邊吃邊潤口。'},
+     tip:'跟老闆說「少油煎、不加美乃滋」，配豆漿邊吃邊潤口。',
+     plus:'吐司再加一顆蛋', pk:90, pp:7},
     {n:'清粥暖胃組', src:'粥品店', items:'皮蛋瘦肉粥一碗＋燙青菜', p:18, kcal:350, wet:1, lo:1,
-     tip:'粥最潤口好吞。再加一顆滷蛋，蛋白質就到位。'},
+     tip:'粥最潤口好吞。再加一顆滷蛋，蛋白質就到位。',
+     plus:'加一顆滷蛋＋一小碟豆干', pk:140, pp:12},
     {n:'御飯糰快手組', src:'超商', items:'鮭魚御飯糰＋溫無糖豆漿＋香蕉', p:20, kcal:400,
-     tip:'飯糰偏乾，一定配豆漿<b>小口交替</b>吃，不要乾吞。'},
+     tip:'飯糰偏乾，一定配豆漿<b>小口交替</b>吃，不要乾吞。',
+     plus:'再加一顆茶葉蛋', pk:75, pp:7},
     {n:'電鍋蒸蛋組', src:'半自炊', items:'電鍋蒸蛋 2 顆＋超商地瓜＋無糖豆漿', p:22, kcal:360, wet:1, lo:1,
-     tip:'前一晚把蛋液加水放<b>電鍋</b>，早上按下開關，刷牙洗臉完剛好吃。'},
+     tip:'前一晚把蛋液加水放<b>電鍋</b>，早上按下開關，刷牙洗臉完剛好吃。',
+     plus:'地瓜換大顆＋豆漿換大瓶', pk:120, pp:6},
     {n:'優格燕麥組', src:'超商', items:'無糖優格＋燕麥片＋香蕉＋茶葉蛋 1 顆', p:20, kcal:400, wet:1,
-     tip:'燕麥先用熱水泡軟再拌優格，潤口又顧腸胃。'},
+     tip:'燕麥先用熱水泡軟再拌優格，潤口又顧腸胃。',
+     plus:'燕麥多放一半＋一小匙堅果碎（一小匙就好）', pk:120, pp:4},
     {n:'茶碗蒸組', src:'超商', items:'茶碗蒸＋雞肉御飯糰＋溫開水', p:22, kcal:380, wet:1, lo:1,
-     tip:'茶碗蒸滑嫩好吞，是口乾日子的好朋友。'},
+     tip:'茶碗蒸滑嫩好吞，是口乾日子的好朋友。',
+     plus:'再加一顆茶葉蛋或一小瓶無糖豆漿', pk:100, pp:7},
     {n:'鹹豆漿組', src:'豆漿店', items:'鹹豆漿（油條兩三塊就好）＋蛋餅請老闆少油煎', p:20, kcal:420, wet:1,
-     tip:'鹹豆漿本身就是一碗潤口的蛋白質湯。'}
+     tip:'鹹豆漿本身就是一碗潤口的蛋白質湯。',
+     plus:'蛋餅加蛋', pk:80, pp:7}
   ],
   l: [
     {n:'自助餐蒸魚餐', src:'自助餐', items:'清蒸魚一片＋燙青菜兩樣＋滷蛋＋半碗糙米飯', p:35, kcal:520, wet:1, lo:1,
-     tip:'夾菜口訣：油亮的跳過，湯汁瀝一下再裝。'},
+     tip:'夾菜口訣：油亮的跳過，湯汁瀝一下再裝。',
+     plus:'糙米飯吃滿碗', pk:140, pp:3},
     {n:'便當店雞腿餐', src:'便當店', items:'滷雞腿便當：雞皮剝掉、飯減半、炸物換燙青菜', p:38, kcal:550, lo:1,
-     tip:'選滷不選炸。吃不完帶回家，<b>氣炸鍋</b> 160 度 5 分鐘回熱，不用加一滴油。'},
+     tip:'選滷不選炸。吃不完帶回家，<b>氣炸鍋</b> 160 度 5 分鐘回熱，不用加一滴油。',
+     plus:'飯不用減半，吃到八分飽', pk:150, pp:3},
     {n:'超商健身餐', src:'超商', items:'即食雞胸肉＋溫泉蛋＋生菜沙拉（和風醬）＋小地瓜', p:40, kcal:450, lo:1,
-     tip:'雞胸<b>微波</b>後偏乾，記得配沙拉和水交替吃。'},
+     tip:'雞胸<b>微波</b>後偏乾，記得配沙拉和水交替吃。',
+     plus:'地瓜換大顆＋加一瓶無糖豆漿', pk:150, pp:7},
     {n:'麵店清燉餐', src:'麵店', items:'清燉牛肉麵（麵減半）＋燙青菜＋滷蛋', p:32, kcal:520, wet:1,
-     tip:'清燉湯頭潤口；表面浮油用湯匙撇掉再喝。'},
+     tip:'清燉湯頭潤口；表面浮油用湯匙撇掉再喝。',
+     plus:'麵不用減半', pk:150, pp:5},
     {n:'水餃定食', src:'麵店', items:'瘦肉水餃 8–10 顆＋蛋花湯＋燙青菜', p:28, kcal:500, wet:1,
-     tip:'沾醬用醬油＋醋就好，辣油先跳過。'},
+     tip:'沾醬用醬油＋醋就好，辣油先跳過。',
+     plus:'水餃加到 12 顆', pk:120, pp:6},
     {n:'昆布小火鍋', src:'火鍋店', items:'昆布湯底：瘦肉片或海鮮＋滿盤蔬菜＋豆腐＋半碗飯', p:35, kcal:500, wet:1, lo:1,
-     tip:'醬料配方：蔥＋醋＋一點醬油。沙茶醬超油，跳過。'},
+     tip:'醬料配方：蔥＋醋＋一點醬油。沙茶醬超油，跳過。',
+     plus:'飯吃滿碗，玉米或芋頭挑一樣', pk:150, pp:3},
     {n:'切仔麵店餐', src:'麵店', items:'嘴邊肉切盤＋燙青菜＋青菜豆腐湯＋白飯半碗', p:30, kcal:480, wet:1,
-     tip:'嘴邊肉是瘦肉裡少數軟嫩好吞的，切盤比滷肉飯聰明。'},
+     tip:'嘴邊肉是瘦肉裡少數軟嫩好吞的，切盤比滷肉飯聰明。',
+     plus:'白飯吃滿碗', pk:140, pp:3},
     {n:'蒸餃湯品餐', src:'麵店', items:'蒸餃 8 顆＋青菜豆腐湯＋涼拌小黃瓜（不辣）', p:24, kcal:480, wet:1,
-     tip:'蒸的永遠比煎的炸的對膽友善。'}
+     tip:'蒸的永遠比煎的炸的對膽友善。',
+     plus:'蒸餃加到 10 顆', pk:110, pp:5}
   ],
   d: [
     {n:'關東煮輕食組', src:'超商', items:'白蘿蔔＋豆腐＋杏鮑菇＋高麗菜捲＋茶碗蒸', p:22, kcal:350, wet:1, lo:1,
-     tip:'湯很潤口，但偏鹹，喝一半就好。'},
+     tip:'湯很潤口，但偏鹹，喝一半就好。',
+     plus:'再加一顆茶葉蛋或半份即食雞胸', pk:110, pp:10},
     {n:'自助餐輕盤', src:'自助餐', items:'蒸蛋＋滷豆腐＋深綠色蔬菜兩樣＋少量飯', p:24, kcal:420, wet:1, lo:1,
-     tip:'晚餐選「軟、潤、蒸」的組合，睡前不脹氣。'},
+     tip:'晚餐選「軟、潤、蒸」的組合，睡前不脹氣。',
+     plus:'飯正常裝＋多夾一樣豆製品', pk:130, pp:7},
     {n:'電鍋蒸魚盤', src:'半自炊', items:'超市鯛魚片＋薑絲＋隨手蔬菜，電鍋蒸 12 分鐘', p:30, kcal:380, wet:1, lo:1,
-     tip:'外食族的半自炊：超市買處理好的魚片，<b>電鍋</b>一按就完成，比便當店還快。'},
+     tip:'外食族的半自炊：超市買處理好的魚片，<b>電鍋</b>一按就完成，比便當店還快。',
+     plus:'加半碗飯或一顆小地瓜', pk:130, pp:2},
     {n:'鹹水雞蔬菜組', src:'鹹水雞攤', items:'雞胸去皮＋青菜選三樣＋不加辣', p:32, kcal:400, lo:1,
-     tip:'請老闆<b>少鹽、少蔥油</b>；回家配碗熱湯更好入口。'},
+     tip:'請老闆<b>少鹽、少蔥油</b>；回家配碗熱湯更好入口。',
+     plus:'加一份玉米筍或小地瓜', pk:100, pp:3},
     {n:'清湯麵蛋組', src:'麵店', items:'清湯陽春麵加蛋＋燙青菜＋豆干', p:22, kcal:450, wet:1,
-     tip:'湯麵是口乾晚上的安全牌，記得加蛋補蛋白質。'},
+     tip:'湯麵是口乾晚上的安全牌，記得加蛋補蛋白質。',
+     plus:'再加一顆滷蛋或豆干兩片', pk:90, pp:8},
     {n:'涼拌雞絲組', src:'自助餐／滷味', items:'涼拌雞絲＋皮蛋豆腐＋青菜蛋花湯', p:30, kcal:420, wet:1, lo:1,
-     tip:'皮蛋豆腐滑嫩下飯，雞絲選胸肉部位。'},
+     tip:'皮蛋豆腐滑嫩下飯，雞絲選胸肉部位。',
+     plus:'加半碗飯', pk:140, pp:3},
     {n:'超商晚安組', src:'超商', items:'即食雞胸半份＋溫沙拉＋味噌湯（微波）', p:28, kcal:380, wet:1, lo:1,
-     tip:'晚餐吃少一點沒關係，睡前真的餓，喝一杯無糖豆漿就好。'},
+     tip:'晚餐吃少一點沒關係，睡前真的餓，喝一杯無糖豆漿就好。',
+     plus:'雞胸吃整份', pk:100, pp:12},
     {n:'雞肉粥晚餐', src:'粥品店', items:'雞肉粥＋燙青菜＋滷蛋', p:26, kcal:400, wet:1, lo:1,
-     tip:'一碗熱粥收尾，潤口、好消化、有蛋白質。'}
+     tip:'一碗熱粥收尾，潤口、好消化、有蛋白質。',
+     plus:'粥換大碗＋加一小碟豆干', pk:130, pp:8}
   ]
 };
 const LABEL = {b:'🌅 早餐', l:'☀️ 午餐', d:'🌙 晚餐'};
@@ -261,7 +299,23 @@ function rand(k, avoid){
   return i;
 }
 
+/* 卡路里控制模式：diet＝減肥期間、normal＝正常維持 */
+function getMode(){ return localStorage.getItem('mc_mode') || 'diet'; }
+function calTarget(){
+  const w = parseFloat($('#weight').value);
+  if (w >= 30) {
+    const maint = Math.round(w*30/50)*50;
+    return getMode() === 'diet' ? [maint-500, maint-300] : [maint-100, maint+100];
+  }
+  return getMode() === 'diet' ? [1400, 1600] : [1700, 1900];
+}
+function renderSeg(){
+  document.querySelectorAll('#modeSeg button').forEach(b =>
+    b.classList.toggle('on', b.dataset.mode === getMode()));
+}
+
 function renderMeals(){
+  const normal = getMode() === 'normal';
   $('#meals').innerHTML = ['b','l','d'].map(k => {
     const m = POOL[k][state.pick[k]];
     const locked = !!state.lock[k];
@@ -275,15 +329,27 @@ function renderMeals(){
         ${m.wet ? '<span>💧 潤口</span>' : ''}${m.lo ? '<span>🫒 低油</span>' : ''}
       </div>
       <p class="tip">💡 ${m.tip}</p>
+      ${normal ? `<p class="plus">⚖️ 正常維持這樣加：${m.plus}（約 +${m.pk} kcal、+${m.pp}g 蛋白質）</p>` : ''}
       <div class="m-btns">
         <button class="btn-mini${locked ? ' on' : ''}" data-lock="${k}">${locked ? '🔒 已鎖住' : '🔓 鎖住這餐'}</button>
         <button class="btn-mini" data-roll="${k}">🔄 換一個</button>
       </div>
     </div>`;
   }).join('');
-  const tp = ['b','l','d'].reduce((s,k)=>s+POOL[k][state.pick[k]].p,0);
-  const tk = ['b','l','d'].reduce((s,k)=>s+POOL[k][state.pick[k]].kcal,0);
-  $('#sum').innerHTML = `今天這樣吃：蛋白質約 <b>${tp}g</b>、熱量約 <b>${tk} kcal</b>（加餐另計）。減脂期這個量剛剛好——吃得夠、瘦得動。`;
+  const tp = ['b','l','d'].reduce((s,k)=>s+POOL[k][state.pick[k]].p +(normal?POOL[k][state.pick[k]].pp:0),0);
+  const tk = ['b','l','d'].reduce((s,k)=>s+POOL[k][state.pick[k]].kcal+(normal?POOL[k][state.pick[k]].pk:0),0);
+  const SNACK_K = 150, SNACK_P = 8;   // 一份加餐（無糖豆漿或茶葉蛋＋香蕉）約略值
+  const est = tk + SNACK_K, estP = tp + SNACK_P;
+  const [lo, hi] = calTarget();
+  let advice;
+  if (est < lo - 100)      advice = '🔎 建議：偏少了一點——加餐吃好吃滿，別讓肌肉餓肚子。';
+  else if (est > hi + 100) advice = '🔎 建議：稍微偏多——挑一餐按「換一個」，選輕一點的組合。';
+  else advice = normal ? '🔎 建議：剛剛好——維持體重、繼續把肌肉養起來。'
+                       : '🔎 建議：剛剛好——吃得夠、瘦得動，不用再刻意少吃。';
+  $('#sum').innerHTML =
+    `今天這樣吃（含一份加餐）：蛋白質約 <b>${estP}g</b>、熱量約 <b>${est} kcal</b>；` +
+    `${normal ? '正常維持' : '減肥期間'}的目標範圍是 <b>${lo}–${hi} kcal</b>。` +
+    `<div class="advice">${advice}</div>`;
 }
 $('#meals').addEventListener('click', e => {
   const r = e.target.closest('[data-roll]'), l = e.target.closest('[data-lock]');
@@ -296,17 +362,30 @@ $('#rollAll').addEventListener('click', () => {
   saveState(); renderMeals();
 });
 
-/* 蛋白質目標 */
+/* 目標說明（熱量依模式、蛋白質依體重） */
 function renderGoal(){
   const w = parseFloat($('#weight').value);
   const box = $('#proteinGoal');
-  if (!w || w < 30) { box.style.display = 'none'; return; }
-  const lo = Math.round(w*1.2), hi = Math.round(w*1.5), per = Math.round(w*1.35/3);
-  box.style.display = 'block';
-  box.innerHTML = `減脂增肌期，你一天的蛋白質目標約 <b>${lo}–${hi}g</b>，平均每餐抓 <b>${per}g</b> 上下。下面配好的三餐會幫你顯示每餐大約幾克，對一下就知道夠不夠。`;
+  const [lo, hi] = calTarget();
+  const modeTxt = getMode() === 'diet'
+    ? `🔥 減肥期間：一天熱量抓 <b>${lo}–${hi} kcal</b>——溫和地少吃一點，體重才會動，又不會掉肌肉。`
+    : `⚖️ 正常維持：一天熱量抓 <b>${lo}–${hi} kcal</b>——吃回正常量，重點放在蛋白質吃夠、繼續練。`;
+  let proteinTxt;
+  if (w >= 30) {
+    const plo = Math.round(w*1.2), phi = Math.round(w*1.5), per = Math.round(w*1.35/3);
+    proteinTxt = `蛋白質目標約 <b>${plo}–${phi}g</b>（兩種模式都一樣要吃夠），平均每餐抓 <b>${per}g</b> 上下。`;
+  } else {
+    proteinTxt = `蛋白質兩種模式都要吃夠：每餐至少一個掌心。填上體重，我幫你算出確切克數。`;
+  }
+  box.innerHTML = `${modeTxt}<br>${proteinTxt}`;
 }
+$('#modeSeg').addEventListener('click', e => {
+  const b = e.target.closest('[data-mode]'); if (!b) return;
+  localStorage.setItem('mc_mode', b.dataset.mode);
+  renderSeg(); renderGoal(); renderMeals();
+});
 $('#weight').addEventListener('input', () => {
-  localStorage.setItem('mc_weight', $('#weight').value); renderGoal();
+  localStorage.setItem('mc_weight', $('#weight').value); renderGoal(); renderMeals();
 });
 const savedW = localStorage.getItem('mc_weight');
 if (savedW) $('#weight').value = savedW;
@@ -342,7 +421,7 @@ $('#themeBtn').addEventListener('click', () => {
   localStorage.setItem('tools_theme', next); applyTheme(next);
 });
 
-loadState(); renderMeals(); renderGoal(); renderCups();
+loadState(); renderSeg(); renderGoal(); renderMeals(); renderCups();
 </script>
 </body>
 </html>
