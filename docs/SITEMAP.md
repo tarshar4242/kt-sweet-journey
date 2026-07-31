@@ -28,7 +28,7 @@
 ├─ 🎓 SERIES 04 iPAS 證照學習   單頁直達 → ipas-intermediate.html  [1 頁]
 ├─ 📖 SERIES 05 論文研讀庫      外站直達 → thesis-library/index.html（另一 repo，不在本站）
 ├─ 🛠️ SERIES 06 SKILL 技能包    外站直達 → thesis-library/skills.html（另一 repo，不在本站）
-└─ 📮 SERIES 07 主題式電子報   showSeries('edm')    →#edm    ── 1 期（每期＝ edm-NNN.html）
+└─ 📮 SERIES 07 主題式電子報   showSeries('edm')    →#edm    ── 3 期（每期＝ edm-NNN.html）
 ```
 > 節點頁數為本快照數字，新增內容後需同步更新。
 
@@ -644,7 +644,19 @@
 ---
 
 ## 六、SERIES 07 · 📮 主題式電子報
-每期一頁 edm-NNN.html，最新在前。共 1 期。
+每期一頁 edm-NNN.html，最新在前。共 3 期。
+
+#### `edm-003.html`　`電子報`
+- 網址：https://tarshar4242.github.io/kt-sweet-journey/edm-003.html
+- 標題：電子報 003｜做一張圖卡以前要熬一小時，現在我一句話出一整組
+- 內容簡述：主題式電子報第三期：先給 AI 一本品牌說明書 DESIGN.md，把整篇文章一句話拆成九張品牌一致的 IG 圖卡。原理是「先看預覽，再一次匯出」。
+- 內容物（章節）：😮‍💨先講一件我一直在逃避的事 ／ 🎨我要的不只是「好看」 ／ 🗂️關鍵是先給 AI 一本「品牌說明書」 ／ ✋我只做三個動作 ／ 🗝️我在這裡藏了一個原理 ／ 😅途中我多做了一件小事 ／ ⚖️我做過的兩個取捨 ／ 🚀下一步 ／ 💬想跟你說的一句話 ／ 🍀關於我
+
+#### `edm-002.html`　`電子報`
+- 網址：https://tarshar4242.github.io/kt-sweet-journey/edm-002.html
+- 標題：電子報 002｜一份簡報躺在那裡不會說話，五分鐘後它自己會講課了
+- 內容簡述：主題式電子報第二期：把一份靜靜的簡報 PDF，變成有旁白、有字幕的教學影片。只做兩個動作，剩下交給生產線。
+- 內容物（章節）：📄我手上有一份很好的簡報 ／ 🙋我開的條件也有點貪 ／ ✋我只做兩個動作 ／ 🗝️我在這裡藏了一個原理 ／ 😅途中還真的出了一件事 ／ 📚然後我把它變成一個技能 ／ ⚖️我做過的兩個取捨 ／ 🚀下一步 ／ 💬想跟你說的一句話 ／ 🍀關於我
 
 #### `edm-001.html`　`電子報`
 - 網址：https://tarshar4242.github.io/kt-sweet-journey/edm-001.html
