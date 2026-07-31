@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>電子報 004｜朋友做了個 App，我把它變成自己的</title>
+<meta name="description" content="主題式電子報第四期：看到朋友用 Manus 做的 PDF 壓縮 App，我也想要。於是我做了一個網頁版——輸入目標大小、精準壓到剛好，檔案全程不上傳。一個非工程師的仿作歷程。">
+<style>
+  :root{
+    --ink:#2b2a26; --soft:#6b6760; --line:#e7e2d8;
+    --paper:#faf7f0; --card:#fffdf8; --clover:#5b8c5a;
+    --clover-soft:#eef4ec; --accent:#c98a3a; --accent-soft:#f7eddb;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",system-ui,sans-serif;
+    background:var(--paper); color:var(--ink); line-height:1.85;
+    -webkit-font-smoothing:antialiased; padding:0 0 90px;
+  }
+  .wrap{max-width:720px; margin:0 auto; padding:0 20px}
+
+  /* masthead */
+  .band{background:linear-gradient(135deg,#c98a3a,#5b8c5a); color:#fff; padding:34px 0 30px; margin-bottom:26px}
+  .band .wrap{display:flex; flex-direction:column; gap:10px}
+  .kicker{font-size:.8rem; letter-spacing:2px; opacity:.95; display:flex; align-items:center; gap:8px}
+  .kicker .dot{width:6px;height:6px;background:#fff;border-radius:50%;opacity:.8}
+  .issue{font-size:.85rem; opacity:.95; letter-spacing:1px}
+  .band h1{font-size:1.5rem; line-height:1.5; font-weight:800}
+  .meta-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:6px}
+  .chip{background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.35);
+    padding:4px 12px; border-radius:999px; font-size:.82rem}
+
+  section{background:var(--card); border:1px solid var(--line); border-radius:18px;
+    padding:22px 22px 20px; margin-bottom:16px; box-shadow:0 1px 0 rgba(0,0,0,.02)}
+  h2{font-size:1.12rem; color:var(--clover); font-weight:800; margin-bottom:12px;
+    display:flex; align-items:center; gap:9px}
+  h2 .em{font-size:1.15rem}
+  section p{margin:0 0 12px; font-size:1rem}
+  section p:last-child{margin-bottom:0}
+  .lead p{font-size:1.05rem}
+
+  .pull{border-left:4px solid var(--clover); background:var(--clover-soft);
+    padding:12px 16px; border-radius:0 12px 12px 0; margin:14px 0; font-weight:700}
+
+  ul.flow{list-style:none; display:flex; flex-direction:column; gap:10px; margin:6px 0 4px}
+  ul.flow li{background:#fbf9f3; border:1px solid var(--line); border-radius:12px;
+    padding:11px 14px; font-size:.98rem}
+  ul.flow li .lead-emoji{font-size:1.1rem; margin-right:6px}
+
+  /* Before / After 對照 */
+  .ba{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:10px; margin:10px 0 4px}
+  .ba .box{border:1px solid var(--line); border-radius:12px; padding:14px; text-align:center; background:#fbf9f3}
+  .ba .box .t{font-size:.8rem; color:var(--soft); margin-bottom:4px}
+  .ba .box .n{font-size:1.35rem; font-weight:800}
+  .ba .box.before .n{color:#b06a6a}
+  .ba .box.after .n{color:var(--clover)}
+  .ba .arrow{font-size:1.3rem; color:var(--accent); font-weight:800}
+  .ba-note{text-align:center; font-size:.85rem; color:var(--soft); margin-top:2px}
+
+  .cats{display:grid; gap:10px; margin:6px 0}
+  .cat{border:1px solid var(--line); border-radius:12px; padding:12px 14px; background:#fbf9f3}
+  .cat b{display:block; color:var(--accent); font-size:.92rem; margin-bottom:3px}
+  .cat span{font-size:.95rem; color:var(--soft)}
+
+  .link-btn{display:inline-flex; align-items:center; gap:8px; text-decoration:none;
+    background:var(--clover); color:#fff; padding:11px 18px; border-radius:999px;
+    font-weight:700; font-size:.95rem; margin-top:4px}
+  .link-btn:active{transform:translateY(1px)}
+
+  .about{font-size:.96rem; color:var(--soft)}
+  footer{text-align:center; color:var(--soft); font-size:.82rem; margin-top:26px}
+
+  /* 固定回入口浮動鈕（左上角） */
+  .home-fab{position:fixed; left:14px; top:14px; z-index:50;
+    background:rgba(255,255,255,.94); color:var(--clover); text-decoration:none; font-weight:800; font-size:.9rem;
+    padding:9px 15px; border-radius:999px; box-shadow:0 8px 22px -8px rgba(60,50,30,.5); border:1px solid rgba(255,255,255,.7)}
+  .home-fab:active{transform:translateY(1px)}
+  /* 手機上把報頭往下推，避免和左上角返回鈕重疊 */
+  @media (max-width:760px){ .band{padding-top:60px} }
+</style>
+</head>
+<body>
+
+  <div class="band">
+    <div class="wrap">
+      <div class="kicker"><span class="dot"></span>主題式電子報<span class="dot"></span></div>
+      <div class="issue">電子報 004｜2026.07.31</div>
+      <h1>朋友做了一個 App，<br>我把它變成「自己的」 🪶</h1>
+      <div class="meta-row">
+        <span class="chip">PDF 壓縮</span>
+        <span class="chip">瀏覽器內運算</span>
+        <span class="chip">二分搜尋</span>
+        <span class="chip">非工程師仿作</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <section class="lead">
+      <h2><span class="em">📄</span>先講一個每個人都遇過的小卡關</h2>
+      <p>你有沒有過這種時刻：一份 PDF 要上傳，系統跳出一行紅字「檔案不得超過 10MB」。偏偏你那份 31MB。</p>
+      <p>報名表、投稿、上傳作業、寄給客戶——每次都卡在這關。網路上壓縮工具一大堆，但多半要嘛把檔案傳到別人的伺服器，要嘛壓完糊得看不清楚，要嘛只能「壓一點點」，沒辦法讓我說「我就是要壓到 5MB 以內」。</p>
+      <p>這件事本身不難，但它一直來。這一期，我把它收拾掉了。</p>
+    </section>
+
+    <section>
+      <h2><span class="em">👀</span>起點：朋友刷到一個 App，我也想要</h2>
+      <p>有位朋友用 Manus 做了一個小程式叫「嘟嘟厚 PDF」，介面乾乾淨淨：把 PDF 丟進去、輸入你要的目標大小、按一下，就精準壓到那個數字以內。他還特別強調一句「100% 本地運算，個資絕對不離線」。</p>
+      <p>我看著那個畫面，心裡冒出一句很熟悉的話：<b>「這個我也很需要，我也要做一個一模一樣的。」</b></p>
+      <p>以前的我看到這種東西，反應是「好厲害，可惜我不會寫程式」。現在的我反應是「先看清楚它在做哪幾件事，然後把需求講清楚，讓 AI 幫我做出來」。這中間的轉變，就是這一年我一直在練的事。</p>
+    </section>
+
+    <section>
+      <h2><span class="em">🔀</span>我做了一個跟朋友不一樣的選擇</h2>
+      <p>朋友的版本是一個 Mac 專用的 .app，要下載、要安裝，而且只有 Mac 能開。</p>
+      <p>我把同一件事做成了<b>一個網頁</b>。差別在哪？</p>
+      <ul class="flow">
+        <li><span class="lead-emoji">🌐</span>Mac、Windows、手機都能開，不挑系統</li>
+        <li><span class="lead-emoji">📦</span>免下載、免安裝，點開網頁就能壓</li>
+        <li><span class="lead-emoji">🔗</span>一個網址，我就能傳給學員、傳給朋友，大家都能用</li>
+      </ul>
+      <p>同樣一個需求，載體選對了，能用的人就從「一個人」變成「所有人」。這是我這次最開心的一個決定。</p>
+    </section>
+
+    <section>
+      <h2><span class="em">🗝️</span>我在這裡藏了一個原理</h2>
+      <p>朋友的介面上有個欄位叫「目標大小」，這其實是整個工具最聰明的地方。它背後用的是一個叫<b>二分搜尋</b>的老方法。</p>
+      <div class="pull">與其亂猜要壓多少，不如像猜數字遊戲：一半一半地逼近，找出「還看得清楚、又剛好塞進你要的大小」的那個甜蜜點。</div>
+      <p>白話說：工具會準備一整排畫質階梯，從最清晰到最省。你說「我要 5MB」，它就在這排階梯上反覆試——太大就往下降一階、還有空間就往上升一階，幾輪之內就框到「符合 5MB 的最高畫質」那一階。不會壓過頭把圖弄爛，也不會壓不夠還是超標。</p>
+      <p>所以你只要負責講出一個數字，剩下的邏輯它自己跑。<b>你出需求，程式出力氣。</b></p>
+    </section>
+
+    <section>
+      <h2><span class="em">📉</span>實際跑一次長這樣</h2>
+      <p>我拿一份 38MB 的測試 PDF，設定目標 3MB，按下開始：</p>
+      <div class="ba">
+        <div class="box before"><div class="t">壓縮前</div><div class="n">38.13 MB</div></div>
+        <div class="arrow">→</div>
+        <div class="box after"><div class="t">壓縮後</div><div class="n">2.30 MB</div></div>
+      </div>
+      <p class="ba-note">瘦了 94%，穩穩落在 3MB 以內 · 頁數一頁不少</p>
+      <p style="margin-top:12px">我還多加了四個快選鈕，因為我發現大家其實記不住要填幾：1MB（超省）、3MB（LINE 好傳）、5MB（Email 附件）、10MB（一般系統上限）。點一下就好，不用自己想。</p>
+    </section>
+
+    <section>
+      <h2><span class="em">🔒</span>那句「個資絕對不離線」，我也做到了</h2>
+      <p>朋友的 App 強調檔案不上傳，這一點我完全同意，而且對我來說是紅線。我教的是機關單位、帶的是社大學員，大家要壓的常常是有個資的公文、名冊、報表。</p>
+      <p>所以我的網頁版一樣<b>全程在你自己的瀏覽器裡運算，檔案不會上傳到任何地方</b>。你甚至可以把網路關掉再壓，照樣能用。壓完的檔案，只在你自己電腦裡。</p>
+    </section>
+
+    <section>
+      <h2><span class="em">⚖️</span>我要老實說的一個取捨</h2>
+      <p>天下沒有白吃的午餐。這種壓縮的原理，是把 PDF 的<b>每一頁重新拍成一張清晰照片，再裝回一份新的 PDF</b>。</p>
+      <p>好處是壓縮效果很強、看起來幾乎一樣。代價是：瘦身版的<b>文字不能再反白複製、也不適合再編輯</b>，因為它已經變成「圖」了。</p>
+      <p>所以我在工具裡老實寫了一句提醒：拿去上傳系統、寄信、繳交，剛剛好；之後還要動的檔案，請留著原始版。<b>把限制講在前面，比事後被抱怨好。</b></p>
+    </section>
+
+    <section>
+      <h2><span class="em">🧰</span>它現在住在哪</h2>
+      <p>這個工具已經上線，收進我的「TARSHAR 工具集」了——那是我跟 AI 一起做的免費線上工具箱，每一樣都是「單一用途、點進來就能完成一件事」的小工具，現在收錄第 14 樣。</p>
+      <a class="link-btn" href="tool-pdf-compress.html" target="_blank" rel="noopener">👉 打開 PDF 瘦身機來壓一份</a>
+    </section>
+
+    <section>
+      <h2><span class="em">💬</span>想跟你說的一句話</h2>
+      <p>看到別人做的好東西，「我也想要」不必停在羨慕。你不用會寫程式，你要練的是另一件事：把那個東西拆開看——它在幫使用者完成哪一件事？中間有哪幾步？然後把這件事清清楚楚交代給 AI。</p>
+      <p>朋友給了我靈感，AI 給了我手，我做的是那個最關鍵、也最像人的部分：<b>決定要做什麼、為誰做、做成什麼樣子。</b>仿作不丟臉，能把別人的好點子變成自己也用得上、還能分享出去的東西，這本身就是一種本事。</p>
+    </section>
+
+    <section>
+      <h2><span class="em">🍀</span>關於我</h2>
+      <p class="about">羅靜娟（Tarshar），淡江 EMBA 資管研究生，AI 課程講師。在經營「🍀Learn AI with Tarshar」，記錄一個非工程師怎麼把 AI 變成日常隊友，把重複繁瑣、吃掉時間的事交出去，把時間留給真正重要的人和事。</p>
+    </section>
+
+    <footer>📮 主題式電子報 · 電子報 004 · 🍀Learn AI with Tarshar · 2026.07.31</footer>
+
+  </div>
+
+  <a class="home-fab" href="lessons.html#edm">🏠 回筆記館入口</a>
+</body>
+</html>
