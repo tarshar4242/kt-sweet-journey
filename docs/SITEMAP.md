@@ -1,12 +1,12 @@
 # 課程筆記館・完整站台規格書（Site Map / Spec）
 
-> **版本**：2026-07-24 快照（對應 main commit `92ba5fa`）｜本規格書由程式掃描 main 分支全站 HTML 自動彙整（標題／描述取自各頁 `<title>` 與 meta description，章節取自各頁實際小節標題），非人工推測。
+> **版本**：2026-08-01 更新｜新增 4 個知識湖既有內容頁，使課程筆記館與知識湖均為 163 個內容頁（另有 404 系統頁）。
 
 - **入口網址**：https://tarshar4242.github.io/kt-sweet-journey/lessons.html
 - **站台型態**：單一入口（`lessons.html`）＋ **7 大系列**；其中 **4 系列為兩層結構**（radio／plans／life／edm：第一層選系列→第二層列各集/作品卡），**3 系列為單頁或外站直達**（iPAS 單頁、論文研讀庫與 SKILL 技能包為外站）。
 - **技術**：每頁皆為單檔 HTML（內含 CSS/JS）、繁體中文、手機優先、進度存 localStorage、GitHub Pages 發佈。
 - **首頁呈現方式**：「▦ 卡片／☰ 目錄」切換，選擇存 localStorage `lessons_mode`。
-- **頁面總數**：88 個 HTML 檔（含系統頁與範例頁）。
+- **頁面總數**：164 個 HTML 檔（163 個內容頁＋1 個 404 系統頁）。
 
 ### 用途分類圖例（每頁條目開頭標記）
 `逐幀筆記`＝EP 課堂筆記頁 ｜ `互動地圖`＝EP 互動技能地圖頁 ｜ `教案`＝對外教學設計 ｜ `作品`＝生活應用成品 ｜ `電子報`＝主題信 ｜ `單頁學習`＝iPAS ｜ `系統／範例`＝不在動線內
@@ -23,7 +23,7 @@
 │    每集＝逐幀課堂筆記頁 ＋ 互動技能地圖頁（兩頁一組、互相連結）
 │    EP46、EP45、EP44、EP43、EP42、EP41、EP41b、EP40、EP39、EP38、EP37、EP36、EP35、EP34、EP33、EP32、EP31、EP30、EP29、EP28、EP27、EP26、EP25、EP24、EP23、EP21、EP20
 │
-├─ 📚 SERIES 02 Tarshar 教案集  showSeries('plans')  →#plans  ── 20 份（每份＝單頁教案）
+├─ 📚 SERIES 02 Tarshar 教案集  showSeries('plans')  →#plans  ── 新增 4 個知識湖指南／練習頁
 ├─ 🧰 SERIES 03 生活應用    showSeries('life')   →#life   ── 5 件（每件＝獨立作品頁）
 ├─ 🎓 SERIES 04 iPAS 證照學習   單頁直達 → ipas-intermediate.html  [1 頁]
 ├─ 📖 SERIES 05 論文研讀庫      外站直達 → thesis-library/index.html（另一 repo，不在本站）
@@ -447,6 +447,28 @@
 ---
 
 ## 三、SERIES 02 · 📚 Tarshar 教案集
+
+### 知識湖指南與陪伴練習
+
+#### `share-is-not-permission.html`　`指南`
+- 網址：https://tarshar4242.github.io/kt-sweet-journey/share-is-not-permission.html
+- 標題：網址不是權限
+- 內容簡述：分清楚網址入口與伺服器權限，說明可控分享為什麼必須限制範圍。
+
+#### `three-sharing-rules.html`　`指南`
+- 網址：https://tarshar4242.github.io/kt-sweet-journey/three-sharing-rules.html
+- 標題：可控分享的三條規則
+- 內容簡述：分享前先決定範圍、期限與撤銷能力。
+
+#### `testing-pack-guide.html`　`指南`
+- 網址：https://tarshar4242.github.io/kt-sweet-journey/testing-pack-guide.html
+- 標題：給測試者的使用說明
+- 內容簡述：說明如何使用專屬網址、回報限制畫面，以及下載邊界。
+
+#### `reflection-starter.html`　`練習`
+- 網址：https://tarshar4242.github.io/kt-sweet-journey/reflection-starter.html
+- 標題：陪伴練習：從一個問題開始
+- 內容簡述：從一個問題練習描述事實、感受、需要與下一個小行動。
 對外授課的完整教案，每份為單頁 HTML。共 20 份（method 編號缺 06、14；06 對應 `build-knowledge-library.html`）。
 
 #### `method-01-paper-translation.html`　`教案`
@@ -724,6 +746,10 @@
 |---|---|---|
 | `404.html` | 系統／範例 | （未掛入動線） |
 | `admin-assistant.html` | 作品 | SERIES 03 生活應用 |
+| `share-is-not-permission.html` | 指南 | SERIES 02 教案集 |
+| `three-sharing-rules.html` | 指南 | SERIES 02 教案集 |
+| `testing-pack-guide.html` | 指南 | SERIES 02 教案集 |
+| `reflection-starter.html` | 練習 | SERIES 02 教案集 |
 | `build-knowledge-library.html` | 教案 | SERIES 02 教案集 |
 | `claim-companion.html` | 教案 | SERIES 02 教案集 |
 | `edm-001.html` | 電子報 | SERIES 07 電子報 |
