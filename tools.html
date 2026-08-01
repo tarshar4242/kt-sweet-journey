@@ -200,15 +200,15 @@ footer a{font-weight:700}
   <button class="theme-btn" id="themeBtn" aria-label="切換深淺色" title="切換深淺色">🌙</button>
   <div class="hero-badge">🧰 LEARN AI WITH TARSHAR</div>
   <h1><span class="en">TARSHAR</span> 工具集</h1>
-  <p class="hero-sub">我跟 AI 一起做出來的免費線上工具箱——這裡的每一樣都是<b>單一用途的小工具</b>：需要的時候點進來，馬上完成那一件事，用完就走。新工具會一個一個加進來，歡迎分享給朋友。</p>
-  <div class="hero-note"><span>✅ 免安裝</span><span>✅ 免註冊</span><span>✅ 完全免費</span><span>📱 手機也好用</span></div>
+  <p class="hero-sub">我跟 AI 一起做出來的工具箱——這裡的每一樣都只解決<b>一件具體的事</b>。公開工具可以直接打開使用；家庭專用工具會清楚標示測試狀態，不會把半成品說成完成品。</p>
+  <div class="hero-note"><span>✅ 公開工具免安裝</span><span>📱 手機也好用</span><span>🏠 家庭工具標示狀態</span><span>🌱 持續增加</span></div>
 </header>
 
 <div class="toolbar">
   <div class="search">🔍<input type="search" id="q" placeholder="搜尋工具：抽獎、倒數、QR、封面⋯"></div>
   <div class="chips" id="chips"></div>
   <p class="count-line" id="countLine"></p>
-  <p class="count-line" style="margin-top:.3rem">標示說明：✅ 免費即用｜⚡ 本機運算（免費，速度看你的設備）｜🔑 需自備 AI 金鑰（工具內會教你怎麼申請）</p>
+  <p class="count-line" style="margin-top:.3rem">標示說明：✅ 免費即用｜⚡ 本機運算｜🔑 需自備 AI 金鑰｜☁️ 家庭主機處理｜🔒 私人測試</p>
 </div>
 
 <main>
@@ -241,6 +241,20 @@ footer a{font-weight:700}
    'key'＝需使用者自備 AI 金鑰。凡是 device／key 的工具，工具頁內
    「開始使用前」必須先跳出白話提示說明要準備什麼、會發生什麼。 */
 const TOOLS = [
+  {
+    icon:'🎤', tint:'#fff0f1', tintD:'#3b1d22',
+    name:'緣聚 KTV', cat:'family', cost:'hosted',
+    desc:'貼一個歌曲影片網址，工作會排進雲端，再由 Mac mini 製作伴奏 MP3 與動態歌詞 TXT，完成後送進家庭 Google Drive。公開測試版已可使用，歌詞時間仍持續優化。',
+    tags:['公開測試版','伴奏MP3','動態歌詞TXT'],
+    href:'https://yuanju-ktv.tarshar4242.chatgpt.site', ext:true
+  },
+  {
+    icon:'👨‍👧', tint:'#edf4ff', tintD:'#17283e',
+    name:'爸爸的歌曲影片', cat:'family', cost:'private',
+    desc:'爸爸只要把 YouTube 網址傳進 Telegram，Mac mini 就會處理成手機好播放的 MP4，再傳回同一個聊天室。目前 Tarshar 已測試成功，爸爸本人實機與多人流程尚未完成。',
+    tags:['家庭私人版','Telegram','待爸爸實機'],
+    availability:'private'
+  },
   {
     icon:'🎡', tint:'#fdeee2', tintD:'#3a2718',
     name:'課堂抽獎神器', cat:'random', cost:'free',
@@ -352,9 +366,10 @@ const CATS = [
   {key:'convert',   label:'🔄 轉換'},
   {key:'file',      label:'📄 檔案'},
   {key:'ai',        label:'🤖 AI 幫手'}
+  ,{key:'family',   label:'🏠 家庭自動化'}
 ];
 
-const COST_LABEL = {free:'✅ 免費即用', device:'⚡ 本機運算', key:'🔑 需自備金鑰'};
+const COST_LABEL = {free:'✅ 免費即用', device:'⚡ 本機運算', key:'🔑 需自備金鑰', hosted:'☁️ 家庭主機處理', private:'🔒 私人測試'};
 
 let curCat = 'all', curQ = '';
 const $ = s => document.querySelector(s);
@@ -370,8 +385,12 @@ function render(){
     const hay = (t.name + t.desc + t.tags.join('')).toLowerCase();
     return hay.includes(curQ);
   });
-  grid.innerHTML = list.map(t => `
-    <a class="tool" href="${t.href}"${t.ext ? ' target="_blank" rel="noopener"' : ''} style="--tint:${dark ? t.tintD : t.tint}">
+  grid.innerHTML = list.map(t => {
+    const tag = t.availability === 'private' ? 'div' : 'a';
+    const link = t.availability === 'private' ? '' : ` href="${t.href}"${t.ext ? ' target="_blank" rel="noopener"' : ''}`;
+    const action = t.availability === 'private' ? '尚未公開' : '打開 ›';
+    return `
+    <${tag} class="tool${t.availability === 'private' ? ' private-tool' : ''}"${link} style="--tint:${dark ? t.tintD : t.tint}">
       <div class="tool-head">
         <div class="tool-icon">${t.icon}</div>
         <div>
@@ -382,9 +401,10 @@ function render(){
       <p>${t.desc}</p>
       <div class="foot">
         <div class="tags">${t.tags.map(x => `<span>#${x}</span>`).join('')}</div>
-        <span class="go">打開 ›</span>
+        <span class="go">${action}</span>
       </div>
-    </a>`).join('');
+    </${tag}>`;
+  }).join('');
   if (curCat === 'all' && !curQ) {
     grid.innerHTML += `
     <div class="tool soon">
