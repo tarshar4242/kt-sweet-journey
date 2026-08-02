@@ -28,7 +28,7 @@
 ├─ 🎓 SERIES 04 iPAS 證照學習   單頁直達 → ipas-intermediate.html  [1 頁]
 ├─ 📖 SERIES 05 論文研讀庫      外站直達 → thesis-library/index.html（另一 repo，不在本站）
 ├─ 🛠️ SERIES 06 SKILL 技能包    外站直達 → thesis-library/skills.html（另一 repo，不在本站）
-└─ 📮 SERIES 07 主題式電子報   showSeries('edm')    →#edm    ── 3 期（每期＝ edm-NNN.html）
+└─ 📮 SERIES 07 主題式電子報   showSeries('edm')    →#edm    ── 5 期（每期＝ edm-NNN.html）
 ```
 > 節點頁數為本快照數字，新增內容後需同步更新。
 
@@ -666,7 +666,19 @@
 ---
 
 ## 六、SERIES 07 · 📮 主題式電子報
-每期一頁 edm-NNN.html，最新在前。共 3 期。
+每期一頁 edm-NNN.html，最新在前。共 5 期。
+
+#### `edm-005.html`　`電子報`
+- 網址：https://tarshar4242.github.io/kt-sweet-journey/edm-005.html
+- 標題：電子報 005｜本來只是想幫家人省點事，結果我把 Mac mini 變成家庭員工
+- 內容簡述：主題式電子報第五期：把爸爸下載歌曲影片與老公製作 KTV 伴唱底板的麻煩，拆成兩套由手機送件、Mac mini 執行的家庭自動流程。
+- 內容物（章節）：🏠一天做兩個工具 ／ 👨‍👧爸爸的手機影片工具 ／ 🎤緣聚 KTV ／ 📱兩個工具成果 ／ 🧭重新定義完成 ／ 🌱下一步 ／ 🍀關於我
+
+#### `edm-004.html`　`電子報`
+- 網址：https://tarshar4242.github.io/kt-sweet-journey/edm-004.html
+- 標題：電子報 004｜網路上看到好用的 App，我自己也做了一個
+- 內容簡述：主題式電子報第四期：從看到 PDF 壓縮 App 的靈感出發，做出能輸入目標大小、在瀏覽器中精準壓縮且檔案不上傳的網頁工具。
+- 內容物（章節）：🪶看到想要的 App ／ 🎯目標大小壓縮 ／ 🔒檔案不上傳 ／ 🌐做成大家可用的網頁版
 
 #### `edm-003.html`　`電子報`
 - 網址：https://tarshar4242.github.io/kt-sweet-journey/edm-003.html
@@ -753,6 +765,10 @@
 | `build-knowledge-library.html` | 教案 | SERIES 02 教案集 |
 | `claim-companion.html` | 教案 | SERIES 02 教案集 |
 | `edm-001.html` | 電子報 | SERIES 07 電子報 |
+| `edm-002.html` | 電子報 | SERIES 07 電子報 |
+| `edm-003.html` | 電子報 | SERIES 07 電子報 |
+| `edm-004.html` | 電子報 | SERIES 07 電子報 |
+| `edm-005.html` | 電子報 | SERIES 07 電子報 |
 | `ep20-ai-skills.html` | 互動地圖 | SERIES 01 直播電台 |
 | `ep20-notes.html` | 逐幀筆記 | SERIES 01 直播電台 |
 | `ep21-ai-skills.html` | 互動地圖 | SERIES 01 直播電台 |
