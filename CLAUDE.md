@@ -39,9 +39,12 @@
 2. 下載（drive.usercontent.google.com 開通後）：
    `curl -L --cacert /root/.ccr/ca-bundle.crt -o ep44.mp4 "https://drive.usercontent.google.com/download?id=<ID>&export=download&confirm=t"`
    （大檔會回確認頁，抽 `name="uuid"` 再帶上 `&uuid=` 重打；流水線腳本樣板見 scratchpad/fetch_ep44.sh 的寫法）。
-3. 抽格：ffmpeg 每 15 秒抽 1 格 →「親眼」逐格閱讀（Read 工具看圖），記錄每頁簡報與示範畫面；
-   簡報 pptx 下載後 unzip 取 `ppt/media/` 原圖，嵌入筆記。
-4. 逐字稿：pip 裝 faster-whisper（模型自 huggingface.co 下載），16kHz 單聲道 wav 轉寫。
+3. 抽格（2026-08-03 升級）：改用「場景偵測去重＋每 60 秒保底」抽格，並用 showinfo 的
+   pts_time 產生 timestamps.txt 做「簡報接地」（指令與閾值調法見
+   `.claude/skills/lecture-notes-site/SKILL.md` 第 2 步）→ 仍需「親眼」逐張閱讀
+   （Read 工具看圖），記錄每頁簡報與示範畫面；簡報 pptx 下載後 unzip 取 `ppt/media/` 原圖，嵌入筆記。
+4. 逐字稿：pip 裝 faster-whisper（模型自 huggingface.co 下載），16kHz 單聲道 wav 轉寫，
+   保留 segment 級 start/end 秒數；筆記時間戳 `[mm:ss]` 由接地表換算，不憑印象填。
 5. 將逐幀內容增補進 `ep44-notes.html`（保留現有結構，逐節替換為實錄內容＋真實截圖），
    並同步更新 `ep44-ai-skills.html` 的技能細節，commit + push 到分支
    `claude/lecture-notes-html-page-r3m77v`。

@@ -36,9 +36,26 @@ description: 把 Google Drive 的課程資料夾（講義簡報＋錄影回放�
   # 若 file out.bin 是 HTML：抽 name="uuid" value 再帶 &uuid= 重打一次
   ```
 - 簡報 pptx 下載後 `unzip -o ep.pptx 'ppt/media/*'` 取原圖，挑代表圖嵌入筆記。
-- 影片抽格：`ffmpeg`（在 /opt/pw-browsers/ffmpeg-*）`-vf "fps=1/15,scale=1280:-2"` 出 jpg，
-  用 Read 工具**親眼逐格看**並記錄每頁簡報／示範畫面（這就是「一幀一幀」）。
-- 逐字稿：`pip install faster-whisper` → 16kHz 單聲道 wav → small/int8 模型轉寫（4 核約 30–60 分鐘）。
+- 影片抽格（2026-08-03 升級：借鑑 drpwchen/lecture-to-notes 的「去重＋接地」做法，
+  取代舊的固定每 15 秒抽格，可少看六～七成重複幀）：
+  ```bash
+  FF=$(ls /opt/pw-browsers/ffmpeg-*/ffmpeg 2>/dev/null | head -1); FF=${FF:-ffmpeg}
+  mkdir -p frames
+  # 第一遍：場景變化偵測——畫面有變（換頁/切示範）才留一張，showinfo 記下每張秒數
+  "$FF" -i ep.mp4 -vf "select='gt(scene,0.08)',showinfo,scale=1280:-2" \
+        -vsync vfr -q:v 3 frames/sc_%04d.jpg 2> frames/showinfo.log
+  grep -o 'pts_time:[0-9.]*' frames/showinfo.log | cut -d: -f2 > frames/timestamps.txt
+  # 第 N 張 sc_ 圖 ＝ timestamps.txt 第 N 行的秒數
+  # 保底：長時間不換頁的講解/示範段落，每 60 秒補抽一張，避免漏掉畫面內的漸進變化
+  "$FF" -i ep.mp4 -vf "fps=1/60,scale=1280:-2" -q:v 3 frames/bk_%04d.jpg
+  ```
+  閾值自 0.08 起調：一小時課 sc_ 圖 <40 張＝偵測太鈍（降到 0.05）、>300 張＝雜訊太多（升到 0.12）。
+  抽完仍用 Read 工具**親眼逐張看**並記錄每頁簡報／示範畫面（鐵則不變，這就是「一幀一幀」）。
+- 簡報接地（自動對時間戳）：timestamps.txt 第 N 張的秒數＝該頁開始講的時間；
+  逐字稿 segment 的時間落在第 N 張與第 N+1 張之間者歸入該頁。
+  筆記各節的 `[mm:ss]` 一律由此換算，不靠人工對時間、也不憑印象填。
+- 逐字稿：`pip install faster-whisper` → 16kHz 單聲道 wav → small/int8 模型轉寫（4 核約 30–60 分鐘），
+  **保留 segment 級 start/end 秒數**供接地使用；轉寫可背景跑，與看幀並行。
 
 ### 第 3 步：產出兩個 HTML（單檔、繁中、手機優先）
 
@@ -75,5 +92,6 @@ description: 把 Google Drive 的課程資料夾（講義簡報＋錄影回放�
 ## 品質守則
 
 - 筆記的每一條內容都要能對到來源（簡報頁／影片時間點／逐字稿段落）；對不到的標「系列課程脈絡補充」。
-- 逐字稿完成後回頭把筆記逐節替換成實錄內容，附影片時間戳（格式 `[mm:ss]`）。
+- 逐字稿完成後回頭把筆記逐節替換成實錄內容，附影片時間戳（格式 `[mm:ss]`，
+  由「簡報接地」的 timestamps.txt 換算，不憑印象填）。
 - SVG 圖解至少 3 張（全景、核心觀念、流程）；表格一律包 `overflow-x:auto` 容器。
