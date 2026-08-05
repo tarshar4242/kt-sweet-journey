@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>台北車站→瑞芳→九份 一日遊互動行程</title>
+  <meta name="description" content="從台北車站搭火車到瑞芳，再到九份喝下午茶的互動式一日遊網頁，含小吃、備案、時間軸、打包清單與現場決策模式。" />
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=boska@400,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="light"] {
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+      --text-3xl: clamp(2.5rem, 1rem + 4vw, 5rem);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem;
+      --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem;
+      --space-12: 3rem; --space-16: 4rem; --space-20: 5rem;
+      --color-bg:#f7f6f2; --color-surface:#fcfbf8; --color-surface-2:#f2efe9; --color-surface-offset:#ece7df;
+      --color-border:#d9d2c8; --color-text:#27231d; --color-text-muted:#6f6b65; --color-text-faint:#9d988f;
+      --color-primary:#0f6b70; --color-primary-hover:#0c5257; --color-primary-soft:#d8e7e6; --color-gold:#bf8a13;
+      --shadow-sm:0 1px 2px rgba(34,28,22,.06); --shadow-md:0 12px 30px rgba(34,28,22,.08); --shadow-lg:0 22px 50px rgba(34,28,22,.12);
+      --radius-sm:.5rem; --radius-md:.85rem; --radius-lg:1.2rem; --radius-xl:1.75rem; --radius-full:999px;
+      --font-display:'Boska','Noto Sans TC',serif; --font-body:'Satoshi','Noto Sans TC',sans-serif;
+    }
+    [data-theme="dark"] {
+      --color-bg:#171614; --color-surface:#1f1d1a; --color-surface-2:#26231f; --color-surface-offset:#2d2924;
+      --color-border:#403a33; --color-text:#f0ece6; --color-text-muted:#c4bcb2; --color-text-faint:#8e877e;
+      --color-primary:#5ca8ae; --color-primary-hover:#8cc7cb; --color-primary-soft:#243637; --color-gold:#f0bb42;
+      --shadow-sm:0 2px 4px rgba(0,0,0,.28); --shadow-md:0 16px 34px rgba(0,0,0,.32); --shadow-lg:0 28px 60px rgba(0,0,0,.38);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+    body{font-family:var(--font-body);font-size:var(--text-base);line-height:1.65;background:
+      radial-gradient(circle at top right, color-mix(in srgb, var(--color-primary) 8%, transparent), transparent 30%),
+      linear-gradient(180deg, var(--color-bg), color-mix(in srgb, var(--color-surface) 80%, var(--color-bg)));
+      color:var(--color-text);min-height:100dvh}
+    a{color:inherit} img,svg{display:block;max-width:100%} button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .container{width:min(1120px,calc(100% - 2rem));margin-inline:auto}
+    .skip-link{position:absolute;left:1rem;top:-3rem;background:var(--color-primary);color:#fff;padding:.75rem 1rem;border-radius:var(--radius-full);z-index:100}.skip-link:focus{top:1rem}
+    header{position:sticky;top:0;z-index:50;background:color-mix(in srgb, var(--color-bg) 82%, transparent);backdrop-filter:blur(14px);border-bottom:1px solid color-mix(in srgb, var(--color-text) 10%, transparent)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);padding:var(--space-4) 0}
+    .brand{display:flex;align-items:center;gap:var(--space-3);text-decoration:none}
+    .brand-mark{width:2.5rem;height:2.5rem;border-radius:1rem;background:linear-gradient(135deg,var(--color-primary),var(--color-gold));display:grid;place-items:center;color:#fff;box-shadow:var(--shadow-sm)}
+    .brand-name{font-weight:700}.brand-sub{font-size:var(--text-xs);color:var(--color-text-muted)}
+    .nav-links{display:flex;gap:var(--space-3);flex-wrap:wrap}
+    .nav-links a,.theme-toggle{padding:.72rem .95rem;border-radius:var(--radius-full);text-decoration:none;font-size:var(--text-sm);background:color-mix(in srgb, var(--color-surface) 82%, transparent);border:1px solid color-mix(in srgb, var(--color-text) 10%, transparent)}
+    .hero{padding:clamp(3.5rem,8vw,6.5rem) 0 var(--space-12)}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .9fr;gap:var(--space-8);align-items:start}
+    .eyebrow{display:inline-flex;gap:.5rem;align-items:center;padding:.5rem .9rem;border-radius:var(--radius-full);font-size:var(--text-sm);background:var(--color-primary-soft);color:var(--color-primary);margin-bottom:var(--space-4)}
+    h1{font-family:var(--font-display);font-size:var(--text-3xl);line-height:1.02;letter-spacing:-.03em;max-width:11ch}
+    .hero p{margin-top:var(--space-5);max-width:58ch;color:var(--color-text-muted)}
+    .cta-row{display:flex;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-6)}
+    .btn{display:inline-flex;align-items:center;gap:.6rem;padding:.95rem 1.15rem;border-radius:var(--radius-full);text-decoration:none;border:1px solid transparent;min-height:44px}
+    .btn-primary{background:var(--color-primary);color:#fff;box-shadow:var(--shadow-md)} .btn-primary:hover{background:var(--color-primary-hover)}
+    .btn-secondary{background:var(--color-surface);border-color:color-mix(in srgb, var(--color-text) 10%, transparent)}
+    .hero-card,.panel,.timeline-item,.food-card,.backup-card,.checklist li,.selector-card{background:color-mix(in srgb, var(--color-surface) 92%, transparent);border:1px solid color-mix(in srgb, var(--color-text) 10%, transparent);box-shadow:var(--shadow-sm)}
+    .hero-card{padding:var(--space-6);border-radius:var(--radius-xl);display:grid;gap:var(--space-4);position:relative;overflow:hidden}
+    .hero-card::after{content:"";position:absolute;inset:auto -4rem -4rem auto;width:10rem;height:10rem;background:radial-gradient(circle, color-mix(in srgb,var(--color-gold) 35%, transparent), transparent 70%)}
+    .route-pill{display:flex;flex-wrap:wrap;gap:.6rem}.route-pill span{padding:.55rem .8rem;border-radius:var(--radius-full);font-size:var(--text-sm);background:var(--color-surface-2)}
+    main{padding-bottom:var(--space-20)}
+    section{padding:var(--space-8) 0}.section-head{display:flex;justify-content:space-between;align-items:end;gap:var(--space-4);margin-bottom:var(--space-5)}
+    h2{font-size:var(--text-xl);font-family:var(--font-display);line-height:1.05} .section-head p{color:var(--color-text-muted);max-width:52ch}
+    .grid-2{display:grid;grid-template-columns:1.15fr .85fr;gap:var(--space-6)} .panel{padding:var(--space-6);border-radius:var(--radius-lg)}
+    .timeline{display:grid;gap:var(--space-4)} .timeline-item{padding:var(--space-5);border-radius:var(--radius-lg);position:relative}
+    .timeline-time{font-weight:700;color:var(--color-primary);font-size:var(--text-sm)} .timeline-item h3{margin-top:.35rem;font-size:var(--text-lg)}
+    .timeline-item p{margin-top:.35rem;color:var(--color-text-muted)} .tag-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:var(--space-3)}
+    .tag{font-size:var(--text-xs);padding:.4rem .7rem;border-radius:var(--radius-full);background:var(--color-surface-2);color:var(--color-text-muted)}
+    .selector{display:grid;gap:var(--space-4)} .selector-card{padding:var(--space-5);border-radius:var(--radius-lg)}
+    .selector-card h3{font-size:var(--text-lg)} .selector-card p{margin-top:.5rem;color:var(--color-text-muted)}
+    .meter{height:.8rem;background:var(--color-surface-2);border-radius:var(--radius-full);overflow:hidden;margin-top:var(--space-4)} .meter > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--color-primary),var(--color-gold));transition:width .5s ease}
+    .food-grid,.backup-grid,.tips-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-4)}
+    .food-card,.backup-card{padding:var(--space-5);border-radius:var(--radius-lg)} .food-card h3,.backup-card h3{font-size:var(--text-lg)} .food-card p,.backup-card p{color:var(--color-text-muted);margin-top:.45rem}
+    .badge{display:inline-block;padding:.35rem .65rem;border-radius:var(--radius-full);font-size:var(--text-xs);background:var(--color-primary-soft);color:var(--color-primary);margin-bottom:.65rem}
+    .chips{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:var(--space-3)} .chips span{font-size:var(--text-xs);background:var(--color-surface-2);padding:.45rem .7rem;border-radius:var(--radius-full)}
+    .checklist{display:grid;gap:var(--space-3);list-style:none} .checklist li{padding:var(--space-4);border-radius:var(--radius-md);display:flex;gap:var(--space-3);align-items:flex-start}
+    .checklist input{margin-top:.3rem;accent-color:var(--color-primary);width:1.1rem;height:1.1rem}
+    .footer-card{padding:var(--space-6);border-radius:var(--radius-xl);background:linear-gradient(135deg,color-mix(in srgb,var(--color-primary) 12%, var(--color-surface)),color-mix(in srgb,var(--color-gold) 8%, var(--color-surface)))}
+    .mini-note{font-size:var(--text-sm);color:var(--color-text-muted)}
+    .fab{position:fixed;right:1rem;bottom:1rem;display:flex;gap:.75rem;z-index:40}
+    .fab button{padding:.9rem 1rem;border-radius:var(--radius-full);background:var(--color-text);color:var(--color-bg);box-shadow:var(--shadow-lg);min-height:44px}
+    .weather-box{display:grid;gap:var(--space-3)}
+    .kpi{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-3)}
+    .kpi .panel{padding:var(--space-5)} .kpi strong{font-size:var(--text-xl);font-family:var(--font-display)} .kpi span{display:block;color:var(--color-text-muted);font-size:var(--text-sm)}
+    @media (max-width: 920px){.hero-grid,.grid-2,.food-grid,.backup-grid,.tips-grid,.kpi{grid-template-columns:1fr}.nav{align-items:flex-start;flex-direction:column}.nav-links{width:100%}.hero h1{max-width:100%}}
+    @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto} .meter>span{transition:none}}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到內容</a>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="回到頁首">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M3 16 12 4l9 12"/><path d="M6 16h12"/><path d="M9 20h6"/>
+          </svg>
+        </span>
+        <span>
+          <span class="brand-name">山城偷閒日</span>
+          <span class="brand-sub">台北車站 → 瑞芳 → 九份</span>
+        </span>
+      </a>
+      <nav class="nav-links" aria-label="主要導覽">
+        <a href="#timeline">時間軸</a>
+        <a href="#food">瑞芳吃什麼</a>
+        <a href="#tea">九份下午茶</a>
+        <a href="#backup">備案模式</a>
+        <button class="theme-toggle" data-theme-toggle aria-label="切換深色模式">🌗</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero container" id="top">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">🚆 火車旅行已確定・9:30 台北車站出發</div>
+          <h1>早上瑞芳吃小吃，中午九份偷閒喝茶的輕快一日遊</h1>
+          <p>這份互動版行程把你想走的主線、現場排隊時的替代方案、下雨版與體力保守版都放進去了。玩法是：先到瑞芳邊走邊吃，再轉往九份，把<strong>暇咖啡</strong>當成今日主角，其他店當作現場加碼或備援。</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#timeline">開始排今天的節奏</a>
+            <a class="btn btn-secondary" href="#backup">先看備案</a>
+          </div>
+          <div class="route-pill" style="margin-top:1.25rem">
+            <span>09:30 台北車站出發</span>
+            <span>10:30 左右瑞芳小吃</span>
+            <span>12:00–13:30 九份下午茶</span>
+            <span>主目標：暇咖啡</span>
+          </div>
+        </div>
+        <aside class="hero-card" aria-label="行程摘要">
+          <div>
+            <div class="mini-note">今日旅遊個性</div>
+            <h2 style="font-size:var(--text-2xl)">吃得剛剛好、拍得很開心、走得不狼狽</h2>
+          </div>
+          <div class="kpi">
+            <div class="panel"><strong>3 段</strong><span>台北車站 → 瑞芳 → 九份</span></div>
+            <div class="panel"><strong>6+ 家</strong><span>瑞芳小吃可自由拼盤</span></div>
+            <div class="panel"><strong>4 套</strong><span>塞車/排隊/下雨備案</span></div>
+          </div>
+          <div class="weather-box panel">
+            <div class="mini-note">今天的旅行心法</div>
+            <p>不要把自己排成軍事行軍。瑞芳先吃三樣左右就好，留胃給九份；如果暇咖啡候位久，就先逛老街再回頭。</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="container" id="timeline">
+      <div class="section-head">
+        <div>
+          <h2>主線時間軸</h2>
+          <p>這是一條以火車為核心的順走版路線：早上先把瑞芳站周邊吃一輪，中午轉九份，下午看體力決定要不要再續攤。</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="timeline">
+          <article class="timeline-item">
+            <div class="timeline-time">09:30–10:20</div>
+            <h3>台北車站搭火車出發</h3>
+            <p>從台北車站直接搭台鐵往瑞芳，區間車或自強號都可以，目標是大約 10:20–10:40 抵達瑞芳即可。這一段不用搶快，因為真正的旅行感從瑞芳站出來才開始。</p>
+            <div class="tag-row"><span class="tag">搭火車</span><span class="tag">輕鬆啟程</span><span class="tag">早餐可簡單吃</span></div>
+          </article>
+          <article class="timeline-item">
+            <div class="timeline-time">10:30–11:35</div>
+            <h3>瑞芳站附近散步吃小吃</h3>
+            <p>建議採「少量多樣」模式，優先挑 2–4 樣：酥餅、龍鳳腿、番薯粿、芋圓或豬腳湯，不要一開始就吃到過飽。</p>
+            <div class="tag-row"><span class="tag">步行可達</span><span class="tag">銅板小吃</span><span class="tag">留胃給九份</span></div>
+          </article>
+          <article class="timeline-item">
+            <div class="timeline-time">11:35–12:00</div>
+            <h3>從瑞芳轉往九份</h3>
+            <p>這一段可依現場狀況選公車或計程車。如果你想衝第一波午後座位，計程車會比較俐落；若想省力省心，公車也可。</p>
+            <div class="tag-row"><span class="tag">公車/計程車雙選</span><span class="tag">看現場人潮</span></div>
+          </article>
+          <article class="timeline-item">
+            <div class="timeline-time">12:00–13:30</div>
+            <h3>九份主秀：暇咖啡下午茶</h3>
+            <p>把這段當作今天的核心儀式感：坐下來、看山海、慢慢喝。若現場需候位，就改成先逛老街 30–45 分鐘，再回來接手這段行程。</p>
+            <div class="tag-row"><span class="tag">主打景觀</span><span class="tag">現場候位</span><span class="tag">今日主角</span></div>
+          </article>
+          <article class="timeline-item">
+            <div class="timeline-time">13:30–16:00</div>
+            <h3>飯後續玩：九份老街自由加碼</h3>
+            <p>可以採輕鬆版：逛老街、買草仔粿、再吃芋圓；也可以採收尾版：喝完就慢慢回瑞芳，不勉強再塞景點。</p>
+            <div class="tag-row"><span class="tag">自由伸縮</span><span class="tag">體力決定玩法</span></div>
+          </article>
+        </div>
+        <aside class="selector" aria-label="節奏選擇器">
+          <div class="selector-card">
+            <h3>今天想走哪種節奏？</h3>
+            <p>點下面按鈕，右邊條會顯示這趟的一日遊感受。不是要算分數，是幫你快速選今天適合哪個版本。</p>
+            <div class="cta-row">
+              <button class="btn btn-secondary pace-btn" data-eat="65" data-walk="55" data-relax="92">悠閒派</button>
+              <button class="btn btn-secondary pace-btn" data-eat="85" data-walk="72" data-relax="70">均衡派</button>
+              <button class="btn btn-secondary pace-btn" data-eat="92" data-walk="84" data-relax="58">拚吃派</button>
+            </div>
+            <div class="mini-note" style="margin-top:1rem">吃得過癮</div>
+            <div class="meter"><span id="eatMeter"></span></div>
+            <div class="mini-note" style="margin-top:1rem">步行程度</div>
+            <div class="meter"><span id="walkMeter"></span></div>
+            <div class="mini-note" style="margin-top:1rem">放空程度</div>
+            <div class="meter"><span id="relaxMeter"></span></div>
+          </div>
+          <div class="selector-card">
+            <h3>一句話版本</h3>
+            <p id="paceText">推薦先用「均衡派」：瑞芳吃 3 樣左右，中午去暇咖啡，下午再看精神決定是否多逛老街。</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="container" id="food">
+      <div class="section-head">
+        <div>
+          <h2>瑞芳先吃什麼</h2>
+          <p>你這趟上午落點在瑞芳，最適合做成「小吃拼盤式行程」：看哪家剛好順路、排隊短，就先拿下。</p>
+        </div>
+      </div>
+      <div class="food-grid">
+        <article class="food-card">
+          <span class="badge">站前友善</span>
+          <h3>一口酥餅舖</h3>
+          <p>適合當火車下車後的第一站，酥餅與鹹豆漿組合很像替今天按下開機鍵。</p>
+          <div class="chips"><span>早餐感</span><span>近車站</span><span>適合先墊胃</span></div>
+        </article>
+        <article class="food-card">
+          <span class="badge">在地感強</span>
+          <h3>龍鳳腿</h3>
+          <p>屬於瑞芳代表性小吃，建議一人 1–2 支就好，吃個味道即可，不要太早戰力耗盡。</p>
+          <div class="chips"><span>邊走邊吃</span><span>炸物香</span><span>拍照可愛</span></div>
+        </article>
+        <article class="food-card">
+          <span class="badge">古早味</span>
+          <h3>番薯粿</h3>
+          <p>如果你想把這趟弄得更有地方味，番薯粿很值得納入，份量不大、辨識度高。</p>
+          <div class="chips"><span>傳統感</span><span>可當加碼</span></div>
+        </article>
+        <article class="food-card">
+          <span class="badge">熱食派</span>
+          <h3>鹹冬瓜豬腳湯 / 麵線羹</h3>
+          <p>若當天天氣悶濕或你想坐一下，這類熱食是很好的中場補給，但建議兩人分食更剛好。</p>
+          <div class="chips"><span>適合坐下休息</span><span>雨天友善</span></div>
+        </article>
+        <article class="food-card">
+          <span class="badge">甜口收尾</span>
+          <h3>保留芋圓名額</h3>
+          <p>如果你中午確定去九份喝甜飲，就不用急著在瑞芳先吃大碗甜品；留一個甜點胃，下午更舒服。</p>
+          <div class="chips"><span>胃容量管理</span><span>避免太撐</span></div>
+        </article>
+        <article class="food-card">
+          <span class="badge">最佳策略</span>
+          <h3>上午吃法建議</h3>
+          <p>建議公式：1 個主食感 + 1 個炸物 + 1 個地方小吃，最多再加 1 個飲料或甜點，剛剛好。</p>
+          <div class="chips"><span>3 樣最穩</span><span>避免戰力透支</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="container" id="tea">
+      <div class="section-head">
+        <div>
+          <h2>九份下午茶主秀</h2>
+          <p>中午到九份，你的主目標可直接鎖定暇咖啡；其餘名單則作為候位時、臨時變心時或想續攤時的補位選手。</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="panel">
+          <span class="badge">主選手</span>
+          <h3 style="font-size:var(--text-xl)">暇咖啡</h3>
+          <p style="margin-top:.6rem">適合被放在整趟旅程最亮的時段。你上午吃瑞芳、中午上九份，節奏很順；若需候位，就先逛老街、買草仔粿、拍幾張山城照，再回來喝。</p>
+          <div class="chips"><span>景觀系</span><span>儀式感</span><span>中午安排最剛好</span></div>
+        </div>
+        <div class="panel">
+          <span class="badge">替補名單</span>
+          <ul class="checklist" aria-label="九份替代店家清單">
+            <li><input type="checkbox" /><div><strong>吾穀茶糧</strong><div class="mini-note">比較偏茶食與輕食，可當午茶也可稍微補餐。</div></div></li>
+            <li><input type="checkbox" /><div><strong>逸茶酒室</strong><div class="mini-note">如果你想找較靜、較文青、偏氛圍的空間，可列為候補。</div></div></li>
+            <li><input type="checkbox" /><div><strong>山巴咖啡</strong><div class="mini-note">適合當你臨時想換個看景角度時使用。</div></div></li>
+            <li><input type="checkbox" /><div><strong>貓十五義式冰淇淋</strong><div class="mini-note">若不想久坐，改走邊逛邊吃甜點的簡短版，這種店最合適。</div></div></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" id="backup">
+      <div class="section-head">
+        <div>
+          <h2>很多備案，不怕卡住</h2>
+          <p>真正好用的一日遊，不是排得滿，而是遇到人潮、下雨、體力波動時還能漂亮轉彎。</p>
+        </div>
+      </div>
+      <div class="backup-grid">
+        <article class="backup-card">
+          <span class="badge">備案 A</span>
+          <h3>暇咖啡排隊太久</h3>
+          <p>先去九份老街散步 30–45 分鐘，吃草仔粿或芋圓，之後再回來；若仍太久，就改投吾穀茶糧或其他茶館。</p>
+          <div class="chips"><span>最實用</span><span>不浪費時間</span></div>
+        </article>
+        <article class="backup-card">
+          <span class="badge">備案 B</span>
+          <h3>瑞芳吃太開，突然很飽</h3>
+          <p>九份就改成「景觀散步 + 一杯飲料」模式，不一定要再補甜點。下午茶也可以是喝茶，不一定要吃滿。</p>
+          <div class="chips"><span>保胃版</span><span>舒適優先</span></div>
+        </article>
+        <article class="backup-card">
+          <span class="badge">備案 C</span>
+          <h3>下雨或天氣悶</h3>
+          <p>瑞芳縮成 2 樣小吃，快速上九份找室內座位，把長時間停留交給茶館或咖啡館，減少在戶外站太久。</p>
+          <div class="chips"><span>雨天版</span><span>室內停留多</span></div>
+        </article>
+        <article class="backup-card">
+          <span class="badge">備案 D</span>
+          <h3>今天只想輕鬆，不想走太多</h3>
+          <p>瑞芳吃近車站的 2–3 攤後，直接計程車到九份，再把下午重點放在一家店與一段老街散步即可。</p>
+          <div class="chips"><span>體力保守版</span><span>計程車友善</span></div>
+        </article>
+        <article class="backup-card">
+          <span class="badge">備案 E</span>
+          <h3>臨時想早回台北</h3>
+          <p>最簡單就是喝完下午茶就回瑞芳搭火車，這樣仍然是一趟完整的一日遊，不算縮水，叫做收得漂亮。</p>
+          <div class="chips"><span>乾淨收尾</span><span>不硬撐</span></div>
+        </article>
+        <article class="backup-card">
+          <span class="badge">備案 F</span>
+          <h3>突然很有精神想加碼</h3>
+          <p>下午茶後可再補一輪九份老街小吃，或拉長拍照散步時間，讓山城氛圍變成今天最後的延伸章節。</p>
+          <div class="chips"><span>加碼版</span><span>看心情延長</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="section-head">
+        <div>
+          <h2>出發前小工具</h2>
+          <p>這裡把臨門一腳最實用的東西放一起：勾選清單、行前提醒，以及一個隨機小任務，讓旅程更有趣。</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="panel">
+          <h3 style="font-size:var(--text-lg)">今日打包清單</h3>
+          <ul class="checklist" style="margin-top:1rem">
+            <li><input type="checkbox" /><div><strong>悠遊卡 / 票券</strong><div class="mini-note">火車與公車切換更順手。</div></div></li>
+            <li><input type="checkbox" /><div><strong>摺傘或輕便雨衣</strong><div class="mini-note">山城天氣說變就變。</div></div></li>
+            <li><input type="checkbox" /><div><strong>行動電源</strong><div class="mini-note">拍照、查路、看班次都會用到。</div></div></li>
+            <li><input type="checkbox" /><div><strong>空一點的胃</strong><div class="mini-note">這個比什麼都重要。</div></div></li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3 style="font-size:var(--text-lg)">旅途隨機任務</h3>
+          <p id="missionText" style="margin-top:.8rem;color:var(--color-text-muted)">在瑞芳挑一樣你平常不會主動買的小吃，今天就把它當作旅行限定口味。</p>
+          <div class="cta-row">
+            <button class="btn btn-primary" id="missionBtn">換一個任務</button>
+          </div>
+          <div class="footer-card" style="margin-top:1rem">
+            <div class="mini-note">小提醒</div>
+            <p>你不需要把所有名單都吃完。真正厲害的一日遊，是回家時覺得還有一點意猶未盡，下次才有理由再來。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="fab" aria-label="浮動操作">
+    <button id="topBtn" aria-label="回到頁首">↑ 頁首</button>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const themeToggle = document.querySelector('[data-theme-toggle]');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    root.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+    themeToggle.addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      themeToggle.textContent = next === 'dark' ? '🌞' : '🌗';
+    });
+
+    const eatMeter = document.getElementById('eatMeter');
+    const walkMeter = document.getElementById('walkMeter');
+    const relaxMeter = document.getElementById('relaxMeter');
+    const paceText = document.getElementById('paceText');
+    const paceButtons = document.querySelectorAll('.pace-btn');
+    const paceCopy = {
+      '悠閒派': '推薦路線：瑞芳只挑 2–3 樣，提早上九份，下午茶坐久一點，今天以舒適和風景為主。',
+      '均衡派': '推薦先用「均衡派」：瑞芳吃 3 樣左右，中午去暇咖啡，下午再看精神決定是否多逛老街。',
+      '拚吃派': '今天是認真型吃貨模式：瑞芳先掃 4 樣左右，但九份下午茶就改成飲品主攻，不然很容易過飽。'
+    };
+    function setMeters(eat, walk, relax, label){
+      eatMeter.style.width = eat + '%';
+      walkMeter.style.width = walk + '%';
+      relaxMeter.style.width = relax + '%';
+      paceText.textContent = paceCopy[label];
+    }
+    paceButtons.forEach(btn => btn.addEventListener('click', () => setMeters(btn.dataset.eat, btn.dataset.walk, btn.dataset.relax, btn.textContent.trim())));
+    setMeters(85,72,70,'均衡派');
+
+    const missions = [
+      '在瑞芳挑一樣你平常不會主動買的小吃，今天就把它當作旅行限定口味。',
+      '在九份找一個最喜歡的轉角，拍一張沒有人的階梯或窗景。',
+      '今天至少有一杯飲料要慢慢喝，不滑手機，專心看 3 分鐘風景。',
+      '試著把瑞芳與九份各留下 1 個「下次還想來」的理由。',
+      '如果看到喜歡的伴手小點，只買一樣，讓今天保持輕盈。'
+    ];
+    const missionText = document.getElementById('missionText');
+    document.getElementById('missionBtn').addEventListener('click', () => {
+      const next = missions[Math.floor(Math.random() * missions.length)];
+      missionText.textContent = next;
+    });
+    document.getElementById('topBtn').addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+  </script>
+</body>
+</html>
