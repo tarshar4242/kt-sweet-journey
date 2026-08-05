@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFF9F2">
+<title>小熊健康小屋｜一二娟＆布布龍的作息改造計畫</title>
+<style>
+:root{
+  --bg:#FFF9F2; --card:#FFFFFF; --ink:#5B4636; --ink2:#94806D; --line:#F0E4D4;
+  --pink:#F5B8C0; --pinkD:#E58A96; --blue:#BCD8EE; --blueD:#6FA3CB; --green:#CBE3C4; --greenD:#7FB06F;
+  --yellow:#F6E3B4; --yellowD:#D9B45C; --brown:#C89B6E; --cream:#FFFDFA;
+  --sys:#C95D63; --dia:#3E7FB8;
+  --r:22px; --shadow:0 10px 30px -14px rgba(120,90,60,.35);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;font-size:16px;
+  padding-bottom:calc(84px + env(safe-area-inset-bottom));}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+   radial-gradient(circle at 12% 8%, rgba(245,184,192,.18) 0 180px, transparent 200px),
+   radial-gradient(circle at 88% 20%, rgba(188,216,238,.20) 0 160px, transparent 190px),
+   radial-gradient(circle at 20% 90%, rgba(203,227,196,.18) 0 170px, transparent 200px);}
+.home-fab{position:fixed;left:14px;top:14px;z-index:60;background:rgba(255,255,255,.94);color:var(--ink);
+  text-decoration:none;font-weight:800;font-size:.82rem;padding:8px 13px;border-radius:999px;
+  box-shadow:0 8px 22px -8px rgba(60,50,30,.4);border:1px solid rgba(255,255,255,.7)}
+.wrap{max-width:640px;margin:0 auto;padding:16px 16px 30px}
+header.hero{text-align:center;padding:52px 10px 6px}
+header.hero h1{font-size:1.45rem;font-weight:900;letter-spacing:.04em}
+header.hero .sub{color:var(--ink2);font-size:.85rem;margin-top:2px}
+.bears{display:flex;justify-content:center;gap:6px;margin:8px 0 2px}
+.gear{position:fixed;right:14px;top:14px;z-index:60;background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.7);
+  border-radius:999px;padding:8px 12px;font-size:.85rem;font-weight:800;color:var(--ink);box-shadow:0 8px 22px -8px rgba(60,50,30,.4);cursor:pointer}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin:14px 0;border:1px solid var(--line)}
+.card h2{font-size:1.08rem;font-weight:900;display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.card h2 .tag{font-size:.7rem;background:var(--yellow);border-radius:999px;padding:2px 10px;font-weight:800;color:#8a6d2f}
+.small{font-size:.82rem;color:var(--ink2)}
+.center{text-align:center}
+/* ── bottom nav ── */
+nav.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);
+  border-top:1px solid var(--line);display:flex;justify-content:space-around;
+  padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+nav.tabbar button{background:none;border:none;font-family:inherit;color:var(--ink2);font-size:.68rem;font-weight:800;
+  display:flex;flex-direction:column;align-items:center;gap:1px;padding:4px 10px;border-radius:14px;cursor:pointer}
+nav.tabbar button .ico{font-size:1.3rem;line-height:1.2}
+nav.tabbar button.on{color:var(--pinkD);background:#FDF1F3}
+.page{display:none}
+.page.on{display:block;animation:fadein .25s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* ── check-in ── */
+.ck-item{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:16px;border:2px solid var(--line);
+  margin:8px 0;cursor:pointer;user-select:none;transition:.15s;background:var(--cream)}
+.ck-item .em{font-size:1.5rem}
+.ck-item .tx b{display:block;font-size:.95rem}
+.ck-item .tx span{font-size:.76rem;color:var(--ink2)}
+.ck-item .chk{margin-left:auto;width:30px;height:30px;border-radius:50%;border:2.5px dashed #DCCDB8;flex:none;
+  display:flex;align-items:center;justify-content:center;font-size:1rem;color:transparent}
+.ck-item.done{border-color:var(--green);background:#F4FAF1}
+.ck-item.done .chk{border:none;background:var(--greenD);color:#fff}
+.meals input{width:100%;border:2px solid var(--line);border-radius:14px;padding:9px 12px;font-family:inherit;
+  font-size:.9rem;margin:5px 0;background:var(--cream);color:var(--ink)}
+.meals input:focus{outline:none;border-color:var(--blueD)}
+.meals label{font-size:.8rem;font-weight:800;color:var(--ink2)}
+.bigbtn{display:block;width:100%;border:none;border-radius:18px;padding:14px;font-family:inherit;font-size:1.02rem;
+  font-weight:900;cursor:pointer;color:#fff;background:linear-gradient(135deg,var(--pinkD),#D9707E);
+  box-shadow:0 10px 24px -10px rgba(217,112,126,.6);margin-top:12px}
+.bigbtn.blue{background:linear-gradient(135deg,var(--blueD),#5B8FB8);box-shadow:0 10px 24px -10px rgba(91,143,184,.6)}
+.streakline{display:flex;gap:10px;justify-content:center;margin:6px 0 2px}
+.stat{flex:1;background:var(--cream);border:1px solid var(--line);border-radius:16px;padding:10px 6px;text-align:center}
+.stat .n{font-size:1.5rem;font-weight:900;color:var(--pinkD);line-height:1.2}
+.stat .l{font-size:.72rem;color:var(--ink2);font-weight:800}
+.partner-meals{background:var(--cream);border-radius:14px;padding:10px 12px;font-size:.88rem;margin-top:8px;border:1px dashed #E4D5C2}
+.partner-meals div{display:flex;gap:8px}
+.partner-meals b{flex:none;color:var(--ink2);font-weight:800}
+/* ── chips / subnav ── */
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;-webkit-overflow-scrolling:touch}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:2px solid var(--line);background:#fff;color:var(--ink2);border-radius:999px;
+  padding:6px 14px;font-family:inherit;font-size:.85rem;font-weight:800;cursor:pointer}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip.bear.on{background:var(--pinkD);border-color:var(--pinkD)}
+/* ── recipes ── */
+.rgroup{margin:16px 0 6px}
+.rgroup .gh{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.rgroup .gh h3{font-size:1rem;font-weight:900}
+.rgroup .gh .lucky{margin-left:auto;border:none;background:var(--yellow);color:#8a6d2f;font-family:inherit;
+  font-weight:900;font-size:.78rem;border-radius:999px;padding:5px 12px;cursor:pointer}
+.recipe{background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px 14px;margin:9px 0;transition:.2s}
+.recipe.pick{border:2px solid var(--yellowD);background:#FFFBEE;box-shadow:0 8px 20px -10px rgba(217,180,92,.5)}
+.recipe .rh{display:flex;align-items:center;gap:8px;cursor:pointer}
+.recipe .rh .nm{font-weight:900;font-size:.96rem}
+.recipe .rh .meta{margin-left:auto;display:flex;gap:5px;flex:none}
+.badge{font-size:.66rem;font-weight:800;border-radius:999px;padding:2px 8px;background:var(--blue);color:#2d5a80;white-space:nowrap}
+.badge.time{background:var(--green);color:#3d6b30}
+.recipe .rb{display:none;margin-top:9px;font-size:.86rem;border-top:1px dashed var(--line);padding-top:9px}
+.recipe.open .rb{display:block}
+.recipe .rb p{margin:4px 0}
+.recipe .rb .ing{color:var(--ink2)}
+.bearnote{background:#F4FAF1;border-radius:12px;padding:8px 11px;font-size:.82rem;margin-top:7px;display:flex;gap:8px;align-items:flex-start}
+.bearnote svg{flex:none;margin-top:2px}
+/* ── edu ── */
+.edu{border:1px solid var(--line);border-radius:18px;margin:10px 0;overflow:hidden;background:#fff}
+.edu .q{display:flex;gap:10px;align-items:flex-start;padding:13px 14px;cursor:pointer}
+.edu .q .bub{background:#F7EDE0;border-radius:4px 16px 16px 16px;padding:8px 12px;font-size:.92rem;font-weight:800;flex:1}
+.edu .q .arrow{flex:none;color:var(--ink2);font-size:.8rem;margin-top:10px;transition:.2s}
+.edu.open .q .arrow{transform:rotate(90deg)}
+.edu .a{display:none;padding:0 14px 13px;}
+.edu.open .a{display:block}
+.edu .a .row{display:flex;gap:10px;align-items:flex-start;flex-direction:row-reverse}
+.edu .a .bub{background:#FDF1F3;border-radius:16px 4px 16px 16px;padding:9px 12px;font-size:.88rem;flex:1}
+.edu .a .bub p{margin:4px 0}
+.takeaway{background:var(--yellow);border-radius:12px;padding:8px 12px;font-size:.84rem;font-weight:800;color:#7a5f22;margin-top:9px}
+table.mini{width:100%;border-collapse:collapse;font-size:.8rem;margin:6px 0}
+table.mini th,table.mini td{border:1px solid #eadfce;padding:5px 7px;text-align:center}
+table.mini th{background:#FBF4E8}
+/* ── bp ── */
+.bpform{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0}
+.bpform label{font-size:.74rem;font-weight:800;color:var(--ink2);display:block}
+.bpform input{width:100%;border:2px solid var(--line);border-radius:14px;padding:9px 6px;font-family:inherit;
+  font-size:1.05rem;font-weight:900;text-align:center;background:var(--cream);color:var(--ink)}
+.bpform input:focus{outline:none;border-color:var(--blueD)}
+.legend{display:flex;gap:14px;align-items:center;font-size:.78rem;font-weight:800;color:var(--ink2);margin:6px 2px}
+.legend i{display:inline-block;width:14px;height:4px;border-radius:2px;margin-right:5px;vertical-align:middle}
+#bpchartbox{position:relative}
+#tooltip{position:absolute;display:none;background:#fff;border:1px solid var(--line);border-radius:12px;
+  box-shadow:var(--shadow);padding:7px 11px;font-size:.78rem;pointer-events:none;z-index:5;white-space:nowrap}
+.bplist{margin-top:10px}
+.bprow{display:flex;align-items:center;gap:10px;padding:8px 4px;border-bottom:1px dashed var(--line);font-size:.88rem}
+.bprow .d{color:var(--ink2);font-size:.8rem;width:88px;flex:none}
+.bprow .v{font-weight:900}
+.lvl{margin-left:auto;font-size:.7rem;font-weight:800;border-radius:999px;padding:2px 9px}
+.lvl.g{background:#E7F3E2;color:#3d6b30}.lvl.y{background:#FBF0D4;color:#8a6d2f}.lvl.r{background:#FBE3E5;color:#a83b45}
+/* ── review ── */
+.wkgrid{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px}
+.wkgrid th{color:var(--ink2);font-weight:800;padding:4px 2px;font-size:.7rem}
+.wkgrid td{text-align:center;padding:5px 2px;border-top:1px dashed var(--line)}
+.wkgrid td.hit{color:var(--greenD);font-weight:900}
+.wkgrid td.miss{color:#E0D2C0}
+.wkgrid td.itname{text-align:left;font-size:.78rem;white-space:nowrap}
+.praise{background:linear-gradient(135deg,#FDF1F3,#FFF8E8);border-radius:16px;padding:12px 14px;margin-top:10px;
+  display:flex;gap:10px;align-items:center;font-size:.9rem;font-weight:800}
+/* ── modal ── */
+.modal{position:fixed;inset:0;background:rgba(70,50,30,.45);z-index:100;display:none;align-items:flex-end;justify-content:center}
+.modal.on{display:flex}
+.sheet{background:var(--bg);border-radius:26px 26px 0 0;padding:22px 20px calc(22px + env(safe-area-inset-bottom));
+  width:100%;max-width:640px;max-height:88vh;overflow-y:auto}
+.sheet h2{font-size:1.15rem;font-weight:900;text-align:center;margin-bottom:4px}
+.pickbear{display:flex;gap:12px;margin:14px 0}
+.pickbear button{flex:1;background:#fff;border:3px solid var(--line);border-radius:20px;padding:14px 8px;font-family:inherit;
+  cursor:pointer;text-align:center;color:var(--ink)}
+.pickbear button.on{border-color:var(--pinkD);background:#FDF1F3}
+.pickbear b{display:block;font-size:1rem;font-weight:900;margin-top:4px}
+.pickbear span{font-size:.75rem;color:var(--ink2)}
+.medq{display:flex;gap:10px;margin:10px 0 4px}
+.medq button{flex:1;background:#fff;border:2px solid var(--line);border-radius:14px;padding:10px;font-family:inherit;font-weight:900;color:var(--ink);cursor:pointer}
+.medq button.on{border-color:var(--blueD);background:#EFF6FC}
+/* toast */
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:100px;background:var(--ink);color:#fff;
+  border-radius:999px;padding:10px 20px;font-size:.88rem;font-weight:800;z-index:120;display:none;box-shadow:var(--shadow);max-width:88vw;text-align:center}
+.foot{color:var(--ink2);font-size:.72rem;text-align:center;margin:26px 8px 8px;line-height:1.8}
+.divider{height:1px;background:var(--line);margin:12px 0}
+ul.tight{padding-left:20px;font-size:.88rem}
+ul.tight li{margin:4px 0}
+.warnbox{background:#FBE3E5;border-radius:14px;padding:10px 13px;font-size:.85rem;margin-top:8px}
+.okbox{background:#E7F3E2;border-radius:14px;padding:10px 13px;font-size:.85rem;margin-top:8px}
+</style>
+</head>
+<body>
+<a class="home-fab" href="lessons.html#life">🏠 回筆記館入口</a>
+<button class="gear" id="gearBtn">⚙️ 設定</button>
+
+<div class="wrap">
+<header class="hero">
+  <div class="bears" id="heroBears"></div>
+  <h1>小熊健康小屋</h1>
+  <div class="sub">一二娟 🤍 布布龍　兩隻熊一起把血壓血糖顧好好</div>
+</header>
+
+<!-- ═════════ 今日 ═════════ -->
+<section class="page on" id="pg-today">
+  <div class="card">
+    <h2 id="todayTitle">🗓️ 今天</h2>
+    <div class="streakline">
+      <div class="stat"><div class="n" id="stToday">0/5</div><div class="l">今日完成</div></div>
+      <div class="stat"><div class="n" id="stStreak">0</div><div class="l">連續達成天數</div></div>
+      <div class="stat"><div class="n" id="stWeek">0%</div><div class="l">本週達成率</div></div>
+    </div>
+    <div class="small center" id="streakHint">每天完成 4 項以上就算達成一天 🐾</div>
+  </div>
+
+  <div class="card">
+    <h2 id="ckTitle">✅ 今日打卡</h2>
+    <div id="ckList"></div>
+  </div>
+
+  <div class="card meals">
+    <h2>🍽️ 今天吃了什麼 <span class="tag">另一半看得到</span></h2>
+    <label>🌅 早餐</label><input id="m_b" placeholder="例：水煮蛋＋地瓜＋無糖豆漿">
+    <label>🌞 午餐（公司餐簡單記）</label><input id="m_l" placeholder="例：公司便當，飯少半碗、先吃菜">
+    <label>🌆 晚餐</label><input id="m_d" placeholder="例：氣炸雞腿排＋花椰菜">
+    <label>🌙 宵夜（沒吃就留空白）</label><input id="m_s" placeholder="例：毛豆一小碗">
+  </div>
+
+  <div class="card" id="partnerCard">
+    <h2 id="partnerTitle">💌 另一半的今天</h2>
+    <div id="partnerBody"></div>
+  </div>
+
+  <div class="card">
+    <h2>📮 回報給另一半</h2>
+    <p class="small">按下面的按鈕，把你最近的打卡、三餐和血壓打包成一條連結，用 LINE 傳給對方；對方一點開，你的紀錄就會出現在他的手機裡。（資料只在你們兩支手機之間傳，不會上傳到任何伺服器）</p>
+    <button class="bigbtn" id="shareBtn">🐻 打包我的紀錄，傳給另一半</button>
+    <button class="bigbtn blue" id="shareSiteBtn">🔗 分享這個小屋給另一半（第一次用）</button>
+  </div>
+</section>
+
+<!-- ═════════ 食譜 ═════════ -->
+<section class="page" id="pg-recipe">
+  <div class="chips" id="recipeChips">
+    <button class="chip on" data-r="wd">🏢 平日</button>
+    <button class="chip" data-r="we">🏡 假日</button>
+    <button class="chip" data-r="sn">🌙 宵夜安全區</button>
+    <button class="chip" data-r="prep">🧺 週日備餐</button>
+    <button class="chip" data-r="out">🍱 外食小抄</button>
+  </div>
+  <div id="recipeArea"></div>
+</section>
+
+<!-- ═════════ 衛教 ═════════ -->
+<section class="page" id="pg-edu">
+  <div class="card">
+    <h2>🏫 布布龍的健康教室</h2>
+    <p class="small">布布龍常常搞不懂「這個為什麼不能吃」，所以一二娟把醫生和營養師常講的話，用小熊聽得懂的方式整理在這裡。點問題就會展開答案 🐻</p>
+  </div>
+  <div id="eduList"></div>
+  <div class="card small">📖 這裡的衛教內容是一般性的生活知識，實際的目標數值、用藥與飲食限制，一律以你們的醫師與營養師指示為準。</div>
+</section>
+
+<!-- ═════════ 血壓 ═════════ -->
+<section class="page" id="pg-bp">
+  <div class="chips" id="bpBearChips"></div>
+  <div class="card" id="bpFormCard">
+    <h2>🩺 今天的血壓</h2>
+    <p class="small">早上起床、上完廁所後，坐著休息 5 分鐘再量。量完直接填，回診時把圖拿給醫生看超方便。</p>
+    <div class="bpform">
+      <div><label>收縮壓（高的）</label><input id="bpSys" type="number" inputmode="numeric" placeholder="120"></div>
+      <div><label>舒張壓（低的）</label><input id="bpDia" type="number" inputmode="numeric" placeholder="80"></div>
+      <div><label>心跳（可不填）</label><input id="bpPul" type="number" inputmode="numeric" placeholder="70"></div>
+    </div>
+    <button class="bigbtn blue" id="bpSave">💾 記下來</button>
+  </div>
+  <div class="card">
+    <h2 id="bpChartTitle">📈 血壓趨勢</h2>
+    <div class="legend">
+      <span><i style="background:var(--sys)"></i>收縮壓</span>
+      <span><i style="background:var(--dia)"></i>舒張壓</span>
+      <span><i style="background:none;border-top:2px dashed #C9B695;width:14px;height:0"></i>參考線 130／80</span>
+    </div>
+    <div id="bpchartbox"><svg id="bpchart" width="100%" height="230"></svg><div id="tooltip"></div></div>
+    <div class="streakline">
+      <div class="stat"><div class="n" id="bpAvg">–</div><div class="l">近 7 天平均</div></div>
+      <div class="stat"><div class="n" id="bpCount">0</div><div class="l">累計筆數</div></div>
+    </div>
+    <div class="bplist" id="bpList"></div>
+  </div>
+</section>
+
+<!-- ═════════ 回顧 ═════════ -->
+<section class="page" id="pg-review">
+  <div class="chips" id="rvBearChips"></div>
+  <div class="card">
+    <h2 id="rvTitle">📊 這 7 天的表現</h2>
+    <div style="overflow-x:auto"><table class="wkgrid" id="wkGrid"></table></div>
+    <div class="praise" id="praiseBox"></div>
+  </div>
+  <div class="card" id="wtCard">
+    <h2>⚖️ 體重（每週量一次就好）</h2>
+    <div class="bpform" style="grid-template-columns:1fr auto">
+      <div><label>今天的體重（kg）</label><input id="wtIn" type="number" step="0.1" inputmode="decimal" placeholder="65.0"></div>
+      <div style="display:flex;align-items:flex-end"><button class="bigbtn blue" style="margin:0;padding:11px 18px" id="wtSave">記錄</button></div>
+    </div>
+    <div class="bplist" id="wtList"></div>
+  </div>
+</section>
+</div>
+
+<nav class="tabbar">
+  <button class="on" data-pg="today"><span class="ico">🏠</span>今日</button>
+  <button data-pg="recipe"><span class="ico">🍱</span>食譜</button>
+  <button data-pg="edu"><span class="ico">📖</span>衛教</button>
+  <button data-pg="bp"><span class="ico">🩺</span>血壓</button>
+  <button data-pg="review"><span class="ico">📊</span>回顧</button>
+</nav>
+
+<!-- 設定 / 首次選角 -->
+<div class="modal" id="setupModal">
+  <div class="sheet">
+    <h2>你是哪一隻熊？🐻</h2>
+    <p class="small center">選好之後，這支手機的打卡就記在這隻熊名下</p>
+    <div class="pickbear">
+      <button id="pickWhite"><span id="svgW"></span><b>一二娟</b><span>小白熊</span></button>
+      <button id="pickBrown"><span id="svgB"></span><b>布布龍</b><span>小棕熊</span></button>
+    </div>
+    <p style="font-weight:900;font-size:.95rem">💊 你需要每天吃藥嗎？（例如高血壓藥）</p>
+    <div class="medq">
+      <button id="medYes">要，幫我列入打卡</button>
+      <button id="medNo">不用</button>
+    </div>
+    <button class="bigbtn" id="setupOk">好了，開始！</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+<div class="foot">
+  🐻 小熊健康小屋・一二娟＆布布龍<br>
+  資料只存在你自己的手機（localStorage），換手機前記得先「回報」一次備份給另一半。<br>
+  本頁為生活習慣輔助工具，醫療決策請以醫師指示為準。
+</div>
+
+<script>
+/* ══════════ 小熊 SVG ══════════ */
+function bearSVG(kind,size){
+  const s=size||44;
+  const body = kind==='white' ? '#FFFDFA' : '#C89B6E';
+  const line = kind==='white' ? '#E3D2BC' : '#A87E52';
+  const muzz = kind==='white' ? '#FFF6EA' : '#EBD3AC';
+  const ear  = kind==='white' ? '#F5D9DC' : '#EBD3AC';
+  const deco = kind==='white'
+    ? '<circle cx="14" cy="9" r="3.4" fill="#8CC084"/><circle cx="18" cy="7" r="3.4" fill="#8CC084"/><circle cx="16" cy="11.4" r="3.4" fill="#8CC084"/>'
+    : '<rect x="30" y="6" width="10" height="5" rx="2.5" fill="#6FA3CB" transform="rotate(18 35 8)"/>';
+  return `<svg width="${s}" height="${s}" viewBox="0 0 48 48" aria-hidden="true">
+    <circle cx="13" cy="14" r="7" fill="${body}" stroke="${line}" stroke-width="1.6"/>
+    <circle cx="35" cy="14" r="7" fill="${body}" stroke="${line}" stroke-width="1.6"/>
+    <circle cx="13" cy="14" r="3.4" fill="${ear}"/><circle cx="35" cy="14" r="3.4" fill="${ear}"/>
+    <circle cx="24" cy="27" r="17" fill="${body}" stroke="${line}" stroke-width="1.6"/>
+    <ellipse cx="24" cy="33" rx="8.5" ry="6.5" fill="${muzz}"/>
+    <circle cx="18" cy="25" r="2" fill="#5B4636"/><circle cx="30" cy="25" r="2" fill="#5B4636"/>
+    <ellipse cx="24" cy="31" rx="2.6" ry="2" fill="#5B4636"/>
+    <path d="M24 33 v2.2 M24 35.2 q-2.4 2.2 -4.4 .6 M24 35.2 q2.4 2.2 4.4 .6" stroke="#5B4636" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <circle cx="13.5" cy="30" r="2.6" fill="#F7B8B8" opacity=".8"/><circle cx="34.5" cy="30" r="2.6" fill="#F7B8B8" opacity=".8"/>
+    ${deco}
+  </svg>`;
+}
+const BEAR_NAME = {white:'一二娟', brown:'布布龍'};
+const BEAR_EMO  = {white:'🤍', brown:'🤎'};
+
+/* ══════════ 狀態 ══════════ */
+const LS='bearHealth_v1';
+let state = load();
+function load(){
+  try{ const s=JSON.parse(localStorage.getItem(LS)); if(s&&s.data) return s; }catch(e){}
+  return { me:null, meds:{white:true,brown:true},
+    data:{white:{ck:{},bp:{},wt:{}}, brown:{ck:{},bp:{},wt:{}}}, lastSync:{white:0,brown:0} };
+}
+function save(){ localStorage.setItem(LS, JSON.stringify(state)); }
+function today(){ return new Date().toLocaleDateString('sv'); }
+function dstr(d){ return d.toLocaleDateString('sv'); }
+function nice(ds){ const [y,m,d]=ds.split('-'); return `${+m}/${+d}`; }
+function other(b){ return b==='white'?'brown':'white'; }
+
+const ITEMS=[
+ {k:'bf',   e:'🍳', t:'吃了合格早餐', s:'蛋白質＋高纖，不配含糖飲料'},
+ {k:'walk', e:'🚶', t:'餐後散步 10 分鐘', s:'午餐或晚餐後，走一走就算'},
+ {k:'drink',e:'🥤', t:'今天沒喝含糖飲料', s:'水、無糖茶、無糖豆漿都可以'},
+ {k:'snack',e:'🌙', t:'宵夜守規矩', s:'沒吃宵夜，或只吃安全區食物'},
+ {k:'bp',   e:'🩺', t:'量血壓並記錄', s:'到「血壓」頁填數字就自動打勾'},
+ {k:'med',  e:'💊', t:'按時吃藥', s:'醫生開的藥，時間到就吃', med:true},
+];
+function itemsFor(bear){ return ITEMS.filter(it=>!it.med || state.meds[bear]); }
+function ckOf(bear,ds){ const d=state.data[bear]; if(!d.ck[ds]) d.ck[ds]={i:{},m:{}}; return d.ck[ds]; }
+function doneCount(bear,ds){ const c=state.data[bear].ck[ds]; if(!c) return 0;
+  return itemsFor(bear).filter(it=>c.i[it.k]).length; }
+function dayHit(bear,ds){ return doneCount(bear,ds)>=4; }
+
+/* ══════════ 今日頁 ══════════ */
+function renderToday(){
+  const me=state.me, ds=today();
+  const w=['日','一','二','三','四','五','六'][new Date().getDay()];
+  document.getElementById('todayTitle').innerHTML=`🗓️ ${nice(ds)}（週${w}）・${BEAR_NAME[me]} 的今天`;
+  document.getElementById('ckTitle').innerHTML=`✅ ${BEAR_NAME[me]} 的今日打卡`;
+  const box=document.getElementById('ckList'); box.innerHTML='';
+  const c=ckOf(me,ds);
+  itemsFor(me).forEach(it=>{
+    const el=document.createElement('div');
+    el.className='ck-item'+(c.i[it.k]?' done':'');
+    el.innerHTML=`<span class="em">${it.e}</span><span class="tx"><b>${it.t}</b><span>${it.s}</span></span><span class="chk">✓</span>`;
+    el.onclick=()=>{ c.i[it.k]=!c.i[it.k]; save(); renderToday(); };
+    box.appendChild(el);
+  });
+  ['b','l','d','s'].forEach(k=>{
+    const inp=document.getElementById('m_'+k);
+    inp.value=c.m[k]||'';
+    inp.oninput=()=>{ c.m[k]=inp.value; save(); };
+  });
+  const n=doneCount(me,ds), tot=itemsFor(me).length;
+  document.getElementById('stToday').textContent=`${n}/${tot}`;
+  let streak=0; const d=new Date();
+  if(!dayHit(me,dstr(d))) d.setDate(d.getDate()-1);
+  while(dayHit(me,dstr(d))){ streak++; d.setDate(d.getDate()-1); }
+  document.getElementById('stStreak').textContent=streak;
+  let hit=0,days=0; const dd=new Date();
+  for(let i=0;i<7;i++){ if(dayHit(me,dstr(dd))) hit++; days++; dd.setDate(dd.getDate()-1); }
+  document.getElementById('stWeek').textContent=Math.round(hit/days*100)+'%';
+  renderPartner();
+}
+function renderPartner(){
+  const p=other(state.me), ds=today();
+  document.getElementById('partnerTitle').innerHTML=`💌 ${BEAR_NAME[p]} 的今天 ${BEAR_EMO[p]}`;
+  const box=document.getElementById('partnerBody');
+  const sync=state.lastSync[p];
+  if(!sync){
+    box.innerHTML=`<div class="center" style="padding:6px 0">${bearSVG(p,60)}<p class="small">還沒收到 ${BEAR_NAME[p]} 的回報。<br>請對方打開這個網頁打卡後，按「回報給另一半」把連結傳給你 💌</p></div>`;
+    return;
+  }
+  const c=state.data[p].ck[ds];
+  const n=c?itemsFor(p).filter(it=>c.i[it.k]).length:0;
+  const tot=itemsFor(p).length;
+  const syncD=new Date(sync);
+  let html=`<div style="display:flex;align-items:center;gap:10px">${bearSVG(p,52)}
+    <div><b style="font-size:1.05rem">今日完成 ${n}/${tot} 項</b>
+    <div class="small">上次回報：${syncD.getMonth()+1}/${syncD.getDate()} ${String(syncD.getHours()).padStart(2,'0')}:${String(syncD.getMinutes()).padStart(2,'0')}</div></div></div>`;
+  const M={b:'🌅 早餐',l:'🌞 午餐',d:'🌆 晚餐',s:'🌙 宵夜'};
+  const meals=c?Object.keys(M).map(k=>c.m[k]?`<div><b>${M[k]}</b><span>${c.m[k]}</span></div>`:'').join(''):'';
+  html += meals ? `<div class="partner-meals">${meals}</div>`
+       : `<p class="small" style="margin-top:6px">（今天還沒記三餐）</p>`;
+  const bp=state.data[p].bp[ds];
+  if(bp) html+=`<p class="small" style="margin-top:6px">🩺 今日血壓：<b>${bp.s}/${bp.d}</b> mmHg</p>`;
+  box.innerHTML=html;
+}
+
+/* ══════════ 回報同步 ══════════ */
+function b64e(bytes){ let bin=''; bytes.forEach(b=>bin+=String.fromCharCode(b));
+  return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
+function b64d(s){ s=s.replace(/-/g,'+').replace(/_/g,'/'); while(s.length%4)s+='=';
+  const bin=atob(s); return Uint8Array.from(bin,c=>c.charCodeAt(0)); }
+async function packState(){
+  const me=state.me, d=state.data[me];
+  const cut=new Date(); cut.setDate(cut.getDate()-21); const cutCk=dstr(cut);
+  cut.setDate(cut.getDate()-69); const cutBp=dstr(cut);
+  const pick=(obj,cutoff)=>{ const o={}; Object.keys(obj).filter(k=>k>=cutoff).sort().forEach(k=>o[k]=obj[k]); return o; };
+  const payload={v:1,from:me,meds:state.meds[me],ck:pick(d.ck,cutCk),bp:pick(d.bp,cutBp),wt:pick(d.wt,cutBp),ts:Date.now()};
+  const json=JSON.stringify(payload);
+  const bytes=new TextEncoder().encode(json);
+  if(typeof CompressionStream!=='undefined'){
+    const cs=new Blob([bytes]).stream().pipeThrough(new CompressionStream('deflate-raw'));
+    const buf=new Uint8Array(await new Response(cs).arrayBuffer());
+    return 'z.'+b64e(buf);
+  }
+  return 'r.'+b64e(bytes);
+}
+async function unpackState(s){
+  const tag=s.slice(0,2), bytes=b64d(s.slice(2));
+  if(tag==='r.') return JSON.parse(new TextDecoder().decode(bytes));
+  const ds=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+  return JSON.parse(await new Response(ds).text());
+}
+async function doShare(){
+  const code=await packState();
+  const url=location.origin+location.pathname+'#sync='+code;
+  const text=`${BEAR_EMO[state.me]} ${BEAR_NAME[state.me]}的健康回報來囉！點開連結就同步到你的小屋`;
+  if(navigator.share){ try{ await navigator.share({title:'小熊健康回報',text,url}); return; }catch(e){ if(e.name==='AbortError') return; } }
+  try{ await navigator.clipboard.writeText(text+'\n'+url); toast('連結已複製，貼到 LINE 傳給另一半吧 💌'); }
+  catch(e){ prompt('複製這條連結傳給另一半：',url); }
+}
+async function doShareSite(){
+  const url=location.origin+location.pathname;
+  const text='這是我們的「小熊健康小屋」🐻 打開來選你的熊，我們一起打卡！';
+  if(navigator.share){ try{ await navigator.share({title:'小熊健康小屋',text,url}); return; }catch(e){ if(e.name==='AbortError') return; } }
+  try{ await navigator.clipboard.writeText(text+'\n'+url); toast('網址已複製，貼給另一半吧 🔗'); }
+  catch(e){ prompt('複製這條連結：',url); }
+}
+async function tryReceive(){
+  const m=location.hash.match(/#sync=(.+)$/);
+  if(!m) return;
+  history.replaceState(null,'',location.pathname+location.search);
+  let p; try{ p=await unpackState(decodeURIComponent(m[1])); }catch(e){ toast('這條回報連結讀不出來，請對方再傳一次 🙏'); return; }
+  if(!p||p.v!==1||!p.from||!state.data[p.from]){ toast('這條回報連結格式不對唷'); return; }
+  if(state.me && p.from===state.me){ toast('這是你自己的回報連結，不用匯入唷 🐻'); return; }
+  const t=state.data[p.from];
+  Object.assign(t.ck,p.ck||{}); Object.assign(t.bp,p.bp||{}); Object.assign(t.wt,p.wt||{});
+  state.meds[p.from]=!!p.meds;
+  state.lastSync[p.from]=p.ts||Date.now();
+  save();
+  toast(`收到 ${BEAR_NAME[p.from]} 的回報，資料同步好了 💌`);
+  if(!state.me){ pendingPick=other(p.from); }
+  renderAll();
+}
+let pendingPick=null;
+
+/* ══════════ 食譜 ══════════ */
+const R_WD_BF=[
+ {e:'🥚',n:'溏心蛋地瓜盤',eq:'微電鍋',t:'早上 5 分鐘',
+  ing:'水煮蛋 2 顆、蒸地瓜 1 條（拳頭大）、無糖豆漿 1 杯',
+  st:['備餐日先用微電鍋煮好蛋和地瓜，冰在冰箱','早上地瓜微波 40 秒回溫','配一杯無糖豆漿，完成'],
+  note:'蛋白質＋高纖澱粉的標準組合，血糖爬得慢、飽到中午。'},
+ {e:'🥣',n:'隔夜燕麥罐',eq:'免開火',t:'前一晚 3 分鐘',
+  ing:'大燕麥片 4 大匙、無糖優格半盒（或無糖豆漿蓋過燕麥）、原味堅果 1 小把',
+  st:['前一晚全部丟進罐子拌一拌，蓋起來冰冰箱','早上拿出來直接吃','想要甜味可以加 3-4 顆藍莓，不要加蜂蜜'],
+  note:'燕麥的水溶性纖維（β-葡聚醣）是穩血糖好幫手，選「大燕麥片」不要選即溶三合一。'},
+ {e:'🍞',n:'起司蛋吐司',eq:'氣炸鍋',t:'6 分鐘',
+  ing:'全麥吐司 1 片、蛋 1 顆、起司 1 片、黑胡椒少許',
+  st:['吐司中間壓凹，打入一顆蛋','氣炸鍋 180°C 烤 5-6 分鐘','出爐放上起司片，撒黑胡椒'],
+  note:'用全麥吐司取代白吐司和甜麵包；一份就有蛋＋起司兩種蛋白質。'},
+ {e:'🥛',n:'優格堅果水果碗',eq:'免開火',t:'2 分鐘',
+  ing:'無糖希臘優格 1 盒、原味堅果 1 小把、奇異果半顆或藍莓一小把',
+  st:['優格倒進碗裡','撒上堅果和水果','完成，比買早餐店還快'],
+  note:'希臘優格蛋白質是一般優格的兩倍；水果放早上吃，比晚上吃對血糖友善。'},
+ {e:'🍳',n:'微波蒸蛋＋半個御飯糰',eq:'微波爐',t:'3 分鐘',
+  ing:'蛋 2 顆、水（蛋液的 1.5 倍）、蔥花少許、超商御飯糰半個',
+  st:['蛋打散加水拌勻，蓋上耐熱蓋','微波 600W 約 2 分鐘（先 1 分半，不夠再加 30 秒）','配半個御飯糰，另一半明天吃或給另一半'],
+  note:'趕時間的救援餐：蒸蛋顧蛋白質，御飯糰只吃半個控制澱粉量。'},
+ {e:'🫘',n:'溫豆漿麥片杯＋茶葉蛋',eq:'微波爐',t:'3 分鐘',
+  ing:'無糖豆漿 1 杯、大燕麥片 2 大匙、超商茶葉蛋 1-2 顆',
+  st:['豆漿微波加熱 1 分半','倒入燕麥片泡 2 分鐘軟化','配茶葉蛋，邊走邊吃也行'],
+  note:'最忙的早晨用這招，全部超商買得到，重點是「無糖」豆漿。'}];
+const R_WD_DN=[
+ {e:'🍗',n:'氣炸雞腿排定食',eq:'氣炸鍋',t:'25 分鐘',
+  ing:'去骨雞腿排 2 片、花椰菜半顆、鴻喜菇 1 包、冷凍糙米飯 2 小盒、鹽和黑胡椒少許',
+  st:['雞腿排兩面撒薄鹽和黑胡椒','氣炸 180°C 18-20 分鐘（皮朝上）','最後 8 分鐘把花椰菜和菇丟進去一起炸','糙米飯微波 2 分鐘，開飯'],
+  note:'一鍋到底零技術。雞皮想吃可以留著，炸完油都滴掉了；醬料不要另外沾。'},
+ {e:'🐟',n:'氣炸鯖魚定食',eq:'氣炸鍋',t:'20 分鐘',
+  ing:'薄鹽鯖魚 1 大片（挑鈉含量低的）、檸檬半顆、燙青菜 1 把、糙米飯',
+  st:['鯖魚不用調味，直接氣炸 200°C 12 分鐘','青菜滾水燙 1 分鐘，滴幾滴香油','魚擠上檸檬汁上桌'],
+  note:'鯖魚的 Omega-3 對血壓血脂都好；「薄鹽」還是有鹽，所以其他菜就不加鹽了。'},
+ {e:'🍲',n:'微電鍋香菇雞湯',eq:'微電鍋',t:'40 分鐘（免顧）',
+  ing:'雞腿切塊 300g、乾香菇 5 朵、薑 3 片、水 800ml、鹽一小撮',
+  st:['雞肉用滾水汆燙 1 分鐘去血水','全部材料進微電鍋，按煮湯模式','起鍋前才加那一小撮鹽'],
+  note:'外面的湯最可怕的是鈉，自己煮的湯「最後才加一點鹽」，鮮味靠香菇就夠。'},
+ {e:'🥘',n:'番茄豆腐蛋花煲',eq:'微電鍋',t:'20 分鐘',
+  ing:'牛番茄 2 顆切塊、板豆腐 1 盒、蛋 2 顆、蒜 2 瓣、鹽一小撮',
+  st:['番茄和蒜進鍋加半碗水，煮 10 分鐘出茄汁','放豆腐再煮 5 分鐘','淋蛋液關蓋燜 2 分鐘，加一小撮鹽'],
+  note:'番茄的鉀幫忙排鈉、豆腐給植物性蛋白，成本不到一百元的護心晚餐。'},
+ {e:'🍣',n:'氣炸鮭魚＋溫沙拉',eq:'氣炸鍋＋微波',t:'18 分鐘',
+  ing:'鮭魚 1 片、冷凍蔬菜 1 碗（花椰菜／四季豆）、橄欖油 1 小匙、黑胡椒',
+  st:['鮭魚氣炸 180°C 10-12 分鐘（不用調味，本身有油脂香）','冷凍蔬菜微波 3 分鐘','蔬菜拌橄欖油和黑胡椒，跟鮭魚裝一盤'],
+  note:'一週吃 2 次魚是護心基本款；冷凍蔬菜營養不輸新鮮的，庫存隨時有。'},
+ {e:'🥦',n:'雞胸溫沙拉碗',eq:'微波爐',t:'15 分鐘',
+  ing:'即食雞胸 1 包、冷凍蔬菜 1 碗、水煮蛋 1 顆、和風醬 1 小匙、糙米飯半碗',
+  st:['即食雞胸微波加熱撕成條','冷凍蔬菜微波 3 分鐘','全部鋪在糙米飯上，醬「一小匙」拌勻'],
+  note:'加班晚回家的 15 分鐘方案；醬料永遠是一小匙，用拌的不用淋的。'}];
+const R_WE_BF=[
+ {e:'🍳',n:'蔬菜烘蛋',eq:'氣炸鍋',t:'15 分鐘',
+  ing:'蛋 3 顆、洋蔥 1/4 顆、甜椒半顆、菇少許、鹽一小撮',
+  st:['蔬菜切小丁跟蛋液拌勻','倒進烘焙紙杯或小烤皿','氣炸 160°C 12 分鐘'],
+  note:'假日版豪華早餐，兩人分食剛剛好，蔬菜偷渡成功。'},
+ {e:'🍠',n:'地瓜優格早午餐盤',eq:'微電鍋',t:'10 分鐘',
+  ing:'蒸地瓜 1 條、無糖優格 1 盒、水煮蛋 2 顆、堅果 1 小把',
+  st:['地瓜和蛋可以前一天先蒸好','全部排上盤子','慢慢吃，配一壺熱茶'],
+  note:'週末的悠閒版本：跟平日吃一樣的好東西，只是有時間好好擺盤。'},
+ {e:'🥞',n:'香蕉燕麥小鬆餅',eq:'平底鍋或氣炸',t:'15 分鐘',
+  ing:'熟香蕉 1 根壓泥、蛋 2 顆、大燕麥片 4 大匙',
+  st:['三樣拌成麵糊，靜置 5 分鐘','小火煎成小圓餅（或烘焙紙上氣炸 170°C 8 分）','甜味全靠香蕉，不加糖不淋蜜'],
+  note:'想吃「甜甜的早餐」時用這招解饞，沒有一滴精製糖。'},
+ {e:'🥪',n:'吐司烤盒子',eq:'氣炸鍋',t:'10 分鐘',
+  ing:'全麥吐司 2 片、蛋 1 顆、起司 1 片、番茄切片、生菜',
+  st:['蛋先煎或微波成蛋皮','吐司夾蛋＋起司＋番茄，氣炸 170°C 5 分鐘','出爐塞生菜，對切'],
+  note:'像早午餐店的帕里尼，但鈉和油都是自己控制的。'}];
+const R_WE_LN=[
+ {e:'🍛',n:'微電鍋番茄雞肉燉飯（一鍋到底）',eq:'微電鍋',t:'50 分鐘（免顧）',
+  ing:'糙米 1.5 杯、雞腿丁 300g、牛番茄 2 顆、洋蔥半顆、蒜 3 瓣、黑胡椒、鹽一小撮',
+  st:['糙米洗好，水量比平常煮飯多半杯','所有材料全部丟進去，按煮飯模式','跳起來拌一拌，燜 10 分鐘'],
+  note:'假日午餐霸主：按一個鍵就有兩人份，剩的裝盒就是明天便當。'},
+ {e:'🍜',n:'涼拌雞絲蕎麥麵',eq:'瓦斯爐',t:'20 分鐘',
+  ing:'蕎麥麵 2 把、即食雞胸 1 包、小黃瓜 1 條刨絲、白芝麻、芝麻醬 1 大匙＋醋 1 大匙＋開水調開',
+  st:['蕎麥麵煮好沖冷開水瀝乾','雞胸撕絲、小黃瓜刨絲鋪上','淋調好的稀芝麻醬拌勻'],
+  note:'夏天沒食慾就吃這個；蕎麥麵比白麵條升糖慢，醬調稀一點鈉就少一半。'},
+ {e:'🐟',n:'氣炸鱸魚排餐',eq:'氣炸鍋',t:'25 分鐘',
+  ing:'鱸魚排 2 片、櫛瓜 1 條、玉米筍 1 盒、橄欖油、鹽和黑胡椒少許',
+  st:['魚排抹薄鹽，蔬菜拌一點橄欖油','魚 180°C 12 分鐘，蔬菜同籃','擠檸檬上桌'],
+  note:'白肉魚低脂高蛋白，減重和控糖時期的主力選手。'},
+ {e:'🥗',n:'三色蔬菜溫泉蛋拌飯',eq:'微電鍋＋微波',t:'15 分鐘',
+  ing:'糙米飯 2 碗、菠菜 1 把、豆芽 1 把、紅蘿蔔絲少許、蛋 2 顆、香油幾滴、白芝麻',
+  st:['三種蔬菜分別燙熟（或微波）','蛋做成溫泉蛋或半熟荷包蛋','全部鋪在飯上，滴幾滴香油拌開'],
+  note:'像韓式拌飯但不放辣醬（辣醬的糖和鈉都高），香氣靠香油和芝麻。'},
+ {e:'🍲',n:'什錦豆腐雞肉鍋',eq:'微電鍋',t:'30 分鐘',
+  ing:'雞腿肉片 200g、板豆腐 1 盒、大白菜 1/4 顆、菇 2 種、昆布一小段、水 1000ml',
+  st:['昆布加水煮出湯底','白菜先下煮軟，再放雞肉豆腐和菇','不加火鍋料、不加沙茶，沾一點點醬油＋蔥花'],
+  note:'想吃火鍋的替代方案：湯頭是真材實料，沒有加工餃類和重鹹沾醬。'}];
+const R_WE_DN=[
+ {e:'🐟',n:'電鍋清蒸魚',eq:'微電鍋',t:'20 分鐘',
+  ing:'鱈魚或鱸魚 1 大片、薑絲、蔥絲、薄鹽醬油 1 小匙、香油幾滴',
+  st:['魚鋪盤放薑絲，進鍋蒸 12-15 分鐘','倒掉盤裡的腥水','鋪蔥絲，淋一小匙醬油和幾滴香油'],
+  note:'蒸魚是最頂級的低負擔晚餐；醬油永遠「一小匙淋在魚上」，不要做成一碗醬汁。'},
+ {e:'🍖',n:'氣炸松阪豬定食（小份）',eq:'氣炸鍋',t:'20 分鐘',
+  ing:'松阪豬 150-200g、高麗菜 1/4 顆、彩椒 1 顆、檸檬、黑胡椒',
+  st:['松阪豬氣炸 200°C 12 分鐘，切薄片','蔬菜同籃最後 8 分鐘','擠檸檬、撒黑胡椒'],
+  note:'松阪豬好吃但油脂偏高，所以「小份、切薄、配大量蔬菜」是它的正確打開方式。'},
+ {e:'🥬',n:'雞肉蔬菜暖湯鍋',eq:'微電鍋',t:'30 分鐘',
+  ing:'雞腿塊 300g、白蘿蔔半條、紅蘿蔔 1 條、玉米 1 根、薑片',
+  st:['雞肉汆燙','全部進鍋煮 25 分鐘','蔬菜的甜味就是湯的味道，鹽可加可不加'],
+  note:'週日晚上煮一鍋，身體暖暖的收週末；蘿蔔玉米的天然甜完全不需要味精。'},
+ {e:'🍆',n:'蔬食日：氣炸雙蔬＋滑蒸蛋',eq:'氣炸鍋＋微波',t:'20 分鐘',
+  ing:'茄子 1 條、四季豆 1 把、蛋 3 顆、柴魚片少許、糙米飯',
+  st:['茄子和四季豆拌橄欖油，氣炸 180°C 10 分鐘','蒸蛋微波（蛋:水＝1:1.5）','蒸蛋撒柴魚片'],
+  note:'一週留一天晚餐不吃肉，讓腸胃和腎臟休息，蛋白質由蛋來顧。'}];
+const SNACK_OK=[
+ ['🫛 冷凍毛豆','微波 2 分鐘，撒黑胡椒不加鹽——蛋白質＋纖維，宵夜首選'],
+ ['🥛 無糖優格／希臘優格','有飽足感，睡前吃也不有負擔'],
+ ['🥚 茶葉蛋、溫泉蛋','超商就有，一顆剛剛好'],
+ ['🫘 溫的無糖豆漿','想吃「熱的、暖的」的時候最有效，喝完就想睡了'],
+ ['🥜 原味堅果一小把','手心一淺層就好，不是抱著整包吃'],
+ ['🥒 小黃瓜、小番茄、蒟蒻','嘴饞想咬東西的時候用它們解決'],
+ ['🍗 即食雞胸肉條','真的餓（不是嘴饞）的時候吃這個最實在']];
+const SNACK_NO=[
+ ['🍜 泡麵','一碗的鈉就快到一天上限，湯更是大魔王'],
+ ['🍗 鹹酥雞','高油＋高鹽＋睡前吃＝血壓血糖雙殺'],
+ ['🍪 餅乾、洋芋片','精緻澱粉半夜直衝血糖，而且停不下來'],
+ ['🧋 含糖飲料','液體的糖吸收最快，宵夜配手搖是最傷組合'],
+ ['🍉 大量水果','水果很健康，但果糖放在睡前就是負擔——留到白天吃']];
+const OUT_TIPS=[
+ ['1️⃣ 順序：菜 → 肉 → 飯','先把蔬菜和蛋白質吃掉一半以上，最後才動飯麵。同一個便當，換個順序血糖就差很多。'],
+ ['2️⃣ 飯先撥掉 1/3','裝到飯的時候就先撥掉三分之一，眼不見為淨，比「留著但忍住不吃」成功率高十倍。'],
+ ['3️⃣ 湯喝清的、只喝半碗','濃湯、勾芡湯直接跳過；清湯也別喝到底，鹽都沉在下面。'],
+ ['4️⃣ 醬料通通「旁邊沾」','滷汁不淋飯、醬不拌麵；夾一口沾一下，鈉少一大半。'],
+ ['5️⃣ 飲料只有三種：水、無糖茶、無糖豆漿','習慣喝甜的人，先從「半糖→微糖→無糖」兩週階梯降下來也可以。']];
+const PREP_SOP=[
+ ['🕐 0-10 分鐘','糙米（或糙米＋白米各半）下微電鍋煮，一次煮 4-6 份'],
+ ['🕑 10-20 分鐘','等飯的同時：雞蛋 6-8 顆下鍋水煮；地瓜洗好進電鍋一起蒸（或第二輪蒸）'],
+ ['🕒 20-30 分鐘','做 2-3 罐隔夜燕麥；冷凍蔬菜、冷凍毛豆補貨檢查；雞腿排撒鹽裝盒醃著'],
+ ['🕓 30-40 分鐘','飯跳起來→分裝小盒放涼進冷凍；蛋和地瓜進冷藏。收工！'],
+ ['✅ 完成後你們擁有','整週的早餐蛋白質＋澱粉、隨時可微波的糙米飯、醃好即炸的晚餐主菜、一開冰箱就有的安全宵夜']];
+
+function recipeCard(r,i,gid){
+  return `<div class="recipe" id="${gid}-${i}">
+    <div class="rh" onclick="this.parentElement.classList.toggle('open')">
+      <span style="font-size:1.3rem">${r.e}</span><span class="nm">${r.n}</span>
+      <span class="meta"><span class="badge">${r.eq}</span><span class="badge time">${r.t}</span></span>
+    </div>
+    <div class="rb">
+      <p class="ing">🧾 食材（2 人份）：${r.ing}</p>
+      ${r.st.map((s,j)=>`<p>${j+1}. ${s}</p>`).join('')}
+      <div class="bearnote">${bearSVG('white',26)}<span>${r.note}</span></div>
+    </div></div>`;
+}
+function recipeGroup(title,arr,gid){
+  return `<div class="rgroup"><div class="gh"><h3>${title}</h3>
+    <button class="lucky" onclick="lucky('${gid}',${arr.length})">🎲 幫我選</button></div>
+    ${arr.map((r,i)=>recipeCard(r,i,gid)).join('')}</div>`;
+}
+function lucky(gid,n){
+  for(let i=0;i<n;i++){ const el=document.getElementById(gid+'-'+i); el.classList.remove('pick','open'); }
+  const k=Math.floor(Math.random()*n);
+  const el=document.getElementById(gid+'-'+k);
+  el.classList.add('pick','open');
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function pairList(arr){ return arr.map(([a,b])=>`<div style="padding:7px 0;border-bottom:1px dashed var(--line)"><b style="font-size:.92rem">${a}</b><div class="small">${b}</div></div>`).join(''); }
+const RECIPE_VIEWS={
+ wd:()=>`<div class="card"><h2>🏢 平日菜單</h2><p class="small">午餐在公司吃，重點放在早餐和（在家吃的）晚餐。每餐都有多個選項，按「🎲 幫我選」讓小熊幫你決定今天吃哪個。</p></div>
+   ${recipeGroup('🌅 平日早餐（5 分鐘上桌）',R_WD_BF,'g1')}
+   ${recipeGroup('🌆 平日晚餐（下班後 25 分鐘內）',R_WD_DN,'g2')}`,
+ we:()=>`<div class="card"><h2>🏡 假日菜單</h2><p class="small">週末在家自己煮，全部用氣炸鍋、微電鍋、微波爐就能完成，不需要大廚技能。</p></div>
+   ${recipeGroup('🌅 假日早餐',R_WE_BF,'g3')}
+   ${recipeGroup('🌞 假日午餐',R_WE_LN,'g4')}
+   ${recipeGroup('🌆 假日晚餐',R_WE_DN,'g5')}`,
+ sn:()=>`<div class="card"><h2>🌙 宵夜安全區</h2><p class="small">在冰箱固定一區只放這些，想吃宵夜就從這區拿——跟意志力比起來，「家裡只有安全的」可靠多了。原則：200 大卡以內、睡前 1 小時吃完。</p>
+   <div class="okbox"><b>✅ 安全區常備清單</b>${pairList(SNACK_OK)}</div>
+   <div class="warnbox"><b>🚫 不進家門清單</b>${pairList(SNACK_NO)}</div></div>`,
+ prep:()=>`<div class="card"><h2>🧺 週日備餐 40 分鐘</h2><p class="small">整個計畫最划算的 40 分鐘：週日下午跑一次，下週的早餐和晚餐主菜就全部就定位。兩隻熊一起做更快 🐻🐻</p>${pairList(PREP_SOP)}</div>`,
+ out:()=>`<div class="card"><h2>🍱 外食小抄（公司餐廳版）</h2><p class="small">菜色不能選沒關係，這五招不用改「吃什麼」，只改「怎麼吃」，每一餐都用得上。</p>${pairList(OUT_TIPS)}</div>`
+};
+function renderRecipe(key){
+  document.querySelectorAll('#recipeChips .chip').forEach(c=>c.classList.toggle('on',c.dataset.r===key));
+  document.getElementById('recipeArea').innerHTML=RECIPE_VIEWS[key]();
+}
+
+/* ══════════ 衛教 ══════════ */
+const EDU=[
+ {q:'血壓 130、80 這些數字到底是什麼意思？',
+  a:`<p>把血管想成水管，心臟每擠一下，水管承受的壓力就是<b>收縮壓（高的那個數字）</b>；心臟放鬆時水管裡剩下的壓力是<b>舒張壓（低的那個）</b>。</p>
+  <table class="mini"><tr><th>在家量的血壓</th><th>狀態</th></tr>
+  <tr><td>低於 120／80</td><td>💚 理想</td></tr>
+  <tr><td>120-129／80 以下</td><td>🟡 開始注意</td></tr>
+  <tr><td>130／80 以上</td><td>🔴 高血壓範圍</td></tr></table>
+  <p>壓力太高太久，水管（血管）會被撐傷變硬，心臟、腎臟、眼睛都跟著遭殃。</p>`,
+  tip:'在家量血壓的常用參考線是 130／80，你的個人目標以醫生說的為準。'},
+ {q:'「糖尿病初期」是什麼意思？我又還沒怎樣…',
+  a:`<p>身體裡有個管糖的管家叫<b>胰島素</b>。以前你吃進糖，管家一下就把糖收進倉庫；現在管家開始累了、喊不太動，糖就滯留在血液裡——這就是初期。</p>
+  <p>好消息是：<b>初期是最值得把握的黃金期</b>。這個階段靠飲食、運動、睡眠就有機會把管家救回來，很多人因此不用走到吃藥那一步。</p>
+  <p>壞消息是：假裝沒事的話，管家會越來越累，到時候就不是「改生活」能解決的了。</p>`,
+  tip:'初期不是「還好」，是「現在改，最有用」的意思。'},
+ {q:'含糖飲料為什麼被說得那麼可怕？我就喝一杯…',
+  a:`<p>因為<b>液體的糖不用消化，直接衝進血液</b>，是所有食物裡讓血糖飆最快的。一杯全糖手搖大概 10-12 顆方糖，而且喝的時候完全沒有飽足感，等於白白挨了一記血糖重拳。</p>
+  <p>對高血壓也一樣：長期喝糖會讓體重和血脂上升，血壓跟著水漲船高。</p>
+  <p>戒不掉的話用階梯法：全糖→半糖（兩週）→微糖（兩週）→無糖茶。味覺會重新校準，一個月後回頭喝全糖只會覺得「怎麼這麼甜」。</p>`,
+  tip:'飲料只有三個好朋友：水、無糖茶、無糖豆漿。'},
+ {q:'我沒有吃很鹹啊，為什麼血壓還是高？',
+  a:`<p>因為 8 成的鈉<b>不是你自己撒的鹽，是藏在食物裡的</b>：</p>
+  <p>🍜 湯麵的湯（一碗湯可以佔掉一天一半的鈉）<br>🥫 醬料：滷汁、沙茶、醬油膏、番茄醬<br>🥓 加工品：火腿、香腸、培根、火鍋餃<br>🍞 意想不到的：白吐司、麵線、蘇打餅其實都偷偷含鈉</p>
+  <p>鈉太多，身體就把水留在血管裡稀釋它，血管裡的水變多，壓力自然變大——這就是鹽和血壓的關係。</p>`,
+  tip:'降鈉三招：湯不喝完、醬用沾的、加工肉品少碰。'},
+ {q:'聽說吃飯要「先吃菜」？順序真的有差嗎？',
+  a:`<p>真的有差，這是有臨床研究支持的小魔法：<b>菜 → 肉 → 飯</b>。</p>
+  <p>先吃下去的纖維會在腸胃裡形成一張網，後面的澱粉要通過這張網才能被吸收，速度就慢了下來，血糖曲線從「尖峰」變「緩坡」。</p>
+  <p>最棒的是：公司餐廳的菜你不能選，但<b>吃的順序永遠是你自己決定的</b>——這是外食族最強的免費武器。</p>`,
+  tip:'同一個便當，先吃菜再吃飯，血糖表現就是不一樣。'},
+ {q:'宵夜為什麼特別傷？我半夜真的會餓…',
+  a:`<p>晚上身體準備休息，管糖的管家（胰島素）也在打瞌睡，<b>同樣一份食物，半夜吃血糖衝得比白天高、降得比白天慢</b>。而且睡覺時消耗不掉，多的通通存成脂肪。</p>
+  <p>所以宵夜策略不是「戒掉」而是「換掉」：真的餓，就從安全區拿（毛豆、無糖優格、茶葉蛋、溫豆漿）；只是嘴饞，先喝一杯溫水或無糖茶，十分鐘後通常就忘了。</p>
+  <p>如果天天半夜餓，代表晚餐吃太少或睡太晚，回頭調整晚餐和睡覺時間才是根本解。</p>`,
+  tip:'宵夜問「我是餓還是嘴饞？」餓→安全區，嘴饞→溫水。'},
+ {q:'散步 10 分鐘也算運動喔？會不會太混？',
+  a:`<p>不混，這 10 分鐘的 CP 值高到不合理：<b>飯後 30 分鐘內走路，肌肉會直接把血液裡的糖拿去當燃料</b>，等於幫打瞌睡的管家分擔工作，餐後血糖高峰可以有感地被壓下來。</p>
+  <p>它同時也是溫和的降壓運動，走久了血管彈性會變好。</p>
+  <p>重點是「餐後」和「天天」，不是「快」和「久」。午餐後在公司附近走一圈、晚餐後兩隻熊一起散步，就是最完美的執行。</p>`,
+  tip:'飯後走 10 分鐘＝幫血糖踩剎車，天天做比偶爾跑 5 公里有用。'},
+ {q:'睡覺跟血壓血糖有什麼關係？',
+  a:`<p>關係大了。睡不夠的隔天，身體會分泌壓力荷爾蒙，它會<b>同時把血壓和血糖往上推</b>，還會讓你特別想吃高糖高油的東西——熬夜隔天特別想吃垃圾食物不是意志力差,是生理反應。</p>
+  <p>而且晚睡的人幾乎都會吃宵夜，等於一次踩兩個地雷。</p>
+  <p>目標很簡單：固定時間上床、睡滿 7 小時。把睡覺當成跟吃藥一樣重要的「處方」。</p>`,
+  tip:'早點睡是免費的降壓降糖藥，而且沒有副作用。'},
+ {q:'血壓藥吃了會不會傷腎？量到正常可以停藥嗎？',
+  a:`<p>這是最常見也最危險的誤會，答案是：<b>不可以自己停</b>。</p>
+  <p>血壓正常是因為藥正在工作，不是病好了——就像雨停是因為傘撐著，把傘收了雨又淋下來，而且忽高忽低的血壓比穩定偏高更傷血管。</p>
+  <p>「藥傷腎」也剛好說反了：真正傷腎的是<b>控制不好的高血壓和高血糖</b>，按時吃藥正是在保護腎臟。</p>
+  <p>想減藥完全可以，路徑是：生活習慣做好 → 血壓紀錄拿給醫生看 → 由醫生決定減量。這也是我們天天記血壓的原因。</p>`,
+  tip:'藥要不要減，讓數據和醫生決定，不是自己決定。'},
+ {q:'什麼狀況要趕快回診，不能等定期回診？',
+  a:`<p>大部分時間好好過日子就行，但出現這些訊號就別等：</p>
+  <p>🔴 血壓連續幾天超過 160／100，或單次超過 180／110<br>🔴 胸悶、胸痛、喘不上氣、單側手腳無力、講話突然不清楚（這是急診等級，馬上就醫）<br>🟡 常常異常口渴、跑廁所變多、體重沒理由地一直掉、傷口很難好、視力變模糊——這些是血糖惡化的訊號，提早掛號回診</p>`,
+  tip:'把這一條收進心裡就好，希望永遠用不到 🐻'},
+];
+function renderEdu(){
+  document.getElementById('eduList').innerHTML=EDU.map((e,i)=>`
+   <div class="edu" id="edu${i}">
+     <div class="q" onclick="this.parentElement.classList.toggle('open')">
+       ${bearSVG('brown',34)}<div class="bub">${e.q}</div><span class="arrow">▶</span>
+     </div>
+     <div class="a"><div class="row">${bearSVG('white',34)}<div class="bub">${e.a}<div class="takeaway">🎀 帶走一句話：${e.tip}</div></div></div></div>
+   </div>`).join('');
+}
+
+/* ══════════ 血壓 ══════════ */
+let bpBear=null;
+function bpLevel(s,d){
+  if(s>=130||d>=80) return ['r','偏高'];
+  if(s>=120) return ['y','注意'];
+  return ['g','良好'];
+}
+function renderBearChips(elId,cur,fn){
+  const el=document.getElementById(elId);
+  el.innerHTML=['white','brown'].map(b=>
+    `<button class="chip bear ${b===cur?'on':''}" data-b="${b}">${BEAR_EMO[b]} ${BEAR_NAME[b]}${b===state.me?'（我）':''}</button>`).join('');
+  el.querySelectorAll('button').forEach(btn=>btn.onclick=()=>fn(btn.dataset.b));
+}
+function renderBP(){
+  if(!bpBear) bpBear=state.me;
+  renderBearChips('bpBearChips',bpBear,b=>{bpBear=b;renderBP();});
+  document.getElementById('bpFormCard').style.display = bpBear===state.me?'block':'none';
+  document.getElementById('bpChartTitle').innerHTML=`📈 ${BEAR_NAME[bpBear]} 的血壓趨勢`;
+  const rec=state.data[bpBear].bp;
+  const keys=Object.keys(rec).sort();
+  document.getElementById('bpCount').textContent=keys.length;
+  const last7=keys.slice(-7);
+  if(last7.length){
+    const as=Math.round(last7.reduce((a,k)=>a+ +rec[k].s,0)/last7.length);
+    const ad=Math.round(last7.reduce((a,k)=>a+ +rec[k].d,0)/last7.length);
+    document.getElementById('bpAvg').textContent=`${as}/${ad}`;
+  } else document.getElementById('bpAvg').textContent='–';
+  const list=document.getElementById('bpList');
+  list.innerHTML = keys.slice(-10).reverse().map(k=>{
+    const r=rec[k], [cls,lb]=bpLevel(+r.s,+r.d);
+    return `<div class="bprow"><span class="d">${nice(k)}</span><span class="v">${r.s}/${r.d}</span>
+      <span class="small">${r.p?('❤️'+r.p):''}</span><span class="lvl ${cls}">${lb}</span></div>`;
+  }).join('') || '<p class="small center" style="padding:8px">還沒有紀錄，量好血壓填上面的格子吧 🩺</p>';
+  drawChart(keys.slice(-30).map(k=>({d:k,s:+rec[k].s,dia:+rec[k].d})));
+}
+function drawChart(rows){
+  const svg=document.getElementById('bpchart');
+  const W=svg.clientWidth||560, H=230, PL=34, PR=12, PT=14, PB=26;
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`); svg.innerHTML='';
+  const tip=document.getElementById('tooltip'); tip.style.display='none';
+  if(rows.length<1){
+    svg.innerHTML=`<text x="${W/2}" y="${H/2}" text-anchor="middle" fill="#94806D" font-size="13">量幾天血壓之後，這裡就會長出趨勢圖 🌱</text>`;
+    return;
+  }
+  const vals=rows.flatMap(r=>[r.s,r.dia]).concat([130,80]);
+  const ymin=Math.min(...vals)-8, ymax=Math.max(...vals)+8;
+  const x=i=>rows.length===1 ? (PL+(W-PL-PR)/2) : PL+(W-PL-PR)*i/(rows.length-1);
+  const y=v=>PT+(H-PT-PB)*(1-(v-ymin)/(ymax-ymin));
+  let g='';
+  for(let v=Math.ceil(ymin/20)*20;v<=ymax;v+=20)
+    g+=`<line x1="${PL}" x2="${W-PR}" y1="${y(v)}" y2="${y(v)}" stroke="#F3EADB" stroke-width="1"/>
+        <text x="${PL-6}" y="${y(v)+4}" text-anchor="end" font-size="10" fill="#B3A18C">${v}</text>`;
+  [[130,'130'],[80,'80']].forEach(([v,lb])=>{
+    g+=`<line x1="${PL}" x2="${W-PR}" y1="${y(v)}" y2="${y(v)}" stroke="#C9B695" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <text x="${W-PR}" y="${y(v)-4}" text-anchor="end" font-size="9" fill="#B3A18C">${lb}</text>`;
+  });
+  const step=Math.max(1,Math.ceil(rows.length/5));
+  rows.forEach((r,i)=>{ if(i%step===0||i===rows.length-1)
+    g+=`<text x="${x(i)}" y="${H-8}" text-anchor="middle" font-size="10" fill="#B3A18C">${nice(r.d)}</text>`; });
+  const line=(key,color)=>{
+    if(rows.length>1){
+      const pts=rows.map((r,i)=>`${x(i)},${y(r[key])}`).join(' ');
+      g+=`<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    }
+    rows.forEach((r,i)=>{
+      g+=`<circle cx="${x(i)}" cy="${y(r[key])}" r="4" fill="${color}" stroke="#FFF9F2" stroke-width="1.5"/>
+          <circle cx="${x(i)}" cy="${y(r[key])}" r="13" fill="transparent" data-i="${i}" class="hit"/>`;
+    });
+    const lastR=rows[rows.length-1];
+    g+=`<text x="${x(rows.length-1)-8}" y="${y(lastR[key]) + (key==='s'?-9:15)}" text-anchor="end" font-size="11" font-weight="800" fill="${color}">${lastR[key]}</text>`;
+  };
+  line('s','#C95D63'); line('dia','#3E7FB8');
+  svg.innerHTML=g;
+  svg.querySelectorAll('.hit').forEach(c=>{
+    const show=ev=>{
+      const i=+c.dataset.i, r=rows[i];
+      tip.innerHTML=`<b>${nice(r.d)}</b>　<span style="color:#C95D63">${r.s}</span> / <span style="color:#3E7FB8">${r.dia}</span> mmHg`;
+      tip.style.display='block';
+      const box=document.getElementById('bpchartbox').getBoundingClientRect();
+      const cx=c.getBoundingClientRect().left-box.left+13;
+      tip.style.left=Math.max(4,Math.min(cx-60,box.width-130))+'px';
+      tip.style.top=(c.getBoundingClientRect().top-box.top-40)+'px';
+      ev.stopPropagation();
+    };
+    c.addEventListener('click',show);
+  });
+  document.addEventListener('click',()=>tip.style.display='none',{once:false});
+}
+document.getElementById('bpSave').onclick=()=>{
+  const s=+document.getElementById('bpSys').value, d=+document.getElementById('bpDia').value, p=+document.getElementById('bpPul').value;
+  if(!s||!d||s<50||s>260||d<30||d>200){ toast('數字看起來怪怪的，再確認一下唷 🐻'); return; }
+  state.data[state.me].bp[today()]={s,d,...(p?{p}:{})};
+  ckOf(state.me,today()).i.bp=true;
+  save();
+  document.getElementById('bpSys').value='';document.getElementById('bpDia').value='';document.getElementById('bpPul').value='';
+  const [cls,lb]=bpLevel(s,d);
+  toast(cls==='g'?`記好了！${s}/${d}，狀態良好 💚`:cls==='y'?`記好了！${s}/${d}，繼續保持觀察 🟡`:`記好了！${s}/${d} 偏高，今天鹽和睡眠多注意 🔴`);
+  renderBP(); renderToday();
+};
+
+/* ══════════ 回顧 ══════════ */
+let rvBear=null;
+function renderReview(){
+  if(!rvBear) rvBear=state.me;
+  renderBearChips('rvBearChips',rvBear,b=>{rvBear=b;renderReview();});
+  document.getElementById('rvTitle').innerHTML=`📊 ${BEAR_NAME[rvBear]} 這 7 天的表現`;
+  document.getElementById('wtCard').style.display = rvBear===state.me?'block':'none';
+  const days=[]; const d=new Date();
+  for(let i=6;i>=0;i--){ const t=new Date(d); t.setDate(d.getDate()-i); days.push(dstr(t)); }
+  const its=itemsFor(rvBear);
+  let html='<tr><th style="text-align:left">項目</th>'+days.map(ds=>`<th>${nice(ds)}</th>`).join('')+'</tr>';
+  its.forEach(it=>{
+    html+=`<tr><td class="itname">${it.e} ${it.t.slice(0,6)}</td>`+days.map(ds=>{
+      const c=state.data[rvBear].ck[ds];
+      const ok=c&&c.i[it.k];
+      return `<td class="${ok?'hit':'miss'}">${ok?'✓':'·'}</td>`;
+    }).join('')+'</tr>';
+  });
+  document.getElementById('wkGrid').innerHTML=html;
+  let done=0,tot=0;
+  days.forEach(ds=>{ its.forEach(it=>{ tot++; const c=state.data[rvBear].ck[ds]; if(c&&c.i[it.k])done++; }); });
+  const rate=tot?Math.round(done/tot*100):0;
+  const msg = rate>=80?`太強了！本週達成率 ${rate}%，${BEAR_NAME[rvBear]} 根本是健康模範熊 🏆`
+    : rate>=50?`本週達成率 ${rate}%，穩穩地在進步中，繼續走 🐾`
+    : rate>0?`本週達成率 ${rate}%。沒關係，改變本來就是慢慢來——先顧好「餐後散步」和「不喝含糖飲料」兩項就好 💪`
+    : `這週還沒開始打卡，今天就從最簡單的一項開始吧 🌱`;
+  document.getElementById('praiseBox').innerHTML=`${bearSVG(rvBear,44)}<span>${msg}</span>`;
+  const wt=state.data[rvBear].wt, wks=Object.keys(wt).sort().slice(-8).reverse();
+  document.getElementById('wtList').innerHTML=wks.map((k,i)=>{
+    const cur=+wt[k], prev=i<wks.length-1?+wt[wks[i+1]]:null;
+    const diff=prev!=null?(cur-prev):null;
+    const dtxt=diff==null?'':(diff>0?`<span class="lvl y">+${diff.toFixed(1)}</span>`:diff<0?`<span class="lvl g">${diff.toFixed(1)}</span>`:`<span class="lvl g">持平</span>`);
+    return `<div class="bprow"><span class="d">${nice(k)}</span><span class="v">${cur.toFixed(1)} kg</span>${dtxt}</div>`;
+  }).join('');
+}
+document.getElementById('wtSave').onclick=()=>{
+  const v=+document.getElementById('wtIn').value;
+  if(!v||v<25||v>250){ toast('體重數字怪怪的，再看一下 🐻'); return; }
+  state.data[state.me].wt[today()]=v; save();
+  document.getElementById('wtIn').value='';
+  toast('體重記好了 ⚖️'); renderReview();
+};
+
+/* ══════════ 導覽 / 設定 / 啟動 ══════════ */
+document.querySelectorAll('nav.tabbar button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('nav.tabbar button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+    document.getElementById('pg-'+b.dataset.pg).classList.add('on');
+    if(b.dataset.pg==='bp') renderBP();
+    if(b.dataset.pg==='review') renderReview();
+    if(b.dataset.pg==='today') renderToday();
+    window.scrollTo({top:0});
+  };
+});
+document.getElementById('recipeChips').querySelectorAll('.chip').forEach(c=>c.onclick=()=>renderRecipe(c.dataset.r));
+document.getElementById('shareBtn').onclick=doShare;
+document.getElementById('shareSiteBtn').onclick=doShareSite;
+
+let pickSel=null, pickMed=null;
+function openSetup(){
+  pickSel=state.me||pendingPick; pickMed=state.me?state.meds[state.me]:null;
+  document.getElementById('svgW').innerHTML=bearSVG('white',64);
+  document.getElementById('svgB').innerHTML=bearSVG('brown',64);
+  syncSetupUI();
+  document.getElementById('setupModal').classList.add('on');
+}
+function syncSetupUI(){
+  document.getElementById('pickWhite').classList.toggle('on',pickSel==='white');
+  document.getElementById('pickBrown').classList.toggle('on',pickSel==='brown');
+  document.getElementById('medYes').classList.toggle('on',pickMed===true);
+  document.getElementById('medNo').classList.toggle('on',pickMed===false);
+}
+document.getElementById('pickWhite').onclick=()=>{pickSel='white';syncSetupUI();};
+document.getElementById('pickBrown').onclick=()=>{pickSel='brown';syncSetupUI();};
+document.getElementById('medYes').onclick=()=>{pickMed=true;syncSetupUI();};
+document.getElementById('medNo').onclick=()=>{pickMed=false;syncSetupUI();};
+document.getElementById('setupOk').onclick=()=>{
+  if(!pickSel){ toast('先選一隻熊唷 🐻'); return; }
+  if(pickMed===null){ toast('告訴我需不需要吃藥打卡唷 💊'); return; }
+  state.me=pickSel; state.meds[pickSel]=pickMed;
+  bpBear=rvBear=state.me;
+  save();
+  document.getElementById('setupModal').classList.remove('on');
+  renderAll();
+  toast(`${BEAR_NAME[state.me]}，歡迎回家 ${BEAR_EMO[state.me]}`);
+};
+document.getElementById('gearBtn').onclick=openSetup;
+
+let toastTimer=null;
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.style.display='block';
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.style.display='none',3200);
+}
+function renderAll(){
+  document.getElementById('heroBears').innerHTML=bearSVG('white',56)+bearSVG('brown',56);
+  if(!state.me) return;
+  renderToday(); renderRecipe('wd'); renderEdu(); renderBP(); renderReview();
+}
+(async function init(){
+  document.getElementById('heroBears').innerHTML=bearSVG('white',56)+bearSVG('brown',56);
+  await tryReceive();
+  if(!state.me){ renderRecipe('wd'); renderEdu(); openSetup(); }
+  else renderAll();
+})();
+window.addEventListener('resize',()=>{ if(state.me && document.getElementById('pg-bp').classList.contains('on')) renderBP(); });
+</script>
+</body>
+</html>
