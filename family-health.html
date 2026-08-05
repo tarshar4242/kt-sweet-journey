@@ -156,6 +156,27 @@ table.mini th{background:#FBF4E8}
 .medq{display:flex;gap:10px;margin:10px 0 4px}
 .medq button{flex:1;background:#fff;border:2px solid var(--line);border-radius:14px;padding:10px;font-family:inherit;font-weight:900;color:var(--ink);cursor:pointer}
 .medq button.on{border-color:var(--blueD);background:#EFF6FC}
+/* ── 留言板 / 點菜 / 收藏 ── */
+.ract{display:flex;gap:8px;margin-top:9px}
+.abtn{flex:1;border:2px solid var(--line);background:#fff;border-radius:12px;padding:7px 6px;font-family:inherit;font-weight:900;font-size:.8rem;color:var(--ink2);cursor:pointer}
+.abtn.on{border-color:var(--yellowD);background:#FFF6DC;color:#8a6d2f}
+.abtn.want{border-color:#F3D3D8;color:var(--pinkD)}
+.wishrow{display:flex;align-items:center;gap:8px;background:#FFF6F7;border:1px solid #F6DEE2;border-radius:14px;padding:9px 11px;margin:7px 0;font-size:.88rem}
+.wishrow .ok{margin-left:auto;flex:none;border:none;background:var(--greenD);color:#fff;border-radius:999px;padding:5px 11px;font-family:inherit;font-weight:900;font-size:.74rem;cursor:pointer}
+.wishrow .del{margin-left:auto;flex:none;border:none;background:#EEE3D2;color:var(--ink2);border-radius:999px;padding:5px 10px;font-family:inherit;font-weight:900;font-size:.74rem;cursor:pointer}
+.newtag{font-size:.62rem;background:var(--pinkD);color:#fff;border-radius:999px;padding:1px 7px;font-weight:900;flex:none}
+.noterow{display:flex;gap:8px;margin:8px 0;align-items:flex-end}
+.noterow.mine{flex-direction:row-reverse}
+.noterow .nb{background:#F7EDE0;border-radius:4px 14px 14px 14px;padding:8px 12px;font-size:.88rem;max-width:75%}
+.noterow.mine .nb{background:#FDF1F3;border-radius:14px 4px 14px 14px}
+.noterow .nt{font-size:.64rem;color:#B3A18C;flex:none}
+.noterow .nx{border:none;background:none;color:#C9B695;font-size:.8rem;cursor:pointer;flex:none;padding:2px}
+.stamps{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 6px}
+.stamps button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:6px 11px;font-family:inherit;font-size:.78rem;font-weight:800;color:var(--ink);cursor:pointer}
+.composer{display:flex;gap:8px}
+.composer input{flex:1;border:2px solid var(--line);border-radius:14px;padding:9px 12px;font-family:inherit;font-size:.9rem;background:var(--cream);color:var(--ink)}
+.composer input:focus{outline:none;border-color:var(--pinkD)}
+.composer button{border:none;background:var(--pinkD);color:#fff;border-radius:14px;padding:0 16px;font-family:inherit;font-weight:900;cursor:pointer}
 /* toast */
 #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:100px;background:var(--ink);color:#fff;
   border-radius:999px;padding:10px 20px;font-size:.88rem;font-weight:800;z-index:120;display:none;box-shadow:var(--shadow);max-width:88vw;text-align:center}
@@ -208,9 +229,26 @@ ul.tight li{margin:4px 0}
     <div id="partnerBody"></div>
   </div>
 
+  <div class="card" id="boardCard">
+    <h2>💌 小熊留言板 <span class="tag">點菜＋悄悄話</span></h2>
+    <div id="boardBody"></div>
+    <div class="divider"></div>
+    <p class="small" style="font-weight:900">🖋️ 蓋個章或寫句話給另一半：</p>
+    <div class="stamps">
+      <button data-s="❤️ 今天也要加油！">❤️ 加油</button>
+      <button data-s="🚶 今晚一起去散步好嗎？">🚶 約散步</button>
+      <button data-s="😋 週末想一起吃頓好的">😋 約吃飯</button>
+      <button data-s="🛒 冰箱快空了，要補貨囉">🛒 要補貨</button>
+    </div>
+    <div class="composer">
+      <input id="noteIn" maxlength="120" placeholder="或自己打一句話…">
+      <button id="noteSend">送出</button>
+    </div>
+  </div>
+
   <div class="card">
     <h2>📮 回報給另一半</h2>
-    <p class="small">按下面的按鈕，把你最近的打卡、三餐和血壓打包成一條連結，用 LINE 傳給對方；對方一點開，你的紀錄就會出現在他的手機裡。（資料只在你們兩支手機之間傳，不會上傳到任何伺服器）</p>
+    <p class="small">按下面的按鈕，把你最近的打卡、三餐、血壓、點菜和留言全部打包成一條連結，用 LINE 傳給對方；對方一點開就同步。（資料只在你們兩支手機之間傳，不會上傳到任何伺服器）</p>
     <button class="bigbtn" id="shareBtn">🐻 打包我的紀錄，傳給另一半</button>
     <button class="bigbtn blue" id="shareSiteBtn">🔗 分享這個小屋給另一半（第一次用）</button>
   </div>
@@ -221,6 +259,7 @@ ul.tight li{margin:4px 0}
   <div class="chips" id="recipeChips">
     <button class="chip on" data-r="wd">🏢 平日</button>
     <button class="chip" data-r="we">🏡 假日</button>
+    <button class="chip" data-r="fav">⭐ 最愛</button>
     <button class="chip" data-r="sn">🌙 宵夜安全區</button>
     <button class="chip" data-r="prep">🧺 週日備餐</button>
     <button class="chip" data-r="out">🍱 外食小抄</button>
@@ -312,6 +351,16 @@ ul.tight li{margin:4px 0}
   </div>
 </div>
 
+<!-- 馬上傳？ -->
+<div class="modal" id="shareNowModal">
+  <div class="sheet">
+    <h2 id="snTitle">記到留言板上囉！</h2>
+    <p class="small center">要現在就讓另一半知道，還是晚點打卡完一起傳？</p>
+    <button class="bigbtn" id="snNow">📮 現在就用 LINE 傳給另一半</button>
+    <button class="bigbtn blue" id="snLater">🕐 晚點打卡完一起傳</button>
+  </div>
+</div>
+
 <div id="toast"></div>
 <div class="foot">
   🐻 小熊健康小屋・一二娟＆布布龍<br>
@@ -350,9 +399,13 @@ const BEAR_EMO  = {white:'🤍', brown:'🤎'};
 const LS='bearHealth_v1';
 let state = load();
 function load(){
-  try{ const s=JSON.parse(localStorage.getItem(LS)); if(s&&s.data) return s; }catch(e){}
-  return { me:null, meds:{white:true,brown:true},
+  let s=null;
+  try{ const p=JSON.parse(localStorage.getItem(LS)); if(p&&p.data) s=p; }catch(e){}
+  if(!s) s={ me:null, meds:{white:true,brown:true},
     data:{white:{ck:{},bp:{},wt:{}}, brown:{ck:{},bp:{},wt:{}}}, lastSync:{white:0,brown:0} };
+  ['white','brown'].forEach(b=>{ const d=s.data[b];
+    d.fav=d.fav||{}; d.wish=d.wish||{}; d.notes=d.notes||{}; });
+  return s;
 }
 function save(){ localStorage.setItem(LS, JSON.stringify(state)); }
 function today(){ return new Date().toLocaleDateString('sv'); }
@@ -403,7 +456,7 @@ function renderToday(){
   let hit=0,days=0; const dd=new Date();
   for(let i=0;i<7;i++){ if(dayHit(me,dstr(dd))) hit++; days++; dd.setDate(dd.getDate()-1); }
   document.getElementById('stWeek').textContent=Math.round(hit/days*100)+'%';
-  renderPartner();
+  renderPartner(); renderBoard();
 }
 function renderPartner(){
   const p=other(state.me), ds=today();
@@ -430,6 +483,74 @@ function renderPartner(){
   box.innerHTML=html;
 }
 
+/* ══════════ 點菜 / 收藏 / 留言板 ══════════ */
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function toggleFav(btn,name){
+  if(!state.me){ openSetup(); return; }
+  const f=state.data[state.me].fav;
+  if(f[name]){ delete f[name]; btn.classList.remove('on'); btn.textContent='⭐ 收藏'; toast('已取消收藏'); }
+  else{ f[name]=Date.now(); btn.classList.add('on'); btn.textContent='⭐ 已收藏'; toast('收藏起來了 ⭐'); }
+  save();
+}
+function addWish(name,emoji){
+  if(!state.me){ openSetup(); return; }
+  state.data[state.me].wish[name]={n:name,e:emoji,ts:Date.now(),done:false};
+  save(); renderBoard();
+  openShareNow(`「${name}」記到點菜板上囉 😋`);
+}
+function addNote(t){
+  t=(t||'').trim();
+  if(!t) return;
+  if(!state.me){ openSetup(); return; }
+  state.data[state.me].notes[Date.now()]={t:t.slice(0,120)};
+  save(); renderBoard();
+  openShareNow('小紙條貼到留言板囉 💌');
+}
+function wishDone(bear,name){
+  const w=state.data[bear].wish[name];
+  if(w){ w.done=true; save(); renderBoard(); toast('好耶，安排上了！記得排進這週菜單 📝'); }
+}
+function wishDel(name){ delete state.data[state.me].wish[name]; save(); renderBoard(); }
+function noteDel(ts){ delete state.data[state.me].notes[ts]; save(); renderBoard(); }
+function renderBoard(){
+  const me=state.me, p=other(me);
+  const box=document.getElementById('boardBody');
+  const now=Date.now(), DAY=86400000;
+  let html='';
+  const pw=Object.values(state.data[p].wish).filter(w=>!w.done&&now-w.ts<14*DAY).sort((a,b)=>b.ts-a.ts);
+  if(pw.length){
+    html+=`<p class="small" style="font-weight:900">😋 ${BEAR_NAME[p]} 的點菜</p>`+pw.map(w=>{
+      const d=new Date(w.ts);
+      return `<div class="wishrow"><span>${w.e||'🍽️'}</span><span><b>${esc(w.n)}</b><span class="small">　${d.getMonth()+1}/${d.getDate()}</span></span>
+       ${now-w.ts<DAY?'<span class="newtag">NEW</span>':''}
+       <button class="ok" onclick="wishDone('${p}','${esc(w.n)}')">✅ 安排！</button></div>`; }).join('');
+  }
+  const mw=Object.values(state.data[me].wish).filter(w=>!w.done&&now-w.ts<14*DAY).sort((a,b)=>b.ts-a.ts);
+  if(mw.length){
+    html+=`<p class="small" style="font-weight:900">🍽️ 我點的菜（回報後對方就看得到）</p>`+mw.map(w=>
+      `<div class="wishrow"><span>${w.e||'🍽️'}</span><b>${esc(w.n)}</b>
+       <button class="del" onclick="wishDel('${esc(w.n)}')">取消</button></div>`).join('');
+  }
+  const notes=[];
+  Object.entries(state.data[p].notes).forEach(([ts,n])=>{ if(now-+ts<7*DAY) notes.push({ts:+ts,t:n.t,who:p}); });
+  Object.entries(state.data[me].notes).forEach(([ts,n])=>{ if(now-+ts<7*DAY) notes.push({ts:+ts,t:n.t,who:me}); });
+  notes.sort((a,b)=>a.ts-b.ts);
+  if(notes.length){
+    html+=`<p class="small" style="font-weight:900;margin-top:6px">💬 最近 7 天的悄悄話</p>`+notes.map(n=>{
+      const d=new Date(n.ts), tm=`${d.getMonth()+1}/${d.getDate()}`;
+      return n.who===me
+       ? `<div class="noterow mine"><div class="nb">${esc(n.t)}</div><span class="nt">${tm}</span><button class="nx" onclick="noteDel('${n.ts}')">✕</button></div>`
+       : `<div class="noterow">${bearSVG(p,26)}<div class="nb">${esc(n.t)}${now-n.ts<DAY?' <span class="newtag">NEW</span>':''}</div><span class="nt">${tm}</span></div>`;
+    }).join('');
+  }
+  if(!html) html=`<p class="small">留言板還空空的。到「食譜」對想吃的菜按「😋 我想吃這個」點菜，或用下面的印章跟另一半說句話吧！</p>`;
+  box.innerHTML=html;
+}
+function openShareNow(title){
+  document.getElementById('snTitle').textContent=title;
+  document.getElementById('shareNowModal').classList.add('on');
+}
+
 /* ══════════ 回報同步 ══════════ */
 function b64e(bytes){ let bin=''; bytes.forEach(b=>bin+=String.fromCharCode(b));
   return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
@@ -440,7 +561,11 @@ async function packState(){
   const cut=new Date(); cut.setDate(cut.getDate()-21); const cutCk=dstr(cut);
   cut.setDate(cut.getDate()-69); const cutBp=dstr(cut);
   const pick=(obj,cutoff)=>{ const o={}; Object.keys(obj).filter(k=>k>=cutoff).sort().forEach(k=>o[k]=obj[k]); return o; };
-  const payload={v:1,from:me,meds:state.meds[me],ck:pick(d.ck,cutCk),bp:pick(d.bp,cutBp),wt:pick(d.wt,cutBp),ts:Date.now()};
+  const DAY=86400000, now=Date.now();
+  const wsh={}; Object.entries(d.wish).forEach(([k,w])=>{ if(now-w.ts<30*DAY) wsh[k]=w; });
+  const nts={}; Object.entries(d.notes).forEach(([k,n])=>{ if(now-+k<14*DAY) nts[k]=n; });
+  const payload={v:1,from:me,meds:state.meds[me],ck:pick(d.ck,cutCk),bp:pick(d.bp,cutBp),wt:pick(d.wt,cutBp),
+    fav:d.fav,wish:wsh,notes:nts,ts:now};
   const json=JSON.stringify(payload);
   const bytes=new TextEncoder().encode(json);
   if(typeof CompressionStream!=='undefined'){
@@ -480,6 +605,10 @@ async function tryReceive(){
   if(state.me && p.from===state.me){ toast('這是你自己的回報連結，不用匯入唷 🐻'); return; }
   const t=state.data[p.from];
   Object.assign(t.ck,p.ck||{}); Object.assign(t.bp,p.bp||{}); Object.assign(t.wt,p.wt||{});
+  if(p.fav) t.fav=p.fav;
+  if(p.wish){ Object.entries(p.wish).forEach(([k,w])=>{
+    const ex=t.wish[k]; t.wish[k]=w; if(ex&&ex.done) t.wish[k].done=true; }); }
+  if(p.notes) Object.assign(t.notes,p.notes);
   state.meds[p.from]=!!p.meds;
   state.lastSync[p.from]=p.ts||Date.now();
   save();
@@ -595,6 +724,7 @@ const R_WE_DN=[
   ing:'茄子 1 條、四季豆 1 把、蛋 3 顆、柴魚片少許、糙米飯',
   st:['茄子和四季豆拌橄欖油，氣炸 180°C 10 分鐘','蒸蛋微波（蛋:水＝1:1.5）','蒸蛋撒柴魚片'],
   note:'一週留一天晚餐不吃肉，讓腸胃和腎臟休息，蛋白質由蛋來顧。'}];
+const ALL_RECIPES=[...R_WD_BF,...R_WD_DN,...R_WE_BF,...R_WE_LN,...R_WE_DN];
 const SNACK_OK=[
  ['🫛 冷凍毛豆','微波 2 分鐘，撒黑胡椒不加鹽——蛋白質＋纖維，宵夜首選'],
  ['🥛 無糖優格／希臘優格','有飽足感，睡前吃也不有負擔'],
@@ -623,6 +753,7 @@ const PREP_SOP=[
  ['✅ 完成後你們擁有','整週的早餐蛋白質＋澱粉、隨時可微波的糙米飯、醃好即炸的晚餐主菜、一開冰箱就有的安全宵夜']];
 
 function recipeCard(r,i,gid){
+  const fv = state.me && state.data[state.me].fav[r.n];
   return `<div class="recipe" id="${gid}-${i}">
     <div class="rh" onclick="this.parentElement.classList.toggle('open')">
       <span style="font-size:1.3rem">${r.e}</span><span class="nm">${r.n}</span>
@@ -632,6 +763,10 @@ function recipeCard(r,i,gid){
       <p class="ing">🧾 食材（2 人份）：${r.ing}</p>
       ${r.st.map((s,j)=>`<p>${j+1}. ${s}</p>`).join('')}
       <div class="bearnote">${bearSVG('white',26)}<span>${r.note}</span></div>
+      <div class="ract">
+        <button class="abtn${fv?' on':''}" onclick="toggleFav(this,'${r.n}')">${fv?'⭐ 已收藏':'⭐ 收藏'}</button>
+        <button class="abtn want" onclick="addWish('${r.n}','${r.e}')">😋 我想吃這個</button>
+      </div>
     </div></div>`;
 }
 function recipeGroup(title,arr,gid){
@@ -655,6 +790,16 @@ const RECIPE_VIEWS={
    ${recipeGroup('🌅 假日早餐',R_WE_BF,'g3')}
    ${recipeGroup('🌞 假日午餐',R_WE_LN,'g4')}
    ${recipeGroup('🌆 假日晚餐',R_WE_DN,'g5')}`,
+ fav:()=>{
+  const me=state.me;
+  const mine = me?Object.keys(state.data[me].fav):[];
+  const theirs = me?Object.keys(state.data[other(me)].fav):[];
+  const find=n=>ALL_RECIPES.find(r=>r.n===n);
+  const cards=(names,gid)=>names.map(find).filter(Boolean).map((r,i)=>recipeCard(r,i,gid)).join('');
+  return `<div class="card"><h2>⭐ 我們的最愛</h2><p class="small">在任何一道食譜按「⭐ 收藏」就會出現在這裡；對方收藏了什麼，回報同步之後也看得到。</p></div>
+   <div class="rgroup"><div class="gh"><h3>${me?BEAR_EMO[me]+' 我的最愛':''}</h3></div>${cards(mine,'gf1')||'<p class="small" style="padding:0 6px">還沒有收藏，去食譜裡逛逛吧 🐾</p>'}</div>
+   <div class="rgroup"><div class="gh"><h3>${me?BEAR_EMO[other(me)]+' '+BEAR_NAME[other(me)]+' 的最愛':''}</h3></div>${cards(theirs,'gf2')||'<p class="small" style="padding:0 6px">對方還沒收藏，或還沒回報同步給你 💌</p>'}</div>`;
+ },
  sn:()=>`<div class="card"><h2>🌙 宵夜安全區</h2><p class="small">在冰箱固定一區只放這些，想吃宵夜就從這區拿——跟意志力比起來，「家裡只有安全的」可靠多了。原則：200 大卡以內、睡前 1 小時吃完。</p>
    <div class="okbox"><b>✅ 安全區常備清單</b>${pairList(SNACK_OK)}</div>
    <div class="warnbox"><b>🚫 不進家門清單</b>${pairList(SNACK_NO)}</div></div>`,
@@ -891,6 +1036,19 @@ document.querySelectorAll('nav.tabbar button').forEach(b=>{
 document.getElementById('recipeChips').querySelectorAll('.chip').forEach(c=>c.onclick=()=>renderRecipe(c.dataset.r));
 document.getElementById('shareBtn').onclick=doShare;
 document.getElementById('shareSiteBtn').onclick=doShareSite;
+document.querySelectorAll('.stamps button').forEach(b=>b.onclick=()=>addNote(b.dataset.s));
+document.getElementById('noteSend').onclick=()=>{
+  addNote(document.getElementById('noteIn').value);
+  document.getElementById('noteIn').value='';
+};
+document.getElementById('snNow').onclick=()=>{
+  document.getElementById('shareNowModal').classList.remove('on');
+  doShare();
+};
+document.getElementById('snLater').onclick=()=>{
+  document.getElementById('shareNowModal').classList.remove('on');
+  toast('好，記得睡前按「📮 回報」一起傳唷 🐻');
+};
 
 let pickSel=null, pickMed=null;
 function openSetup(){
