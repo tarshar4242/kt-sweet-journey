@@ -163,6 +163,28 @@ table.mini th{background:#FBF4E8}
 .wkgrid td.itname{text-align:left;font-size:.78rem;white-space:nowrap}
 .praise{background:linear-gradient(135deg,#FDF1F3,#FFF8E8);border-radius:16px;padding:12px 14px;margin-top:10px;
   display:flex;gap:10px;align-items:center;font-size:.9rem;font-weight:800}
+/* ── 打卡血壓日曆 ── */
+.cal-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin:4px 0 8px}
+.cal-nav button{border:1px solid var(--line);background:var(--cream);border-radius:999px;width:34px;height:34px;
+  font-size:1.1rem;font-weight:900;color:var(--ink);cursor:pointer;font-family:inherit}
+.cal-nav button:disabled{opacity:.3;cursor:default}
+#calMonthLabel{font-weight:900;font-size:1rem;min-width:98px;text-align:center}
+.cal-legend{display:flex;gap:18px;justify-content:center;font-size:.78rem;font-weight:800;color:var(--ink2);margin-bottom:8px}
+.cal-legend .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.cal-legend .dot.ck{background:#5f9350}
+.cal-legend .dot.bp{background:#3E7FB8}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-wd{text-align:center;font-size:.68rem;font-weight:800;color:var(--ink2);padding-bottom:3px}
+.cal-cell{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border-radius:12px;background:var(--cream);border:1.5px solid transparent;position:relative;cursor:pointer}
+.cal-cell.blank{background:none;cursor:default}
+.cal-cell.today{border-color:var(--pinkD)}
+.cal-cell.future{opacity:.32;cursor:default}
+.cal-cell .dn{font-size:.8rem;font-weight:800;color:var(--ink)}
+.cal-cell .dots{display:flex;gap:3px;margin-top:2px;height:8px}
+.cal-cell .dots i{display:inline-block;width:6px;height:6px;border-radius:50%}
+.cal-cell .dots i.ck{background:#5f9350}
+.cal-cell .dots i.bp{background:#3E7FB8}
 /* ── modal ── */
 .modal{position:fixed;inset:0;background:rgba(70,50,30,.45);z-index:100;display:none;align-items:flex-end;justify-content:center}
 .modal.on{display:flex}
@@ -393,6 +415,14 @@ ul.tight li{margin:4px 0}
     <div style="overflow-x:auto"><table class="wkgrid" id="wkGrid"></table></div>
     <div class="praise" id="praiseBox"></div>
   </div>
+  <div class="card">
+    <h2 id="calTitle">📅 打卡血壓日曆</h2>
+    <div class="cal-nav"><button id="calPrev">‹</button><span id="calMonthLabel"></span><button id="calNext">›</button></div>
+    <div class="cal-legend"><span><i class="dot ck"></i>有打卡</span><span><i class="dot bp"></i>有量血壓</span></div>
+    <div class="cal-grid" id="calGrid"></div>
+    <p class="small center" style="margin-top:6px">點一天看當天摘要</p>
+  </div>
+
   <div class="card">
     <h2>🏥 回診準備</h2>
     <p class="small">所有紀錄都留在手機裡不會消失，這裡把它們變成方便回顧和給醫生看的格式：報告可直接列印或存成 PDF；CSV 檔用 Excel 打開，想怎麼搜尋、篩選、畫圖都行，也適合長期歸檔。</p>
@@ -1272,6 +1302,50 @@ document.getElementById('bpSave').onclick=()=>{
   renderBP(); renderToday();
 };
 
+/* ══════════ 打卡血壓日曆 ══════════ */
+let calMonth=null;
+function renderCalendar(bear){
+  if(!calMonth) calMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1);
+  const y=calMonth.getFullYear(), m=calMonth.getMonth();
+  document.getElementById('calTitle').textContent=`📅 ${BEAR_NAME[bear]} 的打卡血壓日曆`;
+  document.getElementById('calMonthLabel').textContent=`${y}年${m+1}月`;
+  const now=new Date(), curFirst=new Date(now.getFullYear(),now.getMonth(),1);
+  document.getElementById('calNext').disabled = calMonth.getTime()>=curFirst.getTime();
+  const startDow=new Date(y,m,1).getDay();
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  const D=state.data[bear], todayStr=today();
+  let html=['日','一','二','三','四','五','六'].map(w=>`<div class="cal-wd">${w}</div>`).join('');
+  for(let i=0;i<startDow;i++) html+='<div class="cal-cell blank"></div>';
+  for(let d=1;d<=daysInMonth;d++){
+    const ds=dstr(new Date(y,m,d));
+    const isFuture=ds>todayStr;
+    const c=D.ck[ds];
+    const hasCk=c && Object.values(c.i||{}).some(Boolean);
+    const hasBp=!!D.bp[ds];
+    const cls=['cal-cell']; if(ds===todayStr) cls.push('today'); if(isFuture) cls.push('future');
+    html+=`<div class="${cls.join(' ')}" data-ds="${ds}" data-future="${isFuture?1:0}">
+      <span class="dn">${d}</span>
+      <span class="dots">${hasCk?'<i class="ck"></i>':''}${hasBp?'<i class="bp"></i>':''}</span>
+    </div>`;
+  }
+  const grid=document.getElementById('calGrid');
+  grid.innerHTML=html;
+  grid.querySelectorAll('.cal-cell[data-ds]').forEach(cell=>{
+    cell.onclick=()=>{
+      if(cell.dataset.future==='1') return;
+      const ds=cell.dataset.ds, c=D.ck[ds], bp=D.bp[ds];
+      const n=c?itemsFor(bear).filter(it=>c.i[it.k]).length:0, tot=itemsFor(bear).length;
+      const parts=[]; if(c) parts.push(`打卡 ${n}/${tot}`); if(bp) parts.push(`血壓 ${bp.s}/${bp.d}`);
+      toast(`${nice(ds)}：${parts.length?parts.join('・'):'沒有紀錄'}`);
+    };
+  });
+}
+document.getElementById('calPrev').onclick=()=>{ calMonth.setMonth(calMonth.getMonth()-1); renderCalendar(rvBear); };
+document.getElementById('calNext').onclick=()=>{
+  if(document.getElementById('calNext').disabled) return;
+  calMonth.setMonth(calMonth.getMonth()+1); renderCalendar(rvBear);
+};
+
 /* ══════════ 回顧 ══════════ */
 let rvBear=null;
 function renderReview(){
@@ -1291,6 +1365,7 @@ function renderReview(){
     }).join('')+'</tr>';
   });
   document.getElementById('wkGrid').innerHTML=html;
+  renderCalendar(rvBear);
   let done=0,tot=0;
   days.forEach(ds=>{ its.forEach(it=>{ tot++; const c=state.data[rvBear].ck[ds]; if(c&&c.i[it.k])done++; }); });
   const rate=tot?Math.round(done/tot*100):0;
