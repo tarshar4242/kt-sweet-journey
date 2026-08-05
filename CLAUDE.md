@@ -1,5 +1,18 @@
 # 專案工作規則（使用者指定，必須遵守）
 
+## 【2026-08-05 重大變更】新網站與上線流程（使用者指定）
+
+- 使用者已改用新網站：Astro 專案 `tarshar4242/learn-ai-with-tarshar`，
+  入口網址 **https://tarshar4242.github.io/learn-ai-with-tarshar/**。
+  跟使用者報網址一律改給這個新入口（舊的 tarshar4242.github.io 根網址規則作廢）。
+- **之後所有「上線」都推到新網站 repo**：整個工具箱已搬到新網站的 `public/notes/`，
+  新工具頁放 `public/notes/`、加進 `public/notes/tools.html` 的 TOOLS 陣列，
+  並同步 `src/data/content.json` 工具集卡片說明裡的「N 樣」數字。
+- ⚠️ 新網站的 `public/notes/tools.html` 可能比本 repo 的新（例：家庭自動化類的
+  緣聚 KTV、歌來囉），上架前先 diff，**絕不可拿本 repo 舊版整檔蓋掉**，只做增量插入。
+- 部署方式：push `main` → GitHub Actions（`.github/workflows/deploy.yml`）自動 build 上線，
+  幾分鐘後生效；push main 上線工具箱這件事使用者已明確同意。
+
 ## 資料來源處理原則（最重要）
 
 1. **不可以自行跳過或降級使用者指定的資料來源。**
