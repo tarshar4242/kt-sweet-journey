@@ -79,9 +79,19 @@ nav.tabbar button.on{color:var(--pinkD);background:#FDF1F3}
 .acc-h{width:100%;display:flex;align-items:center;gap:10px;padding:14px 14px;background:none;border:none;font-family:inherit;color:var(--ink);cursor:pointer;text-align:left}
 .acc-h .em{font-size:1.35rem;flex:none}
 .acc-h .ti{font-weight:900;font-size:.97rem;flex:1;min-width:0}
-.acc-h .sum{flex:none;font-size:.72rem;font-weight:800;color:var(--ink2);background:var(--cream);border:1px solid var(--line);border-radius:999px;padding:3px 10px;white-space:nowrap}
-.acc-h .sum.good{background:#E7F3E2;color:#3d6b30;border-color:#cfe5c6}
-.acc-h .sum.new{background:#FBE3E5;color:#a83b45;border-color:#f4cdd1}
+.sum{flex:none;font-size:.72rem;font-weight:800;color:var(--ink2);background:var(--cream);border:1px solid var(--line);border-radius:999px;padding:3px 10px;white-space:nowrap}
+.sum.good{background:#E7F3E2;color:#3d6b30;border-color:#cfe5c6}
+.sum.new{background:#FBE3E5;color:#a83b45;border-color:#f4cdd1}
+/* ── 2×2 方格磁磚 ── */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.tile{background:var(--card);border:2px solid var(--line);border-radius:20px;box-shadow:var(--shadow);
+  padding:14px 6px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  font-family:inherit;color:var(--ink);cursor:pointer;min-height:108px}
+.tile .tem{font-size:1.7rem;line-height:1.1}
+.tile .tti{font-weight:900;font-size:.9rem}
+.tile.on{border-color:var(--pinkD);background:#FDF1F3}
+.tile-detail{display:none}
+.tile-detail.on{display:block;animation:fadein .25s ease}
 .acc-h .ar{flex:none;color:#C9B695;font-size:.8rem;transition:.2s}
 .acc.open .ar{transform:rotate(90deg)}
 .acc-b{display:none;padding:12px 16px 16px;border-top:1px dashed var(--line)}
@@ -261,42 +271,44 @@ ul.tight li{margin:4px 0}
 <section class="page on" id="pg-today">
   <div class="small center" id="todayTitle" style="margin:2px 0 4px;font-weight:800">🗓️</div>
 
-  <div class="acc" id="acc-dash">
-    <button class="acc-h"><span class="em" id="emDash">🐻</span><span class="ti" id="tiDash">我的今天（儀錶板）</span><span class="sum" id="sumDash"></span><span class="ar">▶</span></button>
-    <div class="acc-b">
-      <div class="streakline">
-        <div class="stat"><div class="n" id="stToday">0/5</div><div class="l">今日完成</div></div>
-        <div class="stat"><div class="n" id="stStreak">0</div><div class="l">連續達成天數</div></div>
-        <div class="stat"><div class="n" id="stWeek">0%</div><div class="l">本週達成率</div></div>
-      </div>
-      <div class="small center" id="streakHint">每天完成 4 項以上就算達成一天 🐾</div>
+  <div class="card" style="padding:14px 16px">
+    <h2 id="dashTitle" style="font-size:1rem">🐻 儀錶板</h2>
+    <div class="streakline">
+      <div class="stat"><div class="n" id="stToday">0/5</div><div class="l">今日完成</div></div>
+      <div class="stat"><div class="n" id="stStreak">0</div><div class="l">連續達成天數</div></div>
+      <div class="stat"><div class="n" id="stWeek">0%</div><div class="l">本週達成率</div></div>
     </div>
+    <div class="small center" id="streakHint">每天完成 4 項以上就算達成一天 🐾</div>
   </div>
 
-  <div class="acc" id="acc-ck">
-    <button class="acc-h"><span class="em">✅</span><span class="ti">今日打卡</span><span class="sum" id="sumCk"></span><span class="ar">▶</span></button>
-    <div class="acc-b"><div id="ckList"></div></div>
+  <div class="tiles">
+    <button class="tile" data-t="ck"><span class="tem">✅</span><span class="tti">今日打卡</span><span class="sum" id="sumCk"></span></button>
+    <button class="tile" data-t="meals"><span class="tem">🍽️</span><span class="tti">今天吃了什麼</span><span class="sum" id="sumMeals"></span></button>
+    <button class="tile" data-t="partner"><span class="tem" id="emPartner">🐻</span><span class="tti" id="tiPartner">另一半的今天</span><span class="sum" id="sumPartner"></span></button>
+    <button class="tile" data-t="board"><span class="tem">💌</span><span class="tti">小熊留言板</span><span class="sum" id="sumBoard"></span></button>
   </div>
 
-  <div class="acc" id="acc-meals">
-    <button class="acc-h"><span class="em">🍽️</span><span class="ti">今天吃了什麼</span><span class="sum" id="sumMeals"></span><span class="ar">▶</span></button>
-    <div class="acc-b meals">
-      <p class="small">簡單記一下就好，回報後另一半看得到 💌</p>
-      <label>🌅 早餐</label><input id="m_b" placeholder="例：水煮蛋＋地瓜＋無糖豆漿">
-      <label>🌞 午餐（公司餐簡單記）</label><input id="m_l" placeholder="例：公司便當，飯少半碗、先吃菜">
-      <label>🌆 晚餐</label><input id="m_d" placeholder="例：氣炸雞腿排＋花椰菜">
-      <label>🌙 宵夜（沒吃就留空白）</label><input id="m_s" placeholder="例：毛豆一小碗">
-    </div>
+  <div class="card tile-detail" id="td-ck">
+    <h2>✅ 今日打卡</h2>
+    <div id="ckList"></div>
   </div>
 
-  <div class="acc" id="acc-partner">
-    <button class="acc-h"><span class="em" id="emPartner">🐻</span><span class="ti" id="tiPartner">另一半的今天</span><span class="sum" id="sumPartner"></span><span class="ar">▶</span></button>
-    <div class="acc-b"><div id="partnerBody"></div></div>
+  <div class="card tile-detail meals" id="td-meals">
+    <h2>🍽️ 今天吃了什麼</h2>
+    <p class="small">簡單記一下就好，回報後另一半看得到 💌</p>
+    <label>🌅 早餐</label><input id="m_b" placeholder="例：水煮蛋＋地瓜＋無糖豆漿">
+    <label>🌞 午餐（公司餐簡單記）</label><input id="m_l" placeholder="例：公司便當，飯少半碗、先吃菜">
+    <label>🌆 晚餐</label><input id="m_d" placeholder="例：氣炸雞腿排＋花椰菜">
+    <label>🌙 宵夜（沒吃就留空白）</label><input id="m_s" placeholder="例：毛豆一小碗">
   </div>
 
-  <div class="acc" id="acc-board">
-    <button class="acc-h"><span class="em">💌</span><span class="ti">小熊留言板</span><span class="sum" id="sumBoard"></span><span class="ar">▶</span></button>
-    <div class="acc-b" id="boardCard">
+  <div class="card tile-detail" id="td-partner">
+    <h2 id="tdPartnerH">💌 另一半的今天</h2>
+    <div id="partnerBody"></div>
+  </div>
+
+  <div class="card tile-detail" id="td-board">
+    <h2>💌 小熊留言板</h2>
     <div id="boardBody"></div>
     <div class="divider"></div>
     <p class="small" style="font-weight:900">🖋️ 蓋個章或寫句話給另一半：</p>
@@ -309,7 +321,6 @@ ul.tight li{margin:4px 0}
     <div class="composer">
       <input id="noteIn" maxlength="120" placeholder="或自己打一句話…">
       <button id="noteSend">送出</button>
-    </div>
     </div>
   </div>
 
@@ -617,8 +628,7 @@ function renderToday(){
   const me=state.me, ds=today();
   const w=['日','一','二','三','四','五','六'][new Date().getDay()];
   document.getElementById('todayTitle').textContent=`🗓️ ${nice(ds)}（週${w}）`;
-  document.getElementById('emDash').textContent=BEAR_EMO[me];
-  document.getElementById('tiDash').textContent=`${BEAR_NAME[me]} 的今天（儀錶板）`;
+  document.getElementById('dashTitle').textContent=`${BEAR_EMO[me]} ${BEAR_NAME[me]} 的今天`;
   const box=document.getElementById('ckList'); box.innerHTML='';
   const c=ckOf(me,ds);
   itemsFor(me).forEach(it=>{
@@ -641,9 +651,6 @@ function renderToday(){
   document.getElementById('streakHint').textContent = dayHit(me,ds)
     ? `🎆 今天已達成！連續 ${streak} 天，明天見 🐻`
     : '每天完成 4 項以上就算達成一天 🐾';
-  const sumDash=document.getElementById('sumDash');
-  sumDash.textContent=`${n}/${tot}・連續 ${streak} 天`;
-  sumDash.className='sum'+(dayHit(me,ds)?' good':'');
   const sumCk=document.getElementById('sumCk');
   sumCk.textContent=n>=4?`${n}/${tot} 達成`:`${n}/${tot}`;
   sumCk.className='sum'+(n>=4?' good':'');
@@ -662,6 +669,7 @@ function renderPartner(){
   const p=other(state.me), ds=today();
   document.getElementById('emPartner').textContent=BEAR_EMO[p];
   document.getElementById('tiPartner').textContent=`${BEAR_NAME[p]} 的今天`;
+  document.getElementById('tdPartnerH').textContent=`${BEAR_EMO[p]} ${BEAR_NAME[p]} 的今天`;
   const sp=document.getElementById('sumPartner');
   const box=document.getElementById('partnerBody');
   const sync=state.lastSync[p];
@@ -858,8 +866,7 @@ async function tryReceive(){
   toast(`收到 ${BEAR_NAME[p.from]} 的回報，資料同步好了 💌`);
   if(!state.me){ pendingPick=other(p.from); }
   renderAll();
-  const accP=document.getElementById('acc-partner');
-  if(accP) accP.classList.add('open');
+  if(state.me && curTile!=='partner') showTile('partner');
   const pc=t.ck[today()];
   if(state.me && pc && itemsFor(p.from).filter(it=>pc.i[it.k]).length>=4){
     setTimeout(()=>showCelebrate(`🎉 ${BEAR_NAME[p.from]} 今天也達成了！`,
@@ -1410,7 +1417,18 @@ document.querySelectorAll('nav.tabbar button').forEach(b=>{
   };
 });
 document.getElementById('recipeChips').querySelectorAll('.chip').forEach(c=>c.onclick=()=>renderRecipe(c.dataset.r));
-document.querySelectorAll('.acc-h').forEach(h=>h.onclick=()=>h.closest('.acc').classList.toggle('open'));
+let curTile=null;
+function showTile(k){
+  const same = curTile===k;
+  curTile = same?null:k;
+  document.querySelectorAll('.tile').forEach(t=>t.classList.toggle('on',t.dataset.t===curTile));
+  document.querySelectorAll('.tile-detail').forEach(d=>d.classList.toggle('on',d.id==='td-'+curTile));
+  if(curTile){
+    const d=document.getElementById('td-'+curTile);
+    setTimeout(()=>d.scrollIntoView({behavior:'smooth',block:'nearest'}),80);
+  }
+}
+document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>showTile(t.dataset.t));
 document.getElementById('shareBtn').onclick=doShare;
 document.getElementById('shareSiteBtn').onclick=doShareSite;
 document.querySelectorAll('.stamps button').forEach(b=>b.onclick=()=>addNote(b.dataset.s));
