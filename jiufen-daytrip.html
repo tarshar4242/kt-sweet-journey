@@ -87,9 +87,18 @@
     .fab{position:fixed;right:1rem;bottom:1rem;display:flex;gap:.75rem;z-index:40}
     .fab button{padding:.9rem 1rem;border-radius:var(--radius-full);background:var(--color-text);color:var(--color-bg);box-shadow:var(--shadow-lg);min-height:44px}
     .weather-box{display:grid;gap:var(--space-3)}
+    .gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-4)}
+    figure.photo{margin:0;border-radius:var(--radius-lg);overflow:hidden;border:1px solid color-mix(in srgb, var(--color-text) 10%, transparent);box-shadow:var(--shadow-sm);background:var(--color-surface)}
+    figure.photo img{width:100%;height:220px;object-fit:cover}
+    figure.photo.wide img{height:clamp(200px,32vw,340px)}
+    figure.photo figcaption{padding:.6rem .9rem;font-size:var(--text-xs);color:var(--color-text-muted)}
+    .maplink{display:inline-flex;align-items:center;gap:.35rem;margin-top:var(--space-3);font-size:var(--text-sm);color:var(--color-primary);font-weight:700;text-decoration:none}
+    .maplink:hover{text-decoration:underline}
+    .credit{font-size:var(--text-xs);color:var(--color-text-faint);margin-top:var(--space-8);line-height:1.9}
+    .credit a{color:inherit}
     .kpi{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-3)}
     .kpi .panel{padding:var(--space-5)} .kpi strong{font-size:var(--text-xl);font-family:var(--font-display)} .kpi span{display:block;color:var(--color-text-muted);font-size:var(--text-sm)}
-    @media (max-width: 920px){.hero-grid,.grid-2,.food-grid,.backup-grid,.tips-grid,.kpi{grid-template-columns:1fr}.nav{align-items:flex-start;flex-direction:column}.nav-links{width:100%}.hero h1{max-width:100%}}
+    @media (max-width: 920px){.hero-grid,.grid-2,.food-grid,.backup-grid,.tips-grid,.kpi{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(2,1fr)}figure.photo img{height:180px}.nav{align-items:flex-start;flex-direction:column}.nav-links{width:100%}.hero h1{max-width:100%}}
     @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto} .meter>span{transition:none}}
   </style>
 </head>
@@ -109,6 +118,7 @@
         </span>
       </a>
       <nav class="nav-links" aria-label="主要導覽">
+        <a href="#photos">實景照片</a>
         <a href="#timeline">時間軸</a>
         <a href="#food">瑞芳吃什麼</a>
         <a href="#tea">九份下午茶</a>
@@ -151,6 +161,21 @@
             <p>不要把自己排成軍事行軍。瑞芳先吃三樣左右就好，留胃給九份；如果暇咖啡候位久，就先逛老街再回頭。</p>
           </div>
         </aside>
+      </div>
+    </section>
+
+    <section class="container" id="photos">
+      <div class="section-head">
+        <div>
+          <h2>沿途實景先看一眼</h2>
+          <p>先感受一下今天會遇到的畫面：瑞芳車站的月台、九份的紅燈籠階梯、阿妹茶樓與老街。店家自己的照片，點各店的「📍 地圖與照片」就能看到最新的。</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure class="photo"><img src="jiufen-img/ruifang-station.jpg" alt="瑞芳車站月台與自強號列車" loading="lazy"><figcaption>🚆 瑞芳車站月台——下車就是小吃行程的起點</figcaption></figure>
+        <figure class="photo"><img src="jiufen-img/shuqi-road.jpg" alt="九份豎崎路階梯與紅燈籠" loading="lazy"><figcaption>🏮 豎崎路階梯與紅燈籠，暇咖啡就在這條路上</figcaption></figure>
+        <figure class="photo"><img src="jiufen-img/amei-teahouse.jpg" alt="九份阿妹茶樓" loading="lazy"><figcaption>🍵 豎崎路上的阿妹茶樓，九份最經典的一景</figcaption></figure>
+        <figure class="photo"><img src="jiufen-img/jiufen-oldstreet.jpg" alt="九份基山街老街" loading="lazy"><figcaption>🛍️ 基山街老街——下午自由加碼的主場</figcaption></figure>
       </div>
     </section>
 
@@ -231,24 +256,28 @@
           <h3>一口酥餅舖</h3>
           <p>適合當火車下車後的第一站，酥餅與鹹豆漿組合很像替今天按下開機鍵。</p>
           <div class="chips"><span>早餐感</span><span>近車站</span><span>適合先墊胃</span></div>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B8%80%E5%8F%A3%E9%85%A5%E9%A4%85%E8%88%96%20%E7%91%9E%E8%8A%B3%E5%8D%80%E6%98%8E%E7%87%88%E8%B7%AF%E4%B8%89%E6%AE%B588%E8%99%9F" target="_blank" rel="noopener">📍 明燈路三段88號（清晨開到中午）｜地圖與照片</a>
         </article>
         <article class="food-card">
           <span class="badge">在地感強</span>
           <h3>龍鳳腿</h3>
           <p>屬於瑞芳代表性小吃，建議一人 1–2 支就好，吃個味道即可，不要太早戰力耗盡。</p>
           <div class="chips"><span>邊走邊吃</span><span>炸物香</span><span>拍照可愛</span></div>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%91%9E%E8%8A%B3%20%E9%BE%8D%E9%B3%B3%E8%85%BF%20%E6%B0%91%E7%94%9F%E8%A1%97" target="_blank" rel="noopener">📍 車站對面民生街「龍鳳腿一條街」（華記、阿霞都在這）｜地圖與照片</a>
         </article>
         <article class="food-card">
           <span class="badge">古早味</span>
           <h3>番薯粿</h3>
           <p>如果你想把這趟弄得更有地方味，番薯粿很值得納入，份量不大、辨識度高。</p>
           <div class="chips"><span>傳統感</span><span>可當加碼</span></div>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%91%9E%E8%8A%B3%20%E8%95%83%E8%96%AF%E7%B2%BF" target="_blank" rel="noopener">📍 民生街30巷口古早味蕃薯粿｜地圖與照片</a>
         </article>
         <article class="food-card">
           <span class="badge">熱食派</span>
           <h3>鹹冬瓜豬腳湯 / 麵線羹</h3>
           <p>若當天天氣悶濕或你想坐一下，這類熱食是很好的中場補給，但建議兩人分食更剛好。</p>
           <div class="chips"><span>適合坐下休息</span><span>雨天友善</span></div>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%91%9E%E8%8A%B3%E7%BE%8E%E9%A3%9F%E8%A1%97%20%E6%B0%91%E7%94%9F%E8%A1%97" target="_blank" rel="noopener">📍 瑞芳美食街（民生街）裡找熱食｜地圖與照片</a>
         </article>
         <article class="food-card">
           <span class="badge">甜口收尾</span>
@@ -278,14 +307,16 @@
           <h3 style="font-size:var(--text-xl)">暇咖啡</h3>
           <p style="margin-top:.6rem">適合被放在整趟旅程最亮的時段。你上午吃瑞芳、中午上九份，節奏很順；若需候位，就先逛老街、買草仔粿、拍幾張山城照，再回來喝。</p>
           <div class="chips"><span>景觀系</span><span>儀式感</span><span>中午安排最剛好</span></div>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9A%87%E5%92%96%E5%95%A1%20hima%20cafe%20%E4%B9%9D%E4%BB%BD%E8%B1%8E%E5%B4%8E%E8%B7%AF18%E8%99%9F" target="_blank" rel="noopener">📍 豎崎路18號（近九份派出所）｜地圖與照片</a>
+          <div class="mini-note" style="margin-top:.5rem">貼心提醒：不接受電話訂位、現場候位，每人低消一杯飲料；公休日常有變動，出發前看一眼他們的 IG 公告。</div>
         </div>
         <div class="panel">
           <span class="badge">替補名單</span>
           <ul class="checklist" aria-label="九份替代店家清單">
-            <li><input type="checkbox" /><div><strong>吾穀茶糧</strong><div class="mini-note">比較偏茶食與輕食，可當午茶也可稍微補餐。</div></div></li>
-            <li><input type="checkbox" /><div><strong>逸茶酒室</strong><div class="mini-note">如果你想找較靜、較文青、偏氛圍的空間，可列為候補。</div></div></li>
-            <li><input type="checkbox" /><div><strong>山巴咖啡</strong><div class="mini-note">適合當你臨時想換個看景角度時使用。</div></div></li>
-            <li><input type="checkbox" /><div><strong>貓十五義式冰淇淋</strong><div class="mini-note">若不想久坐，改走邊逛邊吃甜點的簡短版，這種店最合適。</div></div></li>
+            <li><input type="checkbox" /><div><strong>吾穀茶糧</strong><div class="mini-note">比較偏茶食與輕食，可當午茶也可稍微補餐。基山街166號。 <a class="maplink" style="margin-top:0" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%90%BE%E7%A9%80%E8%8C%B6%E7%B3%A7%20%E4%B9%9D%E4%BB%BD%E5%9F%BA%E5%B1%B1%E8%A1%97166%E8%99%9F" target="_blank" rel="noopener">📍 地圖與照片</a></div></div></li>
+            <li><input type="checkbox" /><div><strong>逸茶酒室</strong><div class="mini-note">如果你想找較靜、較文青、偏氛圍的空間，可列為候補。基山街190號、觀景臺旁。 <a class="maplink" style="margin-top:0" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%80%B8%E8%8C%B6%E9%85%92%E5%AE%A4%20%E4%B9%9D%E4%BB%BD%E5%9F%BA%E5%B1%B1%E8%A1%97190%E8%99%9F" target="_blank" rel="noopener">📍 地圖與照片</a></div></div></li>
+            <li><input type="checkbox" /><div><strong>山巴咖啡</strong><div class="mini-note">適合當你臨時想換個看景角度時使用。在老街後的輕便路、磅坑口山洞旁。 <a class="maplink" style="margin-top:0" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B1%B1%E5%B7%B4%E5%92%96%E5%95%A1%20%E4%B9%9D%E4%BB%BD" target="_blank" rel="noopener">📍 地圖與照片</a></div></div></li>
+            <li><input type="checkbox" /><div><strong>貓十五義式冰淇淋</strong><div class="mini-note">若不想久坐，改走邊逛邊吃甜點的簡短版，這種店最合適。輕便路129-3號2樓，可眺望海景。 <a class="maplink" style="margin-top:0" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%B2%93%E5%8D%81%E4%BA%94%E7%BE%A9%E5%BC%8F%E5%86%B0%E6%B7%87%E6%B7%8B%20%E4%B9%9D%E4%BB%BD" target="_blank" rel="noopener">📍 地圖與照片</a></div></div></li>
           </ul>
         </div>
       </div>
@@ -336,6 +367,7 @@
           <div class="chips"><span>加碼版</span><span>看心情延長</span></div>
         </article>
       </div>
+      <figure class="photo wide" style="margin-top:var(--space-6)"><img src="jiufen-img/jiufen-night.jpg" alt="傍晚的九份山城與海景" loading="lazy"><figcaption>🌌 如果玩到傍晚才走，備案 F 會送你這個畫面——九份往海的方向亮起燈來</figcaption></figure>
     </section>
 
     <section class="container">
@@ -367,6 +399,7 @@
           </div>
         </div>
       </div>
+      <p class="credit">頁面實景照片來自 Wikimedia Commons：<a href="https://commons.wikimedia.org/wiki/File:Tze-Chiang_train_175_at_Ruifang_station_February_2026.jpg" target="_blank" rel="noopener">瑞芳車站月台 ©4300streetcar（CC BY 4.0）</a>・<a href="https://commons.wikimedia.org/wiki/File:Shuqi_Road,_Jiufen,_New_Taipei,_Feb_2025_(4).jpg" target="_blank" rel="noopener">豎崎路 ©Ralff Nestor Nacor（CC BY-SA 4.0）</a>・<a href="https://commons.wikimedia.org/wiki/File:A-Mei_Tea_House,_Jiufen,_2024.jpg" target="_blank" rel="noopener">阿妹茶樓 ©Another Believer（CC BY-SA 4.0）</a>・<a href="https://commons.wikimedia.org/wiki/File:Jiufen_Old_Street_01.jpg" target="_blank" rel="noopener">九份老街 ©Kabacchi（CC BY 2.0）</a>・<a href="https://commons.wikimedia.org/wiki/File:Jiufen3.jpg" target="_blank" rel="noopener">九份夜色 ©lumoplank（CC0）</a>。各店家的最新照片與評價，請點店名旁的「📍 地圖與照片」。</p>
     </section>
   </main>
 
