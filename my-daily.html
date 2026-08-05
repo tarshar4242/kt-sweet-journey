@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="我的小日常">
+<meta name="theme-color" content="#FFF6F0">
+<link rel="apple-touch-icon" href="assets/my-daily-icon.png">
+<title>🍀 我的小日常</title>
+<style>
+:root{
+  --bg:#FFF6F0;            /* 溫暖奶茶底 */
+  --card:#FFFFFF;
+  --ink:#5C4A55;           /* 溫暖梅子灰，不用死黑 */
+  --sub:#A08D99;
+  --line:#F4E3E0;
+  --pink:#F79BB6;          /* 櫻花粉（主色） */
+  --pink-deep:#E2688F;
+  --pink-soft:#FFEDF3;
+  --mint:#8FD3B6;          /* 抹茶綠（完成） */
+  --mint-deep:#4FAE85;
+  --mint-soft:#E9F8F1;
+  --butter:#FFD98E;        /* 奶油黃（早晨） */
+  --butter-soft:#FFF6E0;
+  --sky:#9FCFF2;           /* 天空藍（白天） */
+  --sky-soft:#EAF5FD;
+  --lav:#C9B8F2;           /* 薰衣草（晚上） */
+  --lav-soft:#F3EEFD;
+  --peach-soft:#FFEFE6;
+  --shadow:0 6px 24px rgba(226,104,143,.10);
+  --r:22px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:16px}
+body{
+  font-family:"PingFang TC","Hiragino Maru Gothic ProN","Yuanti TC","Microsoft JhengHei",ui-rounded,system-ui,sans-serif;
+  background:var(--bg);color:var(--ink);
+  min-height:100dvh;line-height:1.6;
+  padding-bottom:calc(92px + env(safe-area-inset-bottom));
+  background-image:
+    radial-gradient(220px 220px at 85% -40px, #FFE3EC 0%, transparent 70%),
+    radial-gradient(260px 260px at -60px 30%, #EAF8F1 0%, transparent 70%),
+    radial-gradient(240px 240px at 110% 55%, #FFF3D9 0%, transparent 70%);
+  background-attachment:fixed;
+}
+.wrap{max-width:480px;margin:0 auto;padding:18px 16px 0}
+button{font-family:inherit;border:none;background:none;cursor:pointer;color:inherit}
+input,textarea,select{font-family:inherit;font-size:1rem;color:var(--ink)}
+:focus-visible{outline:3px solid var(--pink);outline-offset:2px;border-radius:8px}
+
+/* ── 頁首 ── */
+header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px}
+.hi .date{font-size:.82rem;color:var(--sub);letter-spacing:.06em}
+.hi h1{font-size:1.5rem;font-weight:800;letter-spacing:.02em;line-height:1.3}
+.hi h1 .wave{display:inline-block}
+.quote{margin-top:2px;font-size:.9rem;color:var(--pink-deep);background:var(--pink-soft);
+  display:inline-block;padding:4px 12px;border-radius:999px}
+.gear{font-size:1.35rem;background:var(--card);width:44px;height:44px;border-radius:50%;
+  box-shadow:var(--shadow);display:grid;place-items:center;flex:none}
+
+/* ── 卡片 ── */
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-bottom:16px}
+.card h2{font-size:1.02rem;font-weight:800;display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.card h2 .tag{font-size:.72rem;font-weight:600;color:var(--sub);margin-left:auto}
+
+/* ── 今日進度圈 ── */
+.ring-card{display:flex;align-items:center;gap:18px}
+.ring-wrap{position:relative;width:104px;height:104px;flex:none}
+.ring-wrap svg{transform:rotate(-90deg)}
+.ring-bg{stroke:var(--pink-soft)}
+.ring-fg{stroke:var(--pink);stroke-linecap:round;transition:stroke-dashoffset .6s cubic-bezier(.22,1,.36,1)}
+.ring-mid{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.ring-mid .big{font-size:1.5rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+.ring-mid .small{font-size:.7rem;color:var(--sub)}
+.ring-text h2{margin-bottom:4px}
+.ring-text p{font-size:.9rem;color:var(--sub)}
+.ring-text .cheer{color:var(--pink-deep);font-weight:700}
+
+/* ── 作息清單 ── */
+.slot{margin-bottom:14px}
+.slot:last-child{margin-bottom:2px}
+.slot-head{display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:800;
+  padding:6px 12px;border-radius:12px;margin-bottom:8px}
+.slot-head .cnt{margin-left:auto;font-size:.75rem;font-weight:600;opacity:.75;font-variant-numeric:tabular-nums}
+.slot-wake  .slot-head{background:var(--butter-soft);color:#A8781E}
+.slot-day   .slot-head{background:var(--sky-soft);color:#3D7FAE}
+.slot-eve   .slot-head{background:var(--lav-soft);color:#7A5FB8}
+.slot-sleep .slot-head{background:var(--peach-soft);color:#C0704A}
+.slot-any   .slot-head{background:var(--mint-soft);color:var(--mint-deep)}
+.habit{display:flex;align-items:center;gap:12px;padding:10px 8px;border-radius:16px;width:100%;text-align:left;
+  transition:background .2s}
+.habit:active{background:var(--pink-soft)}
+.habit .face{font-size:1.45rem;flex:none;width:36px;text-align:center}
+.habit .name{font-size:1rem;font-weight:600;flex:1;min-width:0}
+.habit .tick{width:30px;height:30px;border-radius:50%;border:2.5px dashed var(--line);flex:none;
+  display:grid;place-items:center;font-size:1rem;color:transparent;transition:all .25s}
+.habit.done .tick{background:var(--mint);border:2.5px solid var(--mint);color:#fff}
+.habit.done .name{color:var(--sub);text-decoration:line-through;text-decoration-color:var(--mint)}
+.habit.done .face{filter:grayscale(.15)}
+@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.35) rotate(-8deg)}100%{transform:scale(1)}}
+.habit.just .tick{animation:pop .45s ease}
+.empty-hint{font-size:.9rem;color:var(--sub);text-align:center;padding:14px 0}
+.empty-hint button{color:var(--pink-deep);font-weight:700;font-size:.9rem;text-decoration:underline}
+
+/* ── 心情＋一句話 ── */
+.moods{display:flex;justify-content:space-between;margin-bottom:12px}
+.mood{font-size:1.7rem;width:52px;height:52px;border-radius:18px;display:grid;place-items:center;
+  filter:grayscale(1) opacity(.55);transition:all .2s;border:2px solid transparent}
+.mood.on{filter:none;background:var(--pink-soft);border-color:var(--pink);transform:scale(1.08)}
+.oneline{width:100%;border:2px solid var(--line);border-radius:16px;padding:12px 14px;resize:none;
+  background:#FFFDFB;font-size:.95rem;line-height:1.6}
+.oneline::placeholder{color:#C9B6C0}
+.saved-tip{font-size:.75rem;color:var(--mint-deep);text-align:right;margin-top:6px;height:1.1em;opacity:0;transition:opacity .3s}
+.saved-tip.show{opacity:1}
+
+/* ── 分頁列 ── */
+nav{position:fixed;left:0;right:0;bottom:0;z-index:40;
+  padding:8px 14px calc(10px + env(safe-area-inset-bottom));
+  background:rgba(255,255,255,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-top:1.5px solid var(--line)}
+.nav-in{max-width:480px;margin:0 auto;display:flex;gap:6px}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 0;border-radius:16px;
+  font-size:.72rem;color:var(--sub);font-weight:700;transition:all .2s}
+.tab .ico{font-size:1.35rem;line-height:1}
+.tab.on{background:var(--pink-soft);color:var(--pink-deep)}
+
+/* ── 紀錄（月曆格） ── */
+.month-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:14px}
+.month-nav .mtitle{font-size:1.05rem;font-weight:800;font-variant-numeric:tabular-nums;min-width:9em;text-align:center}
+.month-nav button{font-size:1.2rem;background:var(--card);width:38px;height:38px;border-radius:50%;box-shadow:var(--shadow)}
+.hgrid-card{padding:16px}
+.hgrid-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.hgrid-top .face{font-size:1.3rem}
+.hgrid-top .name{font-weight:800;font-size:.98rem;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hgrid-top .pct{font-size:.8rem;font-weight:700;font-variant-numeric:tabular-nums}
+.hgrid-top .streak{font-size:.75rem;color:var(--sub);font-variant-numeric:tabular-nums;flex:none}
+.dgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.dgrid .wd{font-size:.68rem;color:var(--sub);text-align:center;font-weight:700}
+.dcell{aspect-ratio:1;border-radius:8px;background:#F6EEF0;display:grid;place-items:center;
+  font-size:.68rem;color:#C9B6C0;font-variant-numeric:tabular-nums}
+.dcell.hit{color:#fff;font-weight:700}
+.dcell.today{outline:2.5px solid var(--pink);outline-offset:1px}
+.dcell.future{background:#FBF7F5;color:#E5D8DD}
+.record-summary{display:flex;gap:10px;margin-bottom:16px}
+.stat{flex:1;background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:12px;text-align:center}
+.stat .n{font-size:1.35rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat .l{font-size:.72rem;color:var(--sub)}
+
+/* ── 待辦 ── */
+.todo-add{display:flex;gap:8px;margin-bottom:14px}
+.todo-add input{flex:1;border:2px solid var(--line);border-radius:16px;padding:11px 14px;background:#FFFDFB}
+.todo-add button{background:var(--pink);color:#fff;font-weight:800;font-size:1rem;border-radius:16px;padding:0 18px;flex:none}
+.todo-add button:active{background:var(--pink-deep)}
+.todo{display:flex;align-items:center;gap:12px;padding:11px 6px;border-bottom:1.5px dashed var(--line)}
+.todo:last-child{border-bottom:none}
+.todo .tick{width:28px;height:28px;border-radius:9px;border:2.5px solid var(--line);flex:none;display:grid;
+  place-items:center;color:transparent;font-size:.9rem;transition:all .2s}
+.todo.done .tick{background:var(--mint);border-color:var(--mint);color:#fff}
+.todo .txt{flex:1;font-size:.98rem;min-width:0;overflow-wrap:break-word;text-align:left}
+.todo.done .txt{color:var(--sub);text-decoration:line-through;text-decoration-color:var(--mint)}
+.todo .del{color:#D9BFCB;font-size:1.05rem;flex:none;padding:4px}
+
+/* ── 日記 ── */
+.diary-item{display:flex;gap:12px;padding:13px 4px;border-bottom:1.5px dashed var(--line)}
+.diary-item:last-child{border-bottom:none}
+.diary-item .m{font-size:1.6rem;flex:none}
+.diary-item .d{font-size:.75rem;color:var(--sub);font-variant-numeric:tabular-nums}
+.diary-item .t{font-size:.95rem}
+
+/* ── 彈窗（設定／編輯習慣） ── */
+.mask{position:fixed;inset:0;background:rgba(92,74,85,.35);z-index:60;display:none;align-items:flex-end;justify-content:center}
+.mask.open{display:flex}
+.sheet{background:var(--bg);width:100%;max-width:480px;max-height:88dvh;overflow-y:auto;
+  border-radius:26px 26px 0 0;padding:20px 18px calc(24px + env(safe-area-inset-bottom))}
+.sheet h2{font-size:1.1rem;font-weight:800;display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.sheet h2 .x{margin-left:auto;font-size:1.1rem;background:var(--card);width:36px;height:36px;border-radius:50%;box-shadow:var(--shadow)}
+.hrow{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:16px;padding:10px 12px;margin-bottom:8px;box-shadow:var(--shadow)}
+.hrow .face{font-size:1.3rem}
+.hrow .nm{flex:1;font-weight:600;font-size:.95rem;min-width:0}
+.hrow .slot-chip{font-size:.7rem;color:var(--sub);background:var(--bg);padding:3px 8px;border-radius:999px;flex:none}
+.hrow .act{font-size:1rem;padding:5px;flex:none}
+.form-card{background:var(--card);border-radius:18px;padding:14px;box-shadow:var(--shadow);margin:12px 0}
+.form-card label{font-size:.8rem;font-weight:800;color:var(--sub);display:block;margin:10px 0 6px}
+.emoji-row{display:flex;flex-wrap:wrap;gap:6px}
+.emoji-pick{font-size:1.3rem;width:42px;height:42px;border-radius:12px;background:var(--bg);display:grid;place-items:center;border:2px solid transparent}
+.emoji-pick.on{border-color:var(--pink);background:var(--pink-soft)}
+.form-card input[type=text]{width:100%;border:2px solid var(--line);border-radius:14px;padding:10px 13px;background:#FFFDFB}
+.slot-chips{display:flex;flex-wrap:wrap;gap:6px}
+.schip{font-size:.82rem;font-weight:700;padding:7px 13px;border-radius:999px;background:var(--bg);border:2px solid transparent;color:var(--sub)}
+.schip.on{border-color:var(--pink);color:var(--pink-deep);background:var(--pink-soft)}
+.btn-main{width:100%;background:var(--pink);color:#fff;font-weight:800;font-size:1rem;padding:13px;border-radius:16px;margin-top:14px}
+.btn-main:active{background:var(--pink-deep)}
+.btn-soft{width:100%;background:var(--card);color:var(--pink-deep);font-weight:700;font-size:.92rem;padding:12px;border-radius:16px;box-shadow:var(--shadow);margin-top:10px}
+.backup-note{font-size:.82rem;color:var(--sub);background:var(--mint-soft);border-radius:14px;padding:10px 13px;margin-top:14px;line-height:1.7}
+.home-link{display:block;text-align:center;font-size:.82rem;color:var(--sub);margin-top:18px;text-decoration:none}
+
+/* ── 慶祝 ── */
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:100}
+.toast{position:fixed;left:50%;top:14%;transform:translateX(-50%) scale(.9);background:var(--card);
+  box-shadow:0 10px 40px rgba(226,104,143,.25);border-radius:20px;padding:14px 22px;font-weight:800;
+  font-size:1rem;color:var(--pink-deep);opacity:0;transition:all .35s;z-index:101;text-align:center;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) scale(1)}
+
+.view{display:none}.view.on{display:block}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="hi">
+      <div class="date" id="topDate"></div>
+      <h1 id="greet"></h1>
+      <div class="quote" id="quote"></div>
+    </div>
+    <button class="gear" id="btnGear" aria-label="設定與備份">⚙️</button>
+  </header>
+
+  <!-- 今天 -->
+  <section class="view on" id="view-today">
+    <div class="card ring-card">
+      <div class="ring-wrap">
+        <svg width="104" height="104" viewBox="0 0 104 104" aria-hidden="true">
+          <circle class="ring-bg" cx="52" cy="52" r="44" fill="none" stroke-width="11"/>
+          <circle class="ring-fg" id="ringFg" cx="52" cy="52" r="44" fill="none" stroke-width="11"
+            stroke-dasharray="276.46" stroke-dashoffset="276.46"/>
+        </svg>
+        <div class="ring-mid">
+          <div>
+            <div class="big" id="ringNum">0/0</div>
+            <div class="small">今日達成</div>
+          </div>
+        </div>
+      </div>
+      <div class="ring-text">
+        <h2 id="ringTitle">今天的小日常</h2>
+        <p id="ringCheer" class="cheer"></p>
+        <p id="ringSub"></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🗓️ 今天的作息表 <span class="tag">點一下就打卡</span></h2>
+      <div id="habitList"></div>
+    </div>
+
+    <div class="card">
+      <h2>💗 今天心情如何？</h2>
+      <div class="moods" id="moodRow"></div>
+      <textarea class="oneline" id="oneline" rows="2" placeholder="用一句話記下今天……（會自動儲存）"></textarea>
+      <div class="saved-tip" id="savedTip">✓ 已自動儲存</div>
+    </div>
+  </section>
+
+  <!-- 紀錄 -->
+  <section class="view" id="view-record">
+    <div class="month-nav">
+      <button id="prevM" aria-label="上個月">◀︎</button>
+      <div class="mtitle" id="mTitle"></div>
+      <button id="nextM" aria-label="下個月">▶︎</button>
+    </div>
+    <div class="record-summary" id="recStats"></div>
+    <div id="gridList"></div>
+  </section>
+
+  <!-- 待辦 -->
+  <section class="view" id="view-todo">
+    <div class="card">
+      <h2>📌 待辦小事</h2>
+      <div class="todo-add">
+        <input type="text" id="todoInput" placeholder="要記得做的事…" maxlength="60">
+        <button id="todoAdd">＋</button>
+      </div>
+      <div id="todoList"></div>
+    </div>
+  </section>
+
+  <!-- 日記 -->
+  <section class="view" id="view-diary">
+    <div class="card">
+      <h2>📔 一句話日記</h2>
+      <div id="diaryList"></div>
+    </div>
+  </section>
+</div>
+
+<!-- 設定彈窗 -->
+<div class="mask" id="sheetMask">
+  <div class="sheet" role="dialog" aria-label="設定與備份">
+    <h2>⚙️ 我的習慣清單 <button class="x" id="sheetClose" aria-label="關閉">✕</button></h2>
+    <div id="manageList"></div>
+
+    <div class="form-card">
+      <label id="formTitle">新增一個習慣</label>
+      <label>選個小圖示</label>
+      <div class="emoji-row" id="emojiRow"></div>
+      <label>習慣名稱</label>
+      <input type="text" id="habitName" placeholder="例如：讀 3 頁書" maxlength="20">
+      <label>什麼時候做？</label>
+      <div class="slot-chips" id="slotChips"></div>
+      <button class="btn-main" id="habitSave">加入我的日常 🌷</button>
+      <button class="btn-soft" id="habitCancel" style="display:none">取消編輯</button>
+    </div>
+
+    <button class="btn-soft" id="btnExport">📦 匯出備份檔（存到手機）</button>
+    <button class="btn-soft" id="btnImport">📥 匯入備份檔（還原資料）</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none">
+    <div class="backup-note">🍀 小提醒：所有紀錄都存在妳自己的手機裡，不會上傳到任何地方。
+      偶爾按「匯出備份檔」存一份，換手機或清瀏覽器資料也不怕不見。</div>
+    <a class="home-link" href="lessons.html#life">🏠 回筆記館入口</a>
+  </div>
+</div>
+
+<nav aria-label="主選單">
+  <div class="nav-in">
+    <button class="tab on" data-v="today"><span class="ico">🌷</span>今天</button>
+    <button class="tab" data-v="record"><span class="ico">📅</span>紀錄</button>
+    <button class="tab" data-v="todo"><span class="ico">📌</span>待辦</button>
+    <button class="tab" data-v="diary"><span class="ico">📔</span>日記</button>
+  </div>
+</nav>
+
+<canvas id="confetti"></canvas>
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+/* ───────── 資料 ───────── */
+const KEY='tarDaily_v1';
+const SLOTS=[
+  {id:'wake', name:'🌅 起床後', cls:'slot-wake'},
+  {id:'day',  name:'☀️ 白天',   cls:'slot-day'},
+  {id:'eve',  name:'🌙 晚上',   cls:'slot-eve'},
+  {id:'sleep',name:'🛏️ 睡前',  cls:'slot-sleep'},
+  {id:'any',  name:'🍀 隨時',   cls:'slot-any'},
+];
+const DEFAULT_HABITS=[
+  {id:'h1',emoji:'💧',name:'起床先喝一杯水',slot:'wake'},
+  {id:'h2',emoji:'🧴',name:'擦防曬',slot:'wake'},
+  {id:'h3',emoji:'🍎',name:'好好吃早餐',slot:'day'},
+  {id:'h4',emoji:'🦕',name:'頸部伸展一下',slot:'any'},
+  {id:'h5',emoji:'🚶‍♀️',name:'出門散散步',slot:'day'},
+  {id:'h6',emoji:'📚',name:'讀 3 頁書',slot:'eve'},
+  {id:'h7',emoji:'✏️',name:'寫一句今天的紀錄',slot:'sleep'},
+];
+const QUOTES=['今天也要好好的 🌷','慢慢來，比較快 🐢','小小的堅持，大大的可愛 🍓','妳已經很棒了 ✨',
+ '先照顧好自己 🫖','一次一小步就好 🐾','給自己一個微笑 😊','今天的風也很溫柔 🍃',
+ '累了就休息，沒關係 ☁️','把日子過成喜歡的樣子 🌈','心情好，運氣就好 🍀','為自己鼓鼓掌 👏',
+ '溫柔對待今天的自己 🌸','又是閃閃發光的一天 ⭐'];
+const CHEERS=[[0,'新的一天，從第一個打勾開始 🌱'],[1,'開始了開始了，好樣的！🎈'],
+ [50,'過半啦，今天狀態很不錯 🎵'],[80,'就差一點點，加油加油 🔥'],[100,'全部完成！妳太可愛太厲害了 🎉']];
+const MOODS=['😆','😊','😐','😢','😠'];
+const GRID_COLORS=['#F79BB6','#8FD3B6','#FFC96B','#9FCFF2','#C9B8F2','#F7A98F'];
+const EMOJI_CHOICES=['💧','🧴','🍎','📚','✏️','🚶‍♀️','🦕','🧘‍♀️','💊','🥗','🛌','🌸','🎧','🪥','💰','📱','☕','🏃‍♀️'];
+
+let db=load();
+function load(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw){const d=JSON.parse(raw);
+      return {habits:d.habits||[],checks:d.checks||{},
+        todos:Array.isArray(d.todos)?d.todos:[],diary:d.diary||{}};}
+  }catch(e){}
+  return {habits:DEFAULT_HABITS.map(h=>({...h})),checks:{},todos:[],diary:{}};
+}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));}
+if(!Array.isArray(db.todos))db.todos=[];
+
+/* ───────── 小工具 ───────── */
+const $=s=>document.querySelector(s);
+const pad=n=>String(n).padStart(2,'0');
+const dkey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const today=()=>dkey(new Date());
+const WD=['日','一','二','三','四','五','六'];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function dayIndex(){const d=new Date();return Math.floor(d.getTime()/86400000);}
+
+/* ───────── 頁首 ───────── */
+function renderHeader(){
+  const d=new Date(),h=d.getHours();
+  $('#topDate').textContent=`${d.getFullYear()} 年 ${d.getMonth()+1} 月 ${d.getDate()} 日・星期${WD[d.getDay()]}`;
+  const g=h<5?'夜深了，早點休息':h<11?'早安':h<14?'午安':h<18?'午後好':'晚安';
+  $('#greet').innerHTML=`${g}，Tarshar <span class="wave">👋</span>`;
+  $('#quote').textContent=QUOTES[dayIndex()%QUOTES.length];
+}
+
+/* ───────── 今天：作息清單＋進度圈 ───────── */
+function checksOf(k){if(!db.checks[k])db.checks[k]={};return db.checks[k];}
+function renderToday(justId){
+  const ck=checksOf(today());
+  const list=$('#habitList');
+  if(db.habits.length===0){
+    list.innerHTML=`<div class="empty-hint">還沒有習慣呢～<button id="goAdd">點我加入第一個 🌱</button></div>`;
+    $('#goAdd').onclick=openSheet;
+  }else{
+    list.innerHTML=SLOTS.map(sl=>{
+      const hs=db.habits.filter(h=>h.slot===sl.id);
+      if(hs.length===0)return '';
+      const done=hs.filter(h=>ck[h.id]).length;
+      return `<div class="slot ${sl.cls}">
+        <div class="slot-head">${sl.name}<span class="cnt">${done}/${hs.length}</span></div>
+        ${hs.map(h=>`<button class="habit ${ck[h.id]?'done':''} ${h.id===justId?'just':''}" data-id="${h.id}">
+          <span class="face">${h.emoji}</span><span class="name">${esc(h.name)}</span>
+          <span class="tick">✓</span></button>`).join('')}
+      </div>`;
+    }).join('');
+    list.querySelectorAll('.habit').forEach(b=>b.onclick=()=>toggleHabit(b.dataset.id));
+  }
+  /* 進度圈 */
+  const total=db.habits.length,done=db.habits.filter(h=>ck[h.id]).length;
+  const pct=total?Math.round(done/total*100):0;
+  $('#ringNum').textContent=`${done}/${total}`;
+  const C=276.46;
+  $('#ringFg').style.strokeDashoffset=String(C-C*pct/100);
+  $('#ringFg').style.stroke=pct===100?'var(--mint)':'var(--pink)';
+  let cheer=CHEERS[0][1];
+  if(done>0)for(const [p,t]of CHEERS){if(p<=1?done>=1:pct>=p)cheer=t;}
+  $('#ringCheer').textContent=cheer;
+  $('#ringSub').textContent=total?`還有 ${total-done} 件小事等妳完成`:'先到 ⚙️ 加入幾個小習慣吧';
+  if(total>0&&done===total)$('#ringSub').textContent='今天的自己，值得一個大擁抱 🤗';
+}
+function toggleHabit(id){
+  const ck=checksOf(today());
+  const was=!!ck[id];
+  if(was)delete ck[id];else ck[id]=true;
+  save();
+  renderToday(was?null:id);
+  const total=db.habits.length,done=db.habits.filter(h=>ck[h.id]).length;
+  if(!was&&total>0&&done===total){celebrate();showToast('🎉 今日全部達成！超棒的！');}
+}
+
+/* ───────── 心情＋一句話 ───────── */
+function diaryOf(k){if(!db.diary[k])db.diary[k]={mood:'',text:''};return db.diary[k];}
+function renderMood(){
+  const en=diaryOf(today());
+  $('#moodRow').innerHTML=MOODS.map(m=>`<button class="mood ${en.mood===m?'on':''}" data-m="${m}" aria-label="心情 ${m}">${m}</button>`).join('');
+  $('#moodRow').querySelectorAll('.mood').forEach(b=>b.onclick=()=>{
+    const e=diaryOf(today());e.mood=(e.mood===b.dataset.m?'':b.dataset.m);save();renderMood();flashSaved();
+  });
+  $('#oneline').value=en.text||'';
+}
+let saveTimer=null;
+$('#oneline').addEventListener('input',()=>{
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>{diaryOf(today()).text=$('#oneline').value.trim();save();flashSaved();renderDiary();},500);
+});
+function flashSaved(){const t=$('#savedTip');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1200);}
+
+/* ───────── 紀錄：月曆格 ───────── */
+let viewY=new Date().getFullYear(),viewM=new Date().getMonth();
+function renderRecord(){
+  $('#mTitle').textContent=`${viewY} 年 ${viewM+1} 月`;
+  const days=new Date(viewY,viewM+1,0).getDate();
+  const first=new Date(viewY,viewM,1).getDay();
+  const now=new Date();const tk=today();
+  /* 本月統計 */
+  let monthDone=0;
+  for(let d=1;d<=days;d++){const k=`${viewY}-${pad(viewM+1)}-${pad(d)}`;
+    monthDone+=Object.keys(db.checks[k]||{}).length;}
+  const diaryCnt=Object.keys(db.diary).filter(k=>k.startsWith(`${viewY}-${pad(viewM+1)}`)&&(db.diary[k].text||db.diary[k].mood)).length;
+  const best=bestStreak();
+  $('#recStats').innerHTML=`
+    <div class="stat"><div class="n" style="color:var(--pink-deep)">${monthDone}</div><div class="l">本月打卡次數</div></div>
+    <div class="stat"><div class="n" style="color:var(--mint-deep)">${best} 天</div><div class="l">最長連續紀錄</div></div>
+    <div class="stat"><div class="n" style="color:#C0704A">${diaryCnt} 天</div><div class="l">本月寫了日記</div></div>`;
+  /* 各習慣格子 */
+  $('#gridList').innerHTML=db.habits.map((h,i)=>{
+    const color=GRID_COLORS[i%GRID_COLORS.length];
+    let hit=0,cells='';
+    cells+=WD.map(w=>`<div class="wd">${w}</div>`).join('');
+    for(let b=0;b<first;b++)cells+='<div></div>';
+    for(let d=1;d<=days;d++){
+      const k=`${viewY}-${pad(viewM+1)}-${pad(d)}`;
+      const isHit=!!(db.checks[k]&&db.checks[k][h.id]);if(isHit)hit++;
+      const isFuture=new Date(viewY,viewM,d)>now&&k!==tk;
+      cells+=`<div class="dcell ${isHit?'hit':''} ${k===tk?'today':''} ${isFuture?'future':''}"
+        ${isHit?`style="background:${color}"`:''}>${d}</div>`;
+    }
+    const passed=Math.min(days,(viewY===now.getFullYear()&&viewM===now.getMonth())?now.getDate():days);
+    const pct=passed?Math.round(hit/passed*100):0;
+    return `<div class="card hgrid-card">
+      <div class="hgrid-top"><span class="face">${h.emoji}</span><span class="name">${esc(h.name)}</span>
+        <span class="streak">🔥 連續 ${streakOf(h.id)} 天</span>
+        <span class="pct" style="color:${color}">${pct}%</span></div>
+      <div class="dgrid">${cells}</div></div>`;
+  }).join('')||'<div class="card"><div class="empty-hint">先到 ⚙️ 加入習慣，這裡就會長出可愛的格子月曆 🌱</div></div>';
+}
+function streakOf(id){
+  let n=0;const d=new Date();
+  if(!(db.checks[dkey(d)]&&db.checks[dkey(d)][id]))d.setDate(d.getDate()-1);
+  while(db.checks[dkey(d)]&&db.checks[dkey(d)][id]){n++;d.setDate(d.getDate()-1);}
+  return n;
+}
+function bestStreak(){
+  const keys=Object.keys(db.checks).filter(k=>Object.keys(db.checks[k]).length).sort();
+  if(!keys.length)return 0;
+  let best=1,cur=1;
+  for(let i=1;i<keys.length;i++){
+    const prev=new Date(keys[i-1]),c=new Date(keys[i]);
+    if((c-prev)/86400000===1)cur++;else cur=1;
+    if(cur>best)best=cur;
+  }
+  return best;
+}
+$('#prevM').onclick=()=>{viewM--;if(viewM<0){viewM=11;viewY--;}renderRecord();};
+$('#nextM').onclick=()=>{viewM++;if(viewM>11){viewM=0;viewY++;}renderRecord();};
+
+/* ───────── 待辦 ───────── */
+function renderTodo(){
+  $('#todoList').innerHTML=db.todos.map(t=>`
+    <div class="todo ${t.done?'done':''}">
+      <button class="tick" data-id="${t.id}" aria-label="完成">✓</button>
+      <div class="txt">${esc(t.text)}</div>
+      <button class="del" data-id="${t.id}" aria-label="刪除">✕</button>
+    </div>`).join('')||'<div class="empty-hint">目前沒有待辦，好輕鬆 ☁️</div>';
+  $('#todoList').querySelectorAll('.tick').forEach(b=>b.onclick=()=>{
+    const t=db.todos.find(x=>x.id===b.dataset.id);if(t){t.done=!t.done;save();renderTodo();}});
+  $('#todoList').querySelectorAll('.del').forEach(b=>b.onclick=()=>{
+    db.todos=db.todos.filter(x=>x.id!==b.dataset.id);save();renderTodo();});
+}
+function addTodo(){
+  const v=$('#todoInput').value.trim();if(!v)return;
+  db.todos.unshift({id:'t'+Math.random().toString(36).slice(2,9),text:v,done:false});
+  $('#todoInput').value='';save();renderTodo();
+}
+$('#todoAdd').onclick=addTodo;
+$('#todoInput').addEventListener('keydown',e=>{if(e.key==='Enter')addTodo();});
+
+/* ───────── 日記列表 ───────── */
+function renderDiary(){
+  const keys=Object.keys(db.diary).filter(k=>db.diary[k].text||db.diary[k].mood).sort().reverse();
+  $('#diaryList').innerHTML=keys.map(k=>{
+    const e=db.diary[k];const [y,m,d]=k.split('-');
+    const wd=WD[new Date(+y,+m-1,+d).getDay()];
+    return `<div class="diary-item"><div class="m">${e.mood||'📝'}</div>
+      <div><div class="d">${y}.${m}.${d}（${wd}）</div><div class="t">${esc(e.text)||'（只留下了心情）'}</div></div></div>`;
+  }).join('')||'<div class="empty-hint">在「今天」頁寫下第一句話，日記就會出現在這裡 🌷</div>';
+}
+
+/* ───────── 分頁 ───────── */
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===t));
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  $('#view-'+t.dataset.v).classList.add('on');
+  if(t.dataset.v==='record')renderRecord();
+  if(t.dataset.v==='diary')renderDiary();
+  window.scrollTo({top:0});
+});
+
+/* ───────── 設定彈窗：習慣管理 ───────── */
+let pickEmoji=EMOJI_CHOICES[0],pickSlot='wake',editId=null;
+function openSheet(){$('#sheetMask').classList.add('open');renderManage();renderForm();}
+function closeSheet(){$('#sheetMask').classList.remove('open');resetForm();}
+$('#btnGear').onclick=openSheet;
+$('#sheetClose').onclick=closeSheet;
+$('#sheetMask').addEventListener('click',e=>{if(e.target===$('#sheetMask'))closeSheet();});
+function renderManage(){
+  $('#manageList').innerHTML=db.habits.map(h=>{
+    const sl=SLOTS.find(s=>s.id===h.slot);
+    return `<div class="hrow"><span class="face">${h.emoji}</span><span class="nm">${esc(h.name)}</span>
+      <span class="slot-chip">${sl?sl.name:''}</span>
+      <button class="act" data-e="${h.id}" aria-label="編輯">✏️</button>
+      <button class="act" data-d="${h.id}" aria-label="刪除">🗑️</button></div>`;
+  }).join('')||'<div class="empty-hint">還沒有習慣，從下面加入第一個吧 🌱</div>';
+  $('#manageList').querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>{
+    const h=db.habits.find(x=>x.id===b.dataset.e);if(!h)return;
+    editId=h.id;pickEmoji=h.emoji;pickSlot=h.slot;$('#habitName').value=h.name;
+    $('#formTitle').textContent='編輯習慣';$('#habitSave').textContent='儲存修改 🌷';
+    $('#habitCancel').style.display='block';renderForm();
+  });
+  $('#manageList').querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{
+    const h=db.habits.find(x=>x.id===b.dataset.d);if(!h)return;
+    if(confirm(`要刪除「${h.name}」嗎？過去的打卡紀錄也會一起刪掉喔`)){
+      db.habits=db.habits.filter(x=>x.id!==b.dataset.d);
+      for(const k in db.checks)delete db.checks[k][b.dataset.d];
+      save();renderManage();renderToday();
+    }
+  });
+}
+function renderForm(){
+  $('#emojiRow').innerHTML=EMOJI_CHOICES.map(e=>
+    `<button class="emoji-pick ${e===pickEmoji?'on':''}" data-e="${e}">${e}</button>`).join('');
+  $('#emojiRow').querySelectorAll('.emoji-pick').forEach(b=>b.onclick=()=>{pickEmoji=b.dataset.e;renderForm();});
+  $('#slotChips').innerHTML=SLOTS.map(s=>
+    `<button class="schip ${s.id===pickSlot?'on':''}" data-s="${s.id}">${s.name}</button>`).join('');
+  $('#slotChips').querySelectorAll('.schip').forEach(b=>b.onclick=()=>{pickSlot=b.dataset.s;renderForm();});
+}
+function resetForm(){
+  editId=null;pickEmoji=EMOJI_CHOICES[0];pickSlot='wake';$('#habitName').value='';
+  $('#formTitle').textContent='新增一個習慣';$('#habitSave').textContent='加入我的日常 🌷';
+  $('#habitCancel').style.display='none';
+}
+$('#habitCancel').onclick=()=>{resetForm();renderForm();};
+$('#habitSave').onclick=()=>{
+  const name=$('#habitName').value.trim();
+  if(!name){showToast('先幫習慣取個名字吧 ✏️');return;}
+  if(editId){const h=db.habits.find(x=>x.id===editId);
+    if(h){h.name=name;h.emoji=pickEmoji;h.slot=pickSlot;}}
+  else db.habits.push({id:'h'+Math.random().toString(36).slice(2,9),emoji:pickEmoji,name,slot:pickSlot});
+  save();resetForm();renderManage();renderForm();renderToday();
+  showToast('🌱 已加入妳的日常！');
+};
+
+/* ───────── 備份 ───────── */
+$('#btnExport').onclick=()=>{
+  const d=new Date();
+  const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`我的小日常備份_${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}.json`;
+  a.click();URL.revokeObjectURL(a.href);
+  showToast('📦 備份檔已下載');
+};
+$('#btnImport').onclick=()=>$('#importFile').click();
+$('#importFile').addEventListener('change',e=>{
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const d=JSON.parse(r.result);
+      if(!d||!Array.isArray(d.habits))throw new Error('bad');
+      if(confirm('要用這份備份覆蓋目前的資料嗎？')){
+        db={habits:d.habits,checks:d.checks||{},todos:Array.isArray(d.todos)?d.todos:[],diary:d.diary||{}};
+        save();renderToday();renderMood();renderTodo();renderDiary();renderManage();
+        showToast('📥 資料已還原！');
+      }
+    }catch(err){showToast('這個檔案讀不懂耶，確認是備份檔嗎？');}
+    e.target.value='';
+  };
+  r.readAsText(f);
+});
+
+/* ───────── 慶祝與提示 ───────── */
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function celebrate(){
+  if(reduced)return;
+  const cv=$('#confetti'),ctx=cv.getContext('2d');
+  cv.width=innerWidth;cv.height=innerHeight;
+  const P=['#F79BB6','#8FD3B6','#FFD98E','#9FCFF2','#C9B8F2','#F7A98F'];
+  const ps=Array.from({length:90},()=>({
+    x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.4,
+    s:5+Math.random()*7,c:P[Math.floor(Math.random()*P.length)],
+    vy:2+Math.random()*3,vx:-1.4+Math.random()*2.8,r:Math.random()*Math.PI,vr:-.12+Math.random()*.24}));
+  let t0=null;
+  function frame(ts){
+    if(!t0)t0=ts;
+    ctx.clearRect(0,0,cv.width,cv.height);
+    ps.forEach(p=>{p.y+=p.vy;p.x+=p.vx;p.r+=p.vr;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;
+      ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.62);ctx.restore();});
+    if(ts-t0<2600)requestAnimationFrame(frame);else ctx.clearRect(0,0,cv.width,cv.height);
+  }
+  requestAnimationFrame(frame);
+}
+let toastTimer=null;
+function showToast(msg){
+  const t=$('#toast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+/* ───────── 啟動 ───────── */
+renderHeader();renderToday();renderMood();renderTodo();
+setInterval(renderHeader,60000);
+</script>
+</body>
+</html>
