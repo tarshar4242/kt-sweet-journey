@@ -177,6 +177,37 @@ table.mini th{background:#FBF4E8}
 .composer input{flex:1;border:2px solid var(--line);border-radius:14px;padding:9px 12px;font-family:inherit;font-size:.9rem;background:var(--cream);color:var(--ink)}
 .composer input:focus{outline:none;border-color:var(--pinkD)}
 .composer button{border:none;background:var(--pinkD);color:#fff;border-radius:14px;padding:0 16px;font-family:inherit;font-weight:900;cursor:pointer}
+/* ── 食譜調整 / 自訂食譜 ── */
+details.adj{margin-top:8px;background:#FBF6EE;border-radius:12px;padding:8px 11px}
+details.adj summary{font-size:.8rem;font-weight:800;color:var(--ink2);cursor:pointer;list-style:none}
+details.adj summary::-webkit-details-marker{display:none}
+details.adj textarea{width:100%;border:2px solid var(--line);border-radius:12px;padding:8px 10px;font-family:inherit;font-size:.86rem;margin:7px 0 6px;background:#fff;color:var(--ink);resize:vertical}
+details.adj textarea:focus{outline:none;border-color:var(--yellowD)}
+.cform label{font-size:.78rem;font-weight:800;color:var(--ink2);display:block;margin-top:8px}
+.cform input,.cform select,.cform textarea{width:100%;border:2px solid var(--line);border-radius:14px;padding:9px 12px;font-family:inherit;font-size:.9rem;background:var(--cream);color:var(--ink)}
+.cform textarea{resize:vertical}
+.cform input:focus,.cform textarea:focus{outline:none;border-color:var(--greenD)}
+/* ── 醫師報告 ── */
+#reportView{display:none;position:fixed;inset:0;background:#fff;z-index:200;overflow-y:auto;padding:18px 16px 40px;color:#222;line-height:1.6}
+#reportView.on{display:block}
+#reportView h1{font-size:1.2rem;margin-bottom:2px}
+#reportView .meta{font-size:.8rem;color:#555;margin-bottom:8px}
+#reportView h2{font-size:1rem;margin:16px 0 6px;border-left:4px solid #888;padding-left:8px}
+#reportView table{width:100%;border-collapse:collapse;font-size:.8rem}
+#reportView th,#reportView td{border:1px solid #bbb;padding:4px 6px;text-align:center}
+#reportView th{background:#f0f0f0}
+#reportView .note{font-size:.75rem;color:#666;margin-top:14px}
+.rv-bar{display:flex;gap:10px;margin-bottom:14px}
+.rv-bar button{flex:1;border:none;border-radius:12px;padding:11px;font-family:inherit;font-weight:900;font-size:.92rem;cursor:pointer}
+#rvPrint{background:#3E7FB8;color:#fff}
+#rvClose{background:#eee;color:#333}
+@media print{
+  body.reporting .home-fab,body.reporting .gear,body.reporting .wrap,body.reporting nav.tabbar,
+  body.reporting #toast,body.reporting .foot,body.reporting .modal{display:none!important}
+  body.reporting #reportView{position:static;overflow:visible;padding:0}
+  body.reporting{padding-bottom:0}
+  .rv-bar{display:none!important}
+}
 /* toast */
 #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:100px;background:var(--ink);color:#fff;
   border-radius:999px;padding:10px 20px;font-size:.88rem;font-weight:800;z-index:120;display:none;box-shadow:var(--shadow);max-width:88vw;text-align:center}
@@ -260,6 +291,7 @@ ul.tight li{margin:4px 0}
     <button class="chip on" data-r="wd">🏢 平日</button>
     <button class="chip" data-r="we">🏡 假日</button>
     <button class="chip" data-r="fav">⭐ 最愛</button>
+    <button class="chip" data-r="cus">📝 我們的食譜</button>
     <button class="chip" data-r="sn">🌙 宵夜安全區</button>
     <button class="chip" data-r="prep">🧺 週日備餐</button>
     <button class="chip" data-r="out">🍱 外食小抄</button>
@@ -314,6 +346,13 @@ ul.tight li{margin:4px 0}
     <div style="overflow-x:auto"><table class="wkgrid" id="wkGrid"></table></div>
     <div class="praise" id="praiseBox"></div>
   </div>
+  <div class="card">
+    <h2>🏥 回診準備</h2>
+    <p class="small">所有紀錄都留在手機裡不會消失，這裡把它們變成方便回顧和給醫生看的格式：報告可直接列印或存成 PDF；CSV 檔用 Excel 打開，想怎麼搜尋、篩選、畫圖都行，也適合長期歸檔。</p>
+    <button class="bigbtn blue" id="rptBtn">🖨️ 產生醫師報告（近 90 天）</button>
+    <button class="bigbtn" style="background:linear-gradient(135deg,#7FB06F,#5f9350);box-shadow:0 10px 24px -10px rgba(127,176,111,.6)" id="csvBtn">⬇️ 下載 CSV 紀錄檔（Excel 可開）</button>
+  </div>
+
   <div class="card" id="wtCard">
     <h2>⚖️ 體重（每週量一次就好）</h2>
     <div class="bpform" style="grid-template-columns:1fr auto">
@@ -348,7 +387,25 @@ ul.tight li{margin:4px 0}
       <button id="medNo">不用</button>
     </div>
     <button class="bigbtn" id="setupOk">好了，開始！</button>
+    <div id="backupSec">
+      <div class="divider"></div>
+      <p style="font-weight:900;font-size:.95rem">🗄️ 資料備份</p>
+      <p class="small">紀錄存在這支手機裡。怕換手機或誤刪的話，定期下載備份檔收好（用 LINE 傳給自己也可以），需要時再匯入還原。</p>
+      <div class="medq">
+        <button id="bkDown">⬇️ 下載備份檔</button>
+        <button id="bkUp">📂 匯入備份檔</button>
+      </div>
+      <input type="file" id="bkFile" accept=".json,application/json" style="display:none">
+    </div>
   </div>
+</div>
+
+<div id="reportView">
+  <div class="rv-bar">
+    <button id="rvPrint">🖨️ 列印／存成 PDF</button>
+    <button id="rvClose">✕ 關閉</button>
+  </div>
+  <div id="reportBody"></div>
 </div>
 
 <!-- 馬上傳？ -->
@@ -404,7 +461,7 @@ function load(){
   if(!s) s={ me:null, meds:{white:true,brown:true},
     data:{white:{ck:{},bp:{},wt:{}}, brown:{ck:{},bp:{},wt:{}}}, lastSync:{white:0,brown:0} };
   ['white','brown'].forEach(b=>{ const d=s.data[b];
-    d.fav=d.fav||{}; d.wish=d.wish||{}; d.notes=d.notes||{}; });
+    d.fav=d.fav||{}; d.wish=d.wish||{}; d.notes=d.notes||{}; d.rnote=d.rnote||{}; d.myrec=d.myrec||{}; });
   return s;
 }
 function save(){ localStorage.setItem(LS, JSON.stringify(state)); }
@@ -550,6 +607,38 @@ function openShareNow(title){
   document.getElementById('snTitle').textContent=title;
   document.getElementById('shareNowModal').classList.add('on');
 }
+let editingName=null;
+function saveCustom(){
+  if(!state.me){ openSetup(); return; }
+  const g=id=>document.getElementById(id).value.trim();
+  const n=g('cf_n');
+  if(!n){ toast('先幫這道菜取個名字 🐻'); return; }
+  const st=g('cf_st').split('\n').map(s=>s.trim()).filter(Boolean);
+  const rec={e:'🍽️',n,eq:g('cf_eq')||'氣炸鍋',t:g('cf_t')||'—',ing:g('cf_ing')||'—',
+    st:st.length?st:['自由發揮'],note:g('cf_note')||'我們自己的菜 🐻',ts:Date.now()};
+  const mr=state.data[state.me].myrec;
+  if(editingName && editingName!==n) delete mr[editingName];
+  mr[n]=rec; editingName=null;
+  save(); renderRecipe('cus');
+  toast('這道菜存好了！回報後對方也會有 👩‍🍳');
+}
+function editCustom(name){
+  const r=state.data[state.me].myrec[name]; if(!r) return;
+  document.getElementById('cf_n').value=r.n;
+  document.getElementById('cf_eq').value=r.eq;
+  document.getElementById('cf_t').value=r.t==='—'?'':r.t;
+  document.getElementById('cf_ing').value=r.ing==='—'?'':r.ing;
+  document.getElementById('cf_st').value=r.st.join('\n');
+  document.getElementById('cf_note').value=r.note;
+  document.getElementById('cfTitle').textContent='✏️ 修改「'+r.n+'」';
+  editingName=name;
+  document.querySelector('.cform').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function delCustom(name){
+  if(!confirm('確定要刪除「'+name+'」嗎？')) return;
+  delete state.data[state.me].myrec[name];
+  save(); renderRecipe('cus'); toast('刪掉了 🗑');
+}
 
 /* ══════════ 回報同步 ══════════ */
 function b64e(bytes){ let bin=''; bytes.forEach(b=>bin+=String.fromCharCode(b));
@@ -565,7 +654,7 @@ async function packState(){
   const wsh={}; Object.entries(d.wish).forEach(([k,w])=>{ if(now-w.ts<30*DAY) wsh[k]=w; });
   const nts={}; Object.entries(d.notes).forEach(([k,n])=>{ if(now-+k<14*DAY) nts[k]=n; });
   const payload={v:1,from:me,meds:state.meds[me],ck:pick(d.ck,cutCk),bp:pick(d.bp,cutBp),wt:pick(d.wt,cutBp),
-    fav:d.fav,wish:wsh,notes:nts,ts:now};
+    fav:d.fav,wish:wsh,notes:nts,rnote:d.rnote,myrec:d.myrec,ts:now};
   const json=JSON.stringify(payload);
   const bytes=new TextEncoder().encode(json);
   if(typeof CompressionStream!=='undefined'){
@@ -609,6 +698,8 @@ async function tryReceive(){
   if(p.wish){ Object.entries(p.wish).forEach(([k,w])=>{
     const ex=t.wish[k]; t.wish[k]=w; if(ex&&ex.done) t.wish[k].done=true; }); }
   if(p.notes) Object.assign(t.notes,p.notes);
+  if(p.rnote) t.rnote=p.rnote;
+  if(p.myrec) t.myrec=p.myrec;
   state.meds[p.from]=!!p.meds;
   state.lastSync[p.from]=p.ts||Date.now();
   save();
@@ -752,8 +843,11 @@ const PREP_SOP=[
  ['🕓 30-40 分鐘','飯跳起來→分裝小盒放涼進冷凍；蛋和地瓜進冷藏。收工！'],
  ['✅ 完成後你們擁有','整週的早餐蛋白質＋澱粉、隨時可微波的糙米飯、醃好即炸的晚餐主菜、一開冰箱就有的安全宵夜']];
 
-function recipeCard(r,i,gid){
-  const fv = state.me && state.data[state.me].fav[r.n];
+function recipeCard(r,i,gid,extra){
+  const me=state.me;
+  const fv = me && state.data[me].fav[r.n];
+  const myN = me && state.data[me].rnote[r.n];
+  const pN = me && state.data[other(me)].rnote[r.n];
   return `<div class="recipe" id="${gid}-${i}">
     <div class="rh" onclick="this.parentElement.classList.toggle('open')">
       <span style="font-size:1.3rem">${r.e}</span><span class="nm">${r.n}</span>
@@ -763,11 +857,26 @@ function recipeCard(r,i,gid){
       <p class="ing">🧾 食材（2 人份）：${r.ing}</p>
       ${r.st.map((s,j)=>`<p>${j+1}. ${s}</p>`).join('')}
       <div class="bearnote">${bearSVG('white',26)}<span>${r.note}</span></div>
+      ${pN?`<div class="bearnote" style="background:#FFF6DC">${bearSVG(other(me),26)}<span><b>${BEAR_NAME[other(me)]}的調整：</b>${esc(pN.t)}</span></div>`:''}
+      <details class="adj"${myN?' open':''}>
+        <summary>📝 我們的調整版${myN?'（已有紀錄）':'（改了什麼記在這）'}</summary>
+        <textarea id="rn-${gid}-${i}" rows="2" maxlength="200" placeholder="例：雞腿換成雞胸、鹽再減半、氣炸 16 分鐘就夠了">${myN?esc(myN.t):''}</textarea>
+        <button class="abtn" style="width:100%" onclick="rnoteSave('${r.n}','rn-${gid}-${i}')">💾 儲存調整（回報後對方也看得到）</button>
+      </details>
       <div class="ract">
         <button class="abtn${fv?' on':''}" onclick="toggleFav(this,'${r.n}')">${fv?'⭐ 已收藏':'⭐ 收藏'}</button>
         <button class="abtn want" onclick="addWish('${r.n}','${r.e}')">😋 我想吃這個</button>
+        ${extra||''}
       </div>
     </div></div>`;
+}
+function rnoteSave(name,id){
+  if(!state.me){ openSetup(); return; }
+  const v=document.getElementById(id).value.trim();
+  const rn=state.data[state.me].rnote;
+  if(v) rn[name]={t:v.slice(0,200),ts:Date.now()}; else delete rn[name];
+  save();
+  toast(v?'調整版記好了 📝':'調整紀錄已清空');
 }
 function recipeGroup(title,arr,gid){
   return `<div class="rgroup"><div class="gh"><h3>${title}</h3>
@@ -794,11 +903,31 @@ const RECIPE_VIEWS={
   const me=state.me;
   const mine = me?Object.keys(state.data[me].fav):[];
   const theirs = me?Object.keys(state.data[other(me)].fav):[];
-  const find=n=>ALL_RECIPES.find(r=>r.n===n);
+  const find=n=>ALL_RECIPES.find(r=>r.n===n)||state.data.white.myrec[n]||state.data.brown.myrec[n];
   const cards=(names,gid)=>names.map(find).filter(Boolean).map((r,i)=>recipeCard(r,i,gid)).join('');
   return `<div class="card"><h2>⭐ 我們的最愛</h2><p class="small">在任何一道食譜按「⭐ 收藏」就會出現在這裡；對方收藏了什麼，回報同步之後也看得到。</p></div>
    <div class="rgroup"><div class="gh"><h3>${me?BEAR_EMO[me]+' 我的最愛':''}</h3></div>${cards(mine,'gf1')||'<p class="small" style="padding:0 6px">還沒有收藏，去食譜裡逛逛吧 🐾</p>'}</div>
    <div class="rgroup"><div class="gh"><h3>${me?BEAR_EMO[other(me)]+' '+BEAR_NAME[other(me)]+' 的最愛':''}</h3></div>${cards(theirs,'gf2')||'<p class="small" style="padding:0 6px">對方還沒收藏，或還沒回報同步給你 💌</p>'}</div>`;
+ },
+ cus:()=>{
+  const me=state.me;
+  const myList = me?Object.values(state.data[me].myrec).sort((a,b)=>b.ts-a.ts):[];
+  const pList = me?Object.values(state.data[other(me)].myrec).sort((a,b)=>b.ts-a.ts):[];
+  const mine = myList.map((r,i)=>recipeCard(r,i,'gc1',
+    `<button class="abtn" onclick="editCustom('${r.n}')">✏️ 修改</button><button class="abtn" onclick="delCustom('${r.n}')">🗑 刪除</button>`)).join('');
+  const theirs = pList.map((r,i)=>recipeCard(r,i,'gc2')).join('');
+  return `<div class="card"><h2>📝 我們的食譜</h2><p class="small">試過覺得好吃的自家版本、或小熊菜單裡沒有的菜，都可以自己加進來；回報同步後，這道菜也會出現在對方的手機裡。（小熊菜單的每道菜也都有「📝 我們的調整版」欄位可以記錄改了什麼）</p></div>
+   <div class="rgroup"><div class="gh"><h3>${me?BEAR_EMO[me]:''} 我加的菜</h3></div>${mine||'<p class="small" style="padding:0 6px">還沒有，用下面的表單加第一道吧 👩‍🍳</p>'}</div>
+   <div class="rgroup"><div class="gh"><h3>${me?BEAR_EMO[other(me)]+' '+BEAR_NAME[other(me)]+' 加的菜':''}</h3></div>${theirs||'<p class="small" style="padding:0 6px">對方還沒加菜，或還沒回報同步給你 💌</p>'}</div>
+   <div class="card cform"><h2 id="cfTitle">➕ 新增一道菜</h2>
+     <label>菜名（必填）</label><input id="cf_n" maxlength="30" placeholder="例：媽媽牌滷雞腿（減鹽版）">
+     <label>用什麼做</label><select id="cf_eq"><option>氣炸鍋</option><option>微電鍋</option><option>微波爐</option><option>瓦斯爐</option><option>免開火</option></select>
+     <label>大約幾分鐘</label><input id="cf_t" maxlength="12" placeholder="例：20 分鐘">
+     <label>食材</label><input id="cf_ing" maxlength="150" placeholder="例：雞腿 2 支、薄鹽醬油 1 匙、蔥薑蒜">
+     <label>做法（一行一個步驟）</label><textarea id="cf_st" rows="3" placeholder="雞腿先汆燙&#10;所有材料進微電鍋煮 30 分鐘&#10;起鍋撒蔥花"></textarea>
+     <label>小筆記（為什麼健康／要注意什麼）</label><input id="cf_note" maxlength="100" placeholder="例：醬油只放一匙，滷汁不拌飯">
+     <button class="bigbtn" style="background:linear-gradient(135deg,#7FB06F,#5f9350);box-shadow:0 10px 24px -10px rgba(127,176,111,.6)" onclick="saveCustom()">💾 存這道菜</button>
+   </div>`;
  },
  sn:()=>`<div class="card"><h2>🌙 宵夜安全區</h2><p class="small">在冰箱固定一區只放這些，想吃宵夜就從這區拿——跟意志力比起來，「家裡只有安全的」可靠多了。原則：200 大卡以內、睡前 1 小時吃完。</p>
    <div class="okbox"><b>✅ 安全區常備清單</b>${pairList(SNACK_OK)}</div>
@@ -1020,6 +1149,94 @@ document.getElementById('wtSave').onclick=()=>{
   toast('體重記好了 ⚖️'); renderReview();
 };
 
+/* ══════════ 回診報告 / CSV / 備份 ══════════ */
+function downloadFile(name,content,mime){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([content],{type:(mime||'application/json')+';charset=utf-8'}));
+  a.download=name; document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },2000);
+}
+function openReport(bear){
+  const now=new Date(), cut=new Date(); cut.setDate(cut.getDate()-90);
+  const cutS=dstr(cut);
+  const D=state.data[bear];
+  const keys=Object.keys(D.bp).filter(k=>k>=cutS).sort();
+  let html=`<h1>居家血壓與生活紀錄</h1>
+    <div class="meta">記錄對象：${BEAR_NAME[bear]}　期間：${cutS} ～ ${dstr(now)}（近 90 天）　產出日期：${dstr(now)}</div>`;
+  if(keys.length){
+    const ss=keys.map(k=>+D.bp[k].s), dd=keys.map(k=>+D.bp[k].d);
+    const avg=a=>Math.round(a.reduce((x,y)=>x+y,0)/a.length);
+    const hi=keys.filter(k=>+D.bp[k].s>=130||+D.bp[k].d>=80).length;
+    html+=`<h2>血壓摘要</h2><table>
+      <tr><th>紀錄筆數</th><th>平均</th><th>最高</th><th>最低</th><th>≥130/80 天數</th></tr>
+      <tr><td>${keys.length}</td><td>${avg(ss)}/${avg(dd)}</td><td>${Math.max(...ss)}/${Math.max(...dd)}</td>
+      <td>${Math.min(...ss)}/${Math.min(...dd)}</td><td>${hi} 天</td></tr></table>`;
+    html+=`<h2>血壓明細</h2><table><tr><th>日期</th><th>收縮壓</th><th>舒張壓</th><th>心跳</th><th>判讀</th></tr>`+
+      keys.slice().reverse().map(k=>{ const r=D.bp[k], [,lb]=bpLevel(+r.s,+r.d);
+        return `<tr><td>${k}</td><td>${r.s}</td><td>${r.d}</td><td>${r.p||''}</td><td>${lb}</td></tr>`; }).join('')+'</table>';
+  } else html+='<h2>血壓</h2><p>期間內沒有血壓紀錄。</p>';
+  const wkeys=Object.keys(D.wt).filter(k=>k>=cutS).sort();
+  if(wkeys.length)
+    html+=`<h2>體重</h2><table><tr><th>日期</th><th>體重（kg）</th></tr>`+
+      wkeys.slice().reverse().map(k=>`<tr><td>${k}</td><td>${(+D.wt[k]).toFixed(1)}</td></tr>`).join('')+'</table>';
+  const c30=new Date(); c30.setDate(c30.getDate()-30); const cut30=dstr(c30);
+  const ckeys=Object.keys(D.ck).filter(k=>k>=cut30);
+  if(ckeys.length){
+    const cnt=k=>ckeys.filter(d=>D.ck[d].i[k]).length;
+    html+=`<h2>生活習慣（近 30 天達成天數）</h2><table>
+      <tr><th>合格早餐</th><th>餐後散步</th><th>無含糖飲料</th><th>宵夜守規</th>${state.meds[bear]?'<th>按時吃藥</th>':''}</tr>
+      <tr><td>${cnt('bf')}</td><td>${cnt('walk')}</td><td>${cnt('drink')}</td><td>${cnt('snack')}</td>${state.meds[bear]?`<td>${cnt('med')}</td>`:''}</tr></table>`;
+  }
+  html+='<p class="note">本報告為居家自我紀錄（小熊健康小屋），供門診討論參考；判讀欄以居家血壓 130/80 為參考線。</p>';
+  document.getElementById('reportBody').innerHTML=html;
+  document.getElementById('reportView').classList.add('on');
+  document.body.classList.add('reporting');
+}
+function closeReport(){
+  document.getElementById('reportView').classList.remove('on');
+  document.body.classList.remove('reporting');
+}
+function exportCSV(bear){
+  const D=state.data[bear];
+  const dates=[...new Set([...Object.keys(D.ck),...Object.keys(D.bp),...Object.keys(D.wt)])].sort().reverse();
+  if(!dates.length){ toast('還沒有可以匯出的紀錄唷 🐻'); return; }
+  const q=s=>'"'+String(s||'').replace(/"/g,'""')+'"';
+  let csv='\uFEFF'+'日期,收縮壓,舒張壓,心跳,體重kg,合格早餐,餐後散步,無含糖飲料,宵夜守規,量血壓,按時吃藥,早餐,午餐,晚餐,宵夜\n';
+  dates.forEach(k=>{
+    const bp=D.bp[k]||{}, c=D.ck[k]||{i:{},m:{}};
+    const t=x=>c.i[x]?'V':'';
+    csv+=[k,bp.s||'',bp.d||'',bp.p||'',D.wt[k]||'',t('bf'),t('walk'),t('drink'),t('snack'),t('bp'),t('med'),
+      q(c.m.b),q(c.m.l),q(c.m.d),q(c.m.s)].join(',')+'\n';
+  });
+  downloadFile(`健康紀錄_${BEAR_NAME[bear]}_${today()}.csv`,csv,'text/csv');
+  toast('CSV 下載好了，用 Excel 打開就能搜尋篩選 📊');
+}
+document.getElementById('rptBtn').onclick=()=>openReport(rvBear||state.me);
+document.getElementById('csvBtn').onclick=()=>exportCSV(rvBear||state.me);
+document.getElementById('rvPrint').onclick=()=>window.print();
+document.getElementById('rvClose').onclick=closeReport;
+document.getElementById('bkDown').onclick=()=>{
+  downloadFile(`小熊健康備份_${today()}.json`,JSON.stringify(state));
+  toast('備份檔下載好了，收在安全的地方 🗄️');
+};
+document.getElementById('bkUp').onclick=()=>document.getElementById('bkFile').click();
+document.getElementById('bkFile').addEventListener('change',ev=>{
+  const f=ev.target.files[0]; if(!f) return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    try{
+      const s=JSON.parse(rd.result);
+      if(!s||!s.data||!s.data.white||!s.data.brown) throw 0;
+      if(!confirm('匯入會用備份檔的內容覆蓋這支手機目前的紀錄，確定嗎？')) return;
+      localStorage.setItem(LS,JSON.stringify(s));
+      state=load(); bpBear=rvBear=state.me;
+      document.getElementById('setupModal').classList.remove('on');
+      renderAll(); toast('備份還原完成 ✅');
+    }catch(e){ toast('這個檔案不是小熊健康備份檔唷 🙈'); }
+  };
+  rd.readAsText(f); ev.target.value='';
+});
+
 /* ══════════ 導覽 / 設定 / 啟動 ══════════ */
 document.querySelectorAll('nav.tabbar button').forEach(b=>{
   b.onclick=()=>{
@@ -1055,6 +1272,7 @@ function openSetup(){
   pickSel=state.me||pendingPick; pickMed=state.me?state.meds[state.me]:null;
   document.getElementById('svgW').innerHTML=bearSVG('white',64);
   document.getElementById('svgB').innerHTML=bearSVG('brown',64);
+  document.getElementById('backupSec').style.display = state.me?'block':'none';
   syncSetupUI();
   document.getElementById('setupModal').classList.add('on');
 }
