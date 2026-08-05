@@ -187,6 +187,21 @@ details.adj textarea:focus{outline:none;border-color:var(--yellowD)}
 .cform input,.cform select,.cform textarea{width:100%;border:2px solid var(--line);border-radius:14px;padding:9px 12px;font-family:inherit;font-size:.9rem;background:var(--cream);color:var(--ink)}
 .cform textarea{resize:vertical}
 .cform input:focus,.cform textarea:focus{outline:none;border-color:var(--greenD)}
+/* ── 慶祝煙火 ── */
+#celebrate{position:fixed;inset:0;z-index:150;display:none;background:rgba(60,40,20,.55)}
+#celebrate.on{display:block}
+#fw{position:absolute;inset:0;width:100%;height:100%}
+.cel-box{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--bg);border-radius:26px;
+  padding:26px 22px 18px;text-align:center;width:min(84vw,340px);box-shadow:0 20px 60px -20px rgba(0,0,0,.5);
+  animation:pop .45s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pop{from{transform:translate(-50%,-50%) scale(.4);opacity:0}}
+.cel-box .bear{display:inline-block;animation:bounce 1s ease infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+#celTitle{font-size:1.3rem;font-weight:900;margin-top:6px}
+#celMsg{font-size:.98rem;margin-top:6px}
+#celStreak{margin-top:10px;font-weight:900;color:var(--pinkD)}
+#celStreak:empty{display:none}
+.cel-tap{font-size:.72rem;color:var(--ink2);margin-top:14px}
 /* ── 醫師報告 ── */
 #reportView{display:none;position:fixed;inset:0;background:#fff;z-index:200;overflow-y:auto;padding:18px 16px 40px;color:#222;line-height:1.6}
 #reportView.on{display:block}
@@ -400,6 +415,17 @@ ul.tight li{margin:4px 0}
   </div>
 </div>
 
+<div id="celebrate">
+  <canvas id="fw"></canvas>
+  <div class="cel-box">
+    <span class="bear" id="celBear"></span>
+    <div id="celTitle"></div>
+    <div id="celMsg"></div>
+    <div id="celStreak"></div>
+    <div class="cel-tap">（點一下畫面關閉）</div>
+  </div>
+</div>
+
 <div id="reportView">
   <div class="rv-bar">
     <button id="rvPrint">🖨️ 列印／存成 PDF</button>
@@ -484,6 +510,87 @@ function doneCount(bear,ds){ const c=state.data[bear].ck[ds]; if(!c) return 0;
   return itemsFor(bear).filter(it=>c.i[it.k]).length; }
 function dayHit(bear,ds){ return doneCount(bear,ds)>=4; }
 
+/* ══════════ 慶祝煙火 ══════════ */
+const DAY_MSGS=[
+ '今天的你，血管們都在鼓掌 👏','又把健康存進撲滿一天，複利滾起來 🐷',
+ '穩穩的一天！明天的你會謝謝今天的你 💌','這種紀錄拿去回診，醫生會偷笑 😊',
+ '血糖今天很平靜，因為你很給力 💚','把今天過好，就是最高級的浪漫 🌹',
+ '兩隻熊的目標，又近了一步 🐾','你不是在忌口，是在挑更好的 🍀',
+ '今天也把自己照顧得好好的，真棒 ✨','身體記得你今天做的每一件好事 📖'];
+const FULL_MSGS=[
+ '全部達成！今天的你是滿分熊 🏆','六項全壘打！也太犯規了吧 ⚾',
+ '完美的一天，頒發蜂蜜一罐 🍯','這種日子多來幾天，回診直接被醫生稱讚 🩺',
+ '滿貫！另一半知道了一定超驕傲 😘'];
+const MILE_MSGS={3:'連續 3 天！最難的開頭過了 🌱',7:'連續一整週！身體已經悄悄開始變化 ✨',
+ 14:'連續 14 天！血壓血糖都感覺得到你的用心 💪',21:'連續 21 天——習慣正式養成！🎓',
+ 30:'連續一個月！你們就是彼此最好的醫生 🏅',60:'連續 60 天！這已經不是計畫，是生活方式 👑',
+ 100:'連續 100 天！！小熊界的傳奇誕生 🐻🎇'};
+let fwRAF=null;
+function fireworks(dur,big){
+  const cv=document.getElementById('fw'), ctx=cv.getContext('2d');
+  cv.width=innerWidth; cv.height=innerHeight;
+  const parts=[], colors=['#F5B8C0','#F6E3B4','#BCD8EE','#CBE3C4','#E58A96','#D9B45C','#6FA3CB','#7FB06F'];
+  const t0=performance.now();
+  function boom(x,y){
+    const n=big?60:40, base=Math.random()*Math.PI;
+    for(let i=0;i<n;i++){ const a=Math.PI*2*i/n+base, sp=(Math.random()*3+2)*(big?1.3:1);
+      parts.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,
+        c:colors[Math.floor(Math.random()*colors.length)],r:Math.random()*2.5+1.5}); }
+  }
+  let nextBoom=0;
+  function frame(t){
+    const el=t-t0;
+    if(el>nextBoom && el<dur-800){
+      boom(cv.width*(0.15+Math.random()*0.7), cv.height*(0.12+Math.random()*0.4));
+      nextBoom=el+(big?260:420);
+    }
+    ctx.clearRect(0,0,cv.width,cv.height);
+    for(let i=parts.length-1;i>=0;i--){ const p=parts[i];
+      p.x+=p.vx; p.y+=p.vy; p.vy+=0.045; p.vx*=0.985; p.vy*=0.985; p.life-=0.012;
+      if(p.life<=0){ parts.splice(i,1); continue; }
+      ctx.globalAlpha=Math.max(p.life,0); ctx.fillStyle=p.c;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,7); ctx.fill(); }
+    ctx.globalAlpha=1;
+    if(el<dur||parts.length) fwRAF=requestAnimationFrame(frame);
+    else ctx.clearRect(0,0,cv.width,cv.height);
+  }
+  cancelAnimationFrame(fwRAF); fwRAF=requestAnimationFrame(frame);
+}
+function showCelebrate(title,msg,streakTxt,bear,dur,big){
+  document.getElementById('celTitle').textContent=title;
+  document.getElementById('celMsg').textContent=msg;
+  document.getElementById('celStreak').textContent=streakTxt;
+  document.getElementById('celBear').innerHTML=bearSVG(bear,110);
+  document.getElementById('celebrate').classList.add('on');
+  fireworks(dur,big);
+  if(navigator.vibrate) navigator.vibrate([60,40,60]);
+}
+document.getElementById('celebrate').onclick=()=>{
+  document.getElementById('celebrate').classList.remove('on');
+  cancelAnimationFrame(fwRAF);
+};
+function myStreak(){
+  let streak=0; const d=new Date();
+  if(!dayHit(state.me,dstr(d))) d.setDate(d.getDate()-1);
+  while(dayHit(state.me,dstr(d))){ streak++; d.setDate(d.getDate()-1); }
+  return streak;
+}
+function maybeCelebrate(){
+  const ds=today(), c=ckOf(state.me,ds);
+  const n=doneCount(state.me,ds), tot=itemsFor(state.me).length;
+  const full = n>=tot && !c.celeF;
+  const day  = n>=4 && !c.cele;
+  if(!full && !day) return;
+  if(full){ c.celeF=1; c.cele=1; } else c.cele=1;
+  save();
+  const streak=myStreak();
+  let title, msg, big=full;
+  if(MILE_MSGS[streak] && day){ title='🏅 里程碑達成！'; msg=MILE_MSGS[streak]; big=true; }
+  else if(full){ title='🏆 全部達成！'; msg=FULL_MSGS[Math.floor(Math.random()*FULL_MSGS.length)]; }
+  else{ title='🎆 今日達成！'; msg=DAY_MSGS[Math.floor(Math.random()*DAY_MSGS.length)]; }
+  showCelebrate(title,msg,`連續達成 ${streak} 天`,state.me,big?5200:3600,big);
+}
+
 /* ══════════ 今日頁 ══════════ */
 function renderToday(){
   const me=state.me, ds=today();
@@ -496,7 +603,7 @@ function renderToday(){
     const el=document.createElement('div');
     el.className='ck-item'+(c.i[it.k]?' done':'');
     el.innerHTML=`<span class="em">${it.e}</span><span class="tx"><b>${it.t}</b><span>${it.s}</span></span><span class="chk">✓</span>`;
-    el.onclick=()=>{ c.i[it.k]=!c.i[it.k]; save(); renderToday(); };
+    el.onclick=()=>{ c.i[it.k]=!c.i[it.k]; save(); maybeCelebrate(); renderToday(); };
     box.appendChild(el);
   });
   ['b','l','d','s'].forEach(k=>{
@@ -506,10 +613,11 @@ function renderToday(){
   });
   const n=doneCount(me,ds), tot=itemsFor(me).length;
   document.getElementById('stToday').textContent=`${n}/${tot}`;
-  let streak=0; const d=new Date();
-  if(!dayHit(me,dstr(d))) d.setDate(d.getDate()-1);
-  while(dayHit(me,dstr(d))){ streak++; d.setDate(d.getDate()-1); }
+  const streak=myStreak();
   document.getElementById('stStreak').textContent=streak;
+  document.getElementById('streakHint').textContent = dayHit(me,ds)
+    ? `🎆 今天已達成！連續 ${streak} 天，明天見 🐻`
+    : '每天完成 4 項以上就算達成一天 🐾';
   let hit=0,days=0; const dd=new Date();
   for(let i=0;i<7;i++){ if(dayHit(me,dstr(dd))) hit++; days++; dd.setDate(dd.getDate()-1); }
   document.getElementById('stWeek').textContent=Math.round(hit/days*100)+'%';
@@ -706,6 +814,11 @@ async function tryReceive(){
   toast(`收到 ${BEAR_NAME[p.from]} 的回報，資料同步好了 💌`);
   if(!state.me){ pendingPick=other(p.from); }
   renderAll();
+  const pc=t.ck[today()];
+  if(state.me && pc && itemsFor(p.from).filter(it=>pc.i[it.k]).length>=4){
+    setTimeout(()=>showCelebrate(`🎉 ${BEAR_NAME[p.from]} 今天也達成了！`,
+      '互相鼓勵就是最好的藥，記得誇誇對方 😘','',p.from,3000,false),600);
+  }
 }
 let pendingPick=null;
 
@@ -1099,7 +1212,7 @@ document.getElementById('bpSave').onclick=()=>{
   if(!s||!d||s<50||s>260||d<30||d>200){ toast('數字看起來怪怪的，再確認一下唷 🐻'); return; }
   state.data[state.me].bp[today()]={s,d,...(p?{p}:{})};
   ckOf(state.me,today()).i.bp=true;
-  save();
+  save(); maybeCelebrate();
   document.getElementById('bpSys').value='';document.getElementById('bpDia').value='';document.getElementById('bpPul').value='';
   const [cls,lb]=bpLevel(s,d);
   toast(cls==='g'?`記好了！${s}/${d}，狀態良好 💚`:cls==='y'?`記好了！${s}/${d}，繼續保持觀察 🟡`:`記好了！${s}/${d} 偏高，今天鹽和睡眠多注意 🔴`);
@@ -1317,6 +1430,7 @@ function renderAll(){
   else renderAll();
 })();
 window.addEventListener('resize',()=>{ if(state.me && document.getElementById('pg-bp').classList.contains('on')) renderBP(); });
+window.addEventListener('hashchange',()=>tryReceive());
 </script>
 </body>
 </html>
