@@ -40,11 +40,11 @@ header.hero .sub{color:var(--ink2);font-size:.85rem;margin-top:2px}
 .center{text-align:center}
 /* ── bottom nav ── */
 nav.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);
-  border-top:1px solid var(--line);display:flex;justify-content:space-around;
+  border-top:1px solid var(--line);display:flex;justify-content:center;gap:2px;
   padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
-nav.tabbar button{background:none;border:none;font-family:inherit;color:var(--ink2);font-size:.68rem;font-weight:800;
-  display:flex;flex-direction:column;align-items:center;gap:1px;padding:4px 10px;border-radius:14px;cursor:pointer}
-nav.tabbar button .ico{font-size:1.3rem;line-height:1.2}
+nav.tabbar button{background:none;border:none;font-family:inherit;color:var(--ink2);font-size:.72rem;font-weight:800;
+  display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;max-width:88px;padding:6px 6px;border-radius:14px;cursor:pointer}
+nav.tabbar button .ico{font-size:1.7rem;line-height:1.1}
 nav.tabbar button.on{color:var(--pinkD);background:#FDF1F3}
 .page{display:none}
 .page.on{display:block;animation:fadein .25s ease}
