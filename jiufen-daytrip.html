@@ -110,6 +110,25 @@
     .stops span{background:var(--color-surface-2);border-radius:var(--radius-full);padding:.4rem .75rem;font-size:var(--text-sm);font-variant-numeric:tabular-nums}
     .stops span.hl{background:var(--color-primary-soft);color:var(--color-primary);font-weight:800}
     .train-link{padding:0 var(--space-5) var(--space-5);display:block}
+    .exp-form{display:grid;grid-template-columns:auto 1fr auto auto;gap:var(--space-3);align-items:center}
+    .payer-toggle{display:inline-flex;border:1px solid color-mix(in srgb, var(--color-text) 14%, transparent);border-radius:var(--radius-full);overflow:hidden}
+    .payer-toggle button{padding:.8rem 1.1rem;font-weight:800;min-height:44px;color:var(--color-text-muted)}
+    .payer-toggle button.on{background:var(--color-primary);color:#fff}
+    .exp-form input{font:inherit;min-height:44px;padding:.6rem .9rem;border-radius:var(--radius-md);border:1px solid color-mix(in srgb, var(--color-text) 14%, transparent);background:var(--color-surface);color:var(--color-text);width:100%;min-width:0}
+    .exp-form>*{min-width:0}
+    .exp-form input:focus{outline:2px solid var(--color-primary);outline-offset:1px}
+    #expAmt{width:7.5rem;text-align:right;font-variant-numeric:tabular-nums}
+    .exp-list{list-style:none;display:grid;gap:var(--space-2);margin-top:var(--space-4)}
+    .exp-list li{display:flex;align-items:center;gap:var(--space-3);padding:var(--space-3) var(--space-4);border-radius:var(--radius-md);background:color-mix(in srgb, var(--color-surface) 92%, transparent);border:1px solid color-mix(in srgb, var(--color-text) 8%, transparent)}
+    .exp-payer{flex:0 0 auto;width:2rem;height:2rem;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#fff}
+    .exp-payer.S{background:var(--color-primary)} .exp-payer.T{background:var(--color-gold)}
+    .exp-item{flex:1;min-width:0;overflow-wrap:anywhere}
+    .exp-amt{font-variant-numeric:tabular-nums;font-weight:700}
+    .exp-del{color:var(--color-text-faint);padding:.4rem .6rem;border-radius:var(--radius-full)} .exp-del:hover{color:#c0392b;background:var(--color-surface-2)}
+    .exp-summary{margin-top:var(--space-5);padding:var(--space-5);border-radius:var(--radius-lg);background:linear-gradient(135deg,color-mix(in srgb,var(--color-primary) 12%, var(--color-surface)),color-mix(in srgb,var(--color-gold) 10%, var(--color-surface)))}
+    .exp-summary .rows{display:flex;flex-wrap:wrap;gap:var(--space-2) var(--space-6);margin-bottom:var(--space-3);font-variant-numeric:tabular-nums}
+    .exp-settle{font-size:var(--text-lg);font-weight:800}
+    @media (max-width: 640px){.exp-form{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.exp-form .payer-toggle{justify-self:start}#expAmt{width:100%}.exp-form button.btn{width:100%}}
     .kpi{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-3)}
     .kpi .panel{padding:var(--space-5)} .kpi strong{font-size:var(--text-xl);font-family:var(--font-display)} .kpi span{display:block;color:var(--color-text-muted);font-size:var(--text-sm)}
     @media (max-width: 920px){.hero-grid,.grid-2,.food-grid,.backup-grid,.tips-grid,.kpi{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(2,1fr)}figure.photo img{height:180px}.nav{align-items:flex-start;flex-direction:column}.nav-links{width:100%}.hero h1{max-width:100%}}
@@ -138,6 +157,7 @@
         <a href="#food">瑞芳吃什麼</a>
         <a href="#tea">九份下午茶</a>
         <a href="#backup">備案模式</a>
+        <a href="#money">記帳</a>
         <button class="theme-toggle" data-theme-toggle aria-label="切換深色模式">🌗</button>
       </nav>
     </div>
@@ -430,6 +450,37 @@
       <figure class="photo wide" style="margin-top:var(--space-6)"><img src="jiufen-img/jiufen-night.jpg" alt="傍晚的九份山城與海景" loading="lazy"><figcaption>🌌 如果玩到傍晚才走，備案 F 會送你這個畫面——九份往海的方向亮起燈來</figcaption></figure>
     </section>
 
+    <section class="container" id="money">
+      <div class="section-head">
+        <div>
+          <h2>旅費記帳：先記下來，最後一次算</h2>
+          <p>誰先掏錢就選誰（S 或 T），寫上項目和金額。全部集中記在這裡，最後下面會自動算好「平分之後，誰要給誰多少錢」。記錄存在這支手機的瀏覽器裡，關掉網頁再開還在。想把帳集中在雲端、兩支手機都能記，也可以用 <a href="https://app.notion.com/p/44524640f6564fcca54f9e66fcaddcbd" target="_blank" rel="noopener" style="color:var(--color-primary);font-weight:700">Notion 版記帳本</a>（一樣三欄：付款人 S／T、項目、金額）。</p>
+        </div>
+      </div>
+      <div class="panel">
+        <form class="exp-form" id="expForm">
+          <div class="payer-toggle" role="radiogroup" aria-label="付款人">
+            <button type="button" id="payS" class="on" aria-pressed="true">S</button>
+            <button type="button" id="payT" aria-pressed="false">T</button>
+          </div>
+          <input id="expItem" type="text" placeholder="項目（例：龍鳳腿、火車票）" maxlength="30" required />
+          <input id="expAmt" type="number" inputmode="decimal" min="1" step="1" placeholder="金額" required />
+          <button class="btn btn-primary" type="submit">＋ 記一筆</button>
+        </form>
+        <ul class="exp-list" id="expList" aria-live="polite"></ul>
+        <div class="exp-summary" id="expSummary" hidden>
+          <div class="rows">
+            <span>S 共付 <strong id="sumS">0</strong> 元</span>
+            <span>T 共付 <strong id="sumT">0</strong> 元</span>
+            <span>合計 <strong id="sumAll">0</strong> 元</span>
+          </div>
+          <div class="exp-settle" id="settleText"></div>
+          <div class="mini-note" style="margin-top:.5rem">照兩人平分計算，尾數四捨五入到整數元。想全部重來，長按下面按鈕不放。</div>
+          <div class="cta-row"><button type="button" class="btn btn-secondary" id="expClear">🗑 清空全部（長按 2 秒）</button></div>
+        </div>
+      </div>
+    </section>
+
     <section class="container">
       <div class="section-head">
         <div>
@@ -510,6 +561,61 @@
       missionText.textContent = next;
     });
     document.getElementById('topBtn').addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+    // ── 旅費記帳 ──
+    const EXP_KEY = 'jiufen_expenses';
+    let expenses = [];
+    try { expenses = JSON.parse(localStorage.getItem(EXP_KEY)) || []; } catch(e) { expenses = []; }
+    let payer = 'S';
+    const payS = document.getElementById('payS'), payT = document.getElementById('payT');
+    function setPayer(p){ payer = p;
+      payS.classList.toggle('on', p==='S'); payT.classList.toggle('on', p==='T');
+      payS.setAttribute('aria-pressed', p==='S'); payT.setAttribute('aria-pressed', p==='T'); }
+    payS.addEventListener('click', () => setPayer('S'));
+    payT.addEventListener('click', () => setPayer('T'));
+    const expList = document.getElementById('expList');
+    function saveExp(){ try { localStorage.setItem(EXP_KEY, JSON.stringify(expenses)); } catch(e) {} }
+    function renderExp(){
+      expList.textContent = '';
+      expenses.forEach((e, i) => {
+        const li = document.createElement('li');
+        const b = document.createElement('span'); b.className = 'exp-payer ' + e.payer; b.textContent = e.payer;
+        const it = document.createElement('span'); it.className = 'exp-item'; it.textContent = e.item;
+        const amt = document.createElement('span'); amt.className = 'exp-amt'; amt.textContent = e.amt.toLocaleString('zh-Hant-TW') + ' 元';
+        const del = document.createElement('button'); del.type = 'button'; del.className = 'exp-del'; del.textContent = '✕'; del.setAttribute('aria-label', '刪除這筆');
+        del.addEventListener('click', () => { expenses.splice(i, 1); saveExp(); renderExp(); });
+        li.append(b, it, amt, del); expList.appendChild(li);
+      });
+      const box = document.getElementById('expSummary');
+      if (!expenses.length) { box.hidden = true; return; }
+      box.hidden = false;
+      const s = expenses.filter(e => e.payer === 'S').reduce((a, e) => a + e.amt, 0);
+      const t = expenses.filter(e => e.payer === 'T').reduce((a, e) => a + e.amt, 0);
+      document.getElementById('sumS').textContent = s.toLocaleString('zh-Hant-TW');
+      document.getElementById('sumT').textContent = t.toLocaleString('zh-Hant-TW');
+      document.getElementById('sumAll').textContent = (s + t).toLocaleString('zh-Hant-TW');
+      const diff = Math.round(Math.abs(s - t) / 2);
+      const st = document.getElementById('settleText');
+      if (diff === 0) st.textContent = '🎉 兩邊剛剛好，不用互相給錢！';
+      else st.textContent = '💸 最後結算：' + (s > t ? 'T 要給 S ' : 'S 要給 T ') + diff.toLocaleString('zh-Hant-TW') + ' 元';
+    }
+    document.getElementById('expForm').addEventListener('submit', ev => {
+      ev.preventDefault();
+      const item = document.getElementById('expItem').value.trim();
+      const amt = Math.round(Number(document.getElementById('expAmt').value));
+      if (!item || !isFinite(amt) || amt <= 0) return;
+      expenses.push({ payer, item, amt });
+      saveExp(); renderExp();
+      document.getElementById('expItem').value = ''; document.getElementById('expAmt').value = '';
+      document.getElementById('expItem').focus();
+    });
+    let clearTimer = null;
+    const clearBtn = document.getElementById('expClear');
+    ['pointerdown'].forEach(evName => clearBtn.addEventListener(evName, () => {
+      clearTimer = setTimeout(() => { expenses = []; saveExp(); renderExp(); }, 2000);
+    }));
+    ['pointerup','pointerleave','pointercancel'].forEach(evName => clearBtn.addEventListener(evName, () => clearTimeout(clearTimer)));
+    renderExp();
   </script>
 </body>
 </html>
