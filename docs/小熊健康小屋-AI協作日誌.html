@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI協作日誌｜小熊健康小屋</title>
+<style>
+  :root {
+    --ink: #283229;
+    --muted: #687064;
+    --teal: #819b3e;
+    --teal-dark: #4f612f;
+    --cyan-soft: #edf3e2;
+    --orange: #bd8056;
+    --peach-soft: #f8e8c6;
+    --cream: #fdf7e0;
+    --sage: #cbd7ab;
+    --line: #d9dfca;
+    --paper: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    margin: 0;
+    color: var(--ink);
+    font-family: "Iansui","PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    background: #eef1f2;
+  }
+  .cover {
+    width: 210mm;
+    height: 297mm;
+    position: relative;
+    overflow: hidden;
+    background: var(--cream);
+    padding: 0;
+    break-after: page;
+  }
+  .cover::before {
+    content: "";
+    position: absolute;
+    width: 98mm;
+    height: 98mm;
+    right: -42mm;
+    bottom: -38mm;
+    border: 1px solid rgba(129, 155, 62, .18);
+    border-radius: 50%;
+    z-index: 5;
+  }
+  .brand-logo { font-family: "Iansui","PingFang TC",sans-serif; font-size: 9pt; font-weight:700; color: var(--teal-dark); letter-spacing:.05em; }
+  .cover-brand {
+    position: absolute;
+    left: 50%;
+    bottom: 10mm;
+    transform: translateX(-50%);
+    z-index: 7;
+  }
+  .eyebrow {
+    position: absolute;
+    left: 23mm;
+    top: 202mm;
+    z-index: 7;
+    color: var(--teal-dark);
+    font-family: "Iansui", "PingFang TC", sans-serif;
+    font-size: 9pt;
+    font-weight: 400;
+    letter-spacing: .12em;
+    margin: 0;
+  }
+  .cover-title {
+    position: absolute;
+    left: 23mm;
+    top: 216mm;
+    z-index: 7;
+    margin: 0;
+    font-family: "Iansui", "PingFang TC", sans-serif;
+    font-size: 27pt;
+    line-height: 1.22;
+    font-weight: 400;
+    letter-spacing: .025em;
+  }
+  .cover-art {
+    position: absolute;
+    inset: 0 0 auto 0;
+    width: 210mm;
+    height: 188mm;
+    z-index: 1;
+    background: linear-gradient(160deg,#f8e8c6 0%,#edf3e2 55%,#cbd7ab 100%);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .cover-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(to bottom, transparent 0 52%, rgba(253,247,224,.12) 61%, rgba(253,247,224,.72) 72%, #fdf7e0 83%);
+    pointer-events: none;
+  }
+  .cover-wave {
+    position: absolute;
+    left: -9%;
+    width: 118%;
+    border-radius: 50% 50% 0 0;
+    z-index: 3;
+  }
+  .cover-wave.back {
+    top: 165mm;
+    height: 35mm;
+    background: rgba(203, 215, 171, .82);
+    transform: rotate(1.4deg);
+  }
+  .cover-wave.front {
+    top: 173mm;
+    height: 34mm;
+    background: var(--cream);
+    transform: rotate(-.7deg);
+    z-index: 4;
+  }
+  .cover-title-panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 184mm;
+    bottom: 0;
+    z-index: 4;
+    background: var(--cream);
+  }
+  .document {
+    background: white;
+    color: var(--ink);
+  }
+  .toc-page {
+    break-after: page;
+    min-height: 240mm;
+    padding-top: 3mm;
+  }
+  .toc-title {
+    font-size: 24pt;
+    font-weight: 850;
+    margin: 0 0 14mm;
+    letter-spacing: -.03em;
+  }
+  .toc-row {
+    display: grid;
+    grid-template-columns: 15mm 1fr;
+    gap: 2mm;
+    align-items: center;
+    border-bottom: 1px solid #edf0f0;
+    padding: 3.4mm 0;
+  }
+  .toc-no {
+    color: var(--teal);
+    font-weight: 840;
+    font-size: 10.5pt;
+  }
+  .toc-name {
+    font-size: 10.2pt;
+    font-weight: 650;
+  }
+  .article { font-size: 10.1pt; line-height: 1.66; }
+  .article p { margin: 0 0 3.1mm; orphans: 1; widows: 1; }
+  .article ul, .article ol { margin: 1mm 0 4mm 5.5mm; padding-left: 4.5mm; }
+  .article li { margin: 1.1mm 0; padding-left: 1mm; }
+  .article li::marker { color: var(--teal); font-weight: 800; }
+  .part-title {
+    break-before: page;
+    break-after: avoid;
+    margin: 0 0 9mm;
+    padding: 0 0 4mm;
+    border-bottom: 1.3px solid var(--ink);
+    font-size: 20pt;
+    line-height: 1.25;
+    font-weight: 850;
+    letter-spacing: -.03em;
+  }
+  .part-title::first-letter { color: var(--teal); }
+  .section-title {
+    break-after: avoid;
+    margin: 9mm 0 4mm;
+    font-size: 15.5pt;
+    line-height: 1.35;
+    font-weight: 830;
+    letter-spacing: -.02em;
+  }
+  .learning-title { color: var(--teal-dark); }
+  .correction-title { color: #b85d20; }
+  .decision-title { color: var(--teal-dark); }
+  .note-title {
+    break-after: avoid;
+    margin: 6mm 0 2.2mm;
+    font-size: 11.2pt;
+    font-weight: 800;
+  }
+  .note-title.warning { color: #b85d20; }
+  .note-title.learning { color: var(--teal-dark); }
+  strong { font-weight: 800; }
+  blockquote {
+    break-inside: avoid;
+    margin: 5mm 0;
+    padding: 4.5mm 5.2mm;
+    border: 0;
+    border-radius: 4mm;
+    background: var(--peach-soft);
+    color: #4a3426;
+    box-shadow: inset 3px 0 0 var(--orange);
+  }
+  blockquote p:last-child { margin-bottom: 0; }
+  pre {
+    break-inside: avoid;
+    white-space: pre-wrap;
+    margin: 4.5mm 0;
+    padding: 4.5mm 5mm;
+    border-radius: 3.5mm;
+    background: #f2f6f6;
+    color: #254348;
+    font: 8.9pt/1.65 "SFMono-Regular", Menlo, monospace;
+    border-left: 3px solid var(--teal);
+  }
+  code {
+    font-family: "SFMono-Regular", Menlo, monospace;
+    font-size: .9em;
+    color: #315d63;
+    background: #eef7f7;
+    padding: .1em .28em;
+    border-radius: 3px;
+  }
+  pre code { padding: 0; background: transparent; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4.5mm 0 6mm;
+    font-size: 8.5pt;
+    line-height: 1.55;
+  }
+  thead { display: table-header-group; }
+  tr { break-inside: avoid; }
+  th {
+    text-align: left;
+    color: var(--teal-dark);
+    font-weight: 800;
+    background: var(--cyan-soft);
+    border-bottom: 1.3px solid var(--teal);
+    padding: 2.5mm 2.2mm;
+  }
+  td {
+    vertical-align: top;
+    border-bottom: 1px solid #e7ebeb;
+    padding: 2.4mm 2.2mm;
+  }
+  hr {
+    border: 0;
+    border-top: 1px solid var(--line);
+    margin: 8mm 0;
+  }
+  a { color: var(--teal-dark); text-decoration: none; }
+  .keyword-box {
+    break-inside: avoid;
+    background: var(--cyan-soft);
+    border-radius: 4mm;
+    padding: 4.5mm 5mm;
+    margin: 4mm 0;
+  }
+  .part-closing {
+    margin-top: 20mm;
+    padding: 8mm 9mm;
+    border-left: 3px solid var(--teal);
+    border-radius: 0 4mm 4mm 0;
+    background: var(--cyan-soft);
+    color: #27565b;
+    font-size: 15pt;
+    line-height: 1.65;
+    font-weight: 760;
+  }
+  @media screen {
+    .document {
+      width: 210mm;
+      margin: 18px auto;
+      padding: 18mm 17mm;
+      box-shadow: 0 10px 35px rgba(22, 32, 35, .13);
+    }
+  }
+  @media print {
+    body { background: white; }
+    .document { padding: 0; }
+  }
+</style>
+</head>
+<body>
+  <section class="cover">
+    <div class="cover-art">
+      <svg width="150mm" height="80mm" viewBox="0 0 300 160" aria-hidden="true">
+        <circle cx="95" cy="55" r="30" fill="#fdf7e0" stroke="#4f612f" stroke-width="2"/>
+        <circle cx="70" cy="34" r="12" fill="#f8e8c6"/><circle cx="120" cy="34" r="12" fill="#f8e8c6"/>
+        <circle cx="65" cy="52" r="2.6" fill="#283229"/><circle cx="122" cy="52" r="2.6" fill="#283229"/>
+        <ellipse cx="93" cy="63" rx="9" ry="7" fill="#f8e8c6"/>
+        <path d="M93 68 q-5 5 -9 1 M93 68 q5 5 9 1" stroke="#283229" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <circle cx="205" cy="60" r="32" fill="#cbd7ab" stroke="#4f612f" stroke-width="2"/>
+        <circle cx="180" cy="37" r="13" fill="#d9dfca"/><circle cx="232" cy="37" r="13" fill="#d9dfca"/>
+        <circle cx="176" cy="57" r="2.8" fill="#283229"/><circle cx="234" cy="57" r="2.8" fill="#283229"/>
+        <ellipse cx="205" cy="69" rx="10" ry="7.5" fill="#edf3e2"/>
+        <path d="M205 74 q-5.5 5 -9.5 1 M205 74 q5.5 5 9.5 1" stroke="#283229" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="cover-glow"></div>
+    <div class="cover-wave back"></div>
+    <div class="cover-wave front"></div>
+    <div class="cover-title-panel"></div>
+    <div class="cover-brand"><span class="brand-logo">🍀 Learn AI with Tarshar | 2026</span></div>
+    <div class="eyebrow">AI協作日誌 01</div>
+    <div class="cover-title">小熊健康<br>小屋</div>
+  </section><main class="document">
+  <section class="toc-page">
+    <h1 class="toc-title">內容目錄</h1>
+      <div class="toc-row"><span class="toc-no">01</span><span class="toc-name">導讀 · 為什麼先做這份日誌、主線、角色、資料安全</span></div>
+      <div class="toc-row"><span class="toc-no">02</span><span class="toc-name">第一部 · 從需求到雙人健康工具上線完整紀錄</span></div>
+      <div class="toc-row"><span class="toc-no">03</span><span class="toc-name">第二部 · 互動、獎勵與資訊架構迭代完整紀錄</span></div>
+      <div class="toc-row"><span class="toc-no">04</span><span class="toc-name">第三部 · 這次實際發生的偏航與修正</span></div>
+      <div class="toc-row"><span class="toc-no">05</span><span class="toc-name">第四部 · 這次的正式決策帳</span></div>
+      <div class="toc-row"><span class="toc-no">06</span><span class="toc-name">第五部 · 學習關鍵字辭典</span></div>
+      <div class="toc-row"><span class="toc-no">07</span><span class="toc-name">第六部 · 可以帶回研究使用的素材</span></div>
+      <div class="toc-row"><span class="toc-no">08</span><span class="toc-name">第七部 · 這次產生的文件與狀態</span></div>
+      <div class="toc-row"><span class="toc-no">09</span><span class="toc-name">第八部 · 仍待確認</span></div>
+      <div class="toc-row"><span class="toc-no">10</span><span class="toc-name">第九部 · 現在正確的下一步</span></div>
+  </section><article class="article"><h2 class="section-title">0. 為什麼我要先做這份日誌</h2>
+<p>先生看診確認糖尿病初期，並持續服用高血壓藥。我想做的不是只有「先生一個人改」，而是整個家庭作息與飲食一起調整，最後做成一個兩人都能用的網頁工具。這件事前後經過十幾輪討論與修改，最後做出「小熊健康小屋」並且正式上線。</p>
+<p>我後來確認，不能只留下最後那個網站。真正值得留下的是：</p>
+<ul>
+<li>我原本怎麼想。</li>
+<li>AI 一開始怎麼理解。</li>
+<li>哪裡偏離了我真正要的。</li>
+<li>我怎麼把它拉回來。</li>
+<li>我們因此形成什麼新做法。</li>
+<li>哪些觀念可以帶回我自己的研究。</li>
+<li>哪些規則值得在下一次協作直接沿用。</li>
+</ul>
+<p>要先說明一個跟固定順序不同的地方：這次不是「先寫日誌、確認後才動工」，而是先把工具整套做出來、上線、用過幾輪之後，我才回頭要求補這份日誌與學習日誌。順序雖然反過來，但整理方式一樣：逐段還原真實發生的事，不美化、也不事後合理化。</p>
+<hr>
+<h2 class="section-title">1. 這次協作的主線到底是什麼</h2>
+<p>這次的核心不是先做一個網站，而是先想清楚一件事：一個外食為主、午晚餐在公司吃、菜色不能選的家庭，怎麼把糖尿病初期與高血壓的生活調整落地成兩人都做得到的日常。</p>
+<h3 class="note-title">主題一｜家庭生活調整方案本身</h3>
+<p>決定：</p>
+<ul>
+<li>哪些餐次是真正可控的（早餐、宵夜、週末）。</li>
+<li>公司午晚餐這種半可控的餐，可以動哪三招（順序、份量、醬料）。</li>
+<li>運動、睡眠、監測、用藥、夫妻共同機制各自要顧到什麼。</li>
+</ul>
+<h3 class="note-title">主題二｜把方案變成兩人都會打開的工具</h3>
+<p>決定：</p>
+<ul>
+<li>要不要互動、要不要看得到對方。</li>
+<li>先生是 3C 不熟悉的使用者，操作要多簡單。</li>
+<li>資料要不要留得住、能不能拿去給醫生看。</li>
+<li>怎麼讓兩人願意持續打開這個網頁，而不是三天新鮮感過了就沒人用。</li>
+</ul>
+<h3 class="note-title">兩條主線的共同接點</h3>
+<p>工具是方案的載體，不是先做工具再找內容塞進去。方案本身有沒有想清楚，決定了工具功能設計得對不對。</p>
+<pre><code class="language-text">七大生活面向（先討論方向）
+→ 早餐／宵夜／週末優先落地成具體公式
+→ 確認雙人互通與角色設定（一二娟／布布龍）
+→ 做出第一版工具並端對端測試
+→ 逐輪迭代：互動 → 資料保存 → 獎勵 → 介面收斂 → 日曆
+→ 每輪都先在工作分支交付、確認後才合併上線
+</code></pre>
+<hr>
+<h2 class="section-title">2. 我和 AI 各自扮演什麼角色</h2>
+<h3 class="note-title">我的角色</h3>
+<p>我提供真實的家庭情境，不是空泛地說「幫我做一個健康 App」。</p>
+<p>我負責：</p>
+<ul>
+<li>提供先生的診斷狀況、兩人的外食限制與生活現況。</li>
+<li>對每一版介面或功能給出直覺反應（喜歡、不喜歡、忽略掉了）。</li>
+<li>指出哪裡不符合我們家真正的樣子（例如：風格要走小熊路線、要能互相看到對方吃了什麼）。</li>
+<li>決定什麼時候可以正式上線。</li>
+</ul>
+<h3 class="note-title">AI 的角色</h3>
+<p>AI 不是代替我決定我們家要怎麼生活，而是：</p>
+<ul>
+<li>把口語描述的需求翻譯成具體可執行的公式與功能規格。</li>
+<li>在動工前先做技術風險判斷（例如同步機制怎麼選、顏色要不要驗證）。</li>
+<li>每次改版都先自己測試過一輪，而不是交出去讓我第一個發現錯誤。</li>
+<li>保存每一輪的決策與待辦，不用我自己去記。</li>
+</ul>
+<h3 class="note-title">今天形成的協作原則</h3>
+<blockquote>
+<p>我負責家庭生活的真實情境與感受判斷，AI 負責把需求轉成規格、做風險判斷與測試；AI 可以主動做技術決定，但介面和功能好不好用的拍板權在我，而且沒有我明確說「上線」「完工」之類的話，不能自己把東西公開發佈。</p>
+</blockquote>
+<hr>
+<h2 class="section-title">3. 專案與協作的底層安排</h2>
+<p>這不是多方協作案，只有我和 Claude 兩方。沒有 Codex、沒有業主、也沒有正式的 Pull Request 審核流程——這是我自己的家庭專案，沒有第二個人要審核。</p>
+<h3 class="note-title">取代 PR 審核的把關方式</h3>
+<p>今天釐清的是：因為沒有其他人可以審核，把關方式改成「工作分支 + 我明確同意才合併」：</p>
+<ul>
+<li>每次改版都先推到獨立的工作分支，不直接動 main。</li>
+<li>我看過預覽、講出「上線」「完工」這類明確的話，AI 才把工作分支合併進 main、推上 GitHub Pages。</li>
+<li>GitHub 上的 main 分支，就是這個專案唯一的正式版本（單一事實來源）。</li>
+</ul>
+<h3 class="note-title">這次觀察到的落差</h3>
+<p>第一次合併確實有先取得我的明確同意；但從第二輪功能開始，AI 把「我曾經同意上線」延伸解讀成之後每一版做完都可以直接合併、只回報「上線了」，沒有每次都重新問我一次。這件事我目前沒有反對，但這是 AI 自己延伸出來的默契，不是我每次都重新答應的——這點放進第三部的偏航紀錄裡誠實記著。</p>
+<hr>
+<h2 class="section-title">4. 資料安全與家人隱私原則</h2>
+<p>這次的資料比一般專案更敏感：先生的血壓、體重、三餐內容，都是實際的健康紀錄。</p>
+<h3 class="note-title">最適合的說法</h3>
+<blockquote>
+<p>不需要把資料放上任何公開或商業的雲端資料庫，本機儲存＋兩人自己傳連結就夠用；哪天真的想要更即時的同步，再另外評估要不要接雲端服務，那是全新的決定，不是現在的預設。</p>
+</blockquote>
+<h3 class="note-title">這次採用的資料揭露層級</h3>
+<ol>
+<li>只在對話裡談生活情境與功能需求。</li>
+<li>真實的血壓、三餐、體重只記錄在使用者自己手機的瀏覽器裡（localStorage）。</li>
+<li>雙人同步只透過使用者主動打包、親自用 LINE 傳出去的一段連結，不經過任何第三方伺服器。</li>
+<li>要不要把回診報告拿給醫師看，由使用者自己決定，AI 不會主動把資料送出去給任何人。</li>
+</ol>
+<h3 class="note-title warning">這次固定下來的界線</h3>
+<ul>
+<li>血壓、三餐、留言、點菜等個人健康與生活資料，不落地到任何第三方伺服器或雲端資料庫。</li>
+<li>雙人同步只用「打包成一段文字連結」的方式，不使用即時雲端同步服務。</li>
+<li>完整備份檔案由使用者自己下載保管，AI 不會協助把備份上傳到任何外部服務。</li>
+</ul>
+<h1 class="part-title">第一部｜從需求到雙人健康工具上線完整紀錄</h1>
+<h2 class="section-title">5. 先談方向，不先做細節</h2>
+<p>一開始我只要求「先列大綱跟方向，之後再討論細節」。AI 沒有直接動工，而是先給出七個生活面向的架構（飲食、運動、作息、監測、用藥、夫妻共同機制、壓力），並指出外食族最現實的限制——午晚餐在公司吃、菜色不能選——把飲食拆成「可控（早餐、宵夜、週末）」與「半可控（公司午晚餐）」兩層，再用五個具體問題收斂需求：早餐現況、宵夜習慣、家中設備、週末意願、先生動機。</p>
+<hr>
+<h2 class="section-title">6. 把回答變成可執行公式</h2>
+<p>我回答完五個問題後，AI 針對早餐、宵夜、週末三塊給出具體到「幾分鐘、用什麼設備、放什麼食材」的操作公式，而不是空泛的原則，並預告了網頁的技術路線：單檔 HTML、本機儲存、GitHub Pages。</p>
+<hr>
+<h2 class="section-title">7. 資料互通與角色設定</h2>
+<p>我提出三個關鍵要求：兩人資料要互通、且重點是我要看得到先生吃了什麼；風格要走我喜歡的小白熊（一二娟）／小棕熊（布布龍）路線；衛教要加重，因為先生的衛教觀念不足；食譜要分平日／假日、每餐多選項可替換。</p>
+<hr>
+<h2 class="section-title">8. 免伺服器同步機制的技術選型</h2>
+<p>AI 在動工前先確認一件事：雲端即時同步在這個情境下不必要，也不符合「本機不上雲」的隱私偏好，改採「打包成連結、用 LINE 互傳」的免伺服器同步機制（壓縮＋編碼），不需要我維運任何後端，也順便探勘了既有網站的系列／卡片慣例，確保新頁面能掛進「生活應用」系列。</p>
+<hr>
+<h2 class="section-title">9. 完整 v1 功能與端對端測試</h2>
+<p>AI 一次性做出完整第一版：熊的圖像、六項每日打卡、三餐記錄、對方今日卡片、平日／假日食譜、宵夜安全區、外食五招、十堂衛教問答、血壓趨勢圖、週回顧。這一輪用瀏覽器自動化模擬了先生打卡、產生同步連結、太太開啟連結、驗證資料正確帶入的完整流程，確認沒問題才推上工作分支，先只交付預覽檔，沒有直接上線。</p>
+<hr>
+<h2 class="section-title correction-title">10. 「我只是偷看模板還不能用嗎」：釐清預覽與上線的落差</h2>
+<p>我問了一句話，點出「預覽檔可以整套試玩，但不等於已經提供服務」的落差。AI 立刻釐清並在同一輪把工作分支合併進 main、推上線，同時提醒我記錄不會延續、要用正式網址重新開始。</p>
+<blockquote>
+<p>做完功能、附上預覽檔，不代表使用者認知裡「東西已經可用」；上線與否要明確講清楚，不能讓使用者自己猜。</p>
+</blockquote>
+<h1 class="part-title">第二部｜互動、獎勵與資訊架構迭代完整紀錄</h1>
+<h2 class="section-title">11. 從單向紀錄到雙向互動</h2>
+<p>我要的「互動感」很具體：先生看到想吃的菜，要能像敲碗一樣讓我知道。AI 設計了三個機制：收藏（⭐）、「我想吃這個」點菜板、印章式留言板＋自訂文字。</p>
+<hr>
+<h2 class="section-title">12. 3C 小白操作路徑收斂為兩步</h2>
+<p>先生是 3C 不熟悉的使用者，AI 刻意把他端的每一個互動都收斂成「點想要的東西 → 按一個大按鈕（現在傳或晚點傳）」，這個模式後來重複用在點菜、留言等每一個互動點，形成一致的操作語彙。</p>
+<hr>
+<h2 class="section-title">13. 資料保存疑問與三件套</h2>
+<p>我問到「定期檢視搜尋、跟醫生討論後續治療」，這把工具從習慣養成小物拉高到準醫療紀錄管理。AI 先誠實講清楚技術現實（本機儲存會一直留著，但有換機風險，不是雲端資料庫），再補上醫師報告（可列印存 PDF）、CSV 匯出（Excel 可搜尋篩選）、完整備份與還原三個功能。</p>
+<hr>
+<h2 class="section-title">14. 食譜可調整與自訂</h2>
+<p>同一輪我中途又補一句「食譜可能會調整」，AI 沒有等下一輪才處理，而是在同一次交付裡加上「我們的調整版」備註欄，並新增「我們的食譜」分頁讓兩人可以新增、修改、刪除自訂菜色，一併同步給對方。</p>
+<hr>
+<h2 class="section-title">15. 煙火獎勵三層次設計</h2>
+<p>我要「大大的獎勵」。AI 設計了三層次的煙火慶祝：單日達成、六項全滿、連續里程碑（3～100 天），並加上「對方也達成時我也會看到煙火」，把原本單向的自我打卡變成雙向的互相鼓勵。</p>
+<hr>
+<h2 class="section-title">16. 介面資訊架構三次收斂</h2>
+<p>這三輪是純粹的資訊架構調整：第一次是把攤開的頁面收成五條摺疊列；第二次是要求儀錶板不用點、直接顯示，其餘四項排成 2×2 方格；這兩輪的差異，反映我對「常看的資訊」與「偶爾查的資訊」有清楚的優先序，AI 跟著這個判斷微調，而不是自己猜一個布局就定案。</p>
+<hr>
+<h2 class="section-title">17. 底部導覽列密度調整</h2>
+<p>底部五個分頁鍵原本用滿版平均分散排列，圖示又偏小，容易被忽略。AI 改成置中群聚、放大圖示，解決了辨識度的問題。</p>
+<hr>
+<h2 class="section-title">18. 回顧頁月曆與色彩驗證</h2>
+<p>我要「一種顏色代表血壓、一種顏色代表打卡」的月曆點點檢視。AI 在動工前先用色彩驗證工具跑過候選配色，確認色盲安全與對比度都過關後才寫進頁面，並加上點一天看當日摘要的互動、月份翻頁、雙人切換。</p>
+<h1 class="part-title">第三部｜這次實際發生的偏航與修正</h1>
+<h2 class="section-title correction-title">19. 把「附上預覽檔」當成「已提供服務」</h2>
+<p>AI 一開始把做完功能、附上預覽檔，等同於工作已經完成，沒有特別強調「這還沒上線」。</p>
+<p>我的修正：一句「我只是偷看模板還不能用嗎？」點出這個落差。</p>
+<blockquote>
+<p>可重複規則：任何時候只要還沒合併到正式版本，都要在交付訊息裡明講「這是預覽，還沒上線」，不能讓使用者自己猜測範疇。</p>
+</blockquote>
+<hr>
+<h2 class="section-title correction-title">20. 對「這個」和「工具集」的指涉想得太快</h2>
+<p>我問「這個應該放在工具集裡頭吧」時，AI 沒有直接猜「這個」指什麼，而是先想到這牽涉到我自己在 CLAUDE.md 訂過的嚴格收錄規則，兩者可能衝突。</p>
+<p>AI 的處理：沒有自己決定要不要放寬規則，也沒有直接照做，而是先用結構化問題把「指的是什麼」與「規則衝突要怎麼處理」分開問清楚。</p>
+<blockquote>
+<p>可重複規則：使用者的指示如果跟她自己先前訂下的明確規則有衝突，不要自己選邊站，要先攤開衝突、讓使用者自己決定。</p>
+</blockquote>
+<hr>
+<h2 class="section-title correction-title">21. 交付檔案沒有附上可以直接點的連結</h2>
+<p>AI 第一次交出兩份日誌檔案時，只講了檔案存放的相對路徑，沒有附上可以直接點擊的連結。</p>
+<p>我的修正：提醒 AI 我早就講過「講做好了一定要附連結，不然我還要自己記資料夾」。</p>
+<blockquote>
+<p>可重複規則：交付檔案的同一則訊息，一律同時附上可以直接點的連結（或直接傳送檔案本身），不能只講路徑或檔名。</p>
+</blockquote>
+<hr>
+<h2 class="section-title correction-title">22. 對連接器授權失敗重複硬試</h2>
+<p>嘗試連到 tarshar-vault（GitHub）與 Google Drive 搜尋工具時，反覆遇到「需要授權」的錯誤，但畫面上沒有真的跳出授權視窗。</p>
+<p>我的修正：不再盲目重試同一個呼叫，改成誠實回報卡在哪一步、給出清楚的替代路徑（例如請使用者直接上傳檔案）。</p>
+<blockquote>
+<p>可重複規則：同一個工具呼叫連續失敗且錯誤訊息沒有變化時，停止重試、誠實回報卡在哪裡，並提供使用者可以立刻執行的替代方案，而不是靠反覆嘗試碰運氣。</p>
+</blockquote>
+<hr>
+<h2 class="section-title correction-title">23. 找 schema 時先猜了 Notion，猜錯了</h2>
+<p>使用者要求「AI 協作日誌有固定 schema，去找一下」時，AI 先假設 schema 可能存在 Notion 資料庫裡，搜尋後找到「TAR 每日日誌」資料庫，但欄位結構跟真正的 schema 對不上。</p>
+<p>我的修正：不是我來確認，而是最後直接把真正的範本檔案傳給 AI。</p>
+<blockquote>
+<p>可重複規則：找不到明確吻合的東西時，要老實說「找到的是這個，但跟你要的可能對不上」，讓使用者判斷，而不是拿最接近的東西就當作答案交差。</p>
+</blockquote>
+<hr>
+<h2 class="section-title correction-title">24. 把一次同意延伸成之後每次都自動發佈</h2>
+<p>第一次合併上線有經過我明確同意，但從第二輪功能開始，AI 把這個同意延伸解讀成之後每一版做完都可以直接合併進 main、只回報「上線了」。</p>
+<p>目前我沒有反對這個做法，但這是 AI 自己延伸出來的默契，不是我每次都重新答應的。</p>
+<blockquote>
+<p>可重複規則：即使先前有過一次同意，涉及「公開發佈」這類會被別人看到的動作，最好還是每次都用一句話讓使用者知道要發佈了，不能假設同意會自動延續到未來每一次；如果使用者從未表示反對，也應該在類似這樣的紀錄裡誠實寫下來，而不是視為理所當然。</p>
+</blockquote>
+<h1 class="part-title">第四部｜這次的正式決策帳</h1>
+<h2 class="section-title decision-title">25. 已確認決策</h2>
+<table>
+<thead><tr><th>編號</th><th>決策</th><th>為什麼</th></tr></thead>
+<tbody>
+<tr><td>01</td><td>用本機儲存＋連結傳輸做雙人同步，不用雲端伺服器</td><td>保留「本機不上雲」的隱私偏好，且不需要維運後端</td></tr>
+<tr><td>02</td><td>網頁上線前一律先在工作分支交付預覽，經明確同意才合併 main</td><td>避免「做完＝已上線」的認知落差</td></tr>
+<tr><td>03</td><td>儀錶板常駐顯示、其餘四功能收成 2×2 方格</td><td>實際用過後發現全部攤開容易被忽略，改為漸進揭露</td></tr>
+<tr><td>04</td><td>底部導覽列改置中群聚並放大圖示</td><td>原本平均分散造成圖示分散、辨識度低</td></tr>
+<tr><td>05</td><td>打卡血壓日曆用綠／藍兩色點點，且先跑色彩驗證工具才定案</td><td>確保色盲、色弱的人也能分辨兩種資訊</td></tr>
+<tr><td>06</td><td>先生端所有互動操作收斂成「點選項→按一個大按鈕」兩步</td><td>對象是 3C 不熟悉的使用者，操作路徑要盡量少</td></tr>
+<tr><td>07</td><td>每次改版前先用瀏覽器自動化模擬雙人打卡、同步、互動流程再交付</td><td>避免同步或煙火邏輯出錯要等使用者發現才知道</td></tr>
+<tr><td>08</td><td>醫師報告、CSV、備份三個功能一次補齊，不是只做字面上被要求的那一項</td><td>對應「還要跟醫生討論」這個更大的真實需求</td></tr>
+<tr><td>09</td><td>這次的協作日誌與學習日誌採事後補寫</td><td>使用者是先看到成果滿意後才要求記錄過程，跟先寫日誌再動工的順序不同</td></tr>
+<tr><td>10</td><td>家人健康敏感資料一律不落地到任何第三方伺服器</td><td>呼應使用者對隱私的明確重視</td></tr>
+</tbody>
+</table>
+<h1 class="part-title">第五部｜學習關鍵字辭典</h1>
+<h2 class="section-title">26. 協作與流程</h2>
+<h3 class="note-title">localStorage｜瀏覽器本機儲存</h3>
+<ul><li>白話：資料只存在這支裝置的瀏覽器裡，不會自動送到任何伺服器。</li>
+<li>本案例子：小熊健康小屋的打卡、血壓、留言全部存在使用者自己手機的瀏覽器裡。</li></ul>
+<h3 class="note-title">Feature Branch｜功能分支</h3>
+<ul><li>白話：新功能先在一個獨立的分支上開發，確認沒問題才合併進正式版本。</li>
+<li>本案例子：每次修改都先推到工作分支，經使用者明確說「上線」才合併進 main。</li></ul>
+<h3 class="note-title">End-to-End Test｜端對端測試</h3>
+<ul><li>白話：模擬真實使用情境從頭到尾走一遍，而不是只看程式碼本身有沒有錯字。</li>
+<li>本案例子：每次改版都用瀏覽器自動化模擬先生打卡、傳連結、太太收到同步，確認資料和畫面都對才交付。</li></ul>
+<h3 class="note-title">Serverless Sync｜免伺服器同步</h3>
+<ul><li>白話：兩端資料交換不透過中間的伺服器，而是把資料包進一段文字（連結），由使用者自己傳遞。</li>
+<li>本案例子：用壓縮＋編碼把兩人的紀錄包進 LINE 連結，對方點開才寫入自己的手機。</li></ul>
+<hr>
+<h2 class="section-title">27. 設計與隱私</h2>
+<h3 class="note-title">Progressive Disclosure｜漸進式揭露</h3>
+<ul><li>白話：先只顯示最重要的資訊，其餘的點了才展開，避免一次塞太多東西。</li>
+<li>本案例子：今日頁從「全部攤開」改成「儀錶板常駐＋其餘四項收成 2×2 方格，點了才展開」。</li></ul>
+<h3 class="note-title">Color-Vision-Deficiency Safe Palette｜色盲安全配色</h3>
+<ul><li>白話：選顏色時要驗證色盲、色弱的人是否也分得清楚，不能只靠設計者自己的眼睛判斷。</li>
+<li>本案例子：日曆的打卡／血壓兩色點點，先用色彩驗證工具跑過才定案。</li></ul>
+<h3 class="note-title">Tacit Knowledge Externalization｜隱性知識外化</h3>
+<ul><li>白話：把一個人心裡沒明說、憑經驗判斷的東西，講清楚變成別人也能照著做的具體規則。</li>
+<li>本案例子：使用者對「食物怎麼吃比較健康」「什麼時候該給獎勵」的直覺，被一步步問出來變成飲食公式、煙火觸發規則等可執行規格。</li></ul>
+<h1 class="part-title">第六部｜可以帶回研究使用的素材</h1>
+<h2 class="section-title">28. 這次形成的 5 個研究案例候補</h2>
+<table>
+<thead><tr><th>編號</th><th>題目</th><th>主要關鍵字</th></tr></thead>
+<tbody>
+<tr><td>001</td><td>家庭照顧者如何把對親人健康狀況的直覺判斷，轉譯成 AI 可執行的產品規格</td><td>隱性知識外化、SECI、需求訪談</td></tr>
+<tr><td>002</td><td>「先做完再回頭寫協作日誌」與「先寫日誌再做」兩種順序，對協作品質的影響</td><td>反思實踐、日誌時序</td></tr>
+<tr><td>003</td><td>漸進式介面揭露如何隨著真實使用回饋反覆收斂（三次迭代案例）</td><td>使用者中心設計、迭代法</td></tr>
+<tr><td>004</td><td>免伺服器雙人同步機制在低技術門檻使用者情境下的可行性</td><td>隱私設計、輕量架構</td></tr>
+<tr><td>005</td><td>色彩驗證工具嵌入 AI 協作流程，作為降低人為疏漏的把關機制</td><td>無障礙設計、工具化把關</td></tr>
+</tbody>
+</table>
+<h3 class="note-title">目前證據狀態</h3>
+<p>以上皆為這次真實協作過程的第一手觀察與紀錄，尚未經指導教授確認、也未做文獻回顧或系統性比較。</p>
+<p class="part-closing">因此現在只能放入研究背景、研究動機與案例情境的候補素材，不能寫成已驗證的研究結論；這個專案本身也不一定會成為正式論文案例，去留由使用者之後決定。</p>
+<h1 class="part-title">第七部｜這次產生的文件與狀態</h1>
+<h2 class="section-title">29. 目前正式支援文件</h2>
+<ul>
+<li>《小熊健康小屋》（family-health.html，已上線）</li>
+<li>《小熊健康小屋-AI協作日誌》（本文件）</li>
+<li>《小熊健康小屋-學習日誌》</li>
+</ul>
+<h2 class="section-title">30. 暫停或待處理的項目</h2>
+<ul>
+<li>「工具集」收錄議題——使用者提問後尚未有結論，暫不處理。</li>
+<li>tarshar-vault schema 取得——因連接器授權問題未能直接讀取，改用使用者上傳的另一專案範本檔案代替參考。</li>
+</ul>
+<h1 class="part-title">第八部｜仍待確認</h1>
+<h2 class="section-title">31. 資料與同步</h2>
+<ul>
+<li>是否要升級成真正即時的雲端同步（需要額外的免費後端服務）。</li>
+<li>是否要把「工具集」放寬定義以收錄本專案或這兩份日誌。</li>
+</ul>
+<h2 class="section-title">32. 介面與功能</h2>
+<ul>
+<li>是否要在日曆加入體重的第三種點點。</li>
+<li>是否要調整煙火祝福語的內容（更肉麻或更搞笑）。</li>
+<li>這份 AI 協作日誌要不要也收進網站（生活應用系列），或維持只放在 GitHub docs 資料夾。</li>
+</ul>
+<h2 class="section-title">33. 協作流程</h2>
+<ul>
+<li>tarshar-vault 的 repo 授權問題，是這個 session 層級的權限限制，還是需要使用者之後手動開通，仍待她自行確認。</li>
+</ul>
+<h1 class="part-title">第九部｜現在正確的下一步</h1>
+<h2 class="section-title">34. 先做什麼</h2>
+<p>使用者先檢查本文件：</p>
+<ol>
+<li>有沒有漏掉這次協作中重要的判斷或修正。</li>
+<li>哪些地方寫得不像她的意思。</li>
+<li>哪些是 AI 自己觀察到的模式、但看起來被寫成已確定的規則。</li>
+<li>學習關鍵字辭典裡的白話說明夠不夠貼近她的理解方式。</li>
+<li>第六部的研究素材要不要保留，或這個專案根本不打算放進論文。</li>
+</ol>
+<h2 class="section-title">35. 確認後再做什麼</h2>
+<p>本日誌確認後，再依序：</p>
+<ol>
+<li>回覆「工具集」放置問題的最終決定。</li>
+<li>視需要調整小熊健康小屋的細節（日曆、祝福語等）。</li>
+<li>視需要評估是否升級為雲端同步版本。</li>
+<li>定期用回顧頁的月曆和醫師報告，實際去跟醫生討論後續治療。</li>
+</ol>
+<h2 class="section-title">36. 這次最後的一句話</h2>
+<blockquote>
+<p>這次最大的成果不是做出一個網頁，而是把一個家庭真實的健康焦慮，一步步翻譯成兩人每天願意打開、還會互相打氣的日常習慣；現在要先把這條路記完整，之後每一次調整，才知道是從哪裡出發修正的。</p>
+</blockquote>
+</article></main></body></html>
