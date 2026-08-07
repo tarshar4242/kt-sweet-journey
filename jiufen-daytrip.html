@@ -106,6 +106,8 @@
     .t-kind.local{background:var(--color-surface-2);color:var(--color-text-muted)}
     .t-arr{color:var(--color-text-muted);font-size:var(--text-sm);font-variant-numeric:tabular-nums}
     .t-day{font-size:var(--text-xs);padding:.3rem .6rem;border-radius:var(--radius-full);background:color-mix(in srgb, var(--color-gold) 18%, var(--color-surface-2));color:var(--color-gold);font-weight:700}
+    .t-card{font-size:var(--text-xs);padding:.3rem .6rem;border-radius:var(--radius-full);background:color-mix(in srgb, var(--color-primary) 14%, var(--color-surface-2));color:var(--color-primary);font-weight:700;white-space:nowrap}
+    .t-card.no{background:color-mix(in srgb, #c0392b 12%, var(--color-surface-2));color:#c0392b}
     .stops{padding:0 var(--space-5) var(--space-4);display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
     .stops span{background:var(--color-surface-2);border-radius:var(--radius-full);padding:.4rem .75rem;font-size:var(--text-sm);font-variant-numeric:tabular-nums}
     .stops span.hl{background:var(--color-primary-soft);color:var(--color-primary);font-weight:800}
@@ -234,38 +236,39 @@
       <details class="tt-wrap">
         <summary>🚆 去程班次表：台北 → 瑞芳（共 7 班）</summary>
         <div class="tt-body">
+        <p>💳 <strong>台鐵可以直接刷悠遊卡進出閘門，不用買票</strong>：區間車、區間快、莒光號直接搭（區間車票價 9 折）；自強號因為台北–瑞芳不到 70 公里，刷卡也是按區間車票價 9 折計費，但不劃位、人多就站著。唯獨標「🎫 需先購票」的班次不發售無座票，<strong>刷悠遊卡不能搭</strong>，要先在台鐵 App 訂票。</p>
         <details class="train">
-          <summary><span class="t-time">08:59</span><span class="t-kind local">區間</span><span style="font-weight:700">1136 車次</span><span class="t-arr">瑞芳 09:52 到</span></summary>
+          <summary><span class="t-time">08:59</span><span class="t-kind local">區間</span><span style="font-weight:700">1136 車次</span><span class="t-card">💳 悠遊卡OK</span><span class="t-arr">瑞芳 09:52 到</span></summary>
           <div class="stops"><span class="hl">臺北開 08:59</span><span class="">松山 09:05</span><span class="">南港 09:09</span><span class="">汐科 09:15</span><span class="">汐止 09:18</span><span class="">五堵 09:21</span><span class="">百福 09:25</span><span class="">七堵 09:30</span><span class="">八堵 09:38</span><span class="">暖暖 09:42</span><span class="">四腳亭 09:46</span><span class="hl">瑞芳 09:52</span></div>
           <div class="mini-note" style="padding:0 1.25rem .5rem">想提早到瑞芳、多吃一輪的早鳥選擇。</div><a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=1136" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
         </details>
         <details class="train">
-          <summary><span class="t-time">09:11</span><span class="t-kind ">自強 EMU3000</span><span style="font-weight:700">214 車次</span><span class="t-arr">瑞芳 09:43 到</span><span class="t-day">週六日行駛</span></summary>
+          <summary><span class="t-time">09:11</span><span class="t-kind ">自強 EMU3000</span><span style="font-weight:700">214 車次</span><span class="t-card no">🎫 需先購票</span><span class="t-arr">瑞芳 09:43 到</span><span class="t-day">週六日行駛</span></summary>
           <div class="stops"><span class="hl">臺北開 09:11</span><span class="">松山 09:17</span><span class="">南港 09:21</span><span class="hl">瑞芳 09:43</span></div>
-          <div class="mini-note" style="padding:0 1.25rem .5rem">週末出遊的首選：只停三站、32 分鐘直達，全車對號、不賣站票，建議提早訂票。</div><a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=214" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
+          <div class="mini-note" style="padding:0 1.25rem .5rem">週末出遊的首選：只停三站、32 分鐘直達。⚠️ 全車對號、不賣站票，<strong>刷悠遊卡不能搭這班</strong>，要先在台鐵 App 訂票。</div><a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=214" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
         </details>
         <details class="train">
-          <summary><span class="t-time">09:20</span><span class="t-kind local">區間</span><span style="font-weight:700">4162 車次</span><span class="t-arr">瑞芳 10:28 到</span></summary>
+          <summary><span class="t-time">09:20</span><span class="t-kind local">區間</span><span style="font-weight:700">4162 車次</span><span class="t-card">💳 悠遊卡OK</span><span class="t-arr">瑞芳 10:28 到</span></summary>
           <div class="stops"><span class="hl">臺北開 09:20</span><span class="">松山 09:27</span><span class="">南港 09:36</span><span class="">汐科 09:47</span><span class="">汐止 09:50</span><span class="">五堵 09:53</span><span class="">百福 09:57</span><span class="">七堵 10:02</span><span class="">八堵 10:15</span><span class="">暖暖 10:18</span><span class="">四腳亭 10:22</span><span class="hl">瑞芳 10:28</span></div>
           <div class="mini-note" style="padding:0 1.25rem .5rem">不趕時間、想悠悠晃過去的話搭這班，剛好接上 10:30 的瑞芳小吃開場。</div><a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=4162" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
         </details>
         <details class="train">
-          <summary><span class="t-time">10:05</span><span class="t-kind local">區間快</span><span style="font-weight:700">4026 車次</span><span class="t-arr">瑞芳 10:44 到</span></summary>
+          <summary><span class="t-time">10:05</span><span class="t-kind local">區間快</span><span style="font-weight:700">4026 車次</span><span class="t-card">💳 悠遊卡OK</span><span class="t-arr">瑞芳 10:44 到</span></summary>
           <div class="stops"><span class="hl">臺北開 10:05</span><span class="">松山 10:11</span><span class="">南港 10:15</span><span class="">汐止 10:22</span><span class="">七堵 10:32</span><span class="hl">瑞芳 10:44</span></div>
           <div class="mini-note" style="padding:0 1.25rem .5rem">平日晚一點出門的好選擇：區間快只停大站，39 分鐘就到。</div><a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=4026" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
         </details>
         <details class="train">
-          <summary><span class="t-time">10:10</span><span class="t-kind local">區間</span><span style="font-weight:700">1154 車次</span><span class="t-arr">瑞芳 10:58 到</span></summary>
+          <summary><span class="t-time">10:10</span><span class="t-kind local">區間</span><span style="font-weight:700">1154 車次</span><span class="t-card">💳 悠遊卡OK</span><span class="t-arr">瑞芳 10:58 到</span></summary>
           <div class="stops"><span class="hl">臺北開 10:10</span><span class="">松山 10:16</span><span class="">南港 10:20</span><span class="">汐科 10:25</span><span class="">汐止 10:28</span><span class="">五堵 10:31</span><span class="">百福 10:35</span><span class="">七堵 10:39</span><span class="">八堵 10:44</span><span class="">暖暖 10:47</span><span class="">四腳亭 10:51</span><span class="hl">瑞芳 10:58</span></div>
           <a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=1154" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
         </details>
         <details class="train">
-          <summary><span class="t-time">10:29</span><span class="t-kind ">自強 EMU3000</span><span style="font-weight:700">422 車次</span><span class="t-arr">瑞芳 11:04 到</span></summary>
+          <summary><span class="t-time">10:29</span><span class="t-kind ">自強 EMU3000</span><span style="font-weight:700">422 車次</span><span class="t-card no">🎫 需先購票</span><span class="t-arr">瑞芳 11:04 到</span></summary>
           <div class="stops"><span class="hl">臺北開 10:29</span><span class="">松山 10:35</span><span class="">南港 10:39</span><span class="">八堵 10:53</span><span class="hl">瑞芳 11:04</span></div>
-          <div class="mini-note" style="padding:0 1.25rem .5rem">睡過頭備案：每日行駛的自強號，全車對號、不賣站票。</div><a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=422" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
+          <div class="mini-note" style="padding:0 1.25rem .5rem">睡過頭備案：每日行駛的自強號。⚠️ 全車對號、不賣站票，<strong>刷悠遊卡不能搭這班</strong>，要先在台鐵 App 訂票。</div><a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=422" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
         </details>
         <details class="train">
-          <summary><span class="t-time">10:34</span><span class="t-kind local">區間</span><span style="font-weight:700">1158 車次</span><span class="t-arr">瑞芳 11:20 到</span></summary>
+          <summary><span class="t-time">10:34</span><span class="t-kind local">區間</span><span style="font-weight:700">1158 車次</span><span class="t-card">💳 悠遊卡OK</span><span class="t-arr">瑞芳 11:20 到</span></summary>
           <div class="stops"><span class="hl">臺北開 10:34</span><span class="">松山 10:40</span><span class="">南港 10:44</span><span class="">汐科 10:49</span><span class="">汐止 10:52</span><span class="">五堵 10:55</span><span class="">百福 10:59</span><span class="">七堵 11:03</span><span class="">八堵 11:07</span><span class="">暖暖 11:10</span><span class="">四腳亭 11:14</span><span class="hl">瑞芳 11:20</span></div>
           <div class="mini-note" style="padding:0 1.25rem .5rem">最後的睡過頭備案，到瑞芳直接接午餐模式。</div><a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=1158" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
         </details>
@@ -292,64 +295,64 @@
             <li>💳 悠遊卡上下車各刷一次</li>
           </ul>
           <a class="maplink" style="margin-top:0" href="https://www.google.com/maps/dir/?api=1&amp;origin=%E4%B9%9D%E4%BB%BD%E8%80%81%E8%A1%97&amp;destination=%E7%91%9E%E8%8A%B3%E8%BB%8A%E7%AB%99&amp;travelmode=transit" target="_blank" rel="noopener">🔍 看現在往瑞芳的下一班公車（Google 地圖即時）</a>
-          <p style="margin-top:var(--space-4)"><strong>第二段（火車回台北）：</strong>瑞芳 → 台北，下午到傍晚的班次如下，點任何一班展開停靠站：</p>
+          <p style="margin-top:var(--space-4)"><strong>第二段（火車回台北）：</strong>瑞芳 → 台北，下午到傍晚的班次如下，點任何一班展開停靠站。💳 這些班次<strong>全部可以直接刷悠遊卡進出站</strong>（區間車票價 9 折；自強號、莒光號刷卡可搭但不劃位，人多就站著）：</p>
           <details class="train">
-            <summary><span class="t-time">14:41</span><span class="t-kind local">區間</span><span style="font-weight:700">4177 車次</span><span class="t-arr">台北 15:30 到</span></summary>
+            <summary><span class="t-time">14:41</span><span class="t-kind local">區間</span><span style="font-weight:700">4177 車次</span><span class="t-card">💳 悠遊卡OK</span><span class="t-arr">台北 15:30 到</span></summary>
             <div class="stops"><span class="hl">瑞芳開 14:41</span><span class="">四腳亭 14:47</span><span class="">暖暖 14:51</span><span class="">八堵 14:54</span><span class="">七堵 14:59</span><span class="">百福 15:03</span><span class="">五堵 15:07</span><span class="">汐止 15:10</span><span class="">汐科 15:13</span><span class="">南港 15:18</span><span class="">松山 15:22</span><span class="hl">臺北 15:30</span></div>
             <a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=4177" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
           </details>
           <details class="train">
-            <summary><span class="t-time">15:10</span><span class="t-kind ">自強（柴聯）</span><span style="font-weight:700">221 車次</span><span class="t-arr">台北 15:45 到</span></summary>
+            <summary><span class="t-time">15:10</span><span class="t-kind ">自強（柴聯）</span><span style="font-weight:700">221 車次</span><span class="t-card">💳 悠遊卡OK</span><span class="t-arr">台北 15:45 到</span></summary>
             <div class="stops"><span class="hl">瑞芳開 15:10</span><span class="">八堵 15:19</span><span class="">松山 15:36</span><span class="hl">臺北 15:45</span></div>
             <div class="mini-note" style="padding:0 1.25rem .5rem">全車對號；台鐵公告逢週一至週四票價 97 折（例假日除外）。</div><a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=221" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
           </details>
           <details class="train">
-            <summary><span class="t-time">15:15</span><span class="t-kind local">區間</span><span style="font-weight:700">1211 車次</span><span class="t-arr">台北 16:03 到</span></summary>
+            <summary><span class="t-time">15:15</span><span class="t-kind local">區間</span><span style="font-weight:700">1211 車次</span><span class="t-card">💳 悠遊卡OK</span><span class="t-arr">台北 16:03 到</span></summary>
             <div class="stops"><span class="hl">瑞芳開 15:15</span><span class="">四腳亭 15:21</span><span class="">暖暖 15:24</span><span class="">八堵 15:27</span><span class="">七堵 15:32</span><span class="">百福 15:36</span><span class="">五堵 15:40</span><span class="">汐止 15:43</span><span class="">汐科 15:46</span><span class="">南港 15:51</span><span class="">松山 15:55</span><span class="hl">臺北 16:03</span></div>
             <a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=1211" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
           </details>
           <details class="train">
-            <summary><span class="t-time">15:29</span><span class="t-kind local">區間</span><span style="font-weight:700">4183 車次</span><span class="t-arr">台北 16:24 到</span></summary>
+            <summary><span class="t-time">15:29</span><span class="t-kind local">區間</span><span style="font-weight:700">4183 車次</span><span class="t-card">💳 悠遊卡OK</span><span class="t-arr">台北 16:24 到</span></summary>
             <div class="stops"><span class="hl">瑞芳開 15:29</span><span class="">四腳亭 15:34</span><span class="">暖暖 15:37</span><span class="">八堵 15:40</span><span class="">七堵 15:45</span><span class="">百福 15:49</span><span class="">五堵 15:53</span><span class="">汐止 15:56</span><span class="">汐科 15:59</span><span class="">南港 16:05</span><span class="">松山 16:16</span><span class="hl">臺北 16:24</span></div>
             <a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=4183" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
           </details>
           <details class="train">
-            <summary><span class="t-time">16:09</span><span class="t-kind local">區間</span><span style="font-weight:700">1223 車次</span><span class="t-arr">台北 17:02 到</span></summary>
+            <summary><span class="t-time">16:09</span><span class="t-kind local">區間</span><span style="font-weight:700">1223 車次</span><span class="t-card">💳 悠遊卡OK</span><span class="t-arr">台北 17:02 到</span></summary>
             <div class="stops"><span class="hl">瑞芳開 16:09</span><span class="">四腳亭 16:15</span><span class="">暖暖 16:19</span><span class="">八堵 16:22</span><span class="">七堵 16:27</span><span class="">百福 16:35</span><span class="">五堵 16:39</span><span class="">汐止 16:42</span><span class="">汐科 16:45</span><span class="">南港 16:50</span><span class="">松山 16:54</span><span class="hl">臺北 17:02</span></div>
             <a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=1223" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
           </details>
           <details class="train">
-            <summary><span class="t-time">16:48</span><span class="t-kind local">區間</span><span style="font-weight:700">4191 車次</span><span class="t-arr">台北 17:43 到</span></summary>
+            <summary><span class="t-time">16:48</span><span class="t-kind local">區間</span><span style="font-weight:700">4191 車次</span><span class="t-card">💳 悠遊卡OK</span><span class="t-arr">台北 17:43 到</span></summary>
             <div class="stops"><span class="hl">瑞芳開 16:48</span><span class="">四腳亭 16:53</span><span class="">暖暖 16:56</span><span class="">八堵 16:59</span><span class="">七堵 17:04</span><span class="">百福 17:15</span><span class="">五堵 17:19</span><span class="">汐止 17:22</span><span class="">汐科 17:25</span><span class="">南港 17:30</span><span class="">松山 17:35</span><span class="hl">臺北 17:43</span></div>
             <a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=4191" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
           </details>
           <details class="train">
-            <summary><span class="t-time">16:55</span><span class="t-kind ">自強</span><span style="font-weight:700">277 車次</span><span class="t-arr">台北 17:35 到</span></summary>
+            <summary><span class="t-time">16:55</span><span class="t-kind ">自強</span><span style="font-weight:700">277 車次</span><span class="t-card">💳 悠遊卡OK</span><span class="t-arr">台北 17:35 到</span></summary>
             <div class="stops"><span class="hl">瑞芳開 16:55</span><span class="">七堵 17:07</span><span class="">汐止 17:17</span><span class="">松山 17:27</span><span class="hl">臺北 17:35</span></div>
             <div class="mini-note" style="padding:0 1.25rem .5rem">全車對號。</div><a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=277" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
           </details>
           <details class="train">
-            <summary><span class="t-time">17:26</span><span class="t-kind local">區間</span><span style="font-weight:700">4193 車次</span><span class="t-arr">台北 18:18 到</span></summary>
+            <summary><span class="t-time">17:26</span><span class="t-kind local">區間</span><span style="font-weight:700">4193 車次</span><span class="t-card">💳 悠遊卡OK</span><span class="t-arr">台北 18:18 到</span></summary>
             <div class="stops"><span class="hl">瑞芳開 17:26</span><span class="">四腳亭 17:31</span><span class="">暖暖 17:35</span><span class="">八堵 17:38</span><span class="">七堵 17:44</span><span class="">百福 17:50</span><span class="">五堵 17:54</span><span class="">汐止 17:57</span><span class="">汐科 18:00</span><span class="">南港 18:05</span><span class="">松山 18:10</span><span class="hl">臺北 18:18</span></div>
             <a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=4193" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
           </details>
           <details class="train">
-            <summary><span class="t-time">17:40</span><span class="t-kind local">區間快</span><span style="font-weight:700">4027 車次</span><span class="t-arr">台北 18:28 到</span></summary>
+            <summary><span class="t-time">17:40</span><span class="t-kind local">區間快</span><span style="font-weight:700">4027 車次</span><span class="t-card">💳 悠遊卡OK</span><span class="t-arr">台北 18:28 到</span></summary>
             <div class="stops"><span class="hl">瑞芳開 17:40</span><span class="">七堵 17:53</span><span class="">汐止 18:06</span><span class="">汐科 18:10</span><span class="">南港 18:15</span><span class="">松山 18:20</span><span class="hl">臺北 18:28</span></div>
             <a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=4027" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
           </details>
           <details class="train">
-            <summary><span class="t-time">18:05</span><span class="t-kind local">區間</span><span style="font-weight:700">4197 車次</span><span class="t-arr">台北 18:53 到</span></summary>
+            <summary><span class="t-time">18:05</span><span class="t-kind local">區間</span><span style="font-weight:700">4197 車次</span><span class="t-card">💳 悠遊卡OK</span><span class="t-arr">台北 18:53 到</span></summary>
             <div class="stops"><span class="hl">瑞芳開 18:05</span><span class="">四腳亭 18:10</span><span class="">暖暖 18:13</span><span class="">八堵 18:16</span><span class="">七堵 18:21</span><span class="">百福 18:25</span><span class="">五堵 18:29</span><span class="">汐止 18:32</span><span class="">汐科 18:35</span><span class="">南港 18:40</span><span class="">松山 18:45</span><span class="hl">臺北 18:53</span></div>
             <a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=4197" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
           </details>
           <details class="train">
-            <summary><span class="t-time">18:23</span><span class="t-kind ">莒光</span><span style="font-weight:700">653 車次</span><span class="t-arr">台北 19:13 到</span></summary>
+            <summary><span class="t-time">18:23</span><span class="t-kind ">莒光</span><span style="font-weight:700">653 車次</span><span class="t-card">💳 悠遊卡OK</span><span class="t-arr">台北 19:13 到</span></summary>
             <div class="stops"><span class="hl">瑞芳開 18:23</span><span class="">七堵 18:37</span><span class="">汐止 18:51</span><span class="">松山 19:03</span><span class="hl">臺北 19:13</span></div>
             <a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=653" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
           </details>
           <details class="train">
-            <summary><span class="t-time">18:47</span><span class="t-kind ">自強</span><span style="font-weight:700">281 車次</span><span class="t-arr">台北 19:25 到</span></summary>
+            <summary><span class="t-time">18:47</span><span class="t-kind ">自強</span><span style="font-weight:700">281 車次</span><span class="t-card">💳 悠遊卡OK</span><span class="t-arr">台北 19:25 到</span></summary>
             <div class="stops"><span class="hl">瑞芳開 18:47</span><span class="">七堵 18:59</span><span class="">松山 19:17</span><span class="hl">臺北 19:25</span></div>
             <div class="mini-note" style="padding:0 1.25rem .5rem">全車對號。</div><a class="maplink train-link" href="https://tip.railway.gov.tw/tra-tip-web/tip/tip001/tip112/querybytrainno?trainNo=281" target="_blank" rel="noopener">🚆 到台鐵官網看這班車（即時誤點、票價、訂票）</a>
           </details>
@@ -397,7 +400,7 @@
             <div class="timeline-time">11:35–12:00</div>
             <h3>從瑞芳轉往九份</h3>
             <p>這一段可依現場狀況選公車或計程車。如果你想衝第一波午後座位，計程車會比較俐落；若想省力省心，公車也可。</p>
-            <div class="tag-row"><span class="tag">公車/計程車雙選</span><span class="tag">看現場人潮</span></div>
+            <div class="tag-row"><span class="tag">公車/計程車雙選</span><span class="tag">看現場人潮</span><span class="tag">💳 公車直接刷悠遊卡</span></div>
           </article>
           <article class="timeline-item">
             <div class="timeline-time">12:00–13:30</div>
@@ -605,7 +608,7 @@
         <div class="panel">
           <h3 style="font-size:var(--text-lg)">今日打包清單</h3>
           <ul class="checklist" style="margin-top:1rem">
-            <li><input type="checkbox" /><div><strong>悠遊卡 / 票券</strong><div class="mini-note">火車與公車切換更順手。</div></div></li>
+            <li><input type="checkbox" /><div><strong>悠遊卡</strong><div class="mini-note">這趟火車＋公車全程都能直接刷（只有標「需先購票」的自強號班次例外），記得先儲值。</div></div></li>
             <li><input type="checkbox" /><div><strong>摺傘或輕便雨衣</strong><div class="mini-note">山城天氣說變就變。</div></div></li>
             <li><input type="checkbox" /><div><strong>行動電源</strong><div class="mini-note">拍照、查路、看班次都會用到。</div></div></li>
             <li><input type="checkbox" /><div><strong>空一點的胃</strong><div class="mini-note">這個比什麼都重要。</div></div></li>
