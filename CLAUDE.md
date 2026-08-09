@@ -13,6 +13,11 @@
 找連外回傳與可疑指令、紅黃綠燈回報）：🔴 有回傳統計／叫 AI 隱瞞的一律不裝；
 🟡 功能必要的連外先讓使用者拍板；🟢 才能裝。審完要在該清單的「審查紀錄」補一行。
 （2026-08-04 已對本 repo 現有 2 份技能總盤點，全數安全。）
+（2026-08-09 新裝 2 份技能，來源為 GitHub msitarzewski/agency-agents（MIT 授權）：
+`proposal-strategist`（改作自 sales-proposal-strategist＋grant-writer，工作提案／公部門投案）、
+`essay-structure-coach`（改作自 academic-narratologist，散文／心得長文結構診斷，預設只診斷不代筆）。
+三份原檔逐檔審查完畢全數 🟢：純提示詞、無連外回傳、無隱瞞指令；原檔與 MIT 授權存於各技能 `references/`。
+正本清單「審查紀錄」在 tarshar-vault，本環境搆不到，請使用者見到此行後自行補記一行。）
 
 ## 觸發語「訪談彙整／研究彙整／演講彙整」（2026-08-05 起）
 
