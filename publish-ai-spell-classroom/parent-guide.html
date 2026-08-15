@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>行前準備包</title>
+<style>
+  :root{
+    --bg:#fff8ef; --card:#ffffff; --ink:#33302b; --sub:#8d8272;
+    --main:#0b7285; --main-soft:#d9f2f6; --warn-bg:#fff3bf; --warn-ink:#8a6d00;
+    --ok:#2f9e44; --shadow:0 4px 14px rgba(51,48,43,.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:40px}
+  .wrap{max-width:560px;margin:0 auto;padding:16px}
+  header{text-align:center;padding:20px 0 8px}
+  header h1{font-size:1.55rem;letter-spacing:2px}
+  header p{color:var(--sub);font-size:.9rem;margin-top:8px;line-height:1.7}
+  h2{font-size:1.1rem;margin:24px 4px 10px;display:flex;align-items:center;gap:8px}
+  .card{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:16px;margin-bottom:14px}
+  .step{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #eee3d2;line-height:1.75;font-size:.95rem}
+  .step:last-child{border-bottom:none}
+  .step .no{flex:none;width:26px;height:26px;border-radius:50%;background:var(--main);color:#fff;font-weight:800;font-size:.85rem;display:flex;align-items:center;justify-content:center}
+  .step b{color:var(--main)}
+  .note{background:var(--warn-bg);color:var(--warn-ink);border-radius:12px;padding:10px 12px;font-size:.87rem;line-height:1.7;margin-top:10px}
+  ul.check{list-style:none}
+  ul.check li{display:flex;gap:10px;padding:7px 0;font-size:.95rem;line-height:1.6}
+  ul.check li:before{content:"☐";flex:none;color:var(--main);font-size:1.1rem}
+  .ability{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #eee3d2;align-items:flex-start}
+  .ability:last-child{border-bottom:none}
+  .ability .e{font-size:1.5rem;flex:none}
+  .ability b{display:block;font-size:.98rem}
+  .ability span{font-size:.86rem;color:var(--sub);line-height:1.6}
+  .role{display:flex;gap:10px;background:#f7f4ee;border-radius:12px;padding:12px;margin-bottom:8px;align-items:center}
+  .role .e{font-size:1.5rem}
+  .role b{display:block}
+  .role span{font-size:.85rem;color:var(--sub)}
+  .todo{border:2px dashed #d8b400;background:#fffbe6;border-radius:12px;padding:12px 14px;font-size:.88rem;line-height:1.8;color:#7a5d00}
+  .linklist a{display:block;color:var(--main);font-weight:700;text-decoration:none;padding:8px 0;font-size:.95rem}
+  footer{text-align:center;color:var(--sub);font-size:.8rem;padding:26px 0 10px;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🎒 行前準備包</h1>
+    <p>親子 AI 咒語教室・給家長的行前說明<br>看完這一頁，大概花 5 分鐘</p>
+  </header>
+
+  <h2>✅ 帳號準備（現場成功的關鍵）</h2>
+  <div class="card">
+    <div class="step"><span class="no">1</span><div>用<b>您自己平常用的私人 Google 帳號</b>（收 Gmail 那個）就可以了，<b>免費版即可</b>，不用付費、不用另外申請什麼權限。</div></div>
+    <div class="step"><span class="no">2</span><div>打開手機或平板的<b>瀏覽器</b>（Safari／Chrome），輸入 <b>gemini.google.com</b> 登入。</div></div>
+    <div class="step"><span class="no">3</span><div>跟它說一句話，例如「你好」，看它有沒有正常回應。</div></div>
+    <div class="note">⚠️ <b>請不要用學校配發的帳號</b>——學校帳號的 Gemini 功能常被管理員關閉，現場很容易打不開，會影響孩子當天的體驗。</div>
+    <div class="note">🎛️ 左上角若有模型選單，請選 <b>Gemini Flash</b>（不要選 Flash-Lite，出來的成果會比較陽春）。</div>
+  </div>
+
+  <h2>🎒 當天請帶</h2>
+  <div class="card">
+    <ul class="check">
+      <li>已完成上面「帳號準備」的手機或平板（一家庭一台即可）</li>
+      <li>行動電源（現場活動約兩小時）</li>
+      <li>輕鬆愉快的心情，全程親子一起坐</li>
+    </ul>
+  </div>
+
+  <h2>🧠 這堂課孩子在練什麼</h2>
+  <div class="card">
+    <p style="font-size:.92rem;line-height:1.8;color:var(--sub);margin-bottom:6px">這不是一堂教「用 AI 寫作業」的課。孩子會親手做出一個「幫自己複習功課的小工具」，過程中練三個可以帶著走的能力：</p>
+    <div class="ability"><span class="e">🗣️</span><div><b>把需求說清楚</b><span>大人的說法叫「提示詞設計」——跟 AI 溝通，跟跟人溝通一樣，講得越清楚，得到的東西越好。</span></div></div>
+    <div class="ability"><span class="e">🔍</span><div><b>不盡信、會查證</b><span>AI 有時會一本正經地講錯，孩子會學到「請 AI 附上來源」，並且跟課本對答案再確認。</span></div></div>
+    <div class="ability"><span class="e">🔁</span><div><b>一版一版改好</b><span>大人的說法叫「迭代」——工程師每天都在做的事。孩子的成品不是一次生成，是自己動手改出來的。</span></div></div>
+  </div>
+
+  <h2>🧑‍🤝‍🧑 親子怎麼分工</h2>
+  <div class="card">
+    <div class="role"><span class="e">🧙</span><div><b>孩子＝咒語師</b><span>下指令、做決定，手機在孩子手上操作</span></div></div>
+    <div class="role"><span class="e">🔍</span><div><b>家長＝查證官</b><span>陪同、對課本、蓋查證章——動口不動手</span></div></div>
+    <p style="font-size:.88rem;color:var(--sub);margin-top:8px;line-height:1.7">請家長忍住「幫他打」的手，讓孩子自己操作——這是這堂課設計的核心，也是最容易被家長好意破壞的地方 🙏</p>
+  </div>
+
+  <h2>📋 還需要您做的兩件小事</h2>
+  <div class="card">
+    <div class="todo">
+      📮 <b>問卷／同意書連結：待補</b><br>
+      這裡會附上活動同意書與簡短問卷的連結，供 Tarshar 收集研究資料使用；連結確定後會另行傳送給您，麻煩撥空填寫。
+    </div>
+  </div>
+
+  <h2>🔗 相關連結</h2>
+  <div class="card linklist">
+    <a href="handbook.html">🪄 AI 咒語實作手冊（孩子上課會用到）</a>
+    <a href="poem.html">🖋️ 詩詞練功房（成品示範，可先玩玩看）</a>
+    <a href="index.html">🏠 課程總入口</a>
+  </div>
+
+  <footer>AI 咒語教室｜親子共學活動．行前準備包</footer>
+</div>
+</body>
+</html>
