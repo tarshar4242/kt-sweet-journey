@@ -1,0 +1,41 @@
+name: Publish to ai-spell-classroom
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'publish-ai-spell-classroom/**'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source (this repo)
+        uses: actions/checkout@v4
+        with:
+          path: source
+
+      - name: Checkout target (ai-spell-classroom.github.io)
+        uses: actions/checkout@v4
+        with:
+          repository: ai-spell-classroom/ai-spell-classroom.github.io
+          token: ${{ secrets.PUBLISH_TOKEN }}
+          path: target
+
+      - name: Sync published files into target repo
+        run: |
+          rsync -av --delete --exclude='.git' source/publish-ai-spell-classroom/ target/
+
+      - name: Commit and push if changed
+        run: |
+          cd target
+          git config user.name "ai-spell-classroom-sync-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to publish."
+          else
+            git commit -m "Sync from kt-sweet-journey publish-ai-spell-classroom/"
+            git push
+          fi
