@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>詩詞練功房 🖋️</title>
+<style>
+  :root{
+    --bg:#f4f0fa; --card:#ffffff; --ink:#312a44; --sub:#7d739a;
+    --main:#6741d9; --main-soft:#e8e0fb; --ok:#2f9e44; --bad:#e03131;
+    --shadow:0 4px 14px rgba(49,42,68,.13);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+  .wrap{max-width:520px;margin:0 auto;padding:16px 16px 90px}
+  header{text-align:center;padding:18px 0 6px}
+  header h1{font-size:1.6rem;letter-spacing:2px}
+  header p{color:var(--sub);font-size:.9rem;margin-top:6px;line-height:1.6}
+  .poem-pick{display:flex;gap:8px;margin:14px 0 10px}
+  .pp{flex:1;border:2px solid transparent;border-radius:14px;padding:10px;background:#fff;box-shadow:var(--shadow);cursor:pointer;text-align:center}
+  .pp b{display:block;font-size:1rem}
+  .pp span{font-size:.78rem;color:var(--sub)}
+  .pp.on{border-color:var(--main);background:var(--main-soft)}
+  .tabs{display:flex;gap:8px;margin:10px 0 14px}
+  .tab{flex:1;border:none;border-radius:14px;padding:11px 0;font-size:.95rem;font-weight:700;background:#fff;color:var(--sub);box-shadow:var(--shadow);cursor:pointer}
+  .tab.on{background:var(--main);color:#fff}
+  .card{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:18px}
+  /* 讀詩 */
+  .p-title{text-align:center;font-size:1.25rem;font-weight:800;margin-bottom:2px}
+  .p-author{text-align:center;color:var(--sub);font-size:.88rem;margin-bottom:14px}
+  .p-line{display:flex;align-items:baseline;gap:10px;padding:9px 4px;border-bottom:1px dashed #e6e0f5}
+  .p-line:last-of-type{border-bottom:none}
+  .p-line .cn{font-size:1.2rem;font-weight:700;letter-spacing:3px;white-space:nowrap}
+  .p-line .tr{font-size:.85rem;color:var(--sub);line-height:1.6}
+  .p-note{margin-top:12px;background:var(--main-soft);border-radius:12px;padding:12px;font-size:.88rem;line-height:1.7}
+  /* 遊戲共用 */
+  .q-no{color:var(--sub);font-size:.85rem;margin-bottom:6px}
+  .q-text{font-size:1.35rem;font-weight:800;line-height:1.9;letter-spacing:4px;text-align:center;margin-bottom:14px}
+  .q-text .hole{display:inline-block;min-width:1.4em;border-bottom:3px solid var(--main);color:var(--main)}
+  .opt{display:inline-block;border:2px solid #e6e0f5;background:#faf8ff;border-radius:14px;padding:12px 20px;font-size:1.2rem;font-weight:700;margin:0 6px 10px;cursor:pointer}
+  .opt.ok{border-color:var(--ok);background:#e6f6e9}
+  .opt.bad{border-color:var(--bad);background:#fdeaea}
+  .opts{text-align:center}
+  .fb{min-height:1.6em;font-weight:700;margin:4px 0 10px;text-align:center}
+  .fb.ok{color:var(--ok)} .fb.bad{color:var(--bad)}
+  .btn{display:block;width:100%;border:none;border-radius:14px;padding:14px;font-size:1.05rem;font-weight:700;background:var(--main);color:#fff;cursor:pointer;box-shadow:var(--shadow)}
+  .btn[disabled]{opacity:.4}
+  .score-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-weight:700}
+  .score-bar .best{font-size:.85rem;color:var(--sub);font-weight:400}
+  /* 排排看 */
+  .slot{border:2px dashed #cfc4ee;border-radius:12px;min-height:3em;padding:8px;margin-bottom:10px;display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:none;background:var(--main-soft);border-radius:12px;padding:10px 12px;font-size:1.05rem;font-weight:700;letter-spacing:2px;cursor:pointer;box-shadow:var(--shadow)}
+  .chip.placed{background:#fff;border:2px solid var(--main)}
+  .pool{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
+  .result{text-align:center;padding:26px 10px}
+  .result .big{font-size:3rem}
+  .result h2{margin:8px 0}
+  .result p{color:var(--sub);line-height:1.7}
+  footer{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #e6e0f5;text-align:center;padding:10px;font-size:.78rem;color:var(--sub)}
+  footer a{color:var(--main);text-decoration:none;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🖋️ 詩詞練功房</h1>
+    <p>先讀詩，再闖「填空挑戰」和「排排看」兩關！<br>（配合康軒國語五、六年級課文）</p>
+  </header>
+
+  <div class="poem-pick" id="poemPick"></div>
+
+  <div class="tabs">
+    <button class="tab on" id="tab0" onclick="setMode(0)">📖 讀詩卡</button>
+    <button class="tab" id="tab1" onclick="setMode(1)">✏️ 填空挑戰</button>
+    <button class="tab" id="tab2" onclick="setMode(2)">🧩 排排看</button>
+  </div>
+
+  <div class="score-bar" id="scoreBar" style="display:none">
+    <span id="scoreNow">得分 0</span>
+    <span class="best" id="scoreBest"></span>
+  </div>
+  <div class="card" id="stage"></div>
+</div>
+
+<footer>🍀 Learn AI with Tarshar｜AI 課堂示範作品</footer>
+
+<script>
+const POEMS=[
+ {title:"送別",author:"唐．王維",tag:"五年級",src:"康軒國語五上〈山中寄情〉",
+  note:"💡 這首詩寫的是：送走朋友後，一個人關上柴門的孤單心情。春天的草每年都會再綠，但朋友什麼時候回來，卻沒有人知道。",
+  lines:[
+   {cn:"山中相送罷",tr:"在山裡送走了朋友"},
+   {cn:"日暮掩柴扉",tr:"天黑了，關上簡陋的柴門"},
+   {cn:"春草明年綠",tr:"春天的草明年還會變綠"},
+   {cn:"王孫歸不歸",tr:"朋友啊，你會不會回來呢？"}
+  ]},
+ {title:"過故人莊",author:"唐．孟浩然",tag:"六年級",src:"康軒國語六年級課文",
+  note:"💡 這首詩寫的是：去老朋友的農村家裡作客，看綠樹青山、聊種田的事，開心到約好重陽節再來賞菊花！",
+  lines:[
+   {cn:"故人具雞黍",tr:"老朋友準備了豐盛的飯菜"},
+   {cn:"邀我至田家",tr:"邀請我到他的農村家裡"},
+   {cn:"綠樹村邊合",tr:"綠樹圍繞著村子"},
+   {cn:"青山郭外斜",tr:"青山在城外綿延"},
+   {cn:"開軒面場圃",tr:"打開窗子，面對打穀場和菜園"},
+   {cn:"把酒話桑麻",tr:"舉杯聊著種田的生活"},
+   {cn:"待到重陽日",tr:"等到九月九日重陽節"},
+   {cn:"還來就菊花",tr:"我還要再來賞菊花！"}
+  ]}
+];
+let pi=0, mode=0, qi=0, score=0, blanks=[], seq=[], placed=[];
+const stage=document.getElementById('stage');
+
+document.getElementById('poemPick').innerHTML=POEMS.map((p,i)=>`
+ <div class="pp ${i===0?'on':''}" id="pp${i}" onclick="setPoem(${i})"><b>${p.title}</b><span>${p.author}｜${p.tag}</span></div>`).join('');
+
+function setPoem(i){pi=i;document.querySelectorAll('.pp').forEach((el,j)=>el.classList.toggle('on',j===i));setMode(mode);}
+function setMode(m){mode=m;[0,1,2].forEach(i=>document.getElementById('tab'+i).classList.toggle('on',i===m));
+ document.getElementById('scoreBar').style.display=(m===0)?'none':'flex';
+ if(m===0)renderRead(); else if(m===1)startFill(); else startOrder();}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function updScore(key){
+ document.getElementById('scoreNow').textContent='得分 '+score;
+ const best=localStorage.getItem(key);
+ document.getElementById('scoreBest').textContent=best?('最佳紀錄 '+best):'';
+}
+
+/* 讀詩卡 */
+function renderRead(){
+ const p=POEMS[pi];
+ stage.innerHTML=`
+  <div class="p-title">${p.title}</div>
+  <div class="p-author">${p.author}｜出自：${p.src}</div>
+  ${p.lines.map(l=>`<div class="p-line"><span class="cn">${l.cn}</span><span class="tr">${l.tr}</span></div>`).join('')}
+  <div class="p-note">${p.note}</div>`;
+}
+
+/* 填空挑戰：每句挖一個字 */
+function startFill(){
+ const p=POEMS[pi];score=0;qi=0;
+ blanks=p.lines.map(l=>{
+  const idx=1+Math.floor(Math.random()*(l.cn.length-2));
+  const ans=l.cn[idx];
+  const pool=POEMS.flatMap(pp=>pp.lines.flatMap(ll=>[...ll.cn])).filter(ch=>ch!==ans);
+  const wrongs=shuffle([...new Set(pool)]).slice(0,2);
+  return {line:l.cn,idx,ans,opts:shuffle([ans,...wrongs])};
+ });
+ renderFill();
+}
+function renderFill(){
+ updScore('kids_poem_fill_best');
+ if(qi>=blanks.length){return renderEnd('kids_poem_fill_best','填空挑戰');}
+ const b=blanks[qi];
+ const shown=[...b.line].map((ch,i)=>i===b.idx?'<span class="hole">？</span>':ch).join('');
+ stage.innerHTML=`
+  <div class="q-no">第 ${qi+1} / ${blanks.length} 句</div>
+  <div class="q-text">${shown}</div>
+  <div class="opts">${b.opts.map(o=>`<button class="opt" onclick="pickFill(this,'${o}')">${o}</button>`).join('')}</div>
+  <div class="fb" id="fb"></div>
+  <button class="btn" id="next" disabled onclick="qi++;renderFill()">下一句 →</button>`;
+}
+function pickFill(btn,ch){
+ if(document.getElementById('next').disabled===false)return;
+ const b=blanks[qi];const fb=document.getElementById('fb');
+ if(ch===b.ans){score+=10;btn.classList.add('ok');fb.textContent='✅ 答對了！「'+b.line+'」';fb.className='fb ok';}
+ else{btn.classList.add('bad');fb.textContent='❌ 正確答案是「'+b.ans+'」：'+b.line;fb.className='fb bad';
+  document.querySelectorAll('.opt').forEach(o=>{if(o.textContent===b.ans)o.classList.add('ok');});}
+ updScore('kids_poem_fill_best');
+ document.getElementById('next').disabled=false;
+}
+
+/* 排排看：把詩句排回正確順序 */
+function startOrder(){
+ const p=POEMS[pi];score=0;placed=[];
+ seq=shuffle(p.lines.map((l,i)=>({t:l.cn,i})));
+ renderOrder('');
+}
+function renderOrder(msg){
+ updScore('kids_poem_order_best');
+ const p=POEMS[pi];
+ stage.innerHTML=`
+  <div class="q-no">照順序點出整首詩！</div>
+  <div class="slot">${placed.map(x=>`<span class="chip placed">${x.t}</span>`).join('')||'<span style="color:#b9aede;padding:6px">從第一句開始點 👇</span>'}</div>
+  <div class="pool">${seq.filter(x=>!placed.includes(x)).map((x)=>`<button class="chip" onclick="pickOrder(${x.i})">${x.t}</button>`).join('')}</div>
+  <div class="fb ${msg.startsWith('✅')||msg.startsWith('🎉')?'ok':(msg?'bad':'')}">${msg}</div>`;
+ if(placed.length===p.lines.length){renderEnd('kids_poem_order_best','排排看');}
+}
+function pickOrder(i){
+ const p=POEMS[pi];
+ if(i===placed.length){placed.push(seq.find(x=>x.i===i));score+=10;
+  renderOrder(placed.length===p.lines.length?'🎉 整首排完！':'✅ 對！繼續～');}
+ else{score=Math.max(0,score-5);renderOrder('❌ 這句還沒輪到，想想哪句在前面？（扣 5 分）');}
+}
+
+function renderEnd(key,name){
+ const best=Math.max(score,+(localStorage.getItem(key)||0));
+ localStorage.setItem(key,best);
+ const full=(name==='填空挑戰'?blanks.length:POEMS[pi].lines.length)*10;
+ const stars=score>=full*.8?'🌟🌟🌟':score>=full*.5?'🌟🌟':'🌟';
+ stage.innerHTML=`
+  <div class="result">
+    <div class="big">${stars}</div>
+    <h2>${name}完成！得分 ${score}</h2>
+    <p>${score>=full*.8?'太厲害了，你是詩詞小狀元！':'回「讀詩卡」再唸一次，下次一定更高分！'}<br>最佳紀錄：${best} 分</p>
+    <br><button class="btn" onclick="setMode(${name==='填空挑戰'?1:2})">再玩一次 🔁</button>
+  </div>`;
+}
+setMode(0);
+</script>
+</body>
+</html>

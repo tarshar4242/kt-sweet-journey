@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台灣歷史時光機 🕰️</title>
+<style>
+  :root{
+    --bg:#fdf6ec; --card:#ffffff; --ink:#3b2f2f; --sub:#8a7968;
+    --main:#e8590c; --main-soft:#ffe8d9; --ok:#2f9e44; --bad:#e03131;
+    --shadow:0 4px 14px rgba(59,47,47,.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+  .wrap{max-width:520px;margin:0 auto;padding:16px 16px 90px}
+  header{text-align:center;padding:18px 0 6px}
+  header h1{font-size:1.6rem;letter-spacing:2px}
+  header p{color:var(--sub);font-size:.9rem;margin-top:6px;line-height:1.6}
+  .tabs{display:flex;gap:8px;margin:14px 0}
+  .tab{flex:1;border:none;border-radius:14px;padding:12px 0;font-size:1rem;font-weight:700;background:#fff;color:var(--sub);box-shadow:var(--shadow);cursor:pointer}
+  .tab.on{background:var(--main);color:#fff}
+  /* 時光軸 */
+  .era{background:var(--card);border-radius:18px;box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden;border-left:8px solid var(--c,#ccc)}
+  .era-head{display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer}
+  .era-head .emoji{font-size:2rem}
+  .era-head .t{flex:1}
+  .era-head .t b{font-size:1.1rem;display:block}
+  .era-head .t span{font-size:.82rem;color:var(--sub)}
+  .era-head .arrow{color:var(--sub);transition:.25s}
+  .era.open .arrow{transform:rotate(90deg)}
+  .era-body{display:none;padding:0 16px 14px;line-height:1.9;font-size:.95rem}
+  .era.open .era-body{display:block}
+  .era-body li{margin-left:1.2em;margin-bottom:4px}
+  /* 測驗 */
+  #quiz{display:none}
+  .q-card{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:18px}
+  .q-no{color:var(--sub);font-size:.85rem;margin-bottom:6px}
+  .q-text{font-size:1.1rem;font-weight:700;line-height:1.7;margin-bottom:14px}
+  .opt{display:block;width:100%;text-align:left;border:2px solid #eee2d5;background:#fffaf4;border-radius:14px;padding:13px 14px;font-size:1rem;margin-bottom:10px;cursor:pointer}
+  .opt.ok{border-color:var(--ok);background:#e6f6e9}
+  .opt.bad{border-color:var(--bad);background:#fdeaea}
+  .fb{min-height:1.6em;font-weight:700;margin:4px 0 10px}
+  .fb.ok{color:var(--ok)} .fb.bad{color:var(--bad)}
+  .btn{display:block;width:100%;border:none;border-radius:14px;padding:14px;font-size:1.05rem;font-weight:700;background:var(--main);color:#fff;cursor:pointer;box-shadow:var(--shadow)}
+  .btn[disabled]{opacity:.4}
+  .score-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-weight:700}
+  .score-bar .best{font-size:.85rem;color:var(--sub);font-weight:400}
+  .result{text-align:center;padding:26px 10px}
+  .result .big{font-size:3rem}
+  .result h2{margin:8px 0}
+  .result p{color:var(--sub);line-height:1.7}
+  footer{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #eee2d5;text-align:center;padding:10px;font-size:.78rem;color:var(--sub)}
+  footer a{color:var(--main);text-decoration:none;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🕰️ 台灣歷史時光機</h1>
+    <p>先搭時光機認識六個時代，再挑戰闖關測驗！<br>（配合五年級社會：台灣歷史）</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab on" id="tabLearn" onclick="showLearn()">🚀 搭時光機</button>
+    <button class="tab" id="tabQuiz" onclick="showQuiz()">⭐ 闖關測驗</button>
+  </div>
+
+  <div id="learn"></div>
+
+  <div id="quiz">
+    <div class="score-bar">
+      <span id="scoreNow">得分 0</span>
+      <span class="best" id="scoreBest"></span>
+    </div>
+    <div class="q-card" id="qCard"></div>
+  </div>
+
+  <div style="background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:14px 16px;margin-top:18px;font-size:.85rem;line-height:1.8;color:var(--sub)">
+    📚 <b style="color:var(--ink)">資料來源</b>：<a href="https://www.nmth.gov.tw" target="_blank" rel="noopener" style="color:var(--main);font-weight:700">國立臺灣歷史博物館</a><br>
+    AI 整理的內容有可能出錯，發現怪怪的地方，記得跟課本對答案！
+  </div>
+</div>
+
+<footer>🍀 Learn AI with Tarshar｜AI 課堂示範作品</footer>
+
+<script>
+const ERAS=[
+ {c:"#8d6e63",e:"🏺",name:"史前時代",time:"很久很久以前～1624",pts:[
+  "還沒有文字紀錄，考古學家靠挖出來的石器、陶器認識這段歷史。",
+  "台灣最早的主人是<b>原住民族</b>，各族有自己的語言和文化。",
+  "有名的遺址：長濱文化、十三行遺址。"]},
+ {c:"#f4a259",e:"⛵",name:"大航海時代（荷蘭與西班牙）",time:"1624～1662",pts:[
+  "歐洲人航海來到亞洲做生意，<b>荷蘭人</b>佔領南台灣，在台南蓋了熱蘭遮城（安平古堡的前身）。",
+  "<b>西班牙人</b>則到北部的基隆、淡水。",
+  "台灣的鹿皮、蔗糖被賣到世界各地。"]},
+ {c:"#c1121f",e:"⚔️",name:"鄭氏時期",time:"1662～1683",pts:[
+  "<b>鄭成功</b>打敗荷蘭人，把台灣當作反清復明的基地。",
+  "鄭氏在台南設立學校（全臺首學），開始興辦教育。",
+  "軍隊一邊當兵、一邊開墾種田。"]},
+ {c:"#5c8001",e:"🌾",name:"清帝國統治時期",time:"1683～1895",pts:[
+  "大批漢人移民渡海來台開墾，俗稱<b>唐山過台灣</b>。",
+  "開墾需要水，出現許多水圳；也常發生族群衝突。",
+  "後期<b>劉銘傳</b>建了台灣第一條鐵路。"]},
+ {c:"#1d3557",e:"🚂",name:"日本統治時期",time:"1895～1945",pts:[
+  "清帝國在甲午戰爭戰敗，把台灣割讓給日本。",
+  "日本蓋了縱貫鐵路、自來水系統；<b>八田與一</b>設計嘉南大圳，讓嘉南平原變成大穀倉。",
+  "小朋友開始上「公學校」，但台灣人受到不平等的對待。"]},
+ {c:"#7b2cbf",e:"🗳️",name:"中華民國時期（戰後）",time:"1945～現在",pts:[
+  "第二次世界大戰結束後，日本離開台灣。",
+  "<b>十大建設</b>讓經濟起飛，後來<b>解除戒嚴</b>，人民可以自由選舉。",
+  "現在的台灣以民主與科技（例如半導體）聞名世界。"]}
+];
+const QS=[
+ {q:"台灣最早的主人是誰？",o:["原住民族","荷蘭人","日本人"],a:0,fb:"原住民族在外國人來之前，早就住在台灣了！"},
+ {q:"荷蘭人在台南蓋的城堡是？",o:["熱蘭遮城","101 大樓","億載金城"],a:0,fb:"熱蘭遮城就是現在安平古堡的前身。"},
+ {q:"打敗荷蘭人的人是誰？",o:["鄭成功","劉銘傳","八田與一"],a:0,fb:"鄭成功 1662 年打敗荷蘭人。"},
+ {q:"「唐山過台灣」說的是哪個時期的故事？",o:["清帝國統治時期","史前時代","日本統治時期"],a:0,fb:"清領時期大批漢人移民渡海來台開墾。"},
+ {q:"設計嘉南大圳的工程師是？",o:["八田與一","鄭成功","王維"],a:0,fb:"八田與一設計嘉南大圳，嘉南平原變成大穀倉。"},
+ {q:"台灣第一條鐵路是誰建的？",o:["劉銘傳","荷蘭人","鄭成功"],a:0,fb:"清領後期的劉銘傳建了第一條鐵路。"},
+ {q:"下面哪個排序才正確？",o:["荷西 → 鄭氏 → 清領 → 日治","清領 → 荷西 → 日治 → 鄭氏","日治 → 荷西 → 清領 → 鄭氏"],a:0,fb:"口訣：荷鄭清日民！"},
+ {q:"戰後讓台灣經濟起飛的是？",o:["十大建設","蓋熱蘭遮城","嘉南大圳"],a:0,fb:"十大建設是戰後的重要工程！"}
+];
+let qi=0,score=0,order=[];
+const learnEl=document.getElementById('learn');
+learnEl.innerHTML=ERAS.map((e,i)=>`
+ <div class="era" style="--c:${e.c}" id="era${i}">
+   <div class="era-head" onclick="document.getElementById('era${i}').classList.toggle('open')">
+     <span class="emoji">${e.e}</span>
+     <span class="t"><b>${e.name}</b><span>${e.time}</span></span>
+     <span class="arrow">▶</span>
+   </div>
+   <ul class="era-body">${e.pts.map(p=>`<li>${p}</li>`).join('')}</ul>
+ </div>`).join('');
+
+function showLearn(){document.getElementById('learn').style.display='block';document.getElementById('quiz').style.display='none';
+ tabLearn.classList.add('on');tabQuiz.classList.remove('on');}
+function showQuiz(){document.getElementById('learn').style.display='none';document.getElementById('quiz').style.display='block';
+ tabQuiz.classList.add('on');tabLearn.classList.remove('on');startQuiz();}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function startQuiz(){qi=0;score=0;order=shuffle([...QS.keys()]);renderQ();}
+function renderQ(){
+ document.getElementById('scoreNow').textContent='得分 '+score;
+ const best=localStorage.getItem('kids_hist_best');
+ document.getElementById('scoreBest').textContent=best?('最佳紀錄 '+best):'';
+ if(qi>=order.length){return renderEnd();}
+ const q=QS[order[qi]];
+ const opts=shuffle(q.o.map((t,i)=>({t,ok:i===q.a})));
+ document.getElementById('qCard').innerHTML=`
+  <div class="q-no">第 ${qi+1} / ${order.length} 題</div>
+  <div class="q-text">${q.q}</div>
+  ${opts.map((o,i)=>`<button class="opt" onclick="pick(this,${o.ok})">${o.t}</button>`).join('')}
+  <div class="fb" id="fb"></div>
+  <button class="btn" id="next" disabled onclick="qi++;renderQ()">下一題 →</button>`;
+}
+let answered=false;
+function pick(btn,ok){
+ if(document.getElementById('next').disabled===false)return;
+ const q=QS[order[qi]];
+ btn.classList.add(ok?'ok':'bad');
+ const fb=document.getElementById('fb');
+ if(ok){score+=10;fb.textContent='✅ 答對了！'+q.fb;fb.className='fb ok';}
+ else{fb.textContent='❌ 差一點！'+q.fb;fb.className='fb bad';
+   document.querySelectorAll('.opt').forEach(b=>{if(b.textContent===q.o[q.a])b.classList.add('ok');});}
+ document.getElementById('scoreNow').textContent='得分 '+score;
+ document.getElementById('next').disabled=false;
+}
+function renderEnd(){
+ const best=Math.max(score,+(localStorage.getItem('kids_hist_best')||0));
+ localStorage.setItem('kids_hist_best',best);
+ const stars=score>=70?'🌟🌟🌟':score>=40?'🌟🌟':'🌟';
+ document.getElementById('qCard').innerHTML=`
+  <div class="result">
+    <div class="big">${stars}</div>
+    <h2>得分 ${score} 分！</h2>
+    <p>${score>=70?'太厲害了，你是時光機艦長！':'再搭一次時光機複習，下次一定更高分！'}<br>最佳紀錄：${best} 分</p>
+    <br><button class="btn" onclick="startQuiz()">再玩一次 🔁</button>
+  </div>`;
+}
+</script>
+</body>
+</html>

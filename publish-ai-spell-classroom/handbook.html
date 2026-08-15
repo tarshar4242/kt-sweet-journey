@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 咒語實作手冊</title>
+<style>
+  :root{
+    --bg:#fff8ef; --card:#ffffff; --ink:#33302b; --sub:#8d8272;
+    --main:#0b7285; --main-soft:#d9f2f6;
+    --b1:#0b7285; --b1s:#d9f2f6;
+    --b2:#e8590c; --b2s:#ffe8d9;
+    --b3:#2b8a3e; --b3s:#dff3e2;
+    --b4:#c92a2a; --b4s:#ffe3e3;
+    --b5:#6741d9; --b5s:#e8e0fb;
+    --warn-bg:#fff3bf; --warn-ink:#8a6d00; --ok:#2f9e44;
+    --shadow:0 4px 14px rgba(51,48,43,.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:40px}
+  .wrap{max-width:560px;margin:0 auto;padding:16px}
+  header{text-align:center;padding:20px 0 10px}
+  header h1{font-size:1.55rem;letter-spacing:2px}
+  header p{color:var(--sub);font-size:.9rem;margin-top:8px;line-height:1.7}
+  /* 快速目錄 */
+  .toc{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0 6px}
+  .toc a{text-decoration:none;font-size:.82rem;font-weight:700;border-radius:999px;padding:7px 12px;box-shadow:var(--shadow)}
+  /* 大區塊橫幅 */
+  .block{border-radius:20px;padding:16px 18px;margin:26px 0 14px;color:#fff;box-shadow:var(--shadow);display:flex;align-items:center;gap:14px;scroll-margin-top:12px}
+  .block .no{font-size:1.9rem;font-weight:900;opacity:.85}
+  .block .t b{display:block;font-size:1.25rem;letter-spacing:1px}
+  .block .t span{font-size:.83rem;opacity:.92}
+  .card{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:16px;margin-bottom:14px}
+  /* 步驟 */
+  .step{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #eee3d2;line-height:1.75;font-size:.95rem}
+  .step:last-child{border-bottom:none}
+  .step .no{flex:none;width:28px;height:28px;border-radius:50%;background:var(--b1);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .step b{color:var(--b1)}
+  .note{background:var(--warn-bg);color:var(--warn-ink);border-radius:12px;padding:10px 12px;font-size:.88rem;line-height:1.7;margin-top:10px}
+  /* 分頁 */
+  .tabs{display:flex;gap:8px;margin:6px 0 14px}
+  .tab{flex:1;border:none;border-radius:14px;padding:11px 4px;font-size:.92rem;font-weight:700;background:#fff;color:var(--sub);box-shadow:var(--shadow);cursor:pointer}
+  .tab.on{background:var(--b2);color:#fff}
+  .pane{display:none}
+  .pane.on{display:block}
+  .pkg-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .pkg-head .e{font-size:2rem}
+  .pkg-head b{font-size:1.1rem;display:block}
+  .pkg-head span{font-size:.83rem;color:var(--sub)}
+  .difficulty{margin-left:auto;font-size:.78rem;background:var(--b2s);color:var(--b2);border-radius:999px;padding:4px 10px;font-weight:700;white-space:nowrap}
+  /* 咒語 */
+  .spell{background:#fff7f2;border:2px solid var(--b2);border-radius:14px;padding:14px;font-size:.93rem;line-height:1.85;white-space:pre-wrap;word-break:break-word}
+  .copy{display:block;width:100%;border:none;border-radius:12px;margin-top:10px;padding:12px;font-size:1rem;font-weight:700;background:var(--b2);color:#fff;cursor:pointer;box-shadow:var(--shadow)}
+  .copy.done{background:var(--ok)}
+  .up{background:#fff3ea;border-radius:12px;padding:12px 14px;font-size:.9rem;line-height:1.9;margin-top:12px}
+  .up b{display:block;margin-bottom:4px}
+  .mine{display:flex;gap:10px;background:var(--b4s);border-radius:12px;padding:11px 12px;margin-bottom:9px;font-size:.9rem;line-height:1.7;color:#5c3a3a}
+  .mine .e{flex:none}
+  .mine b{color:var(--b4)}
+  .tag{display:inline-block;font-size:.75rem;border-radius:999px;padding:2px 9px;font-weight:700;margin-bottom:8px;background:var(--b2s);color:var(--b2)}
+  /* 來源 */
+  .src{display:flex;gap:10px;align-items:flex-start;background:var(--b3s);border-radius:12px;padding:11px 12px;margin-bottom:9px;font-size:.9rem;line-height:1.7}
+  .src a{color:var(--b3);font-weight:700}
+  /* 資安 */
+  .safe{display:flex;gap:10px;background:#fff;border:2px solid var(--b4s);border-radius:12px;padding:11px 12px;margin-bottom:9px;font-size:.9rem;line-height:1.7}
+  .safe b{color:var(--b4)}
+  /* AI常識 */
+  .know{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:14px 16px;margin-bottom:12px;border-left:6px solid var(--b5)}
+  .know h3{font-size:1.02rem;margin-bottom:2px}
+  .know .en{font-size:.75rem;color:var(--sub);font-weight:400;margin-left:4px}
+  .know p{font-size:.9rem;line-height:1.8;margin-top:6px}
+  .know .say{margin-top:8px;background:var(--b5s);border-radius:10px;padding:8px 10px;font-size:.85rem;line-height:1.7;color:#4a3b78}
+  .copy5{background:var(--b5)}
+  footer{text-align:center;color:var(--sub);font-size:.8rem;padding:26px 0 10px;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🪄 AI 咒語實作手冊</h1>
+    <p>國小 AI 入門課．實作時間教材<br>五個區塊：工具 → 咒語 → 來源 → 安全 → AI 小知識</p>
+  </header>
+
+  <nav class="toc">
+    <a href="#b1" style="background:var(--b1s);color:var(--b1)">🛠️ 使用工具</a>
+    <a href="#b2" style="background:var(--b2s);color:var(--b2)">📏 提示尺</a>
+    <a href="#b3" style="background:var(--b3s);color:var(--b3)">📚 來源</a>
+    <a href="#b4" style="background:var(--b4s);color:var(--b4)">🔒 資訊安全</a>
+    <a href="#b5" style="background:var(--b5s);color:var(--b5)">🧠 AI 常識</a>
+  </nav>
+
+  <!-- ═══ 區塊一：使用工具 ═══ -->
+  <div class="block" id="b1" style="background:var(--b1)">
+    <span class="no">①</span>
+    <div class="t"><b>🛠️ 使用工具</b><span>用什麼做？怎麼開始？（三個工具都一樣）</span></div>
+  </div>
+  <div class="card">
+    <div class="step"><span class="no">1</span><div>工具是 <b>Gemini</b>。打開手機<b>瀏覽器</b>（Safari 或 Chrome），輸入 <b>gemini.google.com</b>，用準備好的帳號登入。<br>（不用 App 的原因：做好的網頁遊戲<b>瀏覽器版最能直接玩</b>，App 有時只給你看程式碼。）</div></div>
+    <div class="step"><span class="no">2</span><div>把<b>咒語</b>整段複製、貼進輸入框（咒語在區塊②，按橘色按鈕就能複製）。</div></div>
+    <div class="step"><span class="no">3</span><div>送出後<b>等 1～3 分鐘</b>。畫面跑出一大堆程式碼——<b>不用怕，那是 AI 在蓋房子</b>。</div></div>
+    <div class="step"><span class="no">4</span><div>蓋好後點<b>「預覽」</b>就能玩！</div></div>
+    <div class="step"><span class="no">5</span><div>想改哪裡直接說：「<b>幫我改──</b>」（每個咒語下面附了升級咒語）。</div></div>
+    <div class="note">⏰ 免費版一天能做的次數有限：咒語<b>先想好再貼</b>；要改就說「幫我改」，不要整個重做。<br>⏸️ AI 做到一半停住？→ 說「請繼續」。　🈲 出現簡體字？→ 說「請全部改成台灣用的繁體中文」。<br>🎛️ 左上角的模型<b>不要選 Flash-Lite</b>（它是最小的省力版，做出來會偷工減料）——選 <b>Flash</b> 就好。<br>🩹 <b>做出來的遊戲壞掉了？</b>（按鈕按不下去、畫面亂掉）直接把症狀講給 AI 聽：「按鍵按不下去喔」，它會修好；改壞了就說「<b>回到上一版</b>」。</div>
+  </div>
+
+  <!-- ═══ 區塊二：提示尺 ═══ -->
+  <div class="block" id="b2" style="background:var(--b2)">
+    <span class="no">②</span>
+    <div class="t"><b>📏 提示尺（咒語）</b><span>三個工具，選一個開始做</span></div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" id="t0" onclick="go(0)">🕰️ 歷史</button>
+    <button class="tab" id="t1" onclick="go(1)">⛰️ 地形</button>
+    <button class="tab" id="t2" onclick="go(2)">🖋️ 詩詞</button>
+  </div>
+
+  <div class="pane on" id="p0">
+    <div class="card">
+      <div class="pkg-head"><span class="e">🕰️</span><div><b>台灣歷史時光機</b><span>配合五年級社會</span></div><span class="difficulty">🟢 容易成功</span></div>
+      <span class="tag">咒語（整段複製貼上）</span>
+      <div class="spell" id="s0">請幫我做一個「台灣歷史時光機」互動網頁。我是國小五年級學生，全部用繁體中文，字要大、按鈕要大，適合手機玩。
+
+內容有兩個部分：
+1. 六個時代的卡片：史前時代、大航海時代（荷蘭與西班牙）、鄭氏時期、清領時期、日治時期、戰後到現在。每張卡片點開可以看到 2 到 3 個重點，要用小學生聽得懂的話寫。
+2. 闖關測驗：8 題選擇題，一次出一題，答對加 10 分；答錯要告訴我正確答案，並用小學生聽得懂的方式解釋。全部答完要顯示總分和星星。
+3. 網頁最下面固定顯示一個「資料來源」區，放這一行字，網址要做成可以點的連結：
+📚 資料來源：國立臺灣歷史博物館 https://www.nmth.gov.tw
+
+內容請以國立臺灣歷史博物館官網的資料為準，不確定的內容請寫「這題要查課本」，不可以自己編。</div>
+      <button class="copy" onclick="cp(this,'s0')">📋 複製這段咒語</button>
+      <div class="up"><b>⬆️ 升級咒語（做好初版後再說）</b>
+        「幫我把測驗改成搶答計時，每題只有 15 秒」<br>
+        「幫我加一題排順序的題目：把六個時代照順序排好」<br>
+        「幫我把時代卡片加上表情符號和顏色」</div>
+      <div class="mine" style="margin-top:12px"><span class="e">💣</span><div><b>這個工具的地雷：</b>AI 會把年代或事件講錯！做好後抽 2 題跟社會課本對答案，對過才算完成。看到太難的詞就說「請用小學生聽得懂的話重寫」。</div></div>
+      <div class="mine"><span class="e">🔁</span><div><b>每次玩都同樣幾題？</b>那不是壞掉（原因看區塊⑤最後一張卡）。解法：「幫我把題庫加大到 20 題，每次開始測驗時從題庫隨機抽 8 題，題目和選項的順序也要隨機。」</div></div>
+    </div>
+  </div>
+
+  <div class="pane" id="p1">
+    <div class="card">
+      <div class="pkg-head"><span class="e">⛰️</span><div><b>台灣地形大冒險</b><span>配合五年級社會</span></div><span class="difficulty">🟡 有一個大地雷</span></div>
+      <span class="tag">咒語（整段複製貼上）</span>
+      <div class="spell" id="s1">請幫我做一個「認識台灣地形」的互動網頁。我是國小五年級學生，全部用繁體中文，字和按鈕都要大，適合手機玩。
+
+內容有三個部分：
+1. 五大地形介紹卡：山地、丘陵、台地、盆地、平原。每個都要有一句小學生聽得懂的說明，和一個台灣的例子。
+2. 台灣之最配對遊戲：玉山（最高的山）、濁水溪（最長的河）、嘉南平原（最大的平原）、日月潭（最大的天然湖泊），用配對的方式玩。
+3. 闖關測驗：8 題選擇題，答對加 10 分；答錯要用小學生聽得懂的方式解釋。全部答完顯示總分和星星。
+4. 網頁最下面固定顯示一個「資料來源」區，放這一行字，網址要做成可以點的連結：
+📚 資料來源：內政部國土測繪中心 https://www.nlsc.gov.tw
+
+內容請以內政部國土測繪中心官網的資料為準，不確定的內容請寫「這題要查課本」，不可以自己編。</div>
+      <button class="copy" onclick="cp(this,'s1')">📋 複製這段咒語</button>
+      <div class="up"><b>⬆️ 升級咒語（做好初版後再說）</b>
+        「幫我在配對遊戲加上：中央山脈（最長的山脈）」<br>
+        「幫我把測驗改成兩人對戰，輪流答題比分數」<br>
+        「幫我把每個地形加一個表情符號」</div>
+      <div class="mine" style="margin-top:12px"><span class="e">💥</span><div><b>最大地雷：不要叫 AI 畫台灣地圖！</b>它畫的台灣常常歪掉、想點也點不到，所以咒語故意用「配對遊戲」代替。它自己畫了歪地圖就說：「把地圖拿掉，改成配對遊戲」。數字（像玉山 3952 公尺）也要對課本。</div></div>
+      <div class="mine"><span class="e">🔁</span><div><b>每次玩都同樣幾題？</b>那不是壞掉（原因看區塊⑤最後一張卡）。解法：「幫我把題庫加大到 20 題，每次開始測驗時從題庫隨機抽 8 題，題目和選項的順序也要隨機。」</div></div>
+    </div>
+  </div>
+
+  <div class="pane" id="p2">
+    <div class="card">
+      <div class="pkg-head"><span class="e">🖋️</span><div><b>詩詞練功房</b><span>配合康軒國語五上〈山中寄情〉</span></div><span class="difficulty">🟢 最容易成功</span></div>
+      <span class="tag">咒語（整段複製貼上）</span>
+      <div class="spell" id="s2">請幫我做一個「背古詩」的互動網頁。我是國小五年級學生，全部用繁體中文，字要大，適合手機玩。
+
+詩是王維的〈送別〉，總共四句，請一字不改地使用：
+山中相送罷，日暮掩柴扉。春草明年綠，王孫歸不歸。
+
+要有三種玩法：
+1. 讀詩卡：每一句旁邊有小學生看得懂的白話解釋。
+2. 填空挑戰：每句挖掉一個字，給我三個字選，選對加 10 分。
+3. 排排看：把四句打亂，讓我照正確順序點回來。
+答錯的時候要告訴我正確答案。</div>
+      <button class="copy" onclick="cp(this,'s2')">📋 複製這段咒語</button>
+      <div class="up"><b>⬆️ 升級咒語（做好初版後再說）</b>
+        「幫我換一首詩：孟浩然的〈過故人莊〉」（六年級的詩，記得把八句原文貼給它）<br>
+        「幫我把填空的選項變難一點，用長得很像的字」<br>
+        「幫我加一個背誦模式：詩句一句一句慢慢消失，看我背不背得出來」</div>
+      <div class="mine" style="margin-top:12px"><span class="e">💣</span><div><b>這個工具的地雷：</b>AI 有時會偷偷改詩的字！所以整首詩要「一字不改」地貼給它，做好後跟課本對一次。換詩時一定自己貼原文，不要讓它自己背——它會背錯。</div></div>
+      <div class="mine"><span class="e">💣</span><div><b>不要叫 AI 加注音！</b>它標注音常常標錯（實測踩過），錯的注音比沒有注音更糟。想要提示就用「白話解釋」當提示。</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ 區塊三：來源 ═══ -->
+  <div class="block" id="b3" style="background:var(--b3)">
+    <span class="no">③</span>
+    <div class="t"><b>📚 來源</b><span>為什麼咒語裡要放官方網站？</span></div>
+  </div>
+  <div class="card">
+    <div style="line-height:1.9;font-size:.93rem">
+      AI 有個壞毛病：不知道答案時會<b>一本正經地亂編</b>（這叫「AI 幻覺」）。厲害的咒語師會做三件事：
+    </div>
+    <div class="src" style="margin-top:10px"><span>1️⃣</span><div><b>先給來源</b>：自己先搜尋可靠的官方網站，在咒語裡跟 AI 說「資料以它為準」。<br>🕰️ 歷史 → <a href="https://www.nmth.gov.tw" target="_blank" rel="noopener">國立臺灣歷史博物館</a>　⛰️ 地形 → <a href="https://www.nlsc.gov.tw" target="_blank" rel="noopener">內政部國土測繪中心</a><br>🖋️ 詩詞不用網站——它的來源就是<b>課本原文</b>，整首詩一字不改貼給 AI 就是在給來源！</div></div>
+    <div class="src"><span>2️⃣</span><div><b>要求列出來源</b>：叫 AI 在成品最下面寫「資料來源」，別人才會相信你的作品。<br>💊 <b>AI 忘記放怎麼辦？</b>做好後檢查最下面，沒看到就補一句：「幫我在網頁最下面加上可以點的連結：資料來源：國立臺灣歷史博物館 https://www.nmth.gov.tw」（換成你用的來源）。檢查別人有沒有附來源，本來就是咒語師的工作！</div></div>
+    <div class="src"><span>3️⃣</span><div><b>還是要查證</b>：給了來源，錯誤會變少但<b>不會變成零</b>——跟課本對過答案，才能蓋查證章！</div></div>
+    <div class="note">💡 記住這句話：<b>很多東西要自己先搜尋、把來源提供給 AI</b>——不是 AI 說什麼都對。</div>
+  </div>
+
+  <!-- ═══ 區塊四：資訊安全提醒 ═══ -->
+  <div class="block" id="b4" style="background:var(--b4)">
+    <span class="no">④</span>
+    <div class="t"><b>🔒 資訊安全提醒</b><span>跟 AI 相處的保護罩</span></div>
+  </div>
+  <div class="card">
+    <div class="safe"><span>🙈</span><div><b>不跟 AI 說自己的秘密資料</b>：全名、學校班級、住址、電話、密碼、家人的資料，都不要打給它，也不要傳自己的照片。做出來的網頁要放名字？用<b>綽號</b>就好。</div></div>
+    <div class="safe"><span>🔑</span><div><b>帳號是家長（或學校）借你的</b>：好好愛惜，不改設定、不亂訂閱，做了什麼都可以給爸媽看。</div></div>
+    <div class="safe"><span>🔗</span><div><b>不亂點陌生連結</b>：AI 給的連結先看網址像不像官方的，怪怪的就不要點。</div></div>
+    <div class="safe"><span>🚨</span><div><b>看到奇怪的內容</b>（可怕的、罵人的、叫你買東西的）：不要理它、不要照做，<b>馬上告訴大人</b>。</div></div>
+    <div class="safe"><span>🤝</span><div><b>三個約定</b>：AI 說的要查證．AI 陪我學、不替我寫．不跟 AI 說個人資料。</div></div>
+  </div>
+
+  <!-- ═══ 區塊五：AI 理論常識 ═══ -->
+  <div class="block" id="b5" style="background:var(--b5)">
+    <span class="no">⑤</span>
+    <div class="t"><b>🧠 AI 理論常識</b><span>課堂順便帶的小知識（小學生版比喻）</span></div>
+  </div>
+  <div id="knowArea">
+  <div class="know">
+    <h3>AI 是超級接話高手<span class="en">大型語言模型 LLM</span></h3>
+    <p>玩過文字接龍嗎？AI 就是把接龍練了幾十億次的高手：它一直在猜「下一個字最可能是什麼」，猜著猜著就接出整篇文章。</p>
+    <div class="say">🎤 課堂這樣玩：全班接龍「今天天氣真──」，大家喊的字不一樣，AI 也一樣每次可能接不同的字。</div>
+  </div>
+  <div class="know">
+    <h3>AI 是看範例學會的<span class="en">機器學習 Machine Learning</span></h3>
+    <p>AI 不是背規則長大的，是看了超級多的範例自己抓出規律——就像你學騎腳踏車不是讀說明書，是騎著騎著就會了。</p>
+    <div class="say">🎤 課堂這樣講：給你看一萬張貓的照片，你就會認貓了；AI 看了幾億篇文章，就「會」講話了。</div>
+  </div>
+  <div class="know">
+    <h3>注意力：AI 變聰明的祕密武器<span class="en">Transformer / Attention</span></h3>
+    <p>讀讀看：「我把香蕉給猴子，因為<b>牠</b>餓了。」——「牠」是誰？你的大腦自動「注意」到猴子。現在的 AI 也有這一招，叫「注意力」，讓它讀句子時知道哪些字互相有關係。這個發明（Transformer）就是這幾年 AI 突然變聰明的原因。</p>
+    <div class="say">🎤 課堂這樣玩：唸這句話讓大家搶答「牠是誰」，然後說：恭喜，你們剛剛用了跟 AI 一樣的技能！</div>
+  </div>
+  <div class="know">
+    <h3>上下文：AI 的記憶背包<span class="en">Context</span></h3>
+    <p>AI 聊天時，會把你們說過的話全部裝進一個「背包」再回答。背包有大小限制，裝滿了，最早說的就會掉出去——所以聊很久它會「忘記」前面講過的事。</p>
+    <div class="say">🎤 課堂這樣講：這就是為什麼咒語要「一次講清楚」——別讓重要的事掉出背包！</div>
+  </div>
+  <div class="know">
+    <h3>Token：AI 眼中的文字積木<span class="en">Token</span></h3>
+    <p>AI 看文字不是一個字一個字看，是一塊一塊「積木」看。背包的大小、思考的速度，都是用積木數量在算的。</p>
+    <div class="say">🎤 課堂這樣講：「臺灣歷史時光機」在你眼裡是七個字，在 AI 眼裡可能是三、四塊積木。</div>
+  </div>
+  <div class="know">
+    <h3>AI 幻覺：太愛接話的副作用<span class="en">Hallucination</span></h3>
+    <p>接話高手有個毛病：不知道答案也要硬接，還接得一本正經。這就是「AI 幻覺」——不是它想騙你，是它的工作本來就是「接出最像的話」。</p>
+    <div class="say">🎤 課堂這樣講：所以我們才要「給來源」和「查證」（接區塊③），這是咒語師的基本功。</div>
+  </div>
+  <div class="know">
+    <h3>AI 很會演，但它不是人<span class="en">AI ≠ 有感覺的生命</span></h3>
+    <p>AI 會說「我覺得」「我很開心」，但那是它從幾億篇文章學來的「演技」，它沒有真的感覺、也不會真的認識你。它是超大型的計算，不是小精靈。</p>
+    <div class="say">🎤 課堂這樣講：AI 是很厲害的工具和陪練員，但做決定的永遠要是你自己。</div>
+  </div>
+  <div class="know">
+    <h3>網頁做好之後，AI 就下班了<span class="en">生成的作品 ≠ 活的 AI</span></h3>
+    <p>Gemini 是廚師，你的遊戲網頁是它烤好的蛋糕——<b>烤好之後，廚師就下班了</b>。題目是烤的當下一次寫進蛋糕裡的，所以每次玩都是同樣那幾題；網頁自己不會變出新題目，就算咒語裡放了官方網站也一樣（那是給廚師烤蛋糕時看的食譜，不是讓蛋糕自己上網）。</p>
+    <div class="say">🎤 課堂這樣講：想要每次不一樣？請廚師「一次烤大一點」——跟 AI 說：「題庫加大到 20 題，每次隨機抽 8 題」。孩子喊「怎麼都同樣題目！」的那一刻，就講這張卡。</div>
+  </div>
+  </div>
+  <button class="copy copy5" onclick="cpKnow(this)">📋 複製整個區塊⑤的文字</button>
+  <div class="note" style="margin-top:10px">💡 給老師：把上面整區複製，貼進 <b>NotebookLM</b> 當來源，就能請它生成有趣的簡報或語音導覽（配合妳的 NLM 工作室提示詞用法）。</div>
+
+  <footer>🍀 Learn AI with Tarshar｜國小 AI 入門課．實作時間教材<br>三個約定：會查證．AI 陪我學不替我寫．不給個資</footer>
+</div>
+
+<script>
+function go(i){[0,1,2].forEach(j=>{document.getElementById('t'+j).classList.toggle('on',i===j);document.getElementById('p'+j).classList.toggle('on',i===j);});}
+function cp(btn,id){doCopy(btn,document.getElementById(id).innerText,'📋 複製這段咒語');}
+function cpKnow(btn){doCopy(btn,document.getElementById('knowArea').innerText,'📋 複製整個區塊⑤的文字');}
+function doCopy(btn,txt,orig){
+ const done=()=>{btn.classList.add('done');btn.textContent='✅ 複製好了！';setTimeout(()=>{btn.classList.remove('done');btn.textContent=orig;},2500);};
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(()=>fb(txt,done));}
+ else fb(txt,done);
+}
+function fb(txt,done){
+ const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
+ document.body.appendChild(ta);ta.select();
+ try{document.execCommand('copy');done();}catch(e){alert('請長按文字，手動選取複製');}
+ document.body.removeChild(ta);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台灣地形大冒險 ⛰️</title>
+<style>
+  :root{
+    --bg:#eef7f1; --card:#ffffff; --ink:#263a32; --sub:#6f8a7e;
+    --main:#2b8a3e; --ok:#2f9e44; --bad:#e03131;
+    --shadow:0 4px 14px rgba(38,58,50,.13);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+  .wrap{max-width:520px;margin:0 auto;padding:16px 16px 90px}
+  header{text-align:center;padding:18px 0 6px}
+  header h1{font-size:1.6rem;letter-spacing:2px}
+  header p{color:var(--sub);font-size:.9rem;margin-top:6px;line-height:1.6}
+  .tabs{display:flex;gap:8px;margin:14px 0}
+  .tab{flex:1;border:none;border-radius:14px;padding:12px 0;font-size:1rem;font-weight:700;background:#fff;color:var(--sub);box-shadow:var(--shadow);cursor:pointer}
+  .tab.on{background:var(--main);color:#fff}
+  .map-card{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:10px 8px 4px;text-align:center}
+  .map-card .hint{font-size:.85rem;color:var(--sub);padding-bottom:8px}
+  svg{width:100%;height:auto;max-height:62vh}
+  .pin{cursor:pointer}
+  .pin circle{stroke:#fff;stroke-width:2}
+  .pin text{font-size:11px;font-weight:700;fill:#263a32;paint-order:stroke;stroke:#ffffffcc;stroke-width:3}
+  .pin.sel circle{stroke:#ffd43b;stroke-width:4}
+  .info{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:16px;margin-top:12px;line-height:1.8;font-size:.95rem;display:none}
+  .info.show{display:block}
+  .info b{font-size:1.05rem}
+  .legend{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:8px 0}
+  .legend span{font-size:.75rem;background:#fff;border-radius:999px;padding:4px 10px;box-shadow:var(--shadow)}
+  /* 五大地形卡 */
+  .terrain{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:13px 14px;margin-bottom:10px;display:flex;gap:12px;align-items:center}
+  .terrain .e{font-size:1.8rem}
+  .terrain b{display:block}
+  .terrain span{font-size:.86rem;color:var(--sub);line-height:1.6}
+  /* 測驗（與年表機同款機制） */
+  #quiz{display:none}
+  .q-card{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:18px}
+  .q-no{color:var(--sub);font-size:.85rem;margin-bottom:6px}
+  .q-text{font-size:1.1rem;font-weight:700;line-height:1.7;margin-bottom:14px}
+  .opt{display:block;width:100%;text-align:left;border:2px solid #d9ead9;background:#f6fbf6;border-radius:14px;padding:13px 14px;font-size:1rem;margin-bottom:10px;cursor:pointer}
+  .opt.ok{border-color:var(--ok);background:#e6f6e9}
+  .opt.bad{border-color:var(--bad);background:#fdeaea}
+  .fb{min-height:1.6em;font-weight:700;margin:4px 0 10px}
+  .fb.ok{color:var(--ok)} .fb.bad{color:var(--bad)}
+  .btn{display:block;width:100%;border:none;border-radius:14px;padding:14px;font-size:1.05rem;font-weight:700;background:var(--main);color:#fff;cursor:pointer;box-shadow:var(--shadow)}
+  .btn[disabled]{opacity:.4}
+  .score-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-weight:700}
+  .score-bar .best{font-size:.85rem;color:var(--sub);font-weight:400}
+  .result{text-align:center;padding:26px 10px}
+  .result .big{font-size:3rem}
+  .result h2{margin:8px 0}
+  .result p{color:var(--sub);line-height:1.7}
+  h3.sec{margin:16px 4px 10px;font-size:1.05rem}
+  footer{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #d9ead9;text-align:center;padding:10px;font-size:.78rem;color:var(--sub)}
+  footer a{color:var(--main);text-decoration:none;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>⛰️ 台灣地形大冒險</h1>
+    <p>點地圖上的圓點，認識台灣的地形寶藏！<br>（配合五年級社會：台灣的自然環境）</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab on" id="tabLearn" onclick="showLearn()">🗺️ 探險地圖</button>
+    <button class="tab" id="tabQuiz" onclick="showQuiz()">⭐ 闖關測驗</button>
+  </div>
+
+  <div id="learn">
+    <div class="map-card">
+      <div class="hint">👇 點一點圓點，看看那裡有什麼</div>
+      <svg viewBox="0 0 300 460" aria-label="台灣地形示意圖（簡化）">
+        <!-- 簡化示意的台灣本島 -->
+        <path d="M178 18 C 205 30, 224 62, 228 100 C 232 138, 224 178, 212 220
+                 C 200 264, 184 310, 166 352 C 152 386, 136 416, 118 434
+                 C 104 446, 88 442, 80 424 C 70 400, 66 368, 68 336
+                 C 70 300, 78 262, 90 224 C 102 184, 116 144, 130 106
+                 C 142 72, 156 36, 178 18 Z"
+              fill="#cdeccb" stroke="#8fbf8c" stroke-width="3"/>
+        <!-- 中央山脈帶（示意） -->
+        <path d="M176 50 C 196 96, 198 150, 186 204 C 174 258, 156 312, 136 360 C 128 378, 118 394, 108 404
+                 C 116 370, 130 322, 144 272 C 158 222, 168 168, 170 118 C 171 92, 172 68, 176 50 Z"
+              fill="#9ccc9c" opacity=".8"/>
+        <text x="196" y="180" font-size="12" fill="#3a6b3a" font-weight="700" transform="rotate(78 196 180)">中央山脈</text>
+        <!-- 圓點：由 JS 生成 -->
+        <g id="pins"></g>
+      </svg>
+      <div class="legend"><span>🟩 綠色帶＝高高的山地</span><span>🟢 淺綠＝比較平的地方</span><span>＊示意圖，非精確比例</span></div>
+    </div>
+    <div class="info" id="info"></div>
+
+    <h3 class="sec">🎒 先認識五大地形</h3>
+    <div id="terrains"></div>
+  </div>
+
+  <div id="quiz">
+    <div class="score-bar">
+      <span id="scoreNow">得分 0</span>
+      <span class="best" id="scoreBest"></span>
+    </div>
+    <div class="q-card" id="qCard"></div>
+  </div>
+
+  <div style="background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:14px 16px;margin-top:18px;font-size:.85rem;line-height:1.8;color:var(--sub)">
+    📚 <b style="color:var(--ink)">資料來源</b>：<a href="https://www.nlsc.gov.tw" target="_blank" rel="noopener" style="color:var(--main);font-weight:700">內政部國土測繪中心</a><br>
+    AI 整理的內容有可能出錯，發現怪怪的地方，記得跟課本對答案！
+  </div>
+</div>
+
+<footer>🍀 Learn AI with Tarshar｜AI 課堂示範作品</footer>
+
+<script>
+const TERRAINS=[
+ {e:"🏔️",n:"山地",d:"又高又陡，台灣超過一半的土地都是山地和丘陵，所以叫「高山之島」。"},
+ {e:"🐄",n:"丘陵",d:"比山地矮、圓圓緩緩的小山，常常種茶，例如新竹、苗栗一帶。"},
+ {e:"🍈",n:"台地",d:"頂部平平、像桌子的高地，例如林口台地、桃園台地。"},
+ {e:"🥣",n:"盆地",d:"四周高、中間低，像一個碗，例如台北盆地、台中盆地。"},
+ {e:"🌾",n:"平原",d:"又平又寬，最適合種田和住人，例如嘉南平原。"}
+];
+const PINS=[
+ {x:174,y:62,dy:-13,c:"#5c940d",n:"台北盆地",d:"🥣 <b>台北盆地</b>：四周高、中間低，像一個碗。台北市就在碗底裡！"},
+ {x:150,y:84,dy:22,c:"#f59f00",n:"林口台地",d:"🍈 <b>林口台地</b>：頂部平平像桌子的台地。"},
+ {x:204,y:104,dy:-13,c:"#e8590c",n:"蘭陽平原",d:"🌾 <b>蘭陽平原</b>：宜蘭的三角形平原，蘭陽溪沖積出來的。"},
+ {x:130,y:178,dy:-13,c:"#5c940d",n:"台中盆地",d:"🥣 <b>台中盆地</b>：台中市所在的盆地，氣候舒服、物產豐富。"},
+ {x:156,y:208,dy:-13,c:"#0c8599",n:"日月潭",d:"🌊 <b>日月潭</b>：台灣最大的天然湖泊，一邊像太陽、一邊像月亮。"},
+ {x:178,y:245,dy:-13,c:"#2b8a3e",n:"玉山",d:"🏔️ <b>玉山</b>：高 3952 公尺，是台灣最高峰，比雲還高！冬天山頂會下雪。"},
+ {x:118,y:258,dy:22,c:"#1971c2",n:"濁水溪",d:"🏞️ <b>濁水溪</b>：台灣最長的河流，河水常帶著泥沙、濁濁的，因此得名。"},
+ {x:98,y:300,dy:22,c:"#e8590c",n:"嘉南平原",d:"🌾 <b>嘉南平原</b>：台灣最大的平原，是種稻米的大穀倉（記得嘉南大圳嗎？）。"},
+ {x:116,y:376,dy:22,c:"#e8590c",n:"屏東平原",d:"🌾 <b>屏東平原</b>：南部的大平原，盛產香蕉、蓮霧。"}
+];
+const QS=[
+ {q:"台灣最高峰是哪一座山？",o:["玉山","阿里山","陽明山"],a:0,fb:"玉山高 3952 公尺，是東北亞有名的高峰！"},
+ {q:"四周高、中間低，像碗一樣的地形叫什麼？",o:["盆地","平原","台地"],a:0,fb:"台北盆地、台中盆地都是這種地形。"},
+ {q:"台灣最大的平原是？",o:["嘉南平原","蘭陽平原","屏東平原"],a:0,fb:"嘉南平原是台灣的大穀倉！"},
+ {q:"台灣最長的河流是？",o:["濁水溪","淡水河","愛河"],a:0,fb:"濁水溪的河水帶泥沙、濁濁的，所以叫濁水溪。"},
+ {q:"頂部平平、像桌子的地形叫什麼？",o:["台地","山地","丘陵"],a:0,fb:"例如林口台地、桃園台地。"},
+ {q:"被稱為「台灣屋脊」、最長的山脈是？",o:["中央山脈","雪山山脈","阿里山山脈"],a:0,fb:"中央山脈縱貫台灣，像屋頂的中梁！"},
+ {q:"台灣最大的天然湖泊是？",o:["日月潭","澄清湖","梅花湖"],a:0,fb:"日月潭一邊像太陽、一邊像月亮。"},
+ {q:"台灣為什麼被叫做「高山之島」？",o:["超過一半土地是山地丘陵","因為有 101 大樓","因為冬天會下雪"],a:0,fb:"台灣一半以上的土地都是山地和丘陵！"}
+];
+document.getElementById('terrains').innerHTML=TERRAINS.map(t=>`
+ <div class="terrain"><span class="e">${t.e}</span><div><b>${t.n}</b><span>${t.d}</span></div></div>`).join('');
+document.getElementById('pins').innerHTML=PINS.map((p,i)=>`
+ <g class="pin" id="pin${i}" onclick="openPin(${i})">
+   <circle cx="${p.x}" cy="${p.y}" r="9" fill="${p.c}"></circle>
+   <text x="${p.x}" y="${p.y+p.dy}" text-anchor="middle">${p.n}</text>
+ </g>`).join('');
+function openPin(i){
+ document.querySelectorAll('.pin').forEach(el=>el.classList.remove('sel'));
+ document.getElementById('pin'+i).classList.add('sel');
+ const info=document.getElementById('info');
+ info.innerHTML=PINS[i].d;info.classList.add('show');
+ info.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+let qi=0,score=0,order=[];
+function showLearn(){document.getElementById('learn').style.display='block';document.getElementById('quiz').style.display='none';
+ tabLearn.classList.add('on');tabQuiz.classList.remove('on');}
+function showQuiz(){document.getElementById('learn').style.display='none';document.getElementById('quiz').style.display='block';
+ tabQuiz.classList.add('on');tabLearn.classList.remove('on');startQuiz();}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function startQuiz(){qi=0;score=0;order=shuffle([...QS.keys()]);renderQ();}
+function renderQ(){
+ document.getElementById('scoreNow').textContent='得分 '+score;
+ const best=localStorage.getItem('kids_terrain_best');
+ document.getElementById('scoreBest').textContent=best?('最佳紀錄 '+best):'';
+ if(qi>=order.length){return renderEnd();}
+ const q=QS[order[qi]];
+ const opts=shuffle(q.o.map((t,i)=>({t,ok:i===q.a})));
+ document.getElementById('qCard').innerHTML=`
+  <div class="q-no">第 ${qi+1} / ${order.length} 題</div>
+  <div class="q-text">${q.q}</div>
+  ${opts.map(o=>`<button class="opt" onclick="pick(this,${o.ok})">${o.t}</button>`).join('')}
+  <div class="fb" id="fb"></div>
+  <button class="btn" id="next" disabled onclick="qi++;renderQ()">下一題 →</button>`;
+}
+function pick(btn,ok){
+ if(document.getElementById('next').disabled===false)return;
+ const q=QS[order[qi]];
+ btn.classList.add(ok?'ok':'bad');
+ const fb=document.getElementById('fb');
+ if(ok){score+=10;fb.textContent='✅ 答對了！'+q.fb;fb.className='fb ok';}
+ else{fb.textContent='❌ 差一點！'+q.fb;fb.className='fb bad';
+   document.querySelectorAll('.opt').forEach(b=>{if(b.textContent===q.o[q.a])b.classList.add('ok');});}
+ document.getElementById('scoreNow').textContent='得分 '+score;
+ document.getElementById('next').disabled=false;
+}
+function renderEnd(){
+ const best=Math.max(score,+(localStorage.getItem('kids_terrain_best')||0));
+ localStorage.setItem('kids_terrain_best',best);
+ const stars=score>=70?'🌟🌟🌟':score>=40?'🌟🌟':'🌟';
+ document.getElementById('qCard').innerHTML=`
+  <div class="result">
+    <div class="big">${stars}</div>
+    <h2>得分 ${score} 分！</h2>
+    <p>${score>=70?'太厲害了，你是地形探險王！':'回探險地圖再逛一圈，下次一定更高分！'}<br>最佳紀錄：${best} 分</p>
+    <br><button class="btn" onclick="startQuiz()">再玩一次 🔁</button>
+  </div>`;
+}
+</script>
+</body>
+</html>
