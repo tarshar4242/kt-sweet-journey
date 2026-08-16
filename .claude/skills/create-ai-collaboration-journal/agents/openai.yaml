@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI協作日誌"
+  short_description: "完整保存協作歷程、修正、學習與論文素材並輸出品牌手冊"
+  default_prompt: "Use $create-ai-collaboration-journal to turn this project session into a complete Tarshar-style AI collaboration journal."
