@@ -726,7 +726,7 @@
 <ul>
 <li>這份 AI 協作日誌要不要收進網站的系列裡，或維持只放在 GitHub 的 docs 資料夾——跟上一份一樣，還沒決定。</li>
 <li>兩個 AI 直接在交接區往返，我只在關鍵處裁決——這個模式今天跑起來很順，但還沒遇過「兩個 AI 意見相反」的情況，那時候要怎麼處理還沒有規則。（今天其實遇到一次雛形：Codex 說技能存在、Claude 說看不到，兩邊都沒說謊，是環境差異。處理方式是讓 Claude 做三重查證——檔案搜尋、目錄清點、git 全歷史——用證據判定，而不是相信任何一方的宣稱。這個方法值得沿用。）</li>
-<li><strong>我的兩個協作日誌技能要 commit 進 repo</strong>（<code>ai-coevolution-journal</code>、<code>create-ai-collaboration-journal</code>），要用實體檔案不要用 symlink。進去之後，Claude 這次臨時建的 <code>ai-collab-log</code> 要留、要合併還是刪掉，等我看過三份內容再決定——不要三個功能重疊的技能並存。</li>
+<li><strong>我的兩個協作日誌技能要 commit 進 repo</strong>（<code>ai-coevolution-journal</code>、<code>create-ai-collaboration-journal</code>），要用實體檔案不要用 symlink，這樣雲端的 Claude 才看得到。（Claude 當時臨時建的 <code>ai-collab-log</code> 我已經要它刪掉了——正本是我自己的那兩個，不要讓功能重疊的技能並存。CLAUDE.md 的觸發語已改成指向它們，並保留「動手前先讀 docs/ 範本」當保險。）</li>
 </ul>
 <hr>
 
