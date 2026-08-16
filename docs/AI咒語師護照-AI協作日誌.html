@@ -545,7 +545,13 @@
 <p>我請它更新 AI 協作日誌時，它做出來的是一份索引式的交接文件——檔案清單、定案總表、時間軸。看起來很整齊，但那不是我的 AI 協作日誌。</p>
 <p>我早就有一份正式做法（小熊健康小屋那一份）：單檔 HTML、第一人稱我的口吻、封面加內容目錄、導讀四節加九部結構，最後要接回我自己的研究主軸。Claude 沒有先去查我既有的格式，就照自己的想法排了一份。</p>
 <p>是我說「去查一下 AI 協作日誌的正式做法，你給錯了」，它才去讀舊檔、照格式重做——也就是你現在看到的這一份。</p>
-<p><strong>可重複規則：</strong>凡是我專案裡已經有先例的產出物（日誌、教案、圖卡、電子報），動手前<strong>先去 repo 裡找上一份長什麼樣</strong>，照既有格式做；沒有先例才自己設計。這一條跟第 21 條是同一個毛病的兩次發作：<strong>先讀專案，再動手。</strong></p>
+<p><strong>後來查出更根本的原因：</strong>我以為 Claude 「沒去查 Skill」，但它查了——這個環境裡真的沒有。我確實有兩個現成的協作日誌技能（<code>ai-coevolution-journal</code>、<code>create-ai-collaboration-journal</code>），Codex 在我的電腦上看得到；但 Claude 跑在雲端容器，是從 GitHub 全新複製下來的，而<strong>這兩個技能從來沒有被 commit 進 repo</strong>——全機檔案搜尋找不到、git 全歷史也從來沒出現過這兩個名字。</p>
+<p>所以這不是誰粗心，是<strong>兩台機器看到的東西不一樣</strong>：我的 Mac 上有的技能與規則，只要沒進 GitHub，雲端的 Claude 就等於沒有。</p>
+<p><strong>可重複規則（兩條）：</strong></p>
+<ul>
+<li>凡是我專案裡已經有先例的產出物（日誌、教案、圖卡、電子報），動手前<strong>先去 repo 裡找上一份長什麼樣</strong>，照既有格式做；沒有先例才自己設計。這一條跟第 21 條是同一個毛病的兩次發作：<strong>先讀專案，再動手。</strong></li>
+<li><strong>我要 Claude 遵守的技能與規則，一律要實體存在 repo 裡（不是 symlink、不是只在我的 Mac 上）。</strong>雲端的 AI 只認 GitHub 上的東西。跨機器協作的預設是「沒進 repo＝不存在」。</li>
+</ul>
 <hr>
 
 <h2 class="part-title">第四部｜這次的正式決策帳</h2>
@@ -639,16 +645,55 @@
 <h2 class="part-title">第七部｜這次產生的文件與狀態</h2>
 
 <h2 class="section-title">29. 目前正式支援文件</h2>
-<p>定版成品（在 ai-spell-classroom 的協作交接 / v0.3.2）：</p>
+<p><strong>定版成品</strong>（發印就用這幾份，點檔名直接開）：</p>
 <ul>
-<li>《AI 咒語師護照》十六頁完整樣張 v0.3.2——發印版</li>
-<li>《詩詞來源卡》十二張 A6 定版 v0.3.2——發印版</li>
-<li>《詩詞群版基底咒語》定稿 v0.3.2</li>
-<li>《課堂簡報》投影母版定稿 v0.3.2</li>
-<li>《對外文案》同步定稿 v0.3.2</li>
+<li><a href="https://ai-spell-classroom.github.io/協作交接/v0.3.2/AI咒語師護照｜16頁完整樣張v0.3.2.pdf">《AI 咒語師護照》十六頁完整樣張 v0.3.2</a>——發印版</li>
+<li><a href="https://ai-spell-classroom.github.io/協作交接/v0.3.2/詩詞來源卡｜12張A6定版v0.3.2.pdf">《詩詞來源卡》十二張 A6 定版 v0.3.2</a>——發印版</li>
+<li><a href="https://ai-spell-classroom.github.io/協作交接/v0.3.2/詩詞群版基底咒語｜定稿v0.3.2.pdf">《詩詞群版基底咒語》定稿 v0.3.2</a></li>
+<li><a href="https://ai-spell-classroom.github.io/協作交接/v0.3.2/課堂簡報｜投影母版定稿v0.3.2.pdf">《課堂簡報》投影母版定稿 v0.3.2</a></li>
+<li><a href="https://ai-spell-classroom.github.io/協作交接/v0.3.2/對外文案｜定稿v0.3.2.pdf">《對外文案》同步定稿 v0.3.2</a></li>
+<li><a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/v0.3.2/設計正本與驗收｜v0.3.2.md">《設計正本與驗收》v0.3.2</a>（Codex 的自我驗收）</li>
 </ul>
-<p>過程文件（協作交接區）：五輪審查請求與回覆共十六份、全案一致性盤點回覆（所有裁決的集散地）、講義同步清單、協作交接進度日誌。</p>
-<p>本文件：《AI 咒語師護照 - AI 協作日誌》（AI協作日誌 02）。</p>
+
+<p><strong>審查往返過程文件</strong>（決策的依據都在這裡，依時序）：</p>
+<ul>
+<li><a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/README.md">協作交接區 README</a>——共同收件匣的入口與規則</li>
+<li><a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/給Claude｜AI任務護照｜Codex交接與審查請求.md">給 Claude｜Codex 交接與審查請求</a>（起點）／<a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/給Codex｜AI任務護照｜Claude回覆.md">給 Codex｜Claude 首輪審查回覆</a></li>
+<li><a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/給Codex｜AI咒語師護照｜v0.2工作指示.md">v0.2 工作指示</a>（視覺凍結＋十項任務）／<a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/給Claude｜AI咒語師護照｜v0.2複審請求.md">v0.2 複審請求</a>／<a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/給Codex｜AI咒語師護照｜v0.2複審回覆.md">v0.2 複審回覆</a></li>
+<li><a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/給Codex｜AI咒語師護照｜五案例擴充指示.md">五案例擴充指示</a>（十六頁結構的由來）</li>
+<li><a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/給Claude｜AI咒語師專案｜v0.3前全案一致性盤點請求.md">全案一致性盤點請求</a>／<strong><a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/給Codex｜AI咒語師專案｜v0.3前全案一致性盤點回覆.md">全案一致性盤點回覆</a></strong>——<strong>我所有裁決的集散地，要查某個決定為什麼這樣定，先看這一份</strong></li>
+<li><a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/給Claude｜AI咒語師護照｜v0.3複審請求.md">v0.3 複審請求</a>／<a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/給Codex｜AI咒語師護照｜v0.3複審回覆.md">v0.3 複審回覆</a></li>
+<li><a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/給Claude｜AI咒語師專案｜v0.3.1交付與複審請求.md">v0.3.1 交付與複審請求</a>／<a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/給Codex｜AI咒語師專案｜v0.3.1複審回覆.md">v0.3.1 複審回覆</a>（課名確認、異文定版、八條收尾清單）</li>
+<li><a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/給Claude｜AI咒語師專案｜v0.3.2定版複審請求.md">v0.3.2 定版複審請求</a>／<a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/給Codex｜AI咒語師專案｜v0.3.2定版複審回覆.md">v0.3.2 定版複審回覆</a>（第 15 頁那次實測與放行紀錄）</li>
+<li><a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/講義同步清單｜線上教材對裁決盤點.md">講義同步清單</a>——線上四頁還要改哪幾處</li>
+<li><a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/協作日誌｜AI咒語師護照｜2026-08-16.md">協作交接進度日誌</a>——給接手的人看的索引式交接文件（跟本文件不同用途）</li>
+<li><a href="https://github.com/ai-spell-classroom/ai-spell-classroom.github.io/blob/main/協作交接/AI咒語師專案｜跨文件對照資料包v0.1.md">跨文件對照資料包 v0.1</a>（Codex 轉錄的非敏感課程事實）</li>
+</ul>
+
+<p><strong>歷史版本</strong>（留檔，已被取代）：
+<a href="https://ai-spell-classroom.github.io/協作交接/AI任務護照｜三頁視覺樣張.pdf">v0.1 三頁視覺樣張</a>／
+<a href="https://ai-spell-classroom.github.io/協作交接/AI任務護照｜設計提案說明.pdf">v0.1 設計提案說明</a>／
+<a href="https://ai-spell-classroom.github.io/協作交接/AI任務護照｜給Claude確認清單.pdf">v0.1 確認清單</a>／
+<a href="https://ai-spell-classroom.github.io/協作交接/AI咒語師護照｜三頁視覺樣張v0.2.pdf">v0.2 三頁視覺樣張</a>／
+<a href="https://ai-spell-classroom.github.io/協作交接/AI咒語師護照｜裝訂方案v0.2.pdf">v0.2 裝訂方案</a>（已選 A）／
+<a href="https://ai-spell-classroom.github.io/協作交接/AI咒語師護照｜16頁完整樣張v0.3.pdf">v0.3 十六頁樣張</a>／
+<a href="https://ai-spell-classroom.github.io/協作交接/v0.3.1/AI咒語師護照｜16頁完整樣張v0.3.1.pdf">v0.3.1 護照</a>／
+<a href="https://ai-spell-classroom.github.io/協作交接/v0.3.1/詩詞來源卡｜12張A6建議版.pdf">v0.3.1 詩詞卡建議版</a>
+</p>
+
+<p><strong>被拿來對照、全程沒有被修改的教材正本</strong>：
+<a href="https://ai-spell-classroom.github.io/handbook.html">AI 咒語實作手冊</a>／
+<a href="https://ai-spell-classroom.github.io/poem.html">詩詞練功房示範</a>／
+<a href="https://ai-spell-classroom.github.io/history.html">台灣歷史時光機示範</a>／
+<a href="https://ai-spell-classroom.github.io/terrain.html">台灣地形大冒險示範</a>／
+<a href="https://ai-spell-classroom.github.io/parent-guide.html">家長行前準備包</a>／
+<a href="https://ai-spell-classroom.github.io/index.html">課程入口頁</a>
+</p>
+
+<p><strong>本文件與姊妹篇</strong>：
+《AI 咒語師護照 - AI 協作日誌》（AI協作日誌 02，即本文件）／
+<a href="https://tarshar4242.github.io/kt-sweet-journey/docs/小熊健康小屋-AI協作日誌.html">《小熊健康小屋 - AI 協作日誌》（AI協作日誌 01，格式正本）</a>
+</p>
 <hr>
 
 <h2 class="section-title">30. 暫停或待處理的項目</h2>
@@ -680,7 +725,8 @@
 <h2 class="section-title">33. 協作流程</h2>
 <ul>
 <li>這份 AI 協作日誌要不要收進網站的系列裡，或維持只放在 GitHub 的 docs 資料夾——跟上一份一樣，還沒決定。</li>
-<li>兩個 AI 直接在交接區往返，我只在關鍵處裁決——這個模式今天跑起來很順，但還沒遇過「兩個 AI 意見相反」的情況，那時候要怎麼處理還沒有規則。</li>
+<li>兩個 AI 直接在交接區往返，我只在關鍵處裁決——這個模式今天跑起來很順，但還沒遇過「兩個 AI 意見相反」的情況，那時候要怎麼處理還沒有規則。（今天其實遇到一次雛形：Codex 說技能存在、Claude 說看不到，兩邊都沒說謊，是環境差異。處理方式是讓 Claude 做三重查證——檔案搜尋、目錄清點、git 全歷史——用證據判定，而不是相信任何一方的宣稱。這個方法值得沿用。）</li>
+<li><strong>我的兩個協作日誌技能要 commit 進 repo</strong>（<code>ai-coevolution-journal</code>、<code>create-ai-collaboration-journal</code>），要用實體檔案不要用 symlink。進去之後，Claude 這次臨時建的 <code>ai-collab-log</code> 要留、要合併還是刪掉，等我看過三份內容再決定——不要三個功能重疊的技能並存。</li>
 </ul>
 <hr>
 
