@@ -34,8 +34,7 @@
 
 1. **先用她既有的技能**：`ai-coevolution-journal`（工作進行中保存決策、修正與分支）與
    `create-ai-collaboration-journal`（把一段重要協作整理成完整的繁中 AI 協作日誌）。
-   ⚠️ **這兩個技能目前只存在於 Tarshar 的 Mac，尚未 commit 進本 repo**，所以雲端 session 看不到。
-   待它們實體入庫後，本條直接指向它們。
+   兩者已以**實體檔案**版控於 `.claude/skills/`（不是 symlink）；雲端 session 開啟此 repo 時應直接載入。
 2. **無論用哪個技能，動手前一律先讀 `docs/` 裡既有的日誌當範本**：
    `docs/小熊健康小屋-AI協作日誌.html`（01，格式正本）、`docs/AI咒語師護照-AI協作日誌.html`（02）。
 3. 格式固定：單檔 HTML、第一人稱她的口吻、封面＋內容目錄＋導讀四節（為什麼做／協作主線／各方角色／
