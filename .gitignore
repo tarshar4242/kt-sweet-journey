@@ -1,2 +1,4 @@
 scratch_*
 scratch_*/
+.playwright-cli/
+output/
