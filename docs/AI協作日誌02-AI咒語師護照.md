@@ -478,11 +478,12 @@ Claude 一開始建議把執行指令寫進基底咒語。我想了一下決定*
 - **已刪除**：Claude 臨時建立的 `ai-collab-log` 技能（正本是我自己的兩個技能）。
 - **暫停**：成果公布欄網頁（下一季）；[poem.html](https://ai-spell-classroom.github.io/poem.html) 題庫擴充至十二首（純加值，本輪不做）。
 
-## 同版本的另一種呈現
+## 本系列日誌
 
-- 本份：`docs/AI協作日誌02-AI咒語師護照.md`（依 `create-ai-collaboration-journal` 正式規格）
-- 手寫版：`docs/AI咒語師護照-AI協作日誌.html`（依 `docs/小熊健康小屋-AI協作日誌.html` 先例手寫，含小D版視覺）
+- 本份：`docs/AI協作日誌02-AI咒語師護照.md`（AI協作日誌 02，依 `create-ai-collaboration-journal` 正式規格產出，**唯一正本**）
 - 前一份：`docs/小熊健康小屋-AI協作日誌.html`（AI協作日誌 01）
+
+> 過程中曾有一版由 Claude 依 01 的先例手寫的 HTML（`AI咒語師護照-AI協作日誌.html`），在正式技能入庫後已刪除，不保留重複版本。
 
 ---
 
