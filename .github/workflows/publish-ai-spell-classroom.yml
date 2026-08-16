@@ -24,8 +24,10 @@ jobs:
           path: target
 
       - name: Sync published files into target repo
+        # 不用 --delete：目標 repo 除了六頁教材，還有 協作交接/（三方交接與定版檔工作區）與 CLAUDE.md。
+        # 2026-08-16 曾因 --delete 整個資料夾被鏡像刪除（已從 git 歷史還原）。要下架頁面請到目標 repo 手動刪。
         run: |
-          rsync -av --delete --exclude='.git' source/publish-ai-spell-classroom/ target/
+          rsync -av --exclude='.git' source/publish-ai-spell-classroom/ target/
 
       - name: Commit and push if changed
         run: |
