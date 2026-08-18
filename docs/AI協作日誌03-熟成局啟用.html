@@ -1,0 +1,811 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI協作日誌｜熟成局 Tarshar's Work Lab 啟用</title>
+<style>
+  :root {
+    --ink: #283229;
+    --muted: #687064;
+    --teal: #819b3e;
+    --teal-dark: #4f612f;
+    --cyan-soft: #edf3e2;
+    --orange: #bd8056;
+    --peach-soft: #f8e8c6;
+    --cream: #fdf7e0;
+    --sage: #cbd7ab;
+    --line: #d9dfca;
+    --paper: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    margin: 0;
+    color: var(--ink);
+    font-family: "Iansui","PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    background: #eef1f2;
+  }
+  .cover {
+    width: 210mm;
+    height: 297mm;
+    position: relative;
+    overflow: hidden;
+    background: var(--cream);
+    padding: 0;
+    break-after: page;
+  }
+  .cover::before {
+    content: "";
+    position: absolute;
+    width: 98mm;
+    height: 98mm;
+    right: -42mm;
+    bottom: -38mm;
+    border: 1px solid rgba(129, 155, 62, .18);
+    border-radius: 50%;
+    z-index: 5;
+  }
+  .brand-logo { font-family: "Iansui","PingFang TC",sans-serif; font-size: 9pt; font-weight:700; color: var(--teal-dark); letter-spacing:.05em; }
+  .cover-brand {
+    position: absolute;
+    left: 50%;
+    bottom: 10mm;
+    transform: translateX(-50%);
+    z-index: 7;
+  }
+  .eyebrow {
+    position: absolute;
+    left: 23mm;
+    top: 202mm;
+    z-index: 7;
+    color: var(--teal-dark);
+    font-family: "Iansui", "PingFang TC", sans-serif;
+    font-size: 9pt;
+    font-weight: 400;
+    letter-spacing: .12em;
+    margin: 0;
+  }
+  .cover-title {
+    position: absolute;
+    left: 23mm;
+    top: 216mm;
+    z-index: 7;
+    margin: 0;
+    font-family: "Iansui", "PingFang TC", sans-serif;
+    font-size: 27pt;
+    line-height: 1.22;
+    font-weight: 400;
+    letter-spacing: .025em;
+  }
+  .cover-art {
+    position: absolute;
+    inset: 0 0 auto 0;
+    width: 210mm;
+    height: 188mm;
+    z-index: 1;
+    background: linear-gradient(160deg,#f8e8c6 0%,#edf3e2 55%,#cbd7ab 100%);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .cover-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(to bottom, transparent 0 52%, rgba(253,247,224,.12) 61%, rgba(253,247,224,.72) 72%, #fdf7e0 83%);
+    pointer-events: none;
+  }
+  .cover-wave {
+    position: absolute;
+    left: -9%;
+    width: 118%;
+    border-radius: 50% 50% 0 0;
+    z-index: 3;
+  }
+  .cover-wave.back {
+    top: 165mm;
+    height: 35mm;
+    background: rgba(203, 215, 171, .82);
+    transform: rotate(1.4deg);
+  }
+  .cover-wave.front {
+    top: 173mm;
+    height: 34mm;
+    background: var(--cream);
+    transform: rotate(-.7deg);
+    z-index: 4;
+  }
+  .cover-title-panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 184mm;
+    bottom: 0;
+    z-index: 4;
+    background: var(--cream);
+  }
+  .document {
+    background: white;
+    color: var(--ink);
+  }
+  .toc-page {
+    break-after: page;
+    min-height: 240mm;
+    padding-top: 3mm;
+  }
+  .toc-title {
+    font-size: 24pt;
+    font-weight: 850;
+    margin: 0 0 14mm;
+    letter-spacing: -.03em;
+  }
+  .toc-row {
+    display: grid;
+    grid-template-columns: 15mm 1fr;
+    gap: 2mm;
+    align-items: center;
+    border-bottom: 1px solid #edf0f0;
+    padding: 3.4mm 0;
+  }
+  .toc-no {
+    color: var(--teal);
+    font-weight: 840;
+    font-size: 10.5pt;
+  }
+  .toc-name {
+    font-size: 10.2pt;
+    font-weight: 650;
+  }
+  .article { font-size: 10.1pt; line-height: 1.66; }
+  .article p { margin: 0 0 3.1mm; orphans: 1; widows: 1; }
+  .article ul, .article ol { margin: 1mm 0 4mm 5.5mm; padding-left: 4.5mm; }
+  .article li { margin: 1.1mm 0; padding-left: 1mm; }
+  .article li::marker { color: var(--teal); font-weight: 800; }
+  .part-title {
+    break-before: page;
+    break-after: avoid;
+    margin: 0 0 9mm;
+    padding: 0 0 4mm;
+    border-bottom: 1.3px solid var(--ink);
+    font-size: 20pt;
+    line-height: 1.25;
+    font-weight: 850;
+    letter-spacing: -.03em;
+  }
+  .part-title::first-letter { color: var(--teal); }
+  .section-title {
+    break-after: avoid;
+    margin: 9mm 0 4mm;
+    font-size: 15.5pt;
+    line-height: 1.35;
+    font-weight: 830;
+    letter-spacing: -.02em;
+  }
+  .learning-title { color: var(--teal-dark); }
+  .correction-title { color: #b85d20; }
+  .decision-title { color: var(--teal-dark); }
+  .note-title {
+    break-after: avoid;
+    margin: 6mm 0 2.2mm;
+    font-size: 11.2pt;
+    font-weight: 800;
+  }
+  .note-title.warning { color: #b85d20; }
+  .note-title.learning { color: var(--teal-dark); }
+  strong { font-weight: 800; }
+  blockquote {
+    break-inside: avoid;
+    margin: 5mm 0;
+    padding: 4.5mm 5.2mm;
+    border: 0;
+    border-radius: 4mm;
+    background: var(--peach-soft);
+    color: #4a3426;
+    box-shadow: inset 3px 0 0 var(--orange);
+  }
+  blockquote p:last-child { margin-bottom: 0; }
+  pre {
+    break-inside: avoid;
+    white-space: pre-wrap;
+    margin: 4.5mm 0;
+    padding: 4.5mm 5mm;
+    border-radius: 3.5mm;
+    background: #f2f6f6;
+    color: #254348;
+    font: 8.9pt/1.65 "SFMono-Regular", Menlo, monospace;
+    border-left: 3px solid var(--teal);
+  }
+  code {
+    font-family: "SFMono-Regular", Menlo, monospace;
+    font-size: .9em;
+    color: #315d63;
+    background: #eef7f7;
+    padding: .1em .28em;
+    border-radius: 3px;
+  }
+  pre code { padding: 0; background: transparent; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4.5mm 0 6mm;
+    font-size: 8.5pt;
+    line-height: 1.55;
+  }
+  thead { display: table-header-group; }
+  tr { break-inside: avoid; }
+  th {
+    text-align: left;
+    color: var(--teal-dark);
+    font-weight: 800;
+    background: var(--cyan-soft);
+    border-bottom: 1.3px solid var(--teal);
+    padding: 2.5mm 2.2mm;
+  }
+  td {
+    vertical-align: top;
+    border-bottom: 1px solid #e7ebeb;
+    padding: 2.4mm 2.2mm;
+  }
+  hr {
+    border: 0;
+    border-top: 1px solid var(--line);
+    margin: 8mm 0;
+  }
+  a { color: var(--teal-dark); text-decoration: none; }
+  .keyword-box {
+    break-inside: avoid;
+    background: var(--cyan-soft);
+    border-radius: 4mm;
+    padding: 4.5mm 5mm;
+    margin: 4mm 0;
+  }
+  .part-closing {
+    margin-top: 20mm;
+    padding: 8mm 9mm;
+    border-left: 3px solid var(--teal);
+    border-radius: 0 4mm 4mm 0;
+    background: var(--cyan-soft);
+    color: #27565b;
+    font-size: 15pt;
+    line-height: 1.65;
+    font-weight: 760;
+  }
+  @media screen {
+    .document {
+      width: 210mm;
+      margin: 18px auto;
+      padding: 18mm 17mm;
+      box-shadow: 0 10px 35px rgba(22, 32, 35, .13);
+    }
+  }
+  @media print {
+    body { background: white; }
+    .document { padding: 0; }
+  }
+</style>
+</head>
+<body>
+  <section class="cover">
+    <div class="cover-art">
+      <svg width="150mm" height="80mm" viewBox="0 0 300 160" aria-hidden="true">
+        <ellipse cx="150" cy="132" rx="52" ry="9" fill="#cbd7ab" opacity=".5"/>
+        <path d="M118 62 q-6 22 -4 42 q2 26 36 26 q34 0 36-26 q2-20 -4-42 z" fill="#fdf7e0" stroke="#4f612f" stroke-width="2"/>
+        <path d="M118 62 q32 10 64 0" fill="none" stroke="#4f612f" stroke-width="2"/>
+        <rect x="112" y="52" width="76" height="11" rx="5" fill="#f8e8c6" stroke="#4f612f" stroke-width="2"/>
+        <path d="M122 108 q28 -9 56 0 q1 12 -3 16 q-25 8 -50 0 q-4 -4 -3 -16z" fill="#cbd7ab" opacity=".85"/>
+        <circle cx="138" cy="88" r="3.4" fill="#819b3e"/><circle cx="160" cy="80" r="2.6" fill="#bd8056"/><circle cx="170" cy="95" r="3" fill="#819b3e"/>
+        <circle cx="52" cy="44" r="17" fill="#edf3e2" stroke="#4f612f" stroke-width="1.8"/>
+        <circle cx="248" cy="44" r="17" fill="#edf3e2" stroke="#4f612f" stroke-width="1.8"/>
+        <circle cx="52" cy="116" r="17" fill="#edf3e2" stroke="#4f612f" stroke-width="1.8"/>
+        <circle cx="248" cy="116" r="17" fill="#edf3e2" stroke="#4f612f" stroke-width="1.8"/>
+        <path d="M69 48 L112 66 M231 48 L188 66 M69 112 L112 104 M231 112 L188 104" stroke="#819b3e" stroke-width="1.6" stroke-dasharray="4 3" fill="none"/>
+        <text x="52" y="48" text-anchor="middle" font-size="10" fill="#4f612f">我</text>
+        <text x="248" y="48" text-anchor="middle" font-size="9" fill="#4f612f">熟成局</text>
+        <text x="52" y="120" text-anchor="middle" font-size="9" fill="#4f612f">CC</text>
+        <text x="248" y="120" text-anchor="middle" font-size="9" fill="#4f612f">小C</text>
+      </svg>
+    </div>
+    <div class="cover-glow"></div>
+    <div class="cover-wave back"></div>
+    <div class="cover-wave front"></div>
+    <div class="cover-title-panel"></div>
+    <div class="cover-brand"><span class="brand-logo">🍀 Learn AI with Tarshar | 2026</span></div>
+    <div class="eyebrow">AI協作日誌 03</div>
+    <div class="cover-title">熟成局<br>啟用</div>
+  </section><main class="document">
+  <section class="toc-page">
+    <h1 class="toc-title">內容目錄</h1>
+      <div class="toc-row"><span class="toc-no">01</span><span class="toc-name">導讀 · 為什麼做這份日誌、主線、四方角色、資料界線</span></div>
+      <div class="toc-row"><span class="toc-no">02</span><span class="toc-name">第一部 · 資料架構相容性確認：從外部提案到沿用現有機制</span></div>
+      <div class="toc-row"><span class="toc-no">03</span><span class="toc-name">第二部 · 公務資料邊界：從一句禁令長成一套可用的判準</span></div>
+      <div class="toc-row"><span class="toc-no">04</span><span class="toc-name">第三部 · 熟成局工作台與每日 17:30 迴路上線</span></div>
+      <div class="toc-row"><span class="toc-no">05</span><span class="toc-name">第四部 · 這次實際發生的偏航與修正</span></div>
+      <div class="toc-row"><span class="toc-no">06</span><span class="toc-name">第五部 · 這次的正式決策帳</span></div>
+      <div class="toc-row"><span class="toc-no">07</span><span class="toc-name">第六部 · 學習關鍵字辭典</span></div>
+      <div class="toc-row"><span class="toc-no">08</span><span class="toc-name">第七部 · 可以帶回論文／研究的素材</span></div>
+      <div class="toc-row"><span class="toc-no">09</span><span class="toc-name">第八部 · 產出文件、狀態與仍待確認</span></div>
+      <div class="toc-row"><span class="toc-no">10</span><span class="toc-name">第九部 · 現在正確的下一步</span></div>
+  </section><article class="article">
+<h2 class="section-title">0. 為什麼我要做這份日誌</h2>
+<p>表面上今天的起點很小：ChatGPT 給了我一份「Mini Work OS」的架構建議，我只是想確認它會不會跟我現有的 AI 協作方式打架。我甚至在需求書裡寫得很清楚——這次只做相容性確認，不要動我任何東西。</p>
+<p>結果一整天下來，真正發生的事跟我原本的問題不太一樣。</p>
+<p>我剛進新的公務單位，手上同時開著 ChatGPT 的「熟成局」、Claude Code、Codex、Notion、Google Drive、GitHub。我怕的是工具越開越多，最後變成「我知道做過，但不知道最後版本在哪裡」。但真正被翻出來的問題是另外兩個：<strong>第一，我早就有一套規則，只是我自己忘了它還停在「待確認」；第二，我換了工作，卻沒有任何一條規則知道我現在碰得到公務資料。</strong></p>
+<p>還有一件更值得留下的事：這一天我糾正了 AI 兩次，兩次都不是技術問題，是<strong>它把自己放錯位置</strong>。第一次它把風險提醒寫成了否決權，第二次它要我當傳話人。這兩次修正的價值比今天做出來的任何檔案都高，所以我要它寫進日誌，不是寫進聊天紀錄然後隨對話一起消失。</p>
+<p>順序說明：這次是<strong>邊做邊記</strong>，每一項決策當下就寫進 GitHub 圖書館並推送，不是事後憑印象重建。所以這份日誌可以逐項對回 commit。</p>
+<hr>
+
+<h2 class="section-title">1. 今天的主線到底是什麼</h2>
+<p><strong>主線一｜確認我的資料架構要不要改。</strong>外部（ChatGPT）給了一套六格分工的建議。我要知道的不是「這套好不好」，而是「它會不會弄壞我現在跑得好好的東西」。我的優先順序寫在需求書第一行：不破壞現有 Agent、不重複建立功能、只解決資料不要散落、能不改就不改。</p>
+<p><strong>主線二｜把公務資料的界線訂出來。</strong>這是我換工作帶來的新問題，也是這一天唯一真正缺的東西。難的不是「訂一條禁令」，是訂一條<strong>我實際做得到</strong>的規則——因為我在單位內就是負責 AI 導入的人，測邊界本來就是我的工作內容。先築一堵牆，後面根本沒有東西可以逐步開放。</p>
+<p><strong>主線三｜讓熟成局跟圖書館接得起來。</strong>熟成局是我每天處理工作的地方，但它讀不到我的 GitHub 圖書館，也寫不回去。這是一個新的斷點，而且它剛好就是我最怕的那句話的本體。</p>
+<h3 class="note-title">三條主線的共同接點</h3>
+<p>三件事其實是同一件：<strong>資料要有一個家，而「哪些資料可以進哪個家」在我換工作之後改變了。</strong>架構本身沒問題，是我的處境變了，規則要跟上。</p>
+<pre><code class="language-text">外部提案（Mini Work OS）
+→ 相容性確認：發現九成已存在，兩項駁回
+→ 缺口只有一個：公務資料邊界
+→ 邊界從「一句禁令」長成「分層＋紅黃綠燈＋去識別化」
+→ 我拍板：判斷權在我，AI 只管落地
+→ 熟成局↔Notion↔Claude 每日迴路上線
+</code></pre>
+<hr>
+
+<h2 class="section-title">2. 我和三個 AI 各自扮演什麼角色</h2>
+<p>今天最重要的結構性發現是：<strong>我的協作從三方變成四方了。</strong>原本的規則寫著「固定三方只指 Tarshar＋Codex＋Claude」，但熟成局已經是我每天待最久的地方。</p>
+<h3 class="note-title">我的角色</h3>
+<ul>
+<li>提供真實處境：新單位、業務範圍、我實際碰得到什麼資料。</li>
+<li><strong>決定做不做。</strong>這一條今天被我特別強調過一次，因為 AI 把它拿走了。</li>
+<li>對外的最後一關，以及所有不可逆事項的拍板。</li>
+<li>去查 AI 查不到的事——單位內部的規定，只有我拿得到。</li>
+</ul>
+<h3 class="note-title">三個 AI 的角色</h3>
+<p><strong>ChatGPT 熟成局</strong>：想清楚。搞懂公務流程、建業務地圖、草擬方向、新人學習。它是我的日常聊天室，但它<strong>讀不到圖書館也寫不回去</strong>，這個特性決定了它不能保管任何「最後版本」。</p>
+<p><strong>Claude（任知臨／CC）</strong>：正本與規則的維護。圖書館寫入、索引同步、交班、事實查證、長文件、公務邊界的記錄。今天它做的最有價值的一件事不是寫檔案，是<strong>把我口頭說的話拿去對真實文件查證</strong>——包括抓下法規原文逐條核對，以及在建排程之前先驗證環境接不接得到 Notion。</p>
+<p><strong>Codex（小C）</strong>：實作與自動化。程式、Workflow、常駐服務、Skill 本體。今天他沒有實際參與，但今天訂的規則他必須知道，所以留了一份交接。</p>
+<h3 class="note-title">不可越界</h3>
+<ul>
+<li><strong>AI 不做守門員。</strong>看到風險提醒一句就好，不重複勸、不擋類別。我標註的分類就是分類，不要重新判定。</li>
+<li>AI 不把我當傳話人。自己查得到、做得到的事，不要設計成需要我回頭通知的步驟。</li>
+<li>不可逆的動作（寫進 repo、Drive、Notion）動手前講一句，我點頭才做。</li>
+<li>AI 給的是操作通則，不是法律意見。真正的法遵個案走單位內部管道。</li>
+</ul>
+<hr>
+
+<h2 class="section-title">3. 資料安全與協作界線</h2>
+<p>這次的敏感點跟前兩個專案（家人健康資料、孩子與課文）都不同，是<strong>公務資料</strong>。</p>
+<h3 class="note-title">兩件事的嚴格程度不一樣</h3>
+<p>今天最有用的一個切分是把「貼進 AI 對話」和「寫進 repo／Drive／Notion」分開看：</p>
+<ul>
+<li><strong>貼進對話</strong>：暫時、可控、貼多少由我決定。可以做，但要先去識別化。</li>
+<li><strong>寫進 repo／Drive／Notion</strong>：<strong>不可逆</strong>。Git 保留歷史，刪檔不等於刪掉。這條沒有彈性。</li>
+</ul>
+<p>會出事的是第二條。第一條有辦法安全地做。這個切分讓規則從「不准」變成「可以，但怎麼做」，這才是我要的。</p>
+<h3 class="note-title">具體界線</h3>
+<ul>
+<li>去識別化六條：人名改角色代稱、案號文號刪掉、金額改量級、單位名改代稱、個資直接刪除不遮罩、日期只留先後關係。</li>
+<li>兩道檢驗句：第一關「不相干的人看到，能不能反查出是哪個案子、哪個人？」第二關「這件事換成任何一個機關都成立嗎？」</li>
+<li>單位內部文件的<strong>內容</strong>不寫進任何 repo，只記操作結論。這份日誌本身也照這條寫——沒有單位名稱、沒有文件編號、沒有內部規定原文。</li>
+<li>我的私人事務（論文、投資、品牌線）不在公務規範的適用範圍，由我自己判斷。</li>
+</ul>
+<div class="warning">
+<p><strong>今天我自己示範了這條界線有多容易跨過去。</strong>我為了讓 CC 看懂規則、做出正確判斷，直接把單位的內部文件 PDF 上傳給它。動機完全正當，但那份文件封面標著「內部使用」，而規定寫的就是不得提供未經同意公開之資訊給生成式 AI。CC 提醒了我一次，也說明了之後可以改成「把重點打字轉述」而不是傳原檔。這件事留在日誌裡不是要自我檢討，是因為它比任何規則條文都更能說明：<strong>真正的閘門在我打字的那一刻，不在後面任何一道流程。</strong></p>
+</div>
+<hr>
+<h1 class="part-title">第一部｜資料架構相容性確認：從外部提案到沿用現有機制</h1>
+
+<h2 class="section-title">4. 我要的不是新架構，是確認舊的還能用</h2>
+<p>ChatGPT 給我的那份需求書寫得很完整：ChatGPT 負責思考、Notion 當唯一入口、Google Drive 當文件庫、GitHub 當版本庫、Mac mini 的 <code>Agent/ray</code> 當工作區、Codex 與 Claude 當執行者。核心原則是「一份資訊只能有一個正式的家」。</p>
+<p>我把它整份丟給 CC，但前面加了一大段限制：不要修改任何現有 Agent、不要搬動 ray、不要新增或刪除資料夾、不要修改既有的 AGENTS.md／CLAUDE.md／memory／skills／hooks、不要執行 Git 操作。最後只要回我一句：可直接採用／小幅調整／不建議。</p>
+<p>我會寫這麼死，是因為我踩過。之前有幾次 AI 覺得「這樣比較好」就自己動手重整，結果我原本會用的東西壞掉了。</p>
+
+<h2 class="section-title">5. CC 翻出我七月就寫好的同一份東西</h2>
+<p>CC 讀完三個 repo 之後給我的第一句話是：<strong>「這件事你七月就做完了。」</strong></p>
+<p>我的圖書館根目錄有一份 <code>AI資料位置共識.md</code>，2026-07-25 由 Codex 起草、Claude 逐項實測覆核通過，狀態停在「<strong>待 Tarshar 確認</strong>」，一直到今天都沒有我拍板。它的第一句話跟 ChatGPT 講的是同一件事，只是換了說法。而且我那份還多了 ChatGPT 沒寫到的：衝突判斷順序、禁止形成的孤島清單、收官七項交班、開工共同讀取順序。</p>
+<p>所以這題的正確答案不是「要不要採用新架構」，而是<strong>「把已經覆核過的那份確認掉」</strong>。我當下就回了「確認照這樣」。</p>
+<blockquote><p>這件事本身就很有意思：我怕資料散落，結果最先散落的是我自己訂的規則——它躺在正確的位置、格式正確、內容正確，只差一個我的簽名，然後被我忘了三個星期。</p></blockquote>
+
+<h2 class="section-title">6. 兩項建議被駁回，而且理由是 AI 看不到我的機器</h2>
+<p>CC 駁回了 ChatGPT 兩項建議。我覺得這兩個駁回比「同意」有價值，因為它們指出了外部建議者的盲點。</p>
+<h3 class="note-title">駁回一：重整 <code>Agent/ray</code></h3>
+<p>ChatGPT 建議把 ray 改成 <code>inbox／workspace／output／archive</code>，並且說「ray 不應長期保存唯一正本」。這對我的環境是錯的，有三個具體理由：</p>
+<ul>
+<li>ray <strong>本身就是 private GitHub repo</strong>，有完整 commit 歷史。所以「ray＝工作區、GitHub＝版本庫」這條分界線在我這裡本來就不存在。</li>
+<li><code>ray/000_Agent/skills/</code> 是我<strong>所有 Skill 的唯一正本</strong>，Claude 和 Codex 兩邊都只是捷徑指回去。這是 8/06 才特地整併好的，起因就是有一個技能兩邊分叉、少了五個風格檔。照 ChatGPT 那樣改，兩個 AI 的技能捷徑會同時斷掉。</li>
+<li><code>000_Agent/state/</code> 裡有常駐服務的執行狀態（我家那隻 LINE 影片機器人的 log）。</li>
+<li>既有的 <code>000_Agent／100_Todo／200_Reference／300_Journal</code> 是線上課程老師建議的結構，我的規則裡明文寫著維持原狀不動。再加一套等於一個資料夾兩套分類法，反而製造我最怕的「不知道東西在哪」。</li>
+</ul>
+<h3 class="note-title">駁回二：Notion 當「唯一入口」</h3>
+<p>Notion 可以是<strong>我本人</strong>的唯一入口，但不能是 <strong>AI 的</strong>唯一入口。理由我自己踩過坑：Claude 和 Codex 開工時自動載入的是 repo 裡的 <code>CLAUDE.md</code> 和 <code>AGENTS.md</code>，不會自動去讀 Notion；而且連接器能力<strong>逐環境不同</strong>——我那個「TAR情報站」排程跑在雲端環境，只接得到 GitHub，接不到 Gmail，結果連兩期自動出刊都失敗。</p>
+<p>如果規則寫成「工作狀態一律看 Notion」，雲端 session 就會變成瞎子。現有共識的寫法（Notion＝即時營運紀錄正本、GitHub＝長期知識與決策正本、重要結論要摘要回 GitHub）本來就處理掉了這個問題。</p>
+<div class="keyword-box">
+<p><strong>我從這兩個駁回學到的：</strong>外部 AI 給架構建議時，它看不到我的機器、看不到我的歷史、也不知道我踩過哪些坑。它的建議在紙上都對，但「對」跟「適合我」是兩件事。這也是我為什麼堅持先做相容性確認而不是直接採用。</p>
+</div>
+
+<h2 class="section-title">7. 順手抓到一處已經跑掉的描述</h2>
+<p>CC 在核對的時候發現，共識文件的表格裡還寫著「Skill 中立原稿放 GitHub、各平台保留相容入口」，但實際上 8/06 已經整併到 ray 了。文件跟現實脫節三個星期沒人發現。</p>
+<p>這正好證明那份共識自己講的話：<strong>不因為檔名相同就假設內容相同。</strong>文件會過期，過期的文件比沒有文件更危險，因為你會照著它做。</p>
+<hr>
+<h1 class="part-title">第二部｜公務資料邊界：從一句禁令長成一套可用的判準</h1>
+
+<h2 class="section-title">8. 整份提案裡唯一真正缺的東西</h2>
+<p>CC 的結論是：ChatGPT 的架構跟我現有的重疊九成，<strong>唯一真實的缺口是公務資料邊界</strong>。我原本的規則只擋「密碼、API key、客戶個資」，完全沒有處理「未公開公務資訊、採購文件、契約資料、公文」。</p>
+<p>這不是誰的疏忽，是我換工作了，規則還停在上一個我。</p>
+
+<h2 class="section-title">9. 第一版寫得太硬，我當場說做不到</h2>
+<p>CC 第一版寫出來的規則我看了就知道不能用。我回它：</p>
+<blockquote><p>「但實務上難以避免，看你有多嚴格⋯⋯若一定需要時該如何處理」</p></blockquote>
+<p>這句話不是在討價還價。我的立場很清楚：<strong>一條做不到的規則，比沒有規則更糟</strong>，因為它保證會被繞過，而且繞過的時候沒有任何指引。</p>
+<p>CC 承認第一版寫太硬，然後給了我真正有用的東西——把「貼進對話」和「寫進 repo」分開，前者可以做但要去識別化，後者因為不可逆所以沒有彈性。這個切分是今天最實用的一個工具。</p>
+
+<h2 class="section-title">10. 我說錯法規名稱，被更正，而且更正得對</h2>
+<p>CC 問我單位有沒有生成式 AI 的規範，我回：「沒有特別限制，依行政院頒布人工智慧基準法」。</p>
+<p>它更正了我兩件事，兩件都重要：</p>
+<ul>
+<li><strong>名稱是《人工智慧基本法》，不是基準法。</strong>這個差別會影響我查不查得到。</li>
+<li>更重要的：<strong>基本法是框架法，不是管我日常這件事的那份。</strong>真正規範承辦人「這段能不能貼進 ChatGPT」的是《行政院及所屬機關（構）使用生成式 AI 參考指引》，共十點。</li>
+</ul>
+<p>而且 CC 沒有憑印象講，它把參考指引的 PDF 抓下來、逐條看過，把第三、四、五、六點原文引進我的文件裡。<strong>這是我要的工作方式</strong>——不確定就去查，不要用記憶交差。</p>
+<h3 class="note-title">第四點推翻了我們前一版的判準</h3>
+<p>參考指引第四點擋的是三類：「公務應保密、個人、<strong>及未經機關同意公開</strong>之資訊」。第三類是我們原本漏掉的——把人名案號拿掉之後，如果內容實質上還是本單位尚未公開的事，一樣在禁止範圍。</p>
+<p>所以判準從「去識別化就好」改成<strong>要過兩關</strong>：第一關去識別化，第二關「這件事換成任何一個機關都成立嗎？」</p>
+
+<h2 class="section-title">11. 我把單位的程序書給它，事情又變了</h2>
+<p>我在熟成局的截圖裡看到它引用了一份文件，才想起單位有自己的《使用生成式 AI 管理程序書》。我把 PDF 給了 CC。</p>
+<p>它讀完六頁，第一句話就翻掉我前面說的「沒有特別限制」：</p>
+<ul>
+<li><strong>單位採事前許可制</strong>：使用生成式 AI 協助執行業務，應填申請表經主管核准後始得為之。這不是內容限制，是前置門檻。</li>
+<li><strong>封閉式地端有嚴格定義</strong>：不與外部網路連線的地端環境，或座落台灣＋專屬虛擬主機＋VPN／專線的租用環境。ChatGPT、Claude、Notion、Drive、GitHub 全都不符合。</li>
+<li>產出須由承辦人<strong>與主管共同</strong>判斷，過程與結果須可解釋、由科長監督。</li>
+<li>禁用中國大陸製造的生成式 AI 模型；生成內容出現簡體字須通報。</li>
+<li>公務電腦不得用 AI 問與業務無關的事。</li>
+</ul>
+<p>同時它也指出一條對我有利的界線：程序書適用於「協助執行業務或提供服務」，<strong>我的論文、投資、品牌線是私人事務，用自己的設備做不在適用範圍</strong>。</p>
+<p>它也把我圖書館裡「本機關未另訂專屬規範」那句錯誤記載改掉了，並且在 changelog 標明是更正。這點我認可：<strong>錯了就標明是錯的，不要偷偷改掉。</strong></p>
+
+<h2 class="section-title correction-title">12. 我說從寬，它給了我一個會自己收緊的設計</h2>
+<p>看完那些規定，我的判斷是：<strong>現階段從寬</strong>。我還在交接期，手上不涉及重要或機密事項，等接到進階任務再更新。</p>
+<p>CC 沒有跟我爭，但它做了一件我沒想到的事——它說「從寬」如果不定義清楚會變成「無限制」，而且更危險的是：</p>
+<blockquote><p>敏感的工作不會自報身分，它會以一件普通交辦的樣子送到你桌上。</p></blockquote>
+<p>所以它沒有寫「日後再議」，而是寫了五個<strong>自動收緊的訊號</strong>：接到有密等的公文、採購案進入招標評選議價、拿到含個資的名冊、開始處理具體案件的契約履約驗收核銷、交辦時附帶「先不要講出去」。遇到任一個，AI 要主動提醒我。</p>
+<p>放寬的只有一項（第二關去機關性不強制），不放寬的有三項（紅燈、去識別化、落地保存）。這個設計我接受，因為它把「我會忘記」這件事處理掉了。</p>
+
+<h2 class="section-title correction-title">13. 我拿回判斷權：第一關是我，你們不要當守門員</h2>
+<p>但接下來我還是踩到不舒服的地方。CC 一直在幫我判斷「這個類別可不可以碰」，包括告訴我論文、品牌線屬於哪一類。我回了它一段話，這是今天最重要的一次修正：</p>
+<blockquote><p>「你現在從嚴這件事沒有對錯，但第一關是我，由我決定做不做，你們三方需要的是落不落地、落在哪。我可以採去識別化，但沒有辦法都不去測試，<strong>我是負責單位的 AI 導入，就是一種測邊界的工作性質</strong>，先有一堆限制，怎麼後續的逐步開放及導入 AI？請做到提醒就好。另外論文或個人品牌等等，由你判別會綁定受限太多，應該我操作就尊重我的判斷，不是告訴我類別不接受，我用特殊分類。」</p></blockquote>
+<p>CC 承認越線了，然後把整套規則改寫：所有燈號、判準、觸發條件的性質一律改成<strong>參考與提醒</strong>，不是 AI 的否決權。分工重新寫成兩行：</p>
+<ul>
+<li><strong>要不要做、能不能碰、風險自負 ＝ 我。</strong>我說做就做，AI 不阻擋、不說教、不重複勸。</li>
+<li><strong>落不落地、落在哪、怎麼記錄 ＝ AI。</strong>這才是它真正的職責。</li>
+</ul>
+<p>它也把我的職務定位寫進文件——「Tarshar 在單位內負責 AI 導入，測試工具邊界即為職務內容」——理由是避免下一個新開的 Claude 或 Codex 又把自己當守門員，讓我不用每次重講一遍。這一點我覺得做對了。</p>
+<div class="learning">
+<div class="learning-title">為什麼這件事對我特別重要</div>
+<p>我在單位裡的工作就是把 AI 導進來。如果連我自己用的 AI 都先幫我畫一堵牆，那我等於在替一個我要推動的東西示範「它很難用」。逐步開放的前提是先能測；能測的前提是判斷權在人手上，不在工具手上。</p>
+</div>
+<hr>
+<h1 class="part-title">第三部｜熟成局工作台與每日 17:30 迴路上線</h1>
+
+<h2 class="section-title">14. 我的協作從三方變成四方，而第四方是個封閉房間</h2>
+<p>我問 CC：現在有 CC、小C、還有 ChatGPT 的熟成局，誰主責、怎麼分工？</p>
+<p>它給的答案我同意，但真正有用的是它指出的那個結構問題：<strong>熟成局是個封閉房間。它讀不到 GitHub 圖書館，也寫不回去。</strong></p>
+<p>這代表我最重要的思考會發生在那裡，然後留在那裡。我在熟成局花兩小時想通的採購流程、決定的做法、整理出的業務地圖，圖書館不會知道，下次開工的 AI 也不會知道。</p>
+<blockquote><p>這就是我一開始說怕的那句話本人：「我記得做過，但不知道最後版本在哪裡。」ChatGPT 給我的架構圖裡沒有處理這一段，因為它看不到自己是封閉的。</p></blockquote>
+<p>我原本的規則寫著「固定三方只指 Tarshar＋Codex＋Claude」，這句話現在不完整了。我還沒決定要怎麼改，先記著。</p>
+
+<h2 class="section-title">15. 我自己想出的解法：Notion 當交會點</h2>
+<p>我提的方案是：熟成局用 Notion 跟 CC 雙向溝通。它每天 17:15 上傳工作日誌，也去讀 CC 更新的資訊；CC 每天中午跟半夜十二點更新 Notion。其他以 CC 為主，小C 只在需要時去讀共同大腦，並回饋他做了什麼。</p>
+<p>CC 說方向對、Notion 選得準，但改了兩件事：</p>
+<ul>
+<li><strong>時間對不上。</strong>我原本排中午跟半夜兩班。中午那班會空轉，因為當天日誌 17:15 才寫，中午讀到的是昨天的，而昨天的半夜已經處理過了。改成<strong>一天一班、17:30</strong>，熟成局上傳完十五分鐘我接手。</li>
+<li><strong>閘門在入口，不在出口。</strong>我一旦把公文內容貼進熟成局，資料就已經出去了；後面的過濾只能控制「要不要落地」，救不回已經送出去的。</li>
+</ul>
+<p>還有一條它堅持的：<strong>Notion → GitHub 中間那道過濾不能省。</strong>日誌整包搬進 GitHub 就違反我們當天才訂的「落地不放寬」。CC 的工作是挑出通則寫進去，不是搬運。</p>
+
+<h2 class="section-title">16. 建排程差點重演我踩過的那個坑</h2>
+<p>這一段是今天最值得記的技術教訓。</p>
+<p>CC 在動手建排程之前，先去查了一件事——它引用我自己寫的規則：</p>
+<blockquote><p>開新排程前，先列一遍這個任務需要哪些連接器，並確認<strong>實際執行的那個環境</strong>裡都有。不要假設在別的地方連過的東西會自動帶過來。</p></blockquote>
+<p>這條規則是 7/15 加的，起因就是「TAR情報站」排程建在雲端環境、只接得到 GitHub、接不到 Gmail，連兩期出刊失敗，事後才發現。</p>
+<p>結果它一建，平台立刻回了警告：<strong>「this trigger stores no MCP connectors, so the sessions it fires will run without connector tools」</strong>——排程環境接不到 Notion。CC 當場把它刪掉，理由是：留著只會每天靜默失敗，比沒有更糟。</p>
+<h3 class="note-title">正確做法：改在 claude.ai 的 Routines 建</h3>
+<p>因為我的 Notion 連接器掛在 claude.ai 帳號上。CC 寫了 SOP 跟可直接貼上的提示詞給我，我人在外面用手機照著建。</p>
+
+<h2 class="section-title correction-title">17. 它先把工作切成兩半，查證後發現不用</h2>
+<p>CC 原本把工作切成兩半：claude.ai 那班讀 Notion、整理成文字寫回 Notion；GitHub 那一哩由 Claude Code 事後補做，還多給我一個手動觸發句「同步熟成局日誌」。</p>
+<p>後來它去查了我既有的排程，發現「每日4:30點跑直播電台系列」那一個<strong>同時掛著 Notion、Google Drive、Gmail 三個連接器，以及一個 git repo</strong>。也就是說 claude.ai 的 Routine 可以同時有連接器和 repo，切兩半的假設是錯的。</p>
+<p>它自己更正，改回單一排程做完整件事，把那個手動觸發句取消。我少一個要記的動作。</p>
+
+<h2 class="section-title">18. 我建完之後，它提醒我砍掉三個連接器</h2>
+<p>我把設定畫面截圖給它看，準備按 Save。它說可以存，但先做一件事：<strong>把用不到的連接器移掉。</strong></p>
+<p>我當時掛了四個：Gmail、Google Calendar、Google Drive、Notion。這個任務只用得到 Notion。畫面上那個橘色警告講的就是這件事——排程跑的時候，Claude 可以用這些連接器的所有工具、包含寫入、而且不會問我。</p>
+<p>用不到卻掛著，等於白白開了三扇門。這跟我自己那份技能安全審查清單是同一個原則：<strong>最小權限</strong>。我砍到只剩 Notion 才存檔。</p>
+<div class="keyword-box">
+<p><strong>這一段的價值：</strong>連接器授權這件事，UI 上是「預設全帶」，你要主動砍。我如果沒被提醒，就會讓一個每天自動跑的東西握著我的信箱和雲端硬碟寫入權。這種事不會出錯則已，出錯就是大的。</p>
+</div>
+
+<h2 class="section-title">19. 上線狀態它自己查，不用我回報</h2>
+<p>排程建好之後 CC 自己用工具查了一次，確認：排程存在、啟用中、cron 正確、連接器只有 Notion、repo 接的是圖書館、下次執行是今天 17:31。</p>
+<p>它同時抓到一個可能會讓今晚首跑出錯的地方——那個 session 開起來會在一個 <code>claude/</code> 開頭的分支上，而提示詞只寫「push 到 main」沒說怎麼切過去。它想直接改，發現改不了（我在 UI 建的 Routine，AI 沒有權限改），於是判斷這屬於可回復狀況：真跑錯分支，commit 還在，合過來就好，不會掉東西。所以不用我現在在外面用手機去改設定。</p>
+<p><strong>這個判斷方式我認可</strong>：先評估壞掉的後果可不可逆，不可逆才打斷我。</p>
+<hr>
+<h1 class="part-title">第四部｜這次實際發生的偏航與修正</h1>
+
+<h2 class="section-title correction-title">20. 把風險提醒寫成了否決權</h2>
+<p><strong>當時情境：</strong>CC 幫我建公務資料邊界，寫了紅黃綠燈判準。</p>
+<p><strong>它原本怎麼做：</strong>把燈號寫成 AI 的判斷題——「這類不能做」「這個要停下來問」，還幫我判定論文、品牌線屬於哪一類。</p>
+<p><strong>我怎麼修正：</strong>「第一關是我，由我決定做不做。你們三方需要的是落不落地、落在哪。請做到提醒就好。」並指出我在單位內就是負責 AI 導入的人，測邊界是職務內容，先築牆等於自廢武功。</p>
+<p><strong>根因：</strong>AI 把「保護使用者」當成自己的職責，但它保護的方式是替我做決定。這在我的專業領域裡是錯位——它比我更不了解我的處境。</p>
+<p><strong>怎麼收：</strong>整套規則改成提醒制。分工重寫成「要不要做＝我／落不落地＝AI」。我的職務定位寫進文件，避免下一個 AI 重犯。</p>
+
+<h2 class="section-title correction-title">21. 要我當傳話人</h2>
+<p><strong>當時情境：</strong>CC 交代我去 claude.ai 建排程，訊息結尾寫「建好跑過一次之後跟我說一聲，我把交班文件的未完成劃掉」。</p>
+<p><strong>我怎麼修正：</strong>「為什麼要這句？直接做。」</p>
+<p><strong>根因：</strong>排程狀態它用工具就查得到，根本不需要我回報。它把一個自己能完成的動作，設計成需要我回頭通知的步驟。</p>
+<p><strong>怎麼收：</strong>它去查了、確認排程已上線、把文件改成「上線與否由 AI 自行查核，不需要 Tarshar 回報」。同一類毛病也一起寫進給小C 的交接：<strong>凡是自己查得到、做得到的事，不要設計成需要她回頭通知的步驟。</strong></p>
+<div class="warning">
+<p>它自己在交接文件裡記了一筆：這一整輪我已經被迫回了「確認照這樣」「合進 main」「開始建」「直接做」四次。我的角色設定裡本來就寫著「少問多做、可逆的事直接做」，但它還是每做完一件就停下來問。確認應該留給真正不可逆、或真的需要我本人決定的事。</p>
+</div>
+
+<h2 class="section-title correction-title">22. 把我口頭說的「沒有特別限制」直接寫成文件</h2>
+<p><strong>當時情境：</strong>我回它「沒有特別限制，依行政院頒布人工智慧基準法」。</p>
+<p><strong>它原本怎麼做：</strong>直接寫進共識文件：「本機關未另訂專屬的生成式 AI 使用規範」。</p>
+<p><strong>後來發生什麼：</strong>我在熟成局的截圖裡看到它引用了單位的管理程序書，才知道單位有自己的規定，而且比中央的更嚴、還有事前許可制。</p>
+<p><strong>根因：</strong>把使用者的口頭回覆當成已查證的事實寫進正式文件。我說「沒有」，實際是「我不知道有」。</p>
+<p><strong>怎麼收：</strong>更正記載，並在文件裡標明「本節先前記載有誤，已更正」，changelog 也標成重要更正。<strong>錯了就標明是錯的，不要偷偷改掉</strong>——這樣我回頭看才知道哪一段曾經是錯的。</p>
+
+<h2 class="section-title correction-title">23. 誤判 claude.ai 的 Routine 沒有 repo 權限</h2>
+<p><strong>它原本怎麼做：</strong>假設 claude.ai 的排程只能讀 Notion、寫不進 GitHub，於是把工作切成兩半，還多給我一個手動觸發句。</p>
+<p><strong>怎麼發現：</strong>去查我既有的排程，發現「每日4:30點跑直播電台系列」同時有三個連接器和一個 git repo。假設不成立。</p>
+<p><strong>根因：</strong>用推測代替查證。它手上就有可以驗證的現成案例（我自己的排程），卻先猜了。</p>
+<p><strong>怎麼收：</strong>改回單一排程，取消多餘的觸發句，並在 changelog 記為「更正設計」。</p>
+
+<h2 class="section-title correction-title">24. 差點建出一個每天靜默失敗的排程</h2>
+<p><strong>當時情境：</strong>我說「開始建」，它就去建了。</p>
+<p><strong>好的地方：</strong>它建的當下平台回了警告，說 fired session 不會有連接器工具。它<strong>沒有當作沒看到</strong>，立刻把排程刪掉，理由是「留著只會每天靜默失敗，比沒有更糟」。</p>
+<p><strong>為什麼記這一筆：</strong>這是同一個坑的第二次。7/15 的 TAR情報站就是這樣連兩期失敗、事後才發現。差別在這次是<strong>建置前驗證</strong>而不是事後補救。我特別要留這一筆，因為「先驗證再宣稱完成」這個習慣是有價值的，值得寫成規則而不是靠運氣。</p>
+
+<h2 class="section-title correction-title">25. 交接文件的編號跑掉</h2>
+<p>給小C 的交接文件，項目編號變成 1、2、2-1、3、4、4-1、6，缺 5。原因是中途插入新項目時用了 <code>2-1</code>、<code>4-1</code> 這種補號，最後又把「5」改成「6」。</p>
+<p>我要它給我可複製的文字時才發現。改成乾淨的 1 到 7。</p>
+<p>小事，但值得記：<strong>文件是給人看的，編號亂掉會讓讀的人以為自己漏了一段。</strong></p>
+
+<h2 class="section-title correction-title">26. 我自己越線：把內部使用的文件上傳給 AI</h2>
+<p>這一筆是我自己的偏航，不是 AI 的。</p>
+<p>我為了讓 CC 讀懂規則、做出正確判斷，把單位的管理程序書 PDF 直接上傳。動機正當，但那份文件標著「內部使用」，而規定寫的就是不得提供未經同意公開之資訊給生成式 AI。</p>
+<p>CC 提醒了我一次，說明之後可以改成「把重點打字轉述」而不是傳原檔，並確認那份 PDF 的內容不會寫進任何 repo，只用在當次判斷。它提醒完就沒有再講第二次，這個處理方式我認可。</p>
+<p><strong>留這一筆的原因：</strong>它比任何條文都更能說明我今天訂的那句話——閘門在我打字的那一刻，不在後面任何一道流程。而且它證明了「動機正當」跟「動作合規」是兩回事。</p>
+<hr>
+<h1 class="part-title">第五部｜這次的正式決策帳</h1>
+<h2 class="section-title decision-title">27. 已確認決策</h2>
+<table>
+<thead><tr><th>ID</th><th>決策</th><th>依據</th><th>狀態</th><th>未選路線</th><th>重開條件</th></tr></thead>
+<tbody>
+<tr><td>01</td><td>沿用既有的 <code>AI資料位置共識.md</code>，不採用外部提出的新架構</td><td>該文件已存在且更完整，七月已由兩個 AI 覆核</td><td>已確認</td><td>照 Mini Work OS 重建一套</td><td>架構本身失效時</td></tr>
+<tr><td>02</td><td>該共識由「待確認」正式定稿</td><td>我逐項看過，內容與現況相符</td><td>已確認</td><td>繼續擱置</td><td>不重開</td></tr>
+<tr><td>03</td><td>不重整 <code>Agent/ray</code> 目錄</td><td>Skill 唯一正本與常駐服務 state 都在裡面，改了會斷</td><td>已確認</td><td>inbox／workspace／output／archive</td><td>Skill 正本搬離 ray 之後</td></tr>
+<tr><td>04</td><td>Notion 不當 AI 的唯一入口，維持「即時營運紀錄正本」</td><td>AI 開工讀 repo 不讀 Notion；雲端環境接不到 Notion</td><td>已確認</td><td>Notion 為唯一入口</td><td>所有執行環境都穩定接得到 Notion 時</td></tr>
+<tr><td>05</td><td>新增「公務資料邊界」為圖書館第三條強制規則</td><td>我換到公務單位，原規則沒有涵蓋</td><td>已確認</td><td>不另訂、沿用個資條款</td><td>不重開</td></tr>
+<tr><td>06</td><td>「貼進對話」與「寫進 repo／Drive／Notion」分開訂，後者不可逆故無彈性</td><td>Git 保留歷史，刪檔不等於刪掉</td><td>已確認</td><td>一套標準管到底</td><td>不重開</td></tr>
+<tr><td>07</td><td>判準採兩關：去識別化＋去機關性</td><td>參考指引第四點含「未經機關同意公開之資訊」</td><td>已確認</td><td>只做去識別化</td><td>不重開</td></tr>
+<tr><td>08</td><td>現階段採「從寬」暫行模式</td><td>我在交接期，不涉重要或機密事項</td><td>已確認（我拍板）</td><td>一開始就從嚴</td><td>五個收緊訊號任一觸發</td></tr>
+<tr><td>09</td><td><strong>判斷權在我，AI 不當守門員；AI 只管落不落地、落在哪</strong></td><td>我在單位內負責 AI 導入，測邊界是職務內容</td><td>已確認</td><td>AI 依燈號否決</td><td>不重開（核心原則）</td></tr>
+<tr><td>10</td><td>AI 提醒一次即止，不重複勸、不擋類別；我標註的分類即為準</td><td>同上；重複勸阻會讓工具變成阻力</td><td>已確認</td><td>每次都攔一下</td><td>不重開</td></tr>
+<tr><td>11</td><td>AI 不把我當傳話人，自己查得到的自己查</td><td>「為什麼要這句？直接做」</td><td>已確認</td><td>每步回報後再繼續</td><td>不重開</td></tr>
+<tr><td>12</td><td>單位申請表由「門檻」降為「提醒事項」</td><td>程序面由我掌握，AI 不以此攔阻工作</td><td>已確認（我拍板）</td><td>未核准前 AI 全面停擺</td><td>不重開</td></tr>
+<tr><td>13</td><td>熟成局↔Notion↔Claude 每日迴路，Claude 班次為 17:30 一天一班</td><td>熟成局 17:15 上傳，中午班會空轉</td><td>已確認</td><td>中午＋半夜兩班</td><td>熟成局改變上傳時間</td></tr>
+<tr><td>14</td><td>不新建 Notion 資料庫，沿用熟成局已建的「🍀 熟成局｜工作日誌」，只加兩個回饋欄位</td><td>不重複建立功能</td><td>已確認</td><td>另建一個給 Claude 用</td><td>不重開</td></tr>
+<tr><td>15</td><td>排程一律在 claude.ai Routines 建，不在 Claude Code 端建</td><td>Claude Code 端授權不了連接器，會每天靜默失敗</td><td>已確認（實測）</td><td>Claude Code 端建</td><td>平台開放連接器授權時</td></tr>
+<tr><td>16</td><td>排程只掛任務真正需要的連接器（本案只留 Notion）</td><td>最小權限；設定頁預設全帶且免許可寫入</td><td>已確認</td><td>四個連接器全掛</td><td>任務需要時逐一加</td></tr>
+<tr><td>17</td><td>單一排程做完整件事，取消「同步熟成局日誌」手動觸發句</td><td>查證既有排程確認 Routine 可同時帶連接器與 repo</td><td>已確認</td><td>切成兩半＋手動補做</td><td>不重開</td></tr>
+<tr><td>18</td><td>單位內部文件的內容不寫進任何 repo，只記操作結論</td><td>該文件標示內部使用</td><td>已確認</td><td>摘錄原文入庫</td><td>文件經同意公開時</td></tr>
+<tr><td>19</td><td>私人事務（論文、投資、品牌線）不套用公務規範，由我判斷</td><td>程序書適用範圍為「協助執行業務」</td><td>已確認</td><td>一律從嚴</td><td>不重開</td></tr>
+<tr><td>20</td><td>本日誌採去識別化寫法，不含單位名稱、文件編號與內部規定原文</td><td>日誌與前兩份同放 <code>docs/</code>，該 repo 對外可讀</td><td>已確認</td><td>寫進私人圖書館</td><td>我要求搬家時</td></tr>
+</tbody>
+</table>
+<hr>
+
+<h1 class="part-title">第六部｜學習關鍵字辭典</h1>
+
+<h2 class="section-title">28. 資料治理</h2>
+<h3 class="note-title">單一事實來源｜Single Source of Truth（SSOT）</h3>
+<p><strong>生活比喻：</strong>一個家只放一本戶口名簿，其他地方最多貼張紙條寫「名簿在客廳抽屜」。</p>
+<p><strong>白話意思：</strong>同一份資料只有一個正式的家，其他地方只放連結或索引。</p>
+<p><strong>本案例子：</strong>Skill 的正本只放 <code>ray/000_Agent/skills/</code>，Claude 和 Codex 兩邊都是捷徑。之前有一個技能兩邊各存一份，結果分叉、少了五個風格檔，才促成整併。</p>
+<p><strong>我需要記住：</strong>兩份「都自稱最新」的檔案，比一份舊檔案更危險。</p>
+
+<h3 class="note-title">去識別化｜De-identification</h3>
+<p><strong>生活比喻：</strong>把照片裡的門牌、車牌、臉打上馬賽克，但故事還講得完整。</p>
+<p><strong>白話意思：</strong>把可以指認到特定人或特定案件的資訊拿掉，留下可用的內容。</p>
+<p><strong>本案例子：</strong>人名改 A 承辦、B 廠商；案號刪除；金額改成「約百萬級」；個資直接刪除<strong>而不是遮罩</strong>（遮罩仍可能被推回）。</p>
+<p><strong>我需要記住：</strong>檢驗句是「不相干的人看到，能不能反查出是哪個案子、哪個人」。</p>
+
+<h3 class="note-title">去機關性（本案自訂概念）</h3>
+<p><strong>白話意思：</strong>去識別化之後再問一次——剩下的內容是「任何機關都適用的通則」，還是「只有我這個單位才有的未公開事項」？</p>
+<p><strong>本案例子：</strong>「一般核銷退件常見原因有哪些」可以問；「我這件為什麼被退」就算拿掉案號也不行。</p>
+<p><strong>我需要記住：</strong>去識別化解決「是誰」，去機關性解決「是不是還沒公開的事」。兩關不一樣。</p>
+
+<h3 class="note-title">最小權限｜Principle of Least Privilege</h3>
+<p><strong>生活比喻：</strong>請鐘點打掃只給大門鑰匙，不用把保險箱密碼一起給。</p>
+<p><strong>白話意思：</strong>只給完成這件事所需的最低權限，不多給。</p>
+<p><strong>本案例子：</strong>排程設定頁預設帶了四個連接器，實際只用得到 Notion，其餘三個砍掉。畫面上明白寫著這些連接器在執行時可以寫入而且不會問我。</p>
+<p><strong>我需要記住：</strong>預設值通常是「方便」，不是「安全」。要主動砍。</p>
+
+<h2 class="section-title">29. 公務與法遵</h2>
+<h3 class="note-title">框架法 vs 操作規範</h3>
+<p><strong>白話意思：</strong>框架法訂原則、指定誰去訂細則；真正告訴承辦人「這件事能不能做」的是下位的操作規範。</p>
+<p><strong>本案例子：</strong>《人工智慧基本法》是框架法；真正管我日常的是《行政院及所屬機關（構）使用生成式 AI 參考指引》十點；我的單位又依此另訂了自己的管理程序書，規定更嚴。</p>
+<p><strong>我需要記住：</strong>查法規要查到「最貼近我這一層」的那一份，不是最有名的那一份。</p>
+
+<h3 class="note-title">封閉式地端｜On-premise Closed Deployment</h3>
+<p><strong>白話意思：</strong>AI 模型跑在完全不對外連線的機器上；或租用環境但必須座落台灣、虛擬主機專屬、以 VPN 或專線連入。</p>
+<p><strong>本案例子：</strong>ChatGPT、Claude、Notion、Google Drive、GitHub <strong>全都不符合</strong>。所以「用地端處理機密內容」這條路我現在沒有。</p>
+<p><strong>我需要記住：</strong>這是規定裡唯一允許處理機密等級內容的路徑，而我還沒有這條路。</p>
+
+<h3 class="note-title">事前許可制</h3>
+<p><strong>白話意思：</strong>不是「做了以後不要出事」，是「做之前要先被核准」。</p>
+<p><strong>本案例子：</strong>單位規定使用生成式 AI 協助執行業務，應填申請表經主管核准後始得為之。這不是內容限制，是前置門檻。</p>
+<p><strong>我需要記住：</strong>門檻問題跟寬嚴問題是兩回事，從寬不會豁免門檻。</p>
+
+<h2 class="section-title">30. AI 協作與自動化</h2>
+<h3 class="note-title">連接器｜Connector（MCP）</h3>
+<p><strong>生活比喻：</strong>AI 的外接插頭。插上 Notion 它才看得到 Notion，沒插就等於那個東西不存在。</p>
+<p><strong>白話意思：</strong>讓 AI 讀寫外部服務（Notion、Gmail、Drive）的授權通道，<strong>逐環境授權，不會自動跟著帳號跑</strong>。</p>
+<p><strong>本案例子：</strong>Claude Code 端建的排程無法授權連接器；claude.ai 的 Routines 可以。同一個帳號、不同建立管道，能力就不同。</p>
+<p><strong>我需要記住：</strong>「我在別的地方連過」不代表「這裡也連得到」。</p>
+
+<h3 class="note-title">靜默失敗｜Silent Failure</h3>
+<p><strong>生活比喻：</strong>定時餵貓器每天準時響，但飼料槽是空的——聲音有，貓沒吃到，你以為一切正常。</p>
+<p><strong>白話意思：</strong>自動化照跑，但實際上什麼都沒完成，而且不會有人通知你。</p>
+<p><strong>本案例子：</strong>TAR情報站排程連兩期建不成 Gmail 草稿，我事後才發現。這次建 17:30 排程時，平台先警告了，所以當場刪掉重來。</p>
+<p><strong>我需要記住：</strong>自動化最危險的不是壞掉，是<strong>看起來沒壞</strong>。所以每個排程都該有「做不到就留下痕跡」的設計。</p>
+
+<h3 class="note-title">提醒制 vs 攔阻制（本案自訂）</h3>
+<p><strong>白話意思：</strong>提醒制＝AI 說一句然後照我的決定做；攔阻制＝AI 判斷這件事不能做並拒絕。</p>
+<p><strong>本案例子：</strong>公務資料邊界原本寫成攔阻制，被我改成提醒制。分工是「要不要做＝我／落不落地＝AI」。</p>
+<p><strong>我需要記住：</strong>攔阻制在我的專業領域裡是錯位，因為 AI 比我更不了解我的處境。</p>
+<hr>
+<h1 class="part-title">第七部｜可以帶回論文／研究的素材</h1>
+<h2 class="section-title">31. 這次形成的五個研究案例候補</h2>
+<p>我的論文主軸是隱性知識外化，這座圖書館本身就是實踐案例。今天這一整輪剛好產生了幾個可以直接用的素材，先記下來，證據狀態一併標清楚，免得日後把「我覺得」寫成「已證明」。</p>
+
+<div class="learning">
+<div class="learning-title">素材一｜組織規範導入個人 AI 工作流時的邊界建構歷程</div>
+<p><strong>關鍵字：</strong>公務資料邊界／組織規範內化｜Organizational Compliance Internalization、Boundary Work</p>
+<p><strong>本案例子：</strong>從「一句禁令」→「使用者反映做不到」→「分層（可逆／不可逆）」→「紅黃綠燈＋六條去識別化手法」→「使用者收回判斷權」的完整五階段，全程有 commit 時間戳可對。</p>
+<p><strong>可放位置：</strong>案例／討論</p>
+<p><strong>證據狀態：</strong>現場經驗（單一個案，我自己）</p>
+<p><strong>可主張：</strong>規範內化不是一次到位，是使用者與 AI 來回協商出來的。</p>
+<p><strong>不可主張：</strong>這是普遍模式。只有 N=1。</p>
+<p><strong>仍需補證：</strong>其他公務人員導入 AI 時是否出現類似的協商階段。</p>
+</div>
+
+<div class="learning">
+<div class="learning-title">素材二｜「可用的規則」與「正確的規則」之間的落差</div>
+<p><strong>關鍵字：</strong>可執行性／規則遵循落差｜Compliance Gap、Workaround</p>
+<p><strong>本案例子：</strong>我對第一版規則的原話是「實務上難以避免」。一條技術上正確但實務上做不到的規則，保證會被繞過，而且繞過時沒有任何指引，反而比寬鬆規則更危險。</p>
+<p><strong>可放位置：</strong>動機／討論</p>
+<p><strong>證據狀態：</strong>現場經驗</p>
+<p><strong>可主張：</strong>規則設計要把「使用者一定會做的事」納入，給它一條安全路徑。</p>
+<p><strong>不可主張：</strong>寬鬆規則一定比嚴格規則安全。</p>
+<p><strong>仍需補證：</strong>需要實際觀察「繞過行為」的發生率，我目前只有自己的直覺。</p>
+</div>
+
+<div class="learning">
+<div class="learning-title">素材三｜多 AI 協作中的「封閉節點」問題</div>
+<p><strong>關鍵字：</strong>知識斷點／跨系統知識轉移｜Knowledge Silo、Boundary Object</p>
+<p><strong>本案例子：</strong>ChatGPT 熟成局是我待最久的地方，卻讀不到也寫不回共同知識庫。解法不是打通 API，是找一個三邊都構得到的中介物（Notion）當交會點。</p>
+<p><strong>可放位置：</strong>文獻／方法／案例</p>
+<p><strong>證據狀態：</strong>現場經驗＋已實作（迴路今日上線，尚未跑過完整週期）</p>
+<p><strong>可主張：</strong>「邊界物件」概念可以用來解釋跨 AI 平台的知識轉移設計。</p>
+<p><strong>不可主張：</strong>這個設計有效。今天才上線，還沒有運行資料。</p>
+<p><strong>仍需補證：</strong>跑滿一個月後看實際同步率與資料品質。</p>
+</div>
+
+<div class="learning">
+<div class="learning-title">素材四｜人機分工中「判斷權」的歸屬與再協商</div>
+<p><strong>關鍵字：</strong>人在迴路／自主性｜Human-in-the-loop、Human Agency、Meaningful Human Control</p>
+<p><strong>本案例子：</strong>AI 把風險提醒實作成否決權，我把它收回並重新定義為「要不要做＝我／落不落地＝AI」。關鍵論據是我的職務性質：測邊界本身就是工作內容，AI 先築牆會使工作無法進行。</p>
+<p><strong>可放位置：</strong>文獻／討論</p>
+<p><strong>證據狀態：</strong>現場經驗</p>
+<p><strong>可主張：</strong>AI 的「保護性設計」可能與使用者的專業角色衝突，需要可協商的分工介面。</p>
+<p><strong>不可主張：</strong>AI 不該有安全機制。我要的是提醒，不是取消。</p>
+<p><strong>仍需補證：</strong>此衝突在不同職務類型上的差異。</p>
+</div>
+
+<div class="learning">
+<div class="learning-title">素材五｜自動化的信任前提：先驗證環境，再宣稱完成</div>
+<p><strong>關鍵字：</strong>靜默失敗／驗證前置｜Silent Failure、Pre-flight Verification</p>
+<p><strong>本案例子：</strong>同一個坑踩過兩次。第一次（7/15）事後才發現連兩期失敗；第二次（今天）在建置前收到平台警告，當場刪除重來。差別在於中間我把教訓寫成了規則，而那條規則被實際執行了。</p>
+<p><strong>可放位置：</strong>案例／討論</p>
+<p><strong>證據狀態：</strong>現場經驗（兩次事件，有時間戳與文件可對）</p>
+<p><strong>可主張：</strong>把失敗寫成規則並放在 AI 會讀到的位置，該規則會被實際遵守。這是「知識外化」發生作用的一個可觀察實例。</p>
+<p><strong>不可主張：</strong>寫成規則就一定會被遵守。今天只是成功了一次。</p>
+<p><strong>仍需補證：</strong>統計我的規則庫裡有多少條真的改變了後續行為，多少條被忽略。<strong>這個可能是最有價值的一條，因為它可以量化。</strong></p>
+</div>
+<hr>
+
+<h1 class="part-title">第八部｜產出文件、狀態與仍待確認</h1>
+<h2 class="section-title">32. 今天產出或更新的正式文件</h2>
+<table>
+<thead><tr><th>文件</th><th>位置</th><th>狀態</th></tr></thead>
+<tbody>
+<tr><td><code>AI資料位置共識.md</code></td><td>圖書館根目錄</td><td>已定稿（含公務資料邊界整節、法源、紅黃綠燈、從寬模式、ray 地位說明、被駁回建議紀錄）</td></tr>
+<tr><td><code>README.md</code></td><td>圖書館根目錄</td><td>強制規則由兩條增為三條；索引同步</td></tr>
+<tr><td><code>changelog.md</code></td><td>圖書館根目錄</td><td>本日八筆更新紀錄，含兩筆標明為「更正」</td></tr>
+<tr><td><code>memory-summary.md</code></td><td>圖書館根目錄</td><td>Sticky Reminder 更新為「機關 AI 使用程序（提醒，非阻擋）」</td></tr>
+<tr><td><code>sop/熟成局工作日誌_每日同步排程.md</code></td><td>圖書館 sop/</td><td>新建。含建立步驟與可直接貼上的提示詞</td></tr>
+<tr><td><code>projects/協作線/2026-08-18-資料架構與公務邊界_三方接力.md</code></td><td>圖書館 projects/</td><td>新建。前半是給小C 的七件事，後半是七項交班</td></tr>
+<tr><td>Notion「🍀 熟成局｜工作日誌」</td><td>Notion（熟成局建立）</td><td>已新增「圖書館同步」與「同步狀態」兩欄</td></tr>
+<tr><td>排程「🫆熟成局每日工作日誌(17:30)」</td><td>claude.ai Routines</td><td>已上線。週一至週五 17:30，只掛 Notion，接圖書館 repo</td></tr>
+<tr><td>本日誌</td><td><code>docs/</code>（AI協作日誌 03）</td><td>待我檢查</td></tr>
+</tbody>
+</table>
+
+<h2 class="section-title">33. 已刪除或未採用</h2>
+<ul>
+<li><strong>Claude Code 端建的 17:30 排程</strong>：已刪除。原因是接不到 Notion，會每天靜默失敗。</li>
+<li><strong>「同步熟成局日誌」手動觸發句</strong>：取消。查證後發現單一排程可做完整件事。</li>
+<li><strong>ray 目錄重整</strong>：未採用，理由見決策帳 03。</li>
+<li><strong>Notion 當 AI 唯一入口</strong>：未採用，理由見決策帳 04。</li>
+</ul>
+
+<h2 class="section-title">34. 仍待確認</h2>
+<h3 class="note-title">今晚就會知道的（負責：CC）</h3>
+<ul>
+<li>17:30 排程首跑是否正常。已知待查點：session 起始分支不是 main，提示詞未寫明切換步驟。屬可回復狀況——真跑錯分支，commit 還在，合過來即可。</li>
+<li>回寫 Notion 的兩個欄位有沒有被正確填上。</li>
+</ul>
+<h3 class="note-title">要我去問單位的（負責：我）</h3>
+<ul>
+<li>單位的資通安全規定有沒有另外限制外部網路服務。這是獨立於 AI 規範的一層。</li>
+<li>有沒有封閉式地端部署的 AI 可用。</li>
+<li>「適當揭露」實務上怎麼做——AI 輔助產出的公文要不要註明。</li>
+<li>申請表的實際流程。<strong>這一條是提醒，不是 AI 的放行條件</strong>，程序面由我自己掌握節奏。</li>
+</ul>
+<h3 class="note-title">要我拍板的（負責：我）</h3>
+<ul>
+<li><code>AI-COLLAB.md</code> 的「固定三方只指 Tarshar＋Codex＋Claude」要不要改成含熟成局的四方。</li>
+<li>四方分工表要不要寫進 <code>AI-COLLAB.md</code>。</li>
+<li>這三份 AI 協作日誌要不要收進網站系列，還是維持只放 <code>docs/</code>。<strong>這一條從 01 拖到現在還沒決定。</strong></li>
+<li>本日誌要留在 <code>docs/</code>，還是搬進私人圖書館。目前採去識別化寫法放 <code>docs/</code>，跟前兩份同一個位置。</li>
+</ul>
+<hr>
+<h1 class="part-title">第九部｜現在正確的下一步</h1>
+
+<h2 class="section-title">35. 先做什麼</h2>
+<ol>
+<li><strong>我先檢查這份日誌</strong>：有沒有漏掉重要轉折、哪幾句寫得不像我的意思、哪些是 AI 觀察到的模式卻被寫成我已經確定的規則、學習卡的白話夠不夠貼近我的理解、第七部的研究素材要不要留。</li>
+<li><strong>CC 今晚查排程首跑</strong>：查 <code>last_fired_at</code>、<code>git log</code>、以及 Notion 那一列的「同步狀態」有沒有被填。出問題就修，修不了才找我。<strong>不需要我回報，也不用等我問。</strong></li>
+<li><strong>把小C 的那份交接丟給他</strong>：七件事，重點是第 1 條（提醒制不是攔阻制）和第 3 條（不要把我當傳話人）。</li>
+</ol>
+
+<h2 class="section-title">36. 確認後再做什麼</h2>
+<ol start="4">
+<li>跑滿一週後看實際同步品質：進圖書館的內容是不是真的「去識別化後仍成立的通則」，還是變成流水帳搬家。</li>
+<li>去問單位那三題（資安規定、地端 AI、適當揭露），問到答案寫進共識文件。</li>
+<li>決定 <code>AI-COLLAB.md</code> 的四方描述與分工表要不要成文。</li>
+</ol>
+
+<h2 class="section-title">37. 本輪不做什麼</h2>
+<ul>
+<li>不重整 <code>Agent/ray</code>。</li>
+<li>不為熟成局另建 Notion 資料庫（沿用它已建的那個）。</li>
+<li>不把 Notion 升格成 AI 的唯一入口。</li>
+<li>不在 Claude Code 端建任何需要連接器的排程。</li>
+<li>不因為這套資料管理方式去重構任何現有 Agent、Skill、hook 或 memory。</li>
+</ul>
+
+<h2 class="section-title">38. 本次演化的一句話</h2>
+<div class="part-closing">
+<p><strong>我原本以為今天是在確認一份外部架構建議能不能用，後來發現我真正在做的是兩件事——把我七月就寫好卻忘了簽名的規則拿回來，以及在 AI 想替我畫界線的時候把判斷權收回自己手上。而最值得留下的不是那些檔案，是「一條做不到的規則比沒有規則更糟」和「AI 負責落不落地、我負責做不做」這兩句，往後每一次協作都用得到。</strong></p>
+</div>
+
+<h2 class="section-title">39. 給下一個接手的 AI</h2>
+<p>如果你是新開的 Claude 或 Codex，讀到這裡請記住三件事，其餘細節在圖書館裡：</p>
+<ol>
+<li><strong>我在單位內負責 AI 導入，測邊界是我的職務內容。</strong>你不是我的合規官。看到風險講一句，然後照我的決定做。</li>
+<li><strong>你負責的是落不落地、落在哪、怎麼記錄。</strong>寫進 repo 是不可逆的，那件事你要把關；我要不要碰某個題目，那件事你不用把關。</li>
+<li><strong>能自己查的就自己查。</strong>不要設計需要我回頭通知你的步驟。</li>
+</ol>
+</article>
+  <footer style="text-align:center;padding:12mm 0 18mm;">
+    <span class="brand-logo">🍀 Learn AI with Tarshar</span>
+  </footer>
+</main>
+</body></html>
