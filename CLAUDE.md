@@ -105,13 +105,19 @@
   **B 輸出密度預設「精簡版」**（筆記 8–10 節、~25–35K，一個工具/主題一節、功能收進清單表格，
   不要每個功能各開一節）；只有使用者明講「完整版／詳細版」才做到 15 節那種厚度（如 EP49）。
 - `lessons.html` 是課程筆記館的**共同入口，採兩層結構**：
-  第一層選「系列」，目前有四個：「📻 直播電台」＝晨學講堂直播課（showSeries('radio')＋#view-radio）、
+  第一層選「系列」：「📻 直播電台」＝晨學講堂直播課（showSeries('radio')＋#view-radio）、
+  「📦 訂閱制課程」＝益師傅訂閱制課程，逐堂實作 AI 工具（showSeries('sub')＋#view-sub；2026-08-19 新增）、
   「📚 Tarshar 教案集」＝對外授課教案（公部門／機關工作坊，如蘆洲監理所 AI 開機日；showSeries('plans')＋#view-plans）、
   「🎓 iPAS 證照學習」＝直接連到單頁 `ipas-intermediate.html`（onclick location.href，無第二層）、
   「🧰 生活應用」＝旅程手冊／口譯機／參訪日誌／生圖指令包等實作成品（showSeries('life')＋#view-life）。
-  第二層才是該系列的各集/各作品（卡片標題前綴系列名，如「直播電台 EP44」，最新在前，
+  第二層才是該系列的各集/各作品（卡片標題前綴系列名，如「直播電台 EP44」「訂閱制 S3E3」，最新在前，
   課程卡連到逐幀筆記頁與互動地圖頁；教案卡連到單頁教案 HTML）。
-  新增集數→插入 `#view-radio` 最前；新增教案→插入 `#view-plans` 最前；新增作品→插入 `#view-life` 最前。
+  新增集數→插入 `#view-radio` 最前；新增訂閱制堂數→插入 `#view-sub` 最前；新增教案→插入 `#view-plans` 最前；新增作品→插入 `#view-life` 最前。
+  **⚠️ 課程分流規則：直播電台（EP）vs 訂閱制課程（S＜季＞E＜堂＞）——兩者同一位講師（益師傅），但不同軌道，做逐幀筆記前先判斷放哪個系列（2026-08-19 定案）：**
+  - 講「**EP<NN>**」「晨學講堂」「直播電台」「週五直播」→ 放 📻 直播電台；檔名 `ep<NN>-notes.html`／`ep<NN>-ai-skills.html`，卡片前綴「直播電台 EP<NN>」，回入口 `lessons.html#radio`。
+  - 講「**訂閱制**」「第＜N＞季第＜N＞堂」「S＜季＞E＜堂＞」（如 S3E3）→ 放 📦 訂閱制課程；檔名 `s<季>e<堂>-notes.html`／`s<季>e<堂>-ai-skills.html`，卡片前綴「訂閱制 S3E3」，回入口 `lessons.html#sub`。
+  - 只給 Drive 資料夾、沒明講時看**資料夾名稱**：名為「第＜N＞堂」「訂閱制第＜N＞季」→ 訂閱制；帶 EP 編號／晨學講堂 → 直播電台。
+  - **判不出來就用 AskUserQuestion 問，不要猜**（2026-08-14 曾把訂閱制第三堂誤編成直播電台 EP50，隔天才改成 S3E3，就是沒先分流）。
   新系列（有第二層）則在 `#view-home` 加系列卡＋`#view-<key>` 區塊，並在 JS 的 `SERIES_META` 補標題與計數；
   單頁直達型系列（如 iPAS）用 `onclick="location.href='<page>.html'"`，不需第二層。
   各頁「回入口」連結用 `lessons.html#radio`／`#plans`／`#life`（直達系列頁）；
