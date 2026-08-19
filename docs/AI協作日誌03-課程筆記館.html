@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI協作日誌｜課程筆記館：把逐幀筆記修回精簡</title>
+<style>
+  :root {
+    --ink: #283229; --muted: #687064; --teal: #819b3e; --teal-dark: #4f612f;
+    --cyan-soft: #edf3e2; --orange: #bd8056; --peach-soft: #f8e8c6;
+    --cream: #fdf7e0; --sage: #cbd7ab; --line: #d9dfca; --paper: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin: 0; color: var(--ink); font-family: "Iansui","PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif; background: #eef1f2; }
+  .cover { width: 210mm; height: 297mm; position: relative; overflow: hidden; background: var(--cream); padding: 0; break-after: page; }
+  .cover::before { content:""; position:absolute; width:98mm; height:98mm; right:-42mm; bottom:-38mm; border:1px solid rgba(129,155,62,.18); border-radius:50%; z-index:5; }
+  .brand-logo { font-family:"Iansui","PingFang TC",sans-serif; font-size:9pt; font-weight:700; color:var(--teal-dark); letter-spacing:.05em; }
+  .cover-brand { position:absolute; left:50%; bottom:10mm; transform:translateX(-50%); z-index:7; }
+  .eyebrow { position:absolute; left:23mm; top:202mm; z-index:7; color:var(--teal-dark); font-family:"Iansui","PingFang TC",sans-serif; font-size:9pt; font-weight:400; letter-spacing:.12em; margin:0; }
+  .cover-title { position:absolute; left:23mm; top:216mm; z-index:7; margin:0; font-family:"Iansui","PingFang TC",sans-serif; font-size:27pt; line-height:1.22; font-weight:400; letter-spacing:.025em; }
+  .cover-art { position:absolute; inset:0 0 auto 0; width:210mm; height:188mm; z-index:1; background:linear-gradient(160deg,#f8e8c6 0%,#edf3e2 55%,#cbd7ab 100%); display:flex; align-items:center; justify-content:center; }
+  .cover-glow { position:absolute; inset:0; z-index:2; background:linear-gradient(to bottom,transparent 0 52%,rgba(253,247,224,.12) 61%,rgba(253,247,224,.72) 72%,#fdf7e0 83%); pointer-events:none; }
+  .cover-wave { position:absolute; left:-9%; width:118%; border-radius:50% 50% 0 0; z-index:3; }
+  .cover-wave.back { top:165mm; height:35mm; background:rgba(203,215,171,.82); transform:rotate(1.4deg); }
+  .cover-wave.front { top:173mm; height:34mm; background:var(--cream); transform:rotate(-.7deg); z-index:4; }
+  .cover-title-panel { position:absolute; left:0; right:0; top:184mm; bottom:0; z-index:4; background:var(--cream); }
+  .document { background:white; color:var(--ink); }
+  .toc-page { break-after:page; min-height:240mm; padding-top:3mm; }
+  .toc-title { font-size:24pt; font-weight:850; margin:0 0 14mm; letter-spacing:-.03em; }
+  .toc-row { display:grid; grid-template-columns:15mm 1fr; gap:2mm; align-items:center; border-bottom:1px solid #edf0f0; padding:3.4mm 0; }
+  .toc-no { color:var(--teal); font-weight:840; font-size:10.5pt; }
+  .toc-name { font-size:10.2pt; font-weight:650; }
+  .article { font-size:10.1pt; line-height:1.66; }
+  .article p { margin:0 0 3.1mm; orphans:1; widows:1; }
+  .article ul, .article ol { margin:1mm 0 4mm 5.5mm; padding-left:4.5mm; }
+  .article li { margin:1.1mm 0; padding-left:1mm; }
+  .article li::marker { color:var(--teal); font-weight:800; }
+  .part-title { break-before:page; break-after:avoid; margin:0 0 9mm; padding:0 0 4mm; border-bottom:1.3px solid var(--ink); font-size:20pt; line-height:1.25; font-weight:850; letter-spacing:-.03em; }
+  .part-title::first-letter { color:var(--teal); }
+  .section-title { break-after:avoid; margin:9mm 0 4mm; font-size:15.5pt; line-height:1.35; font-weight:830; letter-spacing:-.02em; }
+  .correction-title { color:#b85d20; }
+  .decision-title { color:var(--teal-dark); }
+  .note-title { break-after:avoid; margin:6mm 0 2.2mm; font-size:11.2pt; font-weight:800; }
+  .note-title.warning { color:#b85d20; }
+  .note-title.learning { color:var(--teal-dark); }
+  strong { font-weight:800; }
+  blockquote { break-inside:avoid; margin:5mm 0; padding:4.5mm 5.2mm; border:0; border-radius:4mm; background:var(--peach-soft); color:#4a3426; box-shadow:inset 3px 0 0 var(--orange); }
+  blockquote p:last-child { margin-bottom:0; }
+  pre { break-inside:avoid; white-space:pre-wrap; margin:4.5mm 0; padding:4.5mm 5mm; border-radius:3.5mm; background:#f2f6f6; color:#254348; font:8.9pt/1.65 "SFMono-Regular",Menlo,monospace; border-left:3px solid var(--teal); }
+  code { font-family:"SFMono-Regular",Menlo,monospace; font-size:.9em; color:#315d63; background:#eef7f7; padding:.1em .28em; border-radius:3px; }
+  pre code { padding:0; background:transparent; }
+  table { width:100%; border-collapse:collapse; margin:4.5mm 0 6mm; font-size:9.5pt; line-height:1.55; }
+  thead { display:table-header-group; }
+  tr { break-inside:avoid; }
+  th { text-align:left; color:var(--teal-dark); font-weight:800; background:var(--cyan-soft); border-bottom:1.3px solid var(--teal); padding:2.5mm 2.2mm; }
+  td { vertical-align:top; border-bottom:1px solid #e7ebeb; padding:2.4mm 2.2mm; }
+  hr { border:0; border-top:1px solid var(--line); margin:8mm 0; }
+  a { color:var(--teal-dark); text-decoration:none; }
+  .keyword-box { break-inside:avoid; background:var(--cyan-soft); border-radius:4mm; padding:4.5mm 5mm; margin:4mm 0; }
+  .part-closing { margin-top:20mm; padding:8mm 9mm; border-left:3px solid var(--teal); border-radius:0 4mm 4mm 0; background:var(--cyan-soft); color:#27565b; font-size:15pt; line-height:1.65; font-weight:760; }
+  @media screen { .document { width:210mm; margin:18px auto; padding:18mm 17mm; box-shadow:0 10px 35px rgba(22,32,35,.13); } }
+  @media print { body { background:white; } .document { padding:0; } }
+  .meta-box { margin:0 0 8mm; padding:5mm 6mm; border-left:4px solid var(--teal); background:var(--cyan-soft); font-size:9.5pt; line-height:1.9; color:#4c5b4d; border-radius:0 3mm 3mm 0; }
+  .page-logo { position:fixed; left:0; right:0; bottom:7mm; text-align:center; font-size:7.5pt; font-weight:700; color:var(--teal-dark); letter-spacing:.05em; opacity:.72; z-index:99; }
+  @media screen { .page-logo { display:none; } }
+</style>
+</head>
+<body>
+  <section class="cover">
+    <div class="cover-art"><svg width="150mm" height="80mm" viewBox="0 0 300 160" aria-hidden="true">
+      <rect x="42" y="40" width="70" height="86" rx="7" fill="#fdf7e0" stroke="#4f612f" stroke-width="2"/>
+      <path d="M52 56 h50 M52 68 h38 M52 80 h50 M52 92 h30" stroke="#cbd7ab" stroke-width="4" stroke-linecap="round"/>
+      <text x="77" y="118" text-anchor="middle" font-size="10" fill="#819b3e" font-weight="700">NOTES</text>
+      <rect x="128" y="34" width="14" height="98" rx="3" fill="#f8e8c6" stroke="#bd8056" stroke-width="1.6"/>
+      <rect x="128" y="34" width="14" height="20" rx="3" fill="#819b3e" opacity=".5"/>
+      <rect x="128" y="60" width="14" height="14" rx="3" fill="#819b3e" opacity=".35"/>
+      <rect x="128" y="80" width="14" height="30" rx="3" fill="#819b3e" opacity=".28"/>
+      <rect x="160" y="44" width="66" height="78" rx="7" fill="#edf3e2" stroke="#819b3e" stroke-width="1.8"/>
+      <circle cx="176" cy="62" r="6" fill="#819b3e" opacity=".55"/><circle cx="196" cy="62" r="6" fill="#bd8056" opacity=".55"/>
+      <path d="M170 88 h46 M170 100 h34" stroke="#cbd7ab" stroke-width="4" stroke-linecap="round"/>
+      <path d="M236 66 q14 0 14 16 q0 16 -14 16" fill="none" stroke="#4f612f" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="256" cy="82" r="3" fill="#819b3e"/>
+    </svg></div>
+    <div class="cover-glow"></div>
+    <div class="cover-wave back"></div>
+    <div class="cover-wave front"></div>
+    <div class="cover-title-panel"></div>
+    <div class="cover-brand"><span class="brand-logo">🍀 Learn AI with Tarshar | 2026</span></div>
+    <div class="eyebrow">AI協作日誌 03</div>
+    <div class="cover-title">課程筆記館<br>把逐幀筆記修回精簡</div>
+  </section><main class="document">
+  <section class="toc-page">
+    <h1 class="toc-title">內容目錄</h1>
+      <div class="toc-row"><span class="toc-no">01</span><span class="toc-name">導讀 · 為什麼做這份日誌、主線、三方角色、資料界線</span></div>
+      <div class="toc-row"><span class="toc-no">02</span><span class="toc-name">第一部 · S3E3 這一堂：從逐幀到上架，中途改成子系列</span></div>
+      <div class="toc-row"><span class="toc-no">03</span><span class="toc-name">第二部 · 我踩剎車：為什麼逐幀變慢、頁數變多</span></div>
+      <div class="toc-row"><span class="toc-no">04</span><span class="toc-name">第三部 · 實際發生的偏航與修正</span></div>
+      <div class="toc-row"><span class="toc-no">05</span><span class="toc-name">第四部 · 正式決策帳</span></div>
+      <div class="toc-row"><span class="toc-no">06</span><span class="toc-name">第五部 · 學習關鍵字辭典</span></div>
+      <div class="toc-row"><span class="toc-no">07</span><span class="toc-name">第六部 · 可以帶回我方法論的素材</span></div>
+      <div class="toc-row"><span class="toc-no">08</span><span class="toc-name">第七部 · 產出的文件與狀態（含連結）</span></div>
+      <div class="toc-row"><span class="toc-no">09</span><span class="toc-name">第八部 · 仍待確認</span></div>
+      <div class="toc-row"><span class="toc-no">10</span><span class="toc-name">第九部 · 現在正確的下一步</span></div>
+    <div class="meta-box">日誌編號：03<br>日期：2026-08-19（單日協作）<br>專案：課程筆記館（kt-sweet-journey）｜逐幀課堂筆記工作流<br>本次工作範圍：訂閱制第三季第三堂（S3E3）的逐幀筆記＋互動地圖、課程館系列結構調整、逐幀筆記「抽格密度／輸出密度」兩級規則的定案與寫入<br>協作角色：Tarshar（拍板）× Claude（雲端，執行逐幀與網站）<br>階段：交付＋流程改版（S3E3 已上線；工作流規則已寫入 SKILL.md 與 CLAUDE.md）<br>證據範圍：本日對話、實際 commit 與檔案。原始課程內容取自益師傅 2026/08/14 錄影兩段（逐幀＋逐字稿）。</div>
+  </section><article class="article">
+  <div class="page-logo">🍀 Learn AI with Tarshar</div>
+
+<h2 class="part-title">導讀</h2>
+
+<h2 class="section-title">0. 為什麼我要做這份日誌</h2>
+<p>表面上今天只是「做一堂課的筆記，然後改個系列位置」。但真正發生的事比這個大：我發現最近的逐幀筆記越做越慢、頁數越長，我踩了剎車，要 AI 說清楚為什麼，最後我們一起訂了一套規則，讓以後每一集自動照做。</p>
+<p>我會做這份日誌，是因為一句話——<strong>小C（我在別處用的另一個 Claude）根本不知道今天改了什麼。</strong> 規則我請雲端這邊寫進了 repo，但如果沒有一份人看得懂的紀錄，我自己過幾週也會忘記「當初為什麼把它改成這樣」。所以這份日誌記的不是最後那兩個 HTML，而是：我原本怎麼想、AI 一開始怎麼理解、哪裡偏了、我怎麼把它拉回來、因此形成什麼規則。</p>
+<p>先釐清一件容易搞混的事：<strong>這個專案叫「課程筆記館」</strong>，S3E3 那一堂課只是今天經手的其中一件產出。今天大部分時間確實花在那一堂，但這份日誌記的是整個筆記館的協作與工作流改版，不是一堂課的製作史。</p>
+
+<h2 class="section-title">1. 今天的主線到底是什麼</h2>
+<p><strong>主線一｜把 S3E3 這一堂做完並上架。</strong> 益師傅 8/14 的第三堂，兩支錄影共 2 小時 26 分，要逐幀看完、做成筆記頁＋互動地圖、放上課程館。中途我改主意：不要併進直播電台的 EP 編號，另開一個「訂閱制課程」子系列。</p>
+<p><strong>主線二｜修好「逐幀筆記」這個工作流本身。</strong> 我覺得最近做這種筆記變得又慢、頁數又爆，懷疑是不是自己下錯指令或技能改版了。這條主線比第一條更重要——它會影響往後每一集。</p>
+<p><strong>共同接點：</strong>S3E3 剛好就是那個「又慢又長」的例子（15 節、52K、585 格），拿它當現場來診斷，剛剛好。</p>
+
+<h2 class="section-title">2. 我和 AI 各自扮演什麼角色</h2>
+<h3 class="note-title">我的角色</h3>
+<ul>
+<li>丟課程資料夾、拍板要不要逐幀、要放哪個系列。</li>
+<li>踩剎車：發現變慢變長，要求 AI 診斷、不准含糊。</li>
+<li>追問到底費在哪——是檔案大，還是兩版 token 不成比例。</li>
+<li>拍板規則怎麼分級、預設走哪一版、規則寫去哪。</li>
+</ul>
+<h3 class="note-title">AI 的角色（雲端 Claude）</h3>
+<ul>
+<li>逐幀執行：下載、抽格、親眼逐格看 585 格、跑逐字稿、產出兩個 HTML、上架、合併 main。</li>
+<li>誠實診斷：查技能修改史、比對各集章節數與檔案大小，找出真正的成本來源。</li>
+<li>把我的裁決寫成規則，放進會被讀到的地方（SKILL.md ＋ CLAUDE.md）。</li>
+</ul>
+<h3 class="note-title">不可越界</h3>
+<ul>
+<li>資料來源不可自行跳過或降級——逐幀就是要真的每格看完，不能用推測交差。</li>
+<li>系列命名、編號這種對外結構，一律回來問我拍板（今天我就把 EP50 改成 S3E3）。</li>
+<li>規則要訂之前先評估、給標準選項，不可以自己拍板一個門檻就寫下去。</li>
+</ul>
+
+<h2 class="section-title">3. 資料安全與協作界線</h2>
+<p>課程錄影是益師傅分享的 Drive 檔，逐字稿與抽格都在雲端暫存區處理，只把整理後的筆記與代表截圖放進網站。網站是公開的 GitHub Pages，所以筆記裡不放任何私密資訊（API 金鑰在截圖裡的都是老師自己畫面上的，且屬教學示範）。跨專案的中央 vault（tarshar-vault）在我的 Mac 上，<strong>雲端這邊搆不到，不能自動同步</strong>——這條界線今天又確認了一次。</p>
+
+<h2 class="part-title">第一部｜S3E3 這一堂：從逐幀到上架，中途改成子系列</h2>
+
+<h2 class="section-title">4. 我丟第三堂資料夾，要求逐幀筆記並放進直播電台</h2>
+<p>我丟了 8/14 第三堂的 Drive 連結，說「放到直播電台資料夾裡面並做逐幀筆記」。資料夾裡有兩支錄影、聲刻可攜版、CAST-STUDIO.exe、貼課通教師版與學生版、BMC 生成器。這堂課的主角是兩套益師傅自己用 AI 做的工具：<strong>聲刻</strong>（本機聲音克隆）與<strong>貼課通</strong>（課堂即時牆）。</p>
+
+<h2 class="section-title">5. 兩支錄影共 585 格，全部逐幀看完＋逐字稿</h2>
+<p>兩支影片加起來 2 小時 26 分。照既有作法每 15 秒抽一格，第一段 239 格、第二段 346 格，<strong>共 585 格，我要求全部親眼逐格看完</strong>，同時用 faster-whisper 跑出全程逐字稿交叉比對。這一步是逐幀筆記的核心價值，但也是後面「為什麼這麼慢」的關鍵伏筆。</p>
+
+<h2 class="section-title">6. 產出筆記頁＋互動地圖，上架合併 main</h2>
+<p>照 EP49 的版型做了兩個單檔 HTML：逐幀筆記頁（含錄影內嵌、全景 SVG、16 張真實截圖）與 akira 風互動地圖（可搜尋、可打勾記進度），上架到 lessons.html、合併回 main 讓 Pages 生效。</p>
+
+<h2 class="section-title">7. 我改主意：另開「訂閱制課程」子系列</h2>
+<p>做完我才想清楚：這堂是益師傅<strong>訂閱制第三季</strong>的課，跟晨學講堂的 EP 系列同一位老師、但不同軌道，硬編成 EP50 會混。所以我請它<strong>另開一個「📦 訂閱制課程」子系列</strong>，編號改成 S3E3（訂閱制第三季第三堂）。檔名從 ep50-* 改成 s3e3-*，回入口錨點改成 <code>lessons.html#sub</code>。這是我對「結構」的拍板，AI 不該自己決定。</p>
+
+<h2 class="part-title">第二部｜我踩剎車：為什麼逐幀變慢、頁數變多</h2>
+
+<h2 class="section-title">8. 我問：是不是我下錯指令、還是版本有問題</h2>
+<p>做完 S3E3 我丟出真正想問的：<strong>「最近的逐幀變得很費時，且出來頁數太多，不若以前 EP41 以前的作法，是我下錯什麼指令了嗎？」</strong> 我要它去看版本，不要打迷糊仗。</p>
+
+<h2 class="section-title">9. 診斷：技能沒改版，是章節被寫爆</h2>
+<p>它查了技能檔的修改史——<strong>從頭到尾只被改過一次，而且跟逐幀作法無關</strong>；抽格密度也一直是每 15 秒，沒變。真正膨脹的是「同一份素材被寫成幾節」：</p>
+<table>
+<thead><tr><th>集數</th><th>章節數</th><th>檔案大小</th></tr></thead>
+<tbody>
+<tr><td>EP40–44</td><td>9–10 節</td><td>24–32K</td></tr>
+<tr><td>EP47</td><td>13 節</td><td>36K</td></tr>
+<tr><td>EP49</td><td>21 節（最肥）</td><td>76K</td></tr>
+<tr><td>S3E3（原 EP50）</td><td>15 節</td><td>52K</td></tr>
+</tbody>
+</table>
+<p>所以不是我的錯、也不是技能改版，是 AI 從 EP44 起不知不覺把每個觀察都撐成一節。這一點它自己認了。</p>
+
+<h2 class="section-title">10. 我要它評估「到底費在哪」，不要含糊</h2>
+<p>我沒有馬上同意「那就寫短一點」。我追問：<strong>費時到底是「檔案大時間長」，還是「兩版的 token 不成比例」？要它評估。</strong> 我要的是成本歸因，不是一句「我會寫短一點」帶過。</p>
+
+<h2 class="section-title">11. 真相：費時主因是格數，不是頁數</h2>
+<p>它拆給我看，而且方向跟直覺相反：</p>
+<table>
+<thead><tr><th>成本項目</th><th>佔比</th><th>由什麼決定</th></tr></thead>
+<tbody>
+<tr><td>逐幀讀圖（用視覺看 585 格）</td><td>約 85%</td><td>格數</td></tr>
+<tr><td>寫成 HTML（輸出）</td><td>約 10%</td><td>寫幾節</td></tr>
+<tr><td>下載／抽格／逐字稿</td><td>約 5%</td><td>固定</td></tr>
+</tbody>
+</table>
+<p><strong>關鍵結論：這次特別慢，是因為這堂有兩支長影片、585 格是平常一集（約 184 格）的 3 倍多。</strong> 每一格都要用視覺 token 讀進來，這才是主成本。把頁數砍短只省得到那 10%，對「省時、省 token」幾乎沒用——它只讓成品變短、我讀起來輕鬆。所以「頁數太多」和「太費時」是<strong>兩個問題，要用兩個解法</strong>。</p>
+
+<h2 class="part-title">第三部｜實際發生的偏航與修正</h2>
+
+<h2 class="section-title correction-title">12. 我一度以為是自己指令錯</h2>
+<p>我開口就懷疑「是我下錯指令嗎」。查下來根因是 AI 把每個畫面寫成一節，不是我的指令問題。這裡我認可它沒有順著我把責任攬到我身上，而是誠實把 EP49 爆到 21 節這件事講出來。</p>
+
+<h2 class="section-title correction-title">13. AI 差點只給「頁數精簡」當萬靈丹</h2>
+<p>一開始的方向容易變成「那以後都寫精簡版就好」。但我要它分清楚：精簡輸出解的是「成品太長」，不是「製作太慢」。它修正過來，把兩個問題拆開，各給一個解法（A 抽格密度、B 輸出密度），我才同意。<strong>這是今天最重要的一次校正：不要用一個看起來對的方法，去蓋掉另一個沒被解決的問題。</strong></p>
+
+<h2 class="part-title">第四部｜正式決策帳</h2>
+<table>
+<thead><tr><th>#</th><th>決策</th><th>我的理由</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>S3E3 不併入 EP 編號，另開「訂閱制課程」子系列</td><td>不同軌道，混編會分不清</td></tr>
+<tr><td>2</td><td>檔名 ep50-* → s3e3-*，回入口用 <code>lessons.html#sub</code></td><td>命名對到子系列</td></tr>
+<tr><td>3</td><td>A 抽格密度分級，目標總格數壓在約 200</td><td>格數是製作時間的真正槓桿</td></tr>
+<tr><td>4</td><td>≤50分每15秒／50–90分每25秒／&gt;90分每35秒／&gt;150分每40秒或先問分集</td><td>不管影片多長，時間都穩定</td></tr>
+<tr><td>5</td><td>B 輸出密度預設「精簡版」（8–10 節、25–35K）</td><td>解決成品太長</td></tr>
+<tr><td>6</td><td>一個工具/主題一節，功能收進清單表格，不每個功能各開一節</td><td>這是頁數膨脹的根因</td></tr>
+<tr><td>7</td><td>只有我說「完整版／詳細版」才做到 15 節那種厚度</td><td>厚度變成選配，不是預設</td></tr>
+<tr><td>8</td><td>規則正本寫進 SKILL.md，觸發層寫進 CLAUDE.md</td><td>要住在會被讀到的地方才算數</td></tr>
+<tr><td>9</td><td>另產一份純文字 <code>逐幀筆記密度規則.txt</code> 給我丟 vault</td><td>備份＋以後技能搬家用</td></tr>
+</tbody>
+</table>
+
+<h2 class="part-title">第五部｜學習關鍵字辭典</h2>
+<div class="keyword-box">
+<h3 class="note-title learning">抽格密度｜Frame Sampling Rate</h3>
+<p>每幾秒從影片抽一張圖來看。密度越高（秒數越小）格數越多。逐幀筆記的主成本＝格數，所以這是控制製作時間的真正旋鈕。</p>
+</div>
+<div class="keyword-box">
+<h3 class="note-title learning">視覺 token｜Vision Token</h3>
+<p>AI「看」一張圖時要花的計算量單位。585 張圖等於要讀很多視覺 token，這是這次特別慢的主因——跟我寫幾節無關。</p>
+</div>
+<div class="keyword-box">
+<h3 class="note-title learning">成本歸因｜Cost Attribution</h3>
+<p>把「總花費」拆到各個環節，看主成本落在哪。今天的教訓：不要直覺以為「檔案大＝最花時間」，實際 85% 花在讀圖。</p>
+</div>
+<div class="keyword-box">
+<h3 class="note-title learning">純前端單頁應用｜SPA（Single-Page Application）</h3>
+<p>整個工具就是一個 HTML 檔、沒有後端伺服器。這堂課的聲刻與貼課通都是這種，所以能直接嵌進 Google Sites 發布上雲——看懂本質就看懂怎麼部署。</p>
+</div>
+<div class="keyword-box">
+<h3 class="note-title learning">CORS｜跨來源資源共用</h3>
+<p>瀏覽器的安全限制，會擋掉網頁去要「別家網站」的資料。把工具包成本機小伺服器（CAST-STUDIO.exe），請求改由伺服器端發，就繞過這個限制。</p>
+</div>
+<div class="keyword-box">
+<h3 class="note-title learning">專案大腦 vs 中央 vault</h3>
+<p>repo 裡的 CLAUDE.md ＝這個專案的大腦，任何 Claude 開這個 repo 都會讀到；中央 vault（tarshar-vault）在我 Mac 上、跨所有專案，但雲端 Claude 搆不到，要我自己同步。</p>
+</div>
+
+<h2 class="part-title">第六部｜可以帶回我方法論的素材</h2>
+<ul>
+<li><strong>「看多細」與「寫多長」要分開控制。</strong> 這不只是做筆記——任何研究、任何整理，「蒐集的密度」和「輸出的篇幅」都是兩個旋鈕，混在一起想就會用錯解法。</li>
+<li><strong>成本要先歸因再優化。</strong> 感覺慢，先問「主成本在哪個環節」，再對那一項下手。砍到只佔 10% 的環節，是白費力氣。</li>
+<li><strong>規則要住在會被讀到的地方。</strong> 一條規則寫在對話裡等於沒寫；要寫進下一個人（或下一個 AI）一定會打開的檔案，才會真的生效。</li>
+<li><strong>踩剎車追問，是對的。</strong> 我今天沒有讓 AI 用「寫短一點」草草結案，逼它把成本講清楚，才換到真正有用的規則。</li>
+</ul>
+
+<h2 class="part-title">第七部｜產出的文件與狀態（含連結）</h2>
+<table>
+<thead><tr><th>文件</th><th>狀態</th></tr></thead>
+<tbody>
+<tr><td><a href="../s3e3-notes.html">s3e3-notes.html</a>（逐幀課堂筆記）</td><td>已上線</td></tr>
+<tr><td><a href="../s3e3-ai-skills.html">s3e3-ai-skills.html</a>（互動學習地圖）</td><td>已上線</td></tr>
+<tr><td><a href="../lessons.html#sub">lessons.html</a> ＋ index.html（新增「訂閱制課程」子系列）</td><td>已上線、已同步</td></tr>
+<tr><td>.claude/skills/lecture-notes-site/SKILL.md（A/B 密度規則正本）</td><td>已寫入</td></tr>
+<tr><td><a href="../CLAUDE.md">CLAUDE.md</a>（觸發層密度規則）</td><td>已寫入</td></tr>
+<tr><td>逐幀筆記密度規則.txt（給我丟 vault 的備份）</td><td>已交付（待我手動放進 vault）</td></tr>
+<tr><td>本日誌 docs/AI協作日誌03-課程筆記館.html</td><td>本檔</td></tr>
+</tbody>
+</table>
+
+<h2 class="part-title">第八部｜仍待確認</h2>
+<ul>
+<li><strong>vault 同步：</strong>密度規則的 .txt 還在我這邊，要不要放進中央 vault、讓別 repo 的小C 也吃到，由我決定。雲端 Claude 搆不到 vault，這件事只能我做。</li>
+<li><strong>門檻數字：</strong>A 的格數目標我先定在約 200；如果之後覺得太粗或太細，可以調（例如改成 150）。</li>
+<li><strong>完整版的判準：</strong>哪一種課值得做完整版（15 節）？目前是「我明講才做」，之後可能歸納出幾種固定情境。</li>
+</ul>
+
+<h2 class="part-title">第九部｜現在正確的下一步</h2>
+<ol>
+<li>下一堂逐幀筆記，直接照<strong>精簡版</strong>做，不用我再提醒。</li>
+<li>影片先算<strong>總長</strong>再選抽格級距（多支影片要加總），把格數壓在約 200。</li>
+<li>哪一集想要厚一點，我就講一句<strong>「這集要完整版／詳細版」</strong>。</li>
+<li>把 <code>逐幀筆記密度規則.txt</code> 放進我的 vault（如果我要跨專案共用）。</li>
+</ol>
+
+<div class="part-closing">今天真正做完的，不是一堂課的筆記，是一條「以後每一集都會照著走」的規矩。S3E3 只是那個讓我踩剎車的例子；規矩訂好了，小C 打開這個 repo 就看得到。</div>
+
+</article></main>
+</body></html>
