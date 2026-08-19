@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EP50 課堂筆記｜聲音復刻 × 貼課通：把單檔 AI 工具送上雲端</title>
+<title>S3E3 課堂筆記｜聲音復刻 × 貼課通：把單檔 AI 工具送上雲端</title>
 <meta name="description" content="訂閱制第三季第三堂（益師傅／楊俊益）逐幀課堂筆記：兩大自製工具——「聲刻 Voice Foundry」本機聲音克隆（含 ElevenLabs 雲端 TTS 對照、CAST Podcast 多角色工作室、CUDA/CPU fallback、倫理聲明）與「貼課通」課堂即時牆（教師版／學生版全功能巡禮）；核心一課是把純前端單檔工具用 CAST-STUDIO.exe 本機小伺服器與 Google Sites 嵌入＋發布，變成任何人可用的雲端 App。依錄影逐幀（每15秒、共585格）＋逐字稿整理。">
 <style>
 :root{
@@ -81,10 +81,10 @@ footer a{color:var(--ink2)}
 <body>
 
 <div class="topbar">
-  <a class="btn" href="lessons.html#radio" style="border-color:#c3aee8" onclick="if(history.length>1){history.back();return false}">← 回上一頁</a>
-  <b>📝 EP50 課堂筆記</b>
+  <a class="btn" href="lessons.html#sub" style="border-color:#c3aee8" onclick="if(history.length>1){history.back();return false}">← 回上一頁</a>
+  <b>📝 S3E3 課堂筆記</b>
   <div class="right">
-    <a class="btn" href="ep50-ai-skills.html">🗺️ 互動技能地圖</a>
+    <a class="btn" href="s3e3-ai-skills.html">🗺️ 互動技能地圖</a>
   </div>
 </div>
 
@@ -170,7 +170,7 @@ footer a{color:var(--ink2)}
       <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bf6a1e"/><stop offset="1" stop-color="#9c7b23"/></linearGradient>
     </defs>
     <rect width="960" height="470" fill="#fff"/>
-    <text x="480" y="40" text-anchor="middle" font-size="20" font-weight="800" fill="#191919">EP50 · 兩個工具，一個心法</text>
+    <text x="480" y="40" text-anchor="middle" font-size="20" font-weight="800" fill="#191919">S3E3 · 兩個工具，一個心法</text>
     <text x="480" y="64" text-anchor="middle" font-size="13" fill="#5f5f5f">用 AI 打造單檔小工具 → 本機直接用 → 免費上雲給全班用</text>
 
     <!-- Tool A -->
@@ -224,7 +224,7 @@ footer a{color:var(--ink2)}
     <li><b>目前的限制：</b>Codex <b>沒辦法一次把整個母目錄的所有專案都復原</b>，只能一個資料夾一個資料夾加進來。老師建議把專案資料夾放在隨身碟或雲端備份。</li>
     <li><b>Codex 桌面版能力：</b>畫面上可見它能<b>排程</b>（例：已排程「平日早晨簡報」）、接 <b>Google Drive／Linear 連接器</b>，並列出一整排老師的專案（台股資料抓取、零用金收支表、PDF 拆分工具、Gmail 信件檢查、聲音 Clone…）——這些就是本堂與延伸內容的來源。</li>
   </ul>
-  <figure class="shot"><img src="ep50-img/07-codex-shengke.jpg" alt="Codex 聲音Clone 專案對話"><figcaption>ChatGPT Codex 桌面版：老師的「聲音 Clone」專案對話，Codex 說明聲刻的效能（CPU 模式 177 字約 3 分 8 秒），並提示 RTX 5090 尚未啟用對應 CUDA 版本、暫時走 CPU。［約 05:00］</figcaption></figure>
+  <figure class="shot"><img src="s3e3-img/07-codex-shengke.jpg" alt="Codex 聲音Clone 專案對話"><figcaption>ChatGPT Codex 桌面版：老師的「聲音 Clone」專案對話，Codex 說明聲刻的效能（CPU 模式 177 字約 3 分 8 秒），並提示 RTX 5090 尚未啟用對應 CUDA 版本、暫時走 CPU。［約 05:00］</figcaption></figure>
   <div class="note blue">💡 <div>本堂兩個主角（聲刻、貼課通）都是老師用 <b>Codex／Claude</b> 一步步「vibe coding」出來的。開場這段先埋下伏筆：<b>工具是 AI 幫你做的，資料要自己備份。</b></div></div>
 </section>
 
@@ -233,7 +233,7 @@ footer a{color:var(--ink2)}
   <span class="chip" style="background:linear-gradient(90deg,var(--purple),var(--accent))">TOOL A</span>
   <h2 class="ct">3. 主角一：聲刻 Voice Foundry（本機聲音克隆） <span style="font-size:12px;color:var(--ink3)">[17:45 起]</span></h2>
   <p>雙擊 <code>聲刻.exe</code>，瀏覽器打開 <code>127.0.0.1:7860</code>，就是<b>「聲刻 VOICE FOUNDRY」</b>——標語「留住聲線，重新說話」（OPEN-SOURCE VOICE CLONING · LOCAL FIRST）。</p>
-  <figure class="shot"><img src="ep50-img/01-shengke-home.jpg" alt="聲刻 Voice Foundry 首頁"><figcaption>聲刻首頁：左欄「放入參考聲音」（上傳 MP3／WAV，系統解析並轉 24 kHz 單聲道，建議 10–30 秒），右欄「輸入要說的話」（選語言、擬演情緒、進階聲音控制與輸出格式）。右上顯示「NVIDIA GeForce RTX 5090 Laptop GPU · 模型已就緒」。［約 17:45］</figcaption></figure>
+  <figure class="shot"><img src="s3e3-img/01-shengke-home.jpg" alt="聲刻 Voice Foundry 首頁"><figcaption>聲刻首頁：左欄「放入參考聲音」（上傳 MP3／WAV，系統解析並轉 24 kHz 單聲道，建議 10–30 秒），右欄「輸入要說的話」（選語言、擬演情緒、進階聲音控制與輸出格式）。右上顯示「NVIDIA GeForce RTX 5090 Laptop GPU · 模型已就緒」。［約 17:45］</figcaption></figure>
 
   <h3>聲刻是什麼、為什麼要「可攜版」</h3>
   <ul class="pt">
@@ -250,7 +250,7 @@ footer a{color:var(--ink2)}
     <tr><td>500 字</td><td>約 6～8 分鐘</td></tr>
     <tr><td>Podcast 多段內容</td><td>可能 10～30 分鐘以上</td></tr>
   </table></div>
-  <figure class="shot"><img src="ep50-img/05-shengke-diagnostics.jpg" alt="聲刻系統診斷與 Voice ID 管理"><figcaption>頁面下方「聲音管理與工作紀錄」：系統診斷顯示運算裝置 RTX 5090、運算模式 CPU fallback（橘字）、FFmpeg／FFprobe 可用、SoX 未安裝、磁碟可用 594 GB；下方是已儲存的 Voice ID（含品質分、使用次數、日期）與每一次的生成歷史，可重播、匯出。［約 27:30］</figcaption></figure>
+  <figure class="shot"><img src="s3e3-img/05-shengke-diagnostics.jpg" alt="聲刻系統診斷與 Voice ID 管理"><figcaption>頁面下方「聲音管理與工作紀錄」：系統診斷顯示運算裝置 RTX 5090、運算模式 CPU fallback（橘字）、FFmpeg／FFprobe 可用、SoX 未安裝、磁碟可用 594 GB；下方是已儲存的 Voice ID（含品質分、使用次數、日期）與每一次的生成歷史，可重播、匯出。［約 27:30］</figcaption></figure>
   <div class="note gold">⚠️ <div><b>RTX 50 系列（5060／5090…）常見 CUDA 錯誤：</b>「CUDA error: no kernel image is available for execution on the device」。原因是內建的 PyTorch/CUDA 版本不支援這張新顯卡的架構，<b>不是聲音檔壞掉</b>。聲刻會自動退回 <b>CPU fallback</b>（能跑，只是慢）。修法見第 11 節。</div></div>
 </section>
 
@@ -270,8 +270,8 @@ footer a{color:var(--ink2)}
 
   <h3>音色庫、我的音色、音色設計</h3>
   <div class="shotgrid">
-    <figure class="shot"><img src="ep50-img/02-elevenlabs-myvoices.jpg" alt="ElevenLabs 我的音色"><figcaption>「我的音色」：老師自建的音色清單（New_ECF 沉穩專業講師、中年大叔、低沉溫暖的人…）。右鍵可複製聲音 ID、編輯、查看歷史。［約 14:00］</figcaption></figure>
-    <figure class="shot"><img src="ep50-img/03-elevenlabs-voicedesign.jpg" alt="ElevenLabs 音色設計"><figcaption>「音色設計」：<b>用一段文字描述就能生出新音色</b>（例：Evil Ogre、Southern Woman…）。生成一次約 350 點數。［約 14:15］</figcaption></figure>
+    <figure class="shot"><img src="s3e3-img/02-elevenlabs-myvoices.jpg" alt="ElevenLabs 我的音色"><figcaption>「我的音色」：老師自建的音色清單（New_ECF 沉穩專業講師、中年大叔、低沉溫暖的人…）。右鍵可複製聲音 ID、編輯、查看歷史。［約 14:00］</figcaption></figure>
+    <figure class="shot"><img src="s3e3-img/03-elevenlabs-voicedesign.jpg" alt="ElevenLabs 音色設計"><figcaption>「音色設計」：<b>用一段文字描述就能生出新音色</b>（例：Evil Ogre、Southern Woman…）。生成一次約 350 點數。［約 14:15］</figcaption></figure>
   </div>
   <div class="note green">✅ <div><b>老師的小技巧：</b>要寫音色描述時，先請 AI 幫你寫一段形容詞（例：「請給我一段描述台灣中年男子、嘮叨但精神奕奕的聲音形容詞，用 50 個字」），再把那段話貼進 ElevenLabs 的音色設計，音色就更到位。</div></div>
 
@@ -310,7 +310,7 @@ footer a{color:var(--ink2)}
 
   <h3>實測：用自己的聲音唸新聞</h3>
   <p>老師到 Yahoo 財經反白複製一段 ETF 新聞（178 字），貼進聲刻、勾好倫理聲明、按生成。CPU 模式跑了一分多鐘後——</p>
-  <figure class="shot"><img src="ep50-img/04-shengke-generated.jpg" alt="聲刻生成完成"><figcaption>「GENERATED TAKE 這是你的新聲音」——用老師 19 秒的參考聲音唸出整段 ETF 新聞，附波形與「下載 MP3」。播放後全班在聊天室一致認證：「有，超像」「很像」😍。［約 32:00］</figcaption></figure>
+  <figure class="shot"><img src="s3e3-img/04-shengke-generated.jpg" alt="聲刻生成完成"><figcaption>「GENERATED TAKE 這是你的新聲音」——用老師 19 秒的參考聲音唸出整段 ETF 新聞，附波形與「下載 MP3」。播放後全班在聊天室一致認證：「有，超像」「很像」😍。［約 32:00］</figcaption></figure>
   <div class="golden">
     <div class="q">「玩期貨心臟要夠大」的姐妹句——聲刻版：留住聲線，重新說話。</div>
     <div class="a">一段 10–30 秒的聲音，就能讓 AI 用你的音色，把任何文字唸出來。這就是「聲音復刻」。</div>
@@ -342,7 +342,7 @@ footer a{color:var(--ink2)}
     <li><b>聲音可混搭：</b>主持人 A 可用<b>聲刻本機 Clone Voice</b>（你自己的聲音）、主持人 B 用 <b>ElevenLabs</b>（George、Sarah…）或台語——本機與雲端聲音同表選用。</li>
     <li><b>試聽引擎：</b>可切「ElevenLabs V3（高品質，需 API Key）」或「聲刻本機 Clone Voice（免 ElevenLabs Key）」。</li>
   </ul>
-  <figure class="shot"><img src="ep50-img/06-cast-script.jpg" alt="CAST 生成的對談腳本"><figcaption>AI 產生的完整對談文案：共 94 句、4121 字。每一句是一張卡片，可改情緒標籤（laughs／curious／thoughtful…）、切換講者、重錄試聽、插入或刪除。輸出可選 16:9／9:16、封面標題卡、BGM（由 Pollinations.ai 自動生成意境圖）、SRT 字幕與 Show Notes。［約 46:00］</figcaption></figure>
+  <figure class="shot"><img src="s3e3-img/06-cast-script.jpg" alt="CAST 生成的對談腳本"><figcaption>AI 產生的完整對談文案：共 94 句、4121 字。每一句是一張卡片，可改情緒標籤（laughs／curious／thoughtful…）、切換講者、重錄試聽、插入或刪除。輸出可選 16:9／9:16、封面標題卡、BGM（由 Pollinations.ai 自動生成意境圖）、SRT 字幕與 Show Notes。［約 46:00］</figcaption></figure>
   <div class="note blue">💡 <div>快速模板很豐富：產業分析、職涯諮詢、技術解讀、正反辯論、新聞快報、教學課程、人物訪談、故事說書，加上特殊領域（八字命理、姓名學、股市解盤）。選一個就自動帶入主持人設定與節奏。</div></div>
 </section>
 
@@ -351,7 +351,7 @@ footer a{color:var(--ink2)}
   <span class="chip" style="background:linear-gradient(90deg,var(--blue),var(--purple))">TOOL A+</span>
   <h2 class="ct">7. 主角二：CAST STUDIO 獨立版 <span style="font-size:12px;color:var(--ink3)">[第二段 02:00 起]</span></h2>
   <p>下半場老師先秀 <b>CAST-STUDIO-win.exe</b>——就是把上面 CAST Podcast 工作室<b>單獨打包成一個 Windows 執行檔</b>（約 15 MB），雙擊後自己開瀏覽器，跑在 <code>127.0.0.1:59767</code>。</p>
-  <figure class="shot"><img src="ep50-img/09-cast-studio.jpg" alt="CAST STUDIO 8 步驟介面"><figcaption>CAST STUDIO 獨立版介面：同一套 8 步驟（分析主題、目標聽眾、情緒節奏曲線、主持人設定…），右側 AI 設定貼 Groq／ElevenLabs API Key，語音可選 ElevenLabs V3 或聲刻 Clone。［第二段 03:00］</figcaption></figure>
+  <figure class="shot"><img src="s3e3-img/09-cast-studio.jpg" alt="CAST STUDIO 8 步驟介面"><figcaption>CAST STUDIO 獨立版介面：同一套 8 步驟（分析主題、目標聽眾、情緒節奏曲線、主持人設定…），右側 AI 設定貼 Groq／ElevenLabs API Key，語音可選 ElevenLabs V3 或聲刻 Clone。［第二段 03:00］</figcaption></figure>
 
   <h3>技術揭密：為什麼要「本機小伺服器」</h3>
   <p>老師打開 Claude 對話（帳號「益師傅・Max」）秀出這個工具的設計原理，這段很值得懂：</p>
@@ -374,7 +374,7 @@ footer a{color:var(--ink2)}
     <li><b>學生版加入：</b>另一個檔 <code>貼課通-學生專業版.html</code>，填暱稱＋房號即可加入（學生版<b>不能建房、不能匯出</b>，其餘同步）。</li>
     <li><b>連線技術：</b>即時同步走 <b>WebRTC（PeerJS P2P）</b>，學校/公司網路連不上時可在「連線設定」填 <b>TURN 中繼</b>或勾「強制走中繼」。</li>
   </ul>
-  <figure class="shot"><img src="ep50-img/10-tiketong-room.jpg" alt="貼課通教師版建房後的工具列與牆面"><figcaption>建房完成：頂部房號 UNPJ56，工具列一整排功能（舉手／提問／理解度／搶答／退場券／抽座號／評分總計｜畫布／協作白板／看板／簡報／搜尋／分享／錄製／教師／計時／教材庫／專案／匯出／匯出圖／主題）。學員陸續加入，牆上出現貼文卡片。［第二段 10:00］</figcaption></figure>
+  <figure class="shot"><img src="s3e3-img/10-tiketong-room.jpg" alt="貼課通教師版建房後的工具列與牆面"><figcaption>建房完成：頂部房號 UNPJ56，工具列一整排功能（舉手／提問／理解度／搶答／退場券／抽座號／評分總計｜畫布／協作白板／看板／簡報／搜尋／分享／錄製／教師／計時／教材庫／專案／匯出／匯出圖／主題）。學員陸續加入，牆上出現貼文卡片。［第二段 10:00］</figcaption></figure>
   <div class="note steel">🏗️ <div><b>學生版＝教師版同源。</b>老師用記事本打開學生版原始碼（單檔 2839 行、271 KB），可見房主功能（建房／教材庫／錄製…）都被一個 <code>_block</code> 函式擋掉，並提示「學生版無法建立或主持房間，請輸入老師提供的代碼加入課堂」。<b>一份程式，兩種角色。</b></div></div>
 </section>
 
@@ -403,8 +403,8 @@ footer a{color:var(--ink2)}
     <tr><td>分享（螢幕）</td><td>把某個視窗畫面即時推送進牆（需 https 或 localhost）</td><td>—</td></tr>
   </table></div>
   <div class="shotgrid">
-    <figure class="shot"><img src="ep50-img/11-tiketong-scoreboard.jpg" alt="貼課通評分總計排行榜"><figcaption>評分總計：依每則貼文收到的反應累計到作者，即時排行榜（🥇ECF 22 分、🥈耀州 21 分…）。遊戲化積分讓課堂互動更熱絡。［第二段 16:00］</figcaption></figure>
-    <figure class="shot"><img src="ep50-img/12-tiketong-comprehension.jpg" alt="貼課通理解度紅綠燈"><figcaption>理解度紅綠燈：學生匿名回報，老師只看到統計長條圖（例 23 人，48% 跟得上、52% 有點快、0% 聽不懂），講解中可隨時請大家更新。［第二段 30:00］</figcaption></figure>
+    <figure class="shot"><img src="s3e3-img/11-tiketong-scoreboard.jpg" alt="貼課通評分總計排行榜"><figcaption>評分總計：依每則貼文收到的反應累計到作者，即時排行榜（🥇ECF 22 分、🥈耀州 21 分…）。遊戲化積分讓課堂互動更熱絡。［第二段 16:00］</figcaption></figure>
+    <figure class="shot"><img src="s3e3-img/12-tiketong-comprehension.jpg" alt="貼課通理解度紅綠燈"><figcaption>理解度紅綠燈：學生匿名回報，老師只看到統計長條圖（例 23 人，48% 跟得上、52% 有點快、0% 聽不懂），講解中可隨時請大家更新。［第二段 30:00］</figcaption></figure>
   </div>
 </section>
 
@@ -413,7 +413,7 @@ footer a{color:var(--ink2)}
   <span class="chip" style="background:linear-gradient(90deg,var(--accent),var(--orange))">KEY LESSON</span>
   <h2 class="ct">10. 關鍵一課：把單檔工具送上雲端 <span style="font-size:12px;color:var(--ink3)">[第二段 17:00 · 33:00–39:00]</span></h2>
   <p>這是本堂最重要的觀念。學員耀州先主動用 AI 拆解貼課通的原理，問 Codex「這個程式可改成 GAS 嗎？變成雲端服務」，得到關鍵答案：</p>
-  <figure class="shot"><img src="ep50-img/13-codex-gas.jpg" alt="Codex 回答貼課通可改成 GAS"><figcaption>Codex 回覆：「這支程式完全可以改成 Google Apps Script (GAS) 部署為雲端服務！因為『貼課通』本質上是一支完整的<b>純前端單頁應用（SPA）</b>，即時連線用 WebRTC(P2P)、暫存用瀏覽器 IndexedDB／LocalStorage。透過 GAS 的 HtmlService 可直接託管並發布成 Web App 網頁，免費、無須架設伺服器，還自帶 Google 的 HTTPS 憑證（剛好滿足相機拍照、麥克風錄音與螢幕分享所需的安全連線）。」［第二段 17:00］</figcaption></figure>
+  <figure class="shot"><img src="s3e3-img/13-codex-gas.jpg" alt="Codex 回答貼課通可改成 GAS"><figcaption>Codex 回覆：「這支程式完全可以改成 Google Apps Script (GAS) 部署為雲端服務！因為『貼課通』本質上是一支完整的<b>純前端單頁應用（SPA）</b>，即時連線用 WebRTC(P2P)、暫存用瀏覽器 IndexedDB／LocalStorage。透過 GAS 的 HtmlService 可直接託管並發布成 Web App 網頁，免費、無須架設伺服器，還自帶 Google 的 HTTPS 憑證（剛好滿足相機拍照、麥克風錄音與螢幕分享所需的安全連線）。」［第二段 17:00］</figcaption></figure>
 
   <h3>老師走通的路：嵌進 Google Sites → 一鍵發布</h3>
   <ol class="st">
@@ -423,7 +423,7 @@ footer a{color:var(--ink2)}
     <li>誰可以查看：所有人 → 發布 → 「您的協作平台已成功發布」。</li>
     <li>用無痕視窗開這個公開網址，貼課通學生版<b>正常載入、能加入房間、能貼文</b>——完全走通。</li>
   </ol>
-  <figure class="shot"><img src="ep50-img/15-sites-published.jpg" alt="貼課通發布到公開網址"><figcaption>公開網址實測：無痕視窗開 <code>sites.google.com/view/ecf-class</code>，貼課通學生版登入畫面正常顯示（左上「自訂內嵌」）。填暱稱＋房號就能加入——本機單檔工具，變成任何人可用的雲端 App。［第二段 37:30］</figcaption></figure>
+  <figure class="shot"><img src="s3e3-img/15-sites-published.jpg" alt="貼課通發布到公開網址"><figcaption>公開網址實測：無痕視窗開 <code>sites.google.com/view/ecf-class</code>，貼課通學生版登入畫面正常顯示（左上「自訂內嵌」）。填暱稱＋房號就能加入——本機單檔工具，變成任何人可用的雲端 App。［第二段 37:30］</figcaption></figure>
   <div class="note green">✅ <div><b>當堂最有感的一幕：</b>發布後，全班學員紛紛複製老師做法，把貼課通嵌進自己的 Google Sites、發布成自己的網址，再把成果截圖貼回牆上互相展示。一堂課下來，<b>全班都學會「把單檔工具掛上雲」</b>。</div></div>
   <div class="note gold">⚠️ <div><b>資料保存提醒：</b>有學員問「離開頁面資料就不在，我可以安裝在自己的雲端伺服器嗎？」——可以。純前端工具的資料存在瀏覽器（IndexedDB／LocalStorage），關掉就清掉；要長期保存就自己部署（GAS／Google Sites／自架伺服器），並善用貼課通的「匯出／專案庫」把牆面存下來。</div></div>
 </section>
@@ -438,7 +438,7 @@ footer a{color:var(--ink2)}
     <li><b>現場改功能：</b>老師把貼課通學生版 HTML 上傳 Claude（Opus 5·High），要求「新的貼文都產生在最上方」——用 AI 迭代自己的工具。</li>
     <li><b>老師的工具軍火庫：</b>下載資料夾裡滿滿都是 AI 做的工具（debate_arena×5、ollama_studio×10、AI-Agent-Codex、TaiwanStockCollector、BMC 生成器…）。</li>
   </ul>
-  <figure class="shot"><img src="ep50-img/08-codex-cuda.jpg" alt="Codex 提供 RTX 50 CUDA 修復步驟"><figcaption>Codex 的 CUDA 修復方案：① 用 nvidia-smi／torch.cuda 檢查 ② RTX 50 系列改裝 torch 2.7.1+cu128（PyTorch 官方建議 CUDA 12.8，約下載 10 GB）③ 不需 GPU 的臨時方案：改裝 CPU 版 torch。老師把整份步驟貼回 Teams 給學員。［約 40:00］</figcaption></figure>
+  <figure class="shot"><img src="s3e3-img/08-codex-cuda.jpg" alt="Codex 提供 RTX 50 CUDA 修復步驟"><figcaption>Codex 的 CUDA 修復方案：① 用 nvidia-smi／torch.cuda 檢查 ② RTX 50 系列改裝 torch 2.7.1+cu128（PyTorch 官方建議 CUDA 12.8，約下載 10 GB）③ 不需 GPU 的臨時方案：改裝 CPU 版 torch。老師把整份步驟貼回 Teams 給學員。［約 40:00］</figcaption></figure>
   <div class="code"># RTX 50 系列（5060/5090…）CUDA 修復（在可攜版資料夾開 PowerShell）
 .\runtime\python\python.exe -m pip uninstall -y torch torchaudio
 .\runtime\python\python.exe -m pip install torch==2.7.1+cu128 torchaudio==2.7.1+cu128 --index-url https://download.pytorch.org/whl/cu128
@@ -448,7 +448,7 @@ footer a{color:var(--ink2)}
 # 臨時方案（不用 GPU，改 CPU 版，較慢但一定能跑）
 .\runtime\python\python.exe -m pip install torch==2.7.1 torchaudio==2.7.1 --index-url https://download.pytorch.org/whl/cpu</div>
   <div class="note steel">🛠️ <div>這段的教學價值不在指令本身，而在示範<b>「遇到報錯→把錯誤丟給 AI→拿到步驟→貼回去給大家」</b>的工作流。這也是整個訂閱制課程的主軸：用 AI 當你的工程師。</div></div>
-  <figure class="shot"><img src="ep50-img/14-tools-arsenal.jpg" alt="老師下載資料夾的工具軍火庫"><figcaption>老師下載資料夾一隅：CAST-STUDIO.zip、貼課通教師/學生版、BMC 生成器、AI-Agent-Codex、debate_arena、ollama_studio…——全是用 AI 做出來的單檔工具。［第二段 34:15］</figcaption></figure>
+  <figure class="shot"><img src="s3e3-img/14-tools-arsenal.jpg" alt="老師下載資料夾的工具軍火庫"><figcaption>老師下載資料夾一隅：CAST-STUDIO.zip、貼課通教師/學生版、BMC 生成器、AI-Agent-Codex、debate_arena、ollama_studio…——全是用 AI 做出來的單檔工具。［第二段 34:15］</figcaption></figure>
 </section>
 
 <!-- 12 -->
@@ -489,15 +489,15 @@ footer a{color:var(--ink2)}
     <li><b>螢幕截圖：</b>取自錄影抽格（每 15 秒一格），非簡報原圖——這堂課沒有傳統簡報檔，「投影片」就是老師的實機操作畫面。</li>
     <li><b>本堂沒有課後作業</b>（訂閱制實作課，重點在跟著動手做出自己的工具與雲端頁面）。</li>
   </ul>
-  <div class="note steel">📌 <div>這一堂在課程館歸在<b>「📻 直播電台」</b>系列（依使用者指定放入直播電台資料夾）。它屬於益師傅訂閱制第三季，與晨學講堂 EP 系列同一位講師、不同軌道；為延續課程館的集數編號，本頁編為 EP50。</div></div>
+  <div class="note steel">📌 <div>這一堂在課程館獨立歸在<b>「📦 訂閱制課程」</b>子系列，編號 <b>S3E3</b>（訂閱制第三季第三堂）。它與晨學講堂 EP 系列同一位講師（益師傅）、不同軌道，因此另開子系列、不併入直播電台的 EP 編號。</div></div>
 </section>
 
 </article>
 </div>
 
 <footer>
-  <p>📝 EP50 逐幀課堂筆記 · 生成式AI應用電台・訂閱制第三季第三堂（益師傅）</p>
-  <p>依錄影逐幀（每 15 秒／共 585 格）＋全程逐字稿整理 · <a href="ep50-ai-skills.html">🗺️ 互動技能地圖</a> · <a href="lessons.html#radio">🏠 回筆記館入口</a></p>
+  <p>📝 S3E3 逐幀課堂筆記 · 生成式AI應用電台・訂閱制第三季第三堂（益師傅）</p>
+  <p>依錄影逐幀（每 15 秒／共 585 格）＋全程逐字稿整理 · <a href="s3e3-ai-skills.html">🗺️ 互動技能地圖</a> · <a href="lessons.html#sub">🏠 回筆記館入口</a></p>
 </footer>
 
 </body>
