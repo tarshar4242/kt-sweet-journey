@@ -81,7 +81,22 @@ description: 把 Google Drive 的課程資料夾（講義簡報＋錄影回放�
 3. commit（繁中訊息）→ push 工作分支 → **合併回 main 並 push（使用者已常設授權：
    「一次一個課程放上我的網頁」，見 CLAUDE.md）**，讓 GitHub Pages 生效。
 4. 兩檔各發佈 Artifact（favicon 固定：地圖🧠、筆記📝；重發用同檔名同路徑保 URL）。
-5. 回覆使用者三組網址：GitHub Pages 正式網址
+5. **★ 交付到使用者指定的 Drive 資料夾（2026-08-20 使用者定案，不可省略）**：
+   網站上架不等於交付完成，兩份 HTML 還要進她的課程 Drive 資料夾（該季／該課程的資料夾，
+   例：訂閱制第三季＝`1LSPX3vXbJ3oCscttTpsQacClbcSNL1f4`「第三季」）。
+   - **格式一律轉 PDF**（她 2026-08-20 拍板）。HTML 原檔放 Drive 不能線上瀏覽、點了只會下載，
+     且筆記內的圖片是 GitHub 相對路徑，離開網站就破圖。
+   - 轉檔用 Playwright（`/opt/node22/lib/node_modules/playwright`）開 `file://` 後 `page.pdf()`；
+     **列印前必須注入 CSS 把互動內容攤平**，否則 PDF 只印得到首頁：
+     `.view{display:block!important}`、`.topic-body{max-height:none!important;overflow:visible!important}`、
+     並把 `.topic`／`.view` 補上 `open`／`active` class；隱藏 `.topbar,nav.toc,.crumbs,.chapnav,.searchbox,.iframe-wrap`
+     （Drive 內嵌 iframe 在 PDF 是空白）；`.topic` **不要**設 `break-inside:avoid`（會變成一個技能佔一頁）。
+   - 檔名用中文可讀名，例：`Node-RED研習營(I)｜課堂筆記.pdf`、`…｜互動學習地圖.pdf`。
+   - ⚠️ **實測限制**：Drive MCP 的 `create_file` 只吃行內 base64／文字，**幾 MB 的 PDF 傳不上去**
+     （base64 會撐爆單次工具呼叫），且寫入動作會跳「requires approval」要她核准。
+     所以流程是：**產好 PDF → 用 SendUserFile 傳給她 → 她拖進資料夾**；
+     若她當下有核准 Drive 寫入且檔案夠小才走 `create_file`。做完要回報放在哪個資料夾。
+6. 回覆使用者三組網址：GitHub Pages 正式網址
    （`https://tarshar4242.github.io/kt-sweet-journey/lessons.html` 起點）、
    Artifact 預覽連結、raw.githack 備用連結
    （`https://raw.githack.com/<owner>/<repo>/<branch>/<file>`，Drive iframe 在此可正常內嵌）。
